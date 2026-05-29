@@ -69,7 +69,7 @@ $sectors = db()->query("SELECT id, name FROM sectors WHERE is_active = 1 ORDER B
 
 $stages = ['Idea', 'MVP', 'Early Revenue', 'Growth', 'Seed', 'Series A', 'Series B'];
 
-$baseUrl = '/assan/discover/entrepreneurs.php';
+$baseUrl = '/discover/entrepreneurs.php';
 $queryParams = $_GET;
 unset($queryParams['page']);
 if ($queryParams) {

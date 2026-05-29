@@ -53,7 +53,7 @@ $stmt = db()->prepare($sql);
 $stmt->execute($params);
 $investors = $stmt->fetchAll();
 
-$baseUrl = '/assan/discover/investors.php';
+$baseUrl = '/discover/investors.php';
 $queryParams = $_GET;
 unset($queryParams['page']);
 if ($queryParams) {

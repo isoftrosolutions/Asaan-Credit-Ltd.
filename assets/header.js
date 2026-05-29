@@ -100,7 +100,7 @@ function injectHeader(mode) {
     <header class="site-header">
       <div class="header-inner">
         <a href="/" class="header-logo">
-          <img src="/assan/logo.png" alt="Asaan" style="height:32px;width:auto;border-radius:4px;max-width:140px;object-fit:contain;">
+          <img src="/logo.png" alt="Asaan" style="height:32px;width:auto;border-radius:4px;max-width:140px;object-fit:contain;">
         </a>
         <div class="header-nav" id="header-nav">
           ${navHtml}

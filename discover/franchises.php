@@ -54,7 +54,7 @@ $franchises = $stmt->fetchAll();
 
 $sectors = db()->query("SELECT id, name FROM sectors WHERE is_active = 1 ORDER BY name")->fetchAll();
 
-$baseUrl = '/assan/discover/franchises.php';
+$baseUrl = '/discover/franchises.php';
 $queryParams = $_GET;
 unset($queryParams['page']);
 if ($queryParams) {

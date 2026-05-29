@@ -79,7 +79,7 @@ if ($user) {
 
 $sectors = db()->query("SELECT id, name FROM sectors WHERE is_active = 1 ORDER BY name")->fetchAll();
 
-$baseUrl = '/assan/discover/businesses.php';
+$baseUrl = '/discover/businesses.php';
 $queryParams = $_GET;
 unset($queryParams['page']);
 if ($queryParams) {

@@ -55,7 +55,7 @@ $typeLabels = [
     'franchise' => ['label' => 'Franchise', 'url' => '/franchise/detail/'],
 ];
 
-$baseUrl = '/assan/discover/search.php?q=' . urlencode($q);
+$baseUrl = '/discover/search.php?q=' . urlencode($q);
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
 <div class="breadcrumbs container">
