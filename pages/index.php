@@ -16,444 +16,300 @@ $stats_deal_value = $homepage['stats_deal_value'] ?? 'NPR 850 Cr+';
 
 $featured_biz = db()->query("SELECT * FROM businesses WHERE is_published=1 AND is_featured=1 ORDER BY rating DESC LIMIT 6")->fetchAll();
 $featured_pitches = db()->query("SELECT p.*, s.name as sector_name FROM pitches p LEFT JOIN sectors s ON p.sector_id = s.id WHERE p.is_published=1 AND p.is_featured=1 ORDER BY p.id DESC LIMIT 6")->fetchAll();
+$faqs = db()->query("SELECT * FROM faqs WHERE is_active=1 ORDER BY sort_order LIMIT 4")->fetchAll();
 
 $pageTitle = APP_NAME;
 require __DIR__ . '/../includes/header.php';
 ?>
-<main class="main-content" style="padding-top:0;">
-
-<!-- ===== HERO SECTION ===== -->
-<header class="hero-premium">
-  <div class="gradient-blob" style="top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(107,29,34,0.08),transparent 70%);"></div>
-  <div class="gradient-blob" style="bottom:-30%;left:-5%;width:500px;height:500px;background:radial-gradient(circle,rgba(30,72,102,0.05),transparent 70%);"></div>
-  <div class="container" style="position:relative;z-index:2;">
-    <div style="display:flex;align-items:center;gap:4rem;justify-content:space-between;">
-
-      <div class="hero-content-left animate-fade-up">
-        <div class="hero-trust-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
-          Trusted by <?= e($stats_businesses) ?> business owners, investors &amp; advisors
-        </div>
-
-        <h1><?= $hero_title ?></h1>
-
-        <p class="hero-subtitle"><?= e($hero_subtitle) ?></p>
-
-        <div class="hero-actions">
-          <a href="<?= APP_URL ?>/signup" class="btn btn-primary btn-lg">Get Started Free</a>
-          <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline btn-lg">
-            Browse Opportunities
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-
-        <div class="hero-features">
-          <div class="hero-feature">
-            <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></span>
-            Verified investors &amp; buyers
-          </div>
-          <div class="hero-feature">
-            <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></span>
-            Pre-screened business listings
-          </div>
-          <div class="hero-feature">
-            <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></span>
-            Expert advisory support
-          </div>
-        </div>
-      </div>
-
-      <div style="flex:0 0 auto;max-width:520px;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);">
-        <img src="/assets/hero.jpeg" alt="Asaan Capital — Trusted Capital, Secure Future" style="display:block;width:100%;height:auto;border-radius:var(--radius-lg);">
-      </div>
-
-    </div>
-  </div>
-</header>
-
-<!-- ===== TRUST STRIP ===== -->
-<div class="trust-strip">
-  <div class="container">
-    <div class="trust-strip-inner">
-      <div class="trust-strip-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
-        Pre-approved profiles only
-      </div>
-      <div class="trust-strip-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-        Confidential until mutual match
-      </div>
-      <div class="trust-strip-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-        Free valuation tools
-      </div>
-      <div class="trust-strip-item" style="font-weight:600;color:var(--color-text-heading);">
-        Featured in Economic Times, YourStory, Business Today
+<main>
+<!-- Hero Section -->
+<section class="relative overflow-hidden" style="background:#00263f;">
+  <div class="max-w-[1200px] mx-auto px-[24px] grid grid-cols-1 md:grid-cols-2 items-center gap-[32px] py-[48px] md:py-[80px]">
+    <div class="space-y-[24px] z-10">
+      <h1 class="text-[32px] md:text-[40px] leading-[38px] md:leading-[48px] font-[800] tracking-[-0.02em] text-white" style="font-family:Montserrat,sans-serif;">
+        <?= $hero_title ?>
+      </h1>
+      <p class="text-[18px] leading-[28px] text-white opacity-90 max-w-[500px]" style="font-family:Inter,sans-serif;">
+        <?= e($hero_subtitle) ?>
+      </p>
+      <div class="flex flex-col sm:flex-row gap-[16px] pt-[16px]">
+        <a href="<?= APP_URL ?>/signup" class="inline-block bg-[#6B1D22] text-white px-[32px] py-[12px] rounded-lg font-[600] text-[16px] leading-[24px] hover:brightness-110 transition-all shadow-md active:scale-95 text-center" style="font-family:Inter,sans-serif;">
+          I'm an Investor
+        </a>
+        <a href="<?= APP_URL ?>/signup" class="inline-block border border-white text-white px-[32px] py-[12px] rounded-lg font-[600] text-[16px] leading-[24px] hover:bg-white/10 transition-all active:scale-95 text-center" style="font-family:Inter,sans-serif;">
+          I'm an Entrepreneur
+        </a>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- ===== WAVE DIVIDER ===== -->
-<div class="wave-divider wave-divider-top">
-  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
-    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,30 1440,30 L1440,60 L0,60 Z" fill="#F8F8F8"/>
-    <path d="M0,30 C360,0 720,60 1080,30 C1260,15 1380,30 1440,30 L1440,60 L0,60 Z" fill="#6B1D22" opacity="0.06"/>
-  </svg>
-</div>
-
-<!-- ===== FEATURE CARDS ===== -->
-<section class="section-premium" style="background:var(--color-bg-soft);">
-  <div class="container">
-    <div class="section-premium-header scroll-reveal">
-      <h2>Three ways to get started</h2>
-      <p>Choose your path — we'll match you with the right opportunities.</p>
-    </div>
-    <div class="feature-cards-grid">
-      <a href="<?= APP_URL ?>/signup" class="feature-card-premium scroll-reveal" style="transition-delay:0.05s;">
-        <div class="feature-card-icon" style="background:rgba(107,29,34,0.1);color:var(--color-primary);">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-        </div>
-        <h3>Sell Your Business</h3>
-        <p>Get matched with verified investors &amp; buyers. List in 10 minutes with our guided intake process.</p>
-        <span class="feature-card-link">
-          List your business
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </span>
-      </a>
-      <a href="<?= APP_URL ?>/browse/businesses" class="feature-card-premium scroll-reveal" style="transition-delay:0.1s;">
-        <div class="feature-card-icon" style="background:rgba(30,72,102,0.1);color:var(--color-secondary);">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        </div>
-        <h3>Find Investment Opportunities</h3>
-        <p>Browse 23,000+ vetted businesses. Smart matches based on your investment criteria and preferences.</p>
-        <span class="feature-card-link">
-          Browse opportunities
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </span>
-      </a>
-      <a href="<?= APP_URL ?>/browse/franchises" class="feature-card-premium scroll-reveal" style="transition-delay:0.15s;">
-        <div class="feature-card-icon" style="background:rgba(199,122,18,0.1);color:var(--color-warning);">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-        </div>
-        <h3>Start a Franchise</h3>
-        <p>Expand your brand through franchising. Connect with qualified franchisees across multiple regions.</p>
-        <span class="feature-card-link">
-          Explore franchises
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </span>
-      </a>
+    <div class="relative">
+      <div class="absolute -top-10 -right-10 w-64 h-64 rounded-full opacity-20 blur-3xl" style="background:#6B1D22;"></div>
+      <img src="/assets/hero.jpeg" alt="Asaan Capital — Trusted Capital, Secure Future" class="rounded-xl shadow-lg relative z-10 w-full h-auto">
     </div>
   </div>
 </section>
 
-<!-- ===== WAVE DIVIDER ===== -->
-<div class="wave-divider wave-divider-bottom">
-  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
-    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,30 1440,30 L1440,0 L0,0 Z" fill="#F8F8F8"/>
-    <path d="M0,30 C360,0 720,60 1080,30 C1260,15 1380,30 1440,30 L1440,0 L0,0 Z" fill="#1E4866" opacity="0.06"/>
-  </svg>
-</div>
+<!-- Stats Bar -->
+<section class="py-[16px] border-b" style="background:#f6f3f2;border-color:#dbc0bf;">
+  <div class="max-w-[1200px] mx-auto px-[24px] flex flex-col md:flex-row justify-between items-center text-center gap-[16px]">
+    <div class="flex items-center gap-[8px]">
+      <span class="material-symbols-outlined" style="color:#3b6281;font-variation-settings:'FILL' 1;">verified_user</span>
+      <p class="text-[20px] leading-[28px] font-[600]" style="color:#3b6281;font-family:Montserrat,sans-serif;"><?= e($stats_investors) ?> <span class="text-[16px] leading-[24px] font-[400]" style="color:#554242;font-family:Inter,sans-serif;">Verified Investors</span></p>
+    </div>
+    <div class="hidden md:block h-8 w-px" style="background:#dbc0bf;"></div>
+    <div class="flex items-center gap-[8px]">
+      <span class="material-symbols-outlined" style="color:#3b6281;font-variation-settings:'FILL' 1;">rocket_launch</span>
+      <p class="text-[20px] leading-[28px] font-[600]" style="color:#3b6281;font-family:Montserrat,sans-serif;"><?= e($stats_businesses) ?> <span class="text-[16px] leading-[24px] font-[400]" style="color:#554242;font-family:Inter,sans-serif;">Active Pitches</span></p>
+    </div>
+    <div class="hidden md:block h-8 w-px" style="background:#dbc0bf;"></div>
+    <div class="flex items-center gap-[8px]">
+      <span class="material-symbols-outlined" style="color:#3b6281;font-variation-settings:'FILL' 1;">handshake</span>
+      <p class="text-[20px] leading-[28px] font-[600]" style="color:#3b6281;font-family:Montserrat,sans-serif;"><?= e($stats_matches) ?> <span class="text-[16px] leading-[24px] font-[400]" style="color:#554242;font-family:Inter,sans-serif;">Successful Matches</span></p>
+    </div>
+  </div>
+</section>
 
-<!-- ===== STATS SECTION ===== -->
-<section class="section-premium">
-  <div class="container">
-    <div class="stats-premium">
-      <div class="scroll-reveal">
-        <div class="stat-premium-value" style="color:var(--color-primary);"><?= e($stats_businesses) ?></div>
-        <div class="stat-premium-label">Businesses Listed</div>
+<!-- Wave Divider -->
+<div style="background:linear-gradient(90deg,#6B1D22 0%,#1E4866 100%);height:4px;width:100%;"></div>
+
+<!-- How It Works -->
+<section class="py-[48px]" style="background:#fcf9f8;">
+  <div class="max-w-[1200px] mx-auto px-[24px]">
+    <div class="text-center mb-[48px]">
+      <h2 class="text-[32px] leading-[40px] font-[700] tracking-[-0.01em] mb-[16px]" style="color:#6B1D22;font-family:Montserrat,sans-serif;">How It Works</h2>
+      <p class="text-[16px] leading-[24px]" style="color:#554242;font-family:Inter,sans-serif;">A streamlined three-step journey to your next big opportunity.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-[24px]">
+      <div class="group p-[24px] bg-white rounded-xl shadow-sm border transition-all duration-300 text-center hover:shadow-md" style="border-color:#dbc0bf4d;">
+        <div class="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-[24px] group-hover:scale-110 transition-transform" style="background:#f0eded;">
+          <span class="material-symbols-outlined text-3xl" style="color:#6B1D22;">person_add</span>
+        </div>
+        <h3 class="text-[20px] leading-[28px] font-[600] mb-[16px]" style="color:#00263f;font-family:Montserrat,sans-serif;">Step 1</h3>
+        <p class="font-[600] text-[16px] leading-[24px] mb-[8px]" style="color:#1c1b1b;font-family:Inter,sans-serif;">Create your profile</p>
+        <p class="text-[14px] leading-[20px]" style="color:#554242;font-family:Inter,sans-serif;">Detailed background to ensure quality and intent.</p>
       </div>
-      <div class="scroll-reveal" style="transition-delay:0.05s;">
-        <div class="stat-premium-value" style="color:var(--color-secondary);"><?= e($stats_investors) ?></div>
-        <div class="stat-premium-label">Verified Investors</div>
+      <div class="group p-[24px] bg-white rounded-xl shadow-sm border transition-all duration-300 text-center hover:shadow-md" style="border-color:#dbc0bf4d;">
+        <div class="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-[24px] group-hover:scale-110 transition-transform" style="background:#f0eded;">
+          <span class="material-symbols-outlined text-3xl" style="color:#3b6281;">verified</span>
+        </div>
+        <h3 class="text-[20px] leading-[28px] font-[600] mb-[16px]" style="color:#00263f;font-family:Montserrat,sans-serif;">Step 2</h3>
+        <p class="font-[600] text-[16px] leading-[24px] mb-[8px]" style="color:#1c1b1b;font-family:Inter,sans-serif;">Get verified by our team</p>
+        <p class="text-[14px] leading-[20px]" style="color:#554242;font-family:Inter,sans-serif;">Strict compliance checks for maximum security.</p>
       </div>
-      <div class="scroll-reveal" style="transition-delay:0.1s;">
-        <div class="stat-premium-value" style="color:var(--color-primary-vivid);"><?= e($stats_matches) ?></div>
-        <div class="stat-premium-label">Successful Matches</div>
-      </div>
-      <div class="scroll-reveal" style="transition-delay:0.15s;">
-        <div class="stat-premium-value" style="color:var(--color-secondary);"><?= e($stats_deal_value) ?></div>
-        <div class="stat-premium-label">Deal Value Closed</div>
+      <div class="group p-[24px] bg-white rounded-xl shadow-sm border transition-all duration-300 text-center hover:shadow-md" style="border-color:#dbc0bf4d;">
+        <div class="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-[24px] group-hover:scale-110 transition-transform" style="background:#f0eded;">
+          <span class="material-symbols-outlined text-3xl" style="color:#6B1D22;">handshake</span>
+        </div>
+        <h3 class="text-[20px] leading-[28px] font-[600] mb-[16px]" style="color:#00263f;font-family:Montserrat,sans-serif;">Step 3</h3>
+        <p class="font-[600] text-[16px] leading-[24px] mb-[8px]" style="color:#1c1b1b;font-family:Inter,sans-serif;">Connect with the right match</p>
+        <p class="text-[14px] leading-[20px]" style="color:#554242;font-family:Inter,sans-serif;">Direct messaging and deal-flow management.</p>
       </div>
     </div>
   </div>
 </section>
 
-<hr class="divider-subtle">
+<!-- Dual Path Cards -->
+<section class="py-[48px]" style="background:#ffffff;">
+  <div class="max-w-[1200px] mx-auto px-[24px]">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-[48px]">
+      <div class="relative overflow-hidden rounded-xl p-[24px] border group" style="background:#ffdad933;border-color:#ffb3b2;">
+        <div class="absolute -right-10 -top-10 opacity-10 group-hover:scale-110 transition-transform duration-700">
+          <span class="material-symbols-outlined text-[160px]">finance_chip</span>
+        </div>
+        <div class="relative z-10">
+          <h3 class="text-[32px] leading-[40px] font-[700] tracking-[-0.01em] mb-[16px]" style="color:#6B1D22;font-family:Montserrat,sans-serif;">For Investors</h3>
+          <p class="text-[16px] leading-[24px] mb-[24px] max-w-[400px]" style="color:#554242;font-family:Inter,sans-serif;">
+            Access vetted startups from Nepal across diverse sectors including Agriculture, SaaS, and Energy. View pitch decks and financial reports instantly.
+          </p>
+          <ul class="space-y-[8px] mb-[24px]">
+            <li class="flex items-center gap-[4px] text-[12px] leading-[16px] font-[600] tracking-[0.05em]" style="color:#1c1b1b;font-family:Inter,sans-serif;">
+              <span class="material-symbols-outlined text-sm" style="color:#6B1D22;font-variation-settings:'FILL' 1;">check_circle</span>
+              Pre-vetted Opportunities
+            </li>
+            <li class="flex items-center gap-[4px] text-[12px] leading-[16px] font-[600] tracking-[0.05em]" style="color:#1c1b1b;font-family:Inter,sans-serif;">
+              <span class="material-symbols-outlined text-sm" style="color:#6B1D22;font-variation-settings:'FILL' 1;">check_circle</span>
+              Direct Entrepreneur Access
+            </li>
+          </ul>
+          <a href="<?= APP_URL ?>/signup" class="inline-block px-[24px] py-[12px] rounded-lg font-[600] text-[16px] leading-[24px] text-white hover:brightness-110 transition-all" style="background:#6B1D22;font-family:Inter,sans-serif;">Start Investing</a>
+        </div>
+      </div>
+      <div class="relative overflow-hidden rounded-xl p-[24px] border group" style="background:#cce5ff4d;border-color:#a4cbef;">
+        <div class="absolute -right-10 -top-10 opacity-10 group-hover:scale-110 transition-transform duration-700">
+          <span class="material-symbols-outlined text-[160px]">rocket</span>
+        </div>
+        <div class="relative z-10">
+          <h3 class="text-[32px] leading-[40px] font-[700] tracking-[-0.01em] mb-[16px]" style="color:#3b6281;font-family:Montserrat,sans-serif;">For Entrepreneurs</h3>
+          <p class="text-[16px] leading-[24px] mb-[24px] max-w-[400px]" style="color:#554242;font-family:Inter,sans-serif;">
+            List your venture and get matched with professional investors who understand the Nepalese market. Secure funding to scale your vision.
+          </p>
+          <ul class="space-y-[8px] mb-[24px]">
+            <li class="flex items-center gap-[4px] text-[12px] leading-[16px] font-[600] tracking-[0.05em]" style="color:#1c1b1b;font-family:Inter,sans-serif;">
+              <span class="material-symbols-outlined text-sm" style="color:#3b6281;font-variation-settings:'FILL' 1;">check_circle</span>
+              Visibility to HNIs
+            </li>
+            <li class="flex items-center gap-[4px] text-[12px] leading-[16px] font-[600] tracking-[0.05em]" style="color:#1c1b1b;font-family:Inter,sans-serif;">
+              <span class="material-symbols-outlined text-sm" style="color:#3b6281;font-variation-settings:'FILL' 1;">check_circle</span>
+              Fundraising Assistance
+            </li>
+          </ul>
+          <a href="<?= APP_URL ?>/signup" class="inline-block px-[24px] py-[12px] rounded-lg font-[600] text-[16px] leading-[24px] text-white hover:brightness-110 transition-all" style="background:#3b6281;font-family:Inter,sans-serif;">Pitch Your Idea</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- ===== FEATURED BUSINESSES ===== -->
+<!-- Featured Businesses -->
 <?php if (!empty($featured_biz)): ?>
-<section class="section-premium">
-  <div class="container">
-    <div class="section-header-action">
-      <div class="section-premium-header scroll-reveal">
-        <h2>Featured Businesses</h2>
-        <p>Hand-picked opportunities from verified business owners.</p>
+<section class="py-[48px]" style="background:#fcf9f8;">
+  <div class="max-w-[1200px] mx-auto px-[24px]">
+    <div class="flex justify-between items-end mb-[24px] gap-[16px]">
+      <div>
+        <h2 class="text-[32px] leading-[40px] font-[700] tracking-[-0.01em]" style="color:#6B1D22;font-family:Montserrat,sans-serif;">Featured Businesses</h2>
+        <p class="text-[16px] leading-[24px]" style="color:#554242;font-family:Inter,sans-serif;">Hand-picked opportunities from verified business owners.</p>
       </div>
-      <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline" style="flex-shrink:0;">
-        View All
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
+      <a href="<?= APP_URL ?>/browse/businesses" class="hidden sm:inline-block px-[24px] py-[8px] rounded-lg font-[600] text-[14px] border hover:brightness-110 transition-all flex-shrink-0" style="border-color:#887271;color:#1c1b1b;font-family:Inter,sans-serif;">View All</a>
     </div>
-
-    <div class="carousel-premium">
+    <div class="flex gap-[16px] overflow-x-auto pb-[8px]">
       <?php foreach ($featured_biz as $biz): ?>
-      <div class="card-premium card-accent-bar" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'" style="flex:0 0 300px;">
-        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:0.75rem;">
-          <span class="badge-premium badge-sale">Business for Sale</span>
+      <div class="flex-shrink-0 w-[300px] bg-white rounded-xl shadow-sm border p-[16px] cursor-pointer transition-all duration-300 hover:shadow-md" style="border-color:#dbc0bf4d;border-left:4px solid #6B1D22;" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'">
+        <div class="flex justify-between items-start mb-[12px]">
+          <span class="inline-flex items-center gap-[4px] px-[8px] py-[3px] text-[11px] font-[700] uppercase tracking-[0.02em] rounded-full" style="background:rgba(30,122,77,0.1);color:#1E7A4D;">Business for Sale</span>
           <?php if (!empty($biz['rating'])): ?>
-          <span class="rating-badge" style="font-size:0.7rem;padding:2px 8px;"><?= e($biz['rating']) ?></span>
+          <span class="inline-flex items-center gap-[3px] px-[8px] py-[3px] text-[12px] font-[700] rounded-full" style="background:rgba(199,122,18,0.12);color:#C77A12;"><?= e($biz['rating']) ?></span>
           <?php endif; ?>
         </div>
-        <h4 style="margin:0 0 0.35rem;font-size:1rem;font-weight:700;color:var(--color-text-heading);"><?= e($biz['business_name']) ?></h4>
-        <p style="font-size:0.82rem;color:var(--color-text-muted);margin:0 0 0.75rem;line-height:1.5;"><?= e(mb_substr($biz['description'] ?? '', 0, 120)) ?></p>
-        <div style="display:flex;gap:4px;margin-bottom:0.75rem;">
-          <span class="badge" style="background:var(--color-bg-soft);color:var(--color-text-muted);padding:2px 8px;font-size:0.68rem;font-weight:600;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#1E7A4D" stroke-width="2.5" width="10" height="10"><path d="M5 13l4 4L19 7"/></svg>
-            Email
-          </span>
-          <span class="badge" style="background:var(--color-bg-soft);color:var(--color-text-muted);padding:2px 8px;font-size:0.68rem;font-weight:600;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#1E7A4D" stroke-width="2.5" width="10" height="10"><path d="M5 13l4 4L19 7"/></svg>
-            Phone
-          </span>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;padding-top:0.75rem;border-top:1px solid var(--color-border);">
-          <div><span style="font-size:0.68rem;font-weight:600;color:var(--color-text-muted);display:block;">Run Rate</span><span style="font-size:0.85rem;font-weight:700;color:var(--color-text-heading);"><?= money($biz['annual_revenue']) ?></span></div>
+        <h4 class="text-[16px] font-[700] mb-[6px]" style="color:#1c1b1b;font-family:Montserrat,sans-serif;"><?= e($biz['business_name']) ?></h4>
+        <p class="text-[13px] leading-[1.5] mb-[12px]" style="color:#554242;font-family:Inter,sans-serif;"><?= e(mb_substr($biz['description'] ?? '', 0, 120)) ?></p>
+        <div class="flex gap-[8px] justify-between items-center flex-wrap pt-[12px]" style="border-top:1px solid #dbc0bf4d;">
+          <div><span class="text-[11px] font-[600]" style="color:#554242;display:block;">Run Rate</span><span class="text-[14px] font-[700]" style="color:#1c1b1b;"><?= money($biz['annual_revenue']) ?></span></div>
           <?php if (!empty($biz['ebitda_pct'])): ?>
-          <div><span style="font-size:0.68rem;font-weight:600;color:var(--color-text-muted);display:block;">EBITDA</span><span style="font-size:0.85rem;font-weight:700;color:var(--color-text-heading);"><?= e($biz['ebitda_pct']) ?>%</span></div>
+          <div><span class="text-[11px] font-[600]" style="color:#554242;display:block;">EBITDA</span><span class="text-[14px] font-[700]" style="color:#1c1b1b;"><?= e($biz['ebitda_pct']) ?>%</span></div>
           <?php endif; ?>
           <?php if (!empty($biz['asking_price'])): ?>
-          <div style="width:100%;padding-top:0.5rem;"><strong style="font-size:1rem;color:var(--color-primary-vivid);">Asking <?= money($biz['asking_price']) ?></strong></div>
+          <div class="w-full pt-[8px]"><strong class="text-[16px]" style="color:#7d2a2e;">Asking <?= money($biz['asking_price']) ?></strong></div>
           <?php endif; ?>
         </div>
       </div>
       <?php endforeach; ?>
     </div>
+    <div class="text-center mt-[16px] sm:hidden">
+      <a href="<?= APP_URL ?>/browse/businesses" class="inline-block px-[24px] py-[8px] rounded-lg font-[600] text-[14px] border" style="border-color:#887271;color:#1c1b1b;font-family:Inter,sans-serif;">View All</a>
+    </div>
   </div>
 </section>
 <?php endif; ?>
 
-<!-- ===== FEATURED PITCHES ===== -->
+<!-- Featured Pitches -->
 <?php if (!empty($featured_pitches)): ?>
-<section class="section-premium" style="background:var(--color-bg-soft);">
-  <div class="container">
-    <div class="section-header-action">
-      <div class="section-premium-header scroll-reveal">
-        <h2>Featured Investment Opportunities</h2>
-        <p>Pre-verified entrepreneurs seeking capital for growth.</p>
+<section class="py-[48px]" style="background:#ffffff;">
+  <div class="max-w-[1200px] mx-auto px-[24px]">
+    <div class="flex justify-between items-end mb-[24px] gap-[16px]">
+      <div>
+        <h2 class="text-[32px] leading-[40px] font-[700] tracking-[-0.01em]" style="color:#3b6281;font-family:Montserrat,sans-serif;">Featured Investment Opportunities</h2>
+        <p class="text-[16px] leading-[24px]" style="color:#554242;font-family:Inter,sans-serif;">Pre-verified entrepreneurs seeking capital for growth.</p>
       </div>
-      <a href="<?= APP_URL ?>/browse/entrepreneurs" class="btn btn-outline" style="flex-shrink:0;">
-        View All
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
+      <a href="<?= APP_URL ?>/browse/entrepreneurs" class="hidden sm:inline-block px-[24px] py-[8px] rounded-lg font-[600] text-[14px] border hover:brightness-110 transition-all flex-shrink-0" style="border-color:#887271;color:#1c1b1b;font-family:Inter,sans-serif;">View All</a>
     </div>
-
-    <div class="carousel-premium">
+    <div class="flex gap-[16px] overflow-x-auto pb-[8px]">
       <?php foreach ($featured_pitches as $p): ?>
-      <div class="card-premium card-accent-bar-navy" onclick="location.href='<?= APP_URL ?>/pitch/<?= (int)$p['id'] ?>'" style="flex:0 0 300px;">
-        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:0.75rem;">
-          <span class="badge-premium badge-investment">Seeking Investment</span>
+      <div class="flex-shrink-0 w-[300px] bg-white rounded-xl shadow-sm border p-[16px] cursor-pointer transition-all duration-300 hover:shadow-md" style="border-color:#dbc0bf4d;border-left:4px solid #3b6281;" onclick="location.href='<?= APP_URL ?>/pitch/<?= (int)$p['id'] ?>'">
+        <div class="mb-[12px]">
+          <span class="inline-flex items-center gap-[4px] px-[8px] py-[3px] text-[11px] font-[700] uppercase tracking-[0.02em] rounded-full" style="background:rgba(30,72,102,0.1);color:#1E4866;">Seeking Investment</span>
         </div>
-        <h4 style="margin:0 0 0.35rem;font-size:1rem;font-weight:700;color:var(--color-text-heading);"><?= e($p['tagline']) ?></h4>
-        <p style="font-size:0.82rem;color:var(--color-text-muted);margin:0 0 0.75rem;line-height:1.5;"><?= e(mb_substr($p['short_summary'] ?? $p['problem_statement'] ?? '', 0, 120)) ?></p>
-        <div style="display:flex;gap:4px;margin-bottom:0.5rem;flex-wrap:wrap;">
+        <h4 class="text-[16px] font-[700] mb-[6px]" style="color:#1c1b1b;font-family:Montserrat,sans-serif;"><?= e($p['tagline']) ?></h4>
+        <p class="text-[13px] leading-[1.5] mb-[12px]" style="color:#554242;font-family:Inter,sans-serif;"><?= e(mb_substr($p['short_summary'] ?? $p['problem_statement'] ?? '', 0, 120)) ?></p>
+        <div class="flex gap-[4px] mb-[8px] flex-wrap">
           <?php if (!empty($p['sector_name'])): ?>
-          <span class="badge" style="background:var(--color-bg-soft);color:var(--color-text-muted);padding:2px 8px;font-size:0.68rem;font-weight:600;"><?= e($p['sector_name']) ?></span>
+          <span class="inline-flex px-[6px] py-[2px] text-[11px] font-[600] rounded" style="background:#f0eded;color:#554242;"><?= e($p['sector_name']) ?></span>
           <?php endif; ?>
           <?php if (!empty($p['stage'])): ?>
-          <span class="badge" style="background:var(--color-bg-soft);color:var(--color-text-muted);padding:2px 8px;font-size:0.68rem;font-weight:600;"><?= e(ucfirst($p['stage'])) ?></span>
+          <span class="inline-flex px-[6px] py-[2px] text-[11px] font-[600] rounded" style="background:#f0eded;color:#554242;"><?= e(ucfirst($p['stage'])) ?></span>
           <?php endif; ?>
         </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;padding-top:0.75rem;border-top:1px solid var(--color-border);">
-          <div><span style="font-size:0.68rem;font-weight:600;color:var(--color-text-muted);display:block;">Funding</span><span style="font-size:0.85rem;font-weight:700;color:var(--color-text-heading);"><?= money($p['funding_amount']) ?></span></div>
+        <div class="flex gap-[8px] justify-between items-center flex-wrap pt-[12px]" style="border-top:1px solid #dbc0bf4d;">
+          <div><span class="text-[11px] font-[600]" style="color:#554242;display:block;">Funding</span><span class="text-[14px] font-[700]" style="color:#1c1b1b;"><?= money($p['funding_amount']) ?></span></div>
           <?php if (!empty($p['equity_offered'])): ?>
-          <div><span style="font-size:0.68rem;font-weight:600;color:var(--color-text-muted);display:block;">Equity</span><span style="font-size:0.85rem;font-weight:700;color:var(--color-text-heading);"><?= e($p['equity_offered']) ?>%</span></div>
+          <div><span class="text-[11px] font-[600]" style="color:#554242;display:block;">Equity</span><span class="text-[14px] font-[700]" style="color:#1c1b1b;"><?= e($p['equity_offered']) ?>%</span></div>
           <?php endif; ?>
-          <div style="width:100%;padding-top:0.5rem;"><strong style="font-size:1rem;color:var(--color-primary-vivid);">Valued at <?= money($p['valuation'] ?? 0) ?></strong></div>
+          <div class="w-full pt-[8px]"><strong class="text-[16px]" style="color:#7d2a2e;">Valued at <?= money($p['valuation'] ?? 0) ?></strong></div>
         </div>
       </div>
       <?php endforeach; ?>
+    </div>
+    <div class="text-center mt-[16px] sm:hidden">
+      <a href="<?= APP_URL ?>/browse/entrepreneurs" class="inline-block px-[24px] py-[8px] rounded-lg font-[600] text-[14px] border" style="border-color:#887271;color:#1c1b1b;font-family:Inter,sans-serif;">View All</a>
     </div>
   </div>
 </section>
 <?php endif; ?>
 
-<!-- ===== WAVE DIVIDER ===== -->
-<div class="wave-divider wave-divider-top">
-  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
-    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,30 1440,30 L1440,60 L0,60 Z" fill="#FFFFFF"/>
-    <path d="M0,30 C360,0 720,60 1080,30 C1260,15 1380,30 1440,30 L1440,60 L0,60 Z" fill="#6B1D22" opacity="0.06"/>
-  </svg>
-</div>
-
-<!-- ===== HOW IT WORKS (with Diamond Steps) ===== -->
-<section class="section-premium">
-  <div class="container">
-    <div class="section-premium-header scroll-reveal">
-      <h2>How It Works</h2>
-      <p>From discovery to deal closure — a seamless four-step process.</p>
+<!-- FAQ -->
+<section class="py-[48px]" style="background:#fcf9f8;">
+  <div class="max-w-[720px] mx-auto px-[24px]">
+    <div class="text-center mb-[48px]">
+      <h2 class="text-[32px] leading-[40px] font-[700] tracking-[-0.01em] mb-[16px]" style="color:#6B1D22;font-family:Montserrat,sans-serif;">Frequently Asked Questions</h2>
+      <p class="text-[16px] leading-[24px]" style="color:#554242;font-family:Inter,sans-serif;">Everything you need to know about <?= APP_NAME ?>.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center;max-width:1000px;margin:0 auto;">
-      <div class="scroll-reveal" style="transition-delay:0.05s;">
-        <div class="diamond-step diamond-step-burgundy" style="margin:0 auto 1.25rem;">
-          <span>1</span>
-        </div>
-        <h4 style="margin-bottom:0.35rem;font-size:1.1rem;">Create Your Profile</h4>
-        <p style="font-size:0.85rem;color:var(--color-text-muted);line-height:1.6;">Sign up in minutes. Tell us about your business or investment goals.</p>
-      </div>
-      <div class="scroll-reveal" style="transition-delay:0.1s;">
-        <div class="diamond-step diamond-step-navy" style="margin:0 auto 1.25rem;">
-          <span>2</span>
-        </div>
-        <h4 style="margin-bottom:0.35rem;font-size:1.1rem;">Get Matched</h4>
-        <p style="font-size:0.85rem;color:var(--color-text-muted);line-height:1.6;">Our AI matches you with the right opportunities or potential buyers.</p>
-      </div>
-      <div class="scroll-reveal" style="transition-delay:0.15s;">
-        <div class="diamond-step diamond-step-burgundy" style="margin:0 auto 1.25rem;">
-          <span>3</span>
-        </div>
-        <h4 style="margin-bottom:0.35rem;font-size:1.1rem;">Connect Securely</h4>
-        <p style="font-size:0.85rem;color:var(--color-text-muted);line-height:1.6;">Mutual interest unlocks contact details. Confidential until you're ready.</p>
-      </div>
-      <div class="scroll-reveal" style="transition-delay:0.2s;">
-        <div class="diamond-step diamond-step-navy" style="margin:0 auto 1.25rem;">
-          <span>4</span>
-        </div>
-        <h4 style="margin-bottom:0.35rem;font-size:1.1rem;">Close the Deal</h4>
-        <p style="font-size:0.85rem;color:var(--color-text-muted);line-height:1.6;">Expert advisors guide you through due diligence to successful closing.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="divider-subtle">
-
-<!-- ===== TESTIMONIAL ===== -->
-<section class="section-premium">
-  <div class="container">
-    <div class="section-premium-header scroll-reveal">
-      <h2>Trusted by business owners &amp; investors</h2>
-      <p>Real stories from real users who found their perfect match.</p>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:800px;margin:0 auto;">
-      <div class="scroll-reveal" style="background:var(--color-bg);border-radius:var(--radius-lg);padding:1.5rem;border:1px solid var(--color-border);border-left:4px solid var(--color-primary);transition-delay:0.05s;">
-        <div style="font-weight:700;">Rajesh Sharma</div>
-        <div style="font-size:0.82rem;color:var(--color-text-muted);">Business Owner, Kathmandu</div>
-        <div style="margin-top:0.75rem;color:var(--color-text);font-style:italic;">"Sold my manufacturing business to the 4th buyer introduced. Time taken: 3 months. The platform made it seamless."</div>
-        <div style="margin-top:0.75rem;">
-          <span class="badge-premium badge-sale">Deal Closed: NPR 8.5 Cr</span>
-        </div>
-      </div>
-      <div class="scroll-reveal" style="background:var(--color-bg);border-radius:var(--radius-lg);padding:1.5rem;border:1px solid var(--color-border);border-left:4px solid var(--color-secondary);transition-delay:0.1s;">
-        <div style="font-weight:700;">Anita Gurung</div>
-        <div style="font-size:0.82rem;color:var(--color-text-muted);">Angel Investor, Pokhara</div>
-        <div style="margin-top:0.75rem;color:var(--color-text);font-style:italic;">"Found two promising startups within my first month. The verification process gave me confidence to invest."</div>
-        <div style="margin-top:0.75rem;">
-          <span class="badge-premium badge-investment">2 Deals Closed</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="divider-subtle">
-
-<!-- ===== FAQ ===== -->
-<section class="section-premium">
-  <div class="container" style="max-width:720px;">
-    <div class="section-premium-header scroll-reveal">
-      <h2>Frequently Asked Questions</h2>
-      <p>Everything you need to know about <?= APP_NAME ?>.</p>
-    </div>
-
-    <?php
-    $faqs = db()->query("SELECT * FROM faqs WHERE is_active=1 ORDER BY sort_order LIMIT 4")->fetchAll();
-    $first = true;
-    foreach ($faqs as $faq):
-    ?>
-    <div class="scroll-reveal faq-premium<?= $first ? ' open' : '' ?>" style="background:var(--color-bg);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:0.5rem;border:1px solid var(--color-border);<?= $first ? 'border-left:4px solid var(--color-primary);' : '' ?>">
-      <div class="faq-premium-header" onclick="this.parentElement.classList.toggle('open')" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:600;">
+    <?php $first = true; foreach ($faqs as $faq): ?>
+    <div class="faq-item bg-white rounded-xl p-[16px] mb-[8px] border<?= $first ? ' faq-open' : '' ?>" style="border-color:#dbc0bf4d;<?= $first ? 'border-left:4px solid #6B1D22;' : '' ?>">
+      <div class="faq-header flex justify-between items-center cursor-pointer font-[600] text-[16px] leading-[24px]" style="color:#1c1b1b;font-family:Inter,sans-serif;">
         <span><?= e($faq['question']) ?></span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" style="flex-shrink:0;transition:transform var(--motion-base) var(--ease-standard);"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+        <span class="faq-icon text-[20px] transition-transform duration-200" style="color:#554242;">+</span>
       </div>
-      <div class="faq-premium-body" style="display:<?= $first ? 'block' : 'none' ?>;margin-top:0.75rem;font-size:0.9rem;color:var(--color-text-muted);line-height:1.7;">
+      <div class="faq-answer mt-[12px] text-[14px] leading-[1.7]" style="display:<?= $first ? 'block' : 'none' ?>;color:#554242;font-family:Inter,sans-serif;">
         <?= e($faq['answer']) ?>
       </div>
     </div>
     <?php $first = false; endforeach; ?>
-
-    <div style="text-align:center;margin-top:2rem;">
-      <a href="<?= APP_URL ?>/support" class="btn btn-outline">
-        View all FAQs
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
+    <div class="text-center mt-[24px]">
+      <a href="<?= APP_URL ?>/support" class="inline-block px-[24px] py-[10px] rounded-lg font-[600] text-[14px] border hover:brightness-110 transition-all" style="border-color:#887271;color:#1c1b1b;font-family:Inter,sans-serif;">View all FAQs</a>
     </div>
   </div>
 </section>
 
-<!-- ===== WAVE DIVIDER ===== -->
-<div class="wave-divider wave-divider-top">
-  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
-    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,30 1440,30 L1440,60 L0,60 Z" fill="#F8F8F8"/>
-    <path d="M0,30 C360,0 720,60 1080,30 C1260,15 1380,30 1440,30 L1440,60 L0,60 Z" fill="#1E4866" opacity="0.06"/>
-  </svg>
-</div>
-
-<!-- ===== FINAL CTA ===== -->
-<section class="section-premium" style="padding:3rem 0;background:var(--color-bg-soft);">
-  <div class="container">
-    <div style="background:linear-gradient(135deg,var(--color-primary),#4A1317);border-radius:28px;padding:3rem;text-align:center;">
-      <h2 style="color:#fff;margin-bottom:0.5rem;">Ready to grow your business?</h2>
-      <p style="color:rgba(255,255,255,0.7);margin-bottom:1.5rem;">Join <?= e($stats_businesses) ?> business owners and <?= e($stats_investors) ?> investors already on the platform.</p>
-      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-        <a href="<?= APP_URL ?>/signup" class="btn btn-primary-vivid btn-lg">Get Started Free</a>
-        <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline btn-lg" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.9);">Browse Listings</a>
+<!-- CTA -->
+<section class="py-[48px]" style="background:#ffffff;">
+  <div class="max-w-[1200px] mx-auto px-[24px]">
+    <div class="rounded-2xl py-[48px] px-[24px] text-center" style="background:linear-gradient(135deg,#6B1D22,#4A1317);">
+      <h2 class="text-[32px] leading-[40px] font-[700] tracking-[-0.01em] text-white mb-[16px]" style="font-family:Montserrat,sans-serif;">Ready to grow your business?</h2>
+      <p class="text-[16px] leading-[24px] text-white opacity-80 mb-[24px]" style="font-family:Inter,sans-serif;">Join <?= e($stats_businesses) ?> business owners and <?= e($stats_investors) ?> investors already on the platform.</p>
+      <div class="flex gap-[16px] justify-center flex-wrap">
+        <a href="<?= APP_URL ?>/signup" class="inline-block px-[32px] py-[12px] rounded-lg font-[600] text-[16px] leading-[24px] text-white hover:brightness-110 transition-all shadow-md" style="background:#98202A;font-family:Inter,sans-serif;">Get Started Free</a>
+        <a href="<?= APP_URL ?>/browse/businesses" class="inline-block px-[32px] py-[12px] rounded-lg font-[600] text-[16px] leading-[24px] transition-all" style="border:1.5px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.9);font-family:Inter,sans-serif;">Browse Listings</a>
       </div>
     </div>
   </div>
 </section>
-
-<!-- ===== POPULAR CATEGORIES ===== -->
-<section class="section-premium" style="padding:2rem 0;">
-  <div class="container">
-    <div class="section-premium-header scroll-reveal" style="margin-bottom:1.5rem;">
-      <p style="font-size:0.9rem;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;color:var(--color-text-muted);">Popular Categories</p>
-    </div>
-    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;">
-      <span class="tag" style="cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);font-size:0.8rem;padding:6px 16px;border-radius:var(--radius-pill);transition:all var(--motion-fast) var(--ease-standard);" onclick="location.href='<?= APP_URL ?>/browse/businesses'">Restaurants for Sale</span>
-      <span class="tag" style="cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);font-size:0.8rem;padding:6px 16px;border-radius:var(--radius-pill);transition:all var(--motion-fast) var(--ease-standard);" onclick="location.href='<?= APP_URL ?>/browse/businesses'">Tech Companies</span>
-      <span class="tag" style="cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);font-size:0.8rem;padding:6px 16px;border-radius:var(--radius-pill);transition:all var(--motion-fast) var(--ease-standard);" onclick="location.href='<?= APP_URL ?>/browse/businesses'">Hotels &amp; Resorts</span>
-      <span class="tag" style="cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);font-size:0.8rem;padding:6px 16px;border-radius:var(--radius-pill);transition:all var(--motion-fast) var(--ease-standard);" onclick="location.href='<?= APP_URL ?>/browse/businesses'">Manufacturing</span>
-      <span class="tag" style="cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);font-size:0.8rem;padding:6px 16px;border-radius:var(--radius-pill);transition:all var(--motion-fast) var(--ease-standard);" onclick="location.href='<?= APP_URL ?>/browse/businesses'">Retail Stores</span>
-      <span class="tag" style="cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);font-size:0.8rem;padding:6px 16px;border-radius:var(--radius-pill);transition:all var(--motion-fast) var(--ease-standard);" onclick="location.href='<?= APP_URL ?>/browse/businesses'">Healthcare</span>
-      <span class="tag" style="cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);font-size:0.8rem;padding:6px 16px;border-radius:var(--radius-pill);transition:all var(--motion-fast) var(--ease-standard);" onclick="location.href='<?= APP_URL ?>/browse/businesses'">Franchise Brands</span>
-      <span class="tag" style="cursor:pointer;background:var(--color-bg);border:1px solid var(--color-border);font-size:0.8rem;padding:6px 16px;border-radius:var(--radius-pill);transition:all var(--motion-fast) var(--ease-standard);" onclick="location.href='<?= APP_URL ?>/browse/businesses'">E-commerce</span>
-    </div>
-  </div>
-</section>
-
 </main>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const revealElements = document.querySelectorAll('.scroll-reveal');
-  if (revealElements.length === 0) return;
+document.querySelectorAll('.faq-header').forEach(header => {
+  header.addEventListener('click', () => {
+    const item = header.parentElement;
+    const answer = item.querySelector('.faq-answer');
+    const icon = item.querySelector('.faq-icon');
+    const isOpen = item.classList.contains('faq-open');
+    item.classList.toggle('faq-open');
+    answer.style.display = isOpen ? 'none' : 'block';
+    icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(45deg)';
+  });
+});
 
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    revealElements.forEach(el => el.classList.add('revealed'));
-    return;
+const observerOptions = { threshold: 0.1 };
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('opacity-100', 'translate-y-0');
+      entry.target.classList.remove('opacity-0', 'translate-y-4');
+    }
+  });
+}, observerOptions);
+document.querySelectorAll('.group, h2, .faq-item').forEach(el => {
+  if (!el.classList.contains('faq-item')) {
+    el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-4');
+    observer.observe(el);
   }
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('revealed');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-  revealElements.forEach(el => observer.observe(el));
 });
 </script>
 
