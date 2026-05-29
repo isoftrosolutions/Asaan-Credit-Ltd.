@@ -3,11 +3,11 @@ function injectFooter() {
   if (!root) return;
 
   root.innerHTML = `
-    <footer style="background:var(--dark);color:rgba(255,255,255,0.7);padding:3rem 0 1.5rem;margin-top:4rem;">
+    <footer style="background:var(--color-text-heading);color:rgba(255,255,255,0.7);padding:3rem 0 1.5rem;margin-top:4rem;">
       <div class="container">
         <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem;">
           <div>
-            <h4 style="color:#fff;margin-bottom:0.75rem;">Asaan Capital Ltd</h4>
+            <h4 style="font-family:var(--font-heading);color:#fff;margin-bottom:0.75rem;">Asaan Capital Ltd</h4>
             <p style="font-size:0.85rem;line-height:1.7;">Financial &amp; Investment Services — connecting verified business owners with qualified investors, buyers, and franchise partners in Nepal.</p>
           </div>
           <div>
