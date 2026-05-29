@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Pitch — InvestMatch Nepal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="header.css">
+</head>
+<body>
+  <!-- Reusable Header -->
+  <div id="header-root"></div>
+  <script src="icons.js"></script>
+  <script src="header.js"></script>
+  <script src="components.js"></script>
+  <script>injectHeader('public');</script>
+  
+  <div class="container" style="max-width:860px; padding:2rem 0;">
+    <h2>Edit Your Pitch</h2>
+    
+    <div class="card" style="margin-bottom:1.5rem;">
+      <h4>Pitch Content</h4>
+      <div class="input-group"><label>One-line Tagline</label><input class="input" value="AI cold storage that cuts farmer losses by 34%"></div>
+      <div class="input-group"><label>Problem (max 500 words)</label><textarea>Post-harvest losses in Nepal’s perishable supply chain exceed 30%...</textarea></div>
+      <div class="input-group"><label>Solution</label><textarea>Modular solar-hybrid cold rooms with real-time IoT + AI forecasting...</textarea></div>
+      <div class="input-group"><label>Market &amp; Traction</label><textarea>2,400 farmers, NPR 9.2M ARR, partnerships with NARC...</textarea></div>
+    </div>
+    
+    <div class="card">
+      <h4>Funding Ask &amp; Media</h4>
+      <div class="form-grid pitch-form-grid">
+        <div class="input-group"><label>Amount Sought (NPR)</label><input class="input" value="28000000"></div>
+        <div class="input-group"><label>Equity Offered (%)</label><input class="input" value="12"></div>
+      </div>
+      <div class="input-group"><label>Pitch Deck (PDF)</label><input type="file" class="input"></div>
+      <div class="input-group"><label>Pitch Video (YouTube / Vimeo URL)</label><input class="input" value="https://youtube.com/watch?v=demo"></div>
+    </div>
+    
+    <div style="margin-top:1.5rem;">
+      <button onclick="alert('Pitch updated and re-indexed for matching (demo)'); location.href='entrepreneur-dashboard.html'" class="btn btn-primary">Publish Changes</button>
+    </div>
+  </div>
+
+  <div id="footer-root"></div>
+  <script>injectFooter();</script>
+</body>
+</html>

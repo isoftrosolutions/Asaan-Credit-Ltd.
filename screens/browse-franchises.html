@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Franchise Opportunities — InvestMatch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="header.css">
+</head>
+<body>
+  <div id="header-root"></div>
+  <script src="icons.js"></script>
+  <script src="header.js"></script>
+  <script src="components.js"></script>
+  <script>injectHeader('public');</script>
+
+  <div class="breadcrumbs container">
+    <a href="index.html">Home</a> <span>/</span>
+    <span>Franchise Opportunities</span>
+  </div>
+
+  <div class="container" style="padding-bottom:3rem;">
+    <h2>Franchise &amp; Brand Opportunities</h2>
+    <p style="font-size:0.9rem;margin-top:0;">Showing franchise opportunities from verified brands and franchisors.</p>
+
+    <div class="listing-grid" style="margin-top:1.5rem;">
+      <div class="card" onclick="location.href='#'" style="cursor:pointer;">
+        <div style="display:flex;justify-content:space-between;align-items:start;">
+          <div>
+            <h4 style="margin:0;">Bata India</h4>
+            <div style="font-size:0.85rem;color:#666;">1,375 Franchisees • Est'd 1894 • Delhi • Listed by Management Member</div>
+          </div>
+          <span class="rating-badge">9.0</span>
+        </div>
+        <p style="font-size:0.9rem;margin:0.5rem 0;">Leading footwear brand with global recognition expanding franchise network across South Asia.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin:0.75rem 0;">
+          <div><span class="meta-label">Exp Monthly Sales</span><div class="meta-value">NPR 12 Lakh</div></div>
+          <div><span class="meta-label">Space Required</span><div class="meta-value">500-800 sq ft</div></div>
+          <div><span class="meta-label">Investment</span><div class="meta-value">NPR 25 Lakh</div></div>
+        </div>
+        <span class="tx-badge tx-badge-franchise">Franchise Opportunity</span>
+        <div style="margin-top:0.75rem;">
+          <button class="btn btn-accent btn-sm" onclick="event.stopPropagation();alert('Contact company (demo)')">Contact Company</button>
+        </div>
+      </div>
+
+      <div class="card" onclick="location.href='#'" style="cursor:pointer;">
+        <div style="display:flex;justify-content:space-between;align-items:start;">
+          <div>
+            <h4 style="margin:0;">Foodie's Point</h4>
+            <div style="font-size:0.85rem;color:#666;">48 Franchisees • Est'd 2016 • Kathmandu • Listed by Founder</div>
+          </div>
+          <span class="rating-badge">8.2</span>
+        </div>
+        <p style="font-size:0.9rem;margin:0.5rem 0;">Fast-casual dining chain known for momo, burgers, and fusion cuisine. Expanding across Nepal and North India.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin:0.75rem 0;">
+          <div><span class="meta-label">Exp Monthly Sales</span><div class="meta-value">NPR 8 Lakh</div></div>
+          <div><span class="meta-label">Space Required</span><div class="meta-value">300-500 sq ft</div></div>
+          <div><span class="meta-label">Investment</span><div class="meta-value">NPR 15 Lakh</div></div>
+        </div>
+        <span class="tx-badge tx-badge-franchise">Franchise Opportunity</span>
+        <div style="margin-top:0.75rem;">
+          <button class="btn btn-accent btn-sm" onclick="event.stopPropagation();alert('Contact company (demo)')">Contact Company</button>
+        </div>
+      </div>
+
+      <div class="card" onclick="location.href='#'" style="cursor:pointer;">
+        <div style="display:flex;justify-content:space-between;align-items:start;">
+          <div>
+            <h4 style="margin:0;">Maple Bear Schools</h4>
+            <div style="font-size:0.85rem;color:#666;">180+ Franchisees • Est'd 2005 • Delhi • Listed by Management</div>
+          </div>
+          <span class="rating-badge">9.4</span>
+        </div>
+        <p style="font-size:0.9rem;margin:0.5rem 0;">Canadian early childhood education franchise with global curriculum. Expanding preschools in Nepal.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin:0.75rem 0;">
+          <div><span class="meta-label">Exp Monthly Sales</span><div class="meta-value">NPR 5 Lakh</div></div>
+          <div><span class="meta-label">Space Required</span><div class="meta-value">2,000-3,000 sq ft</div></div>
+          <div><span class="meta-label">Investment</span><div class="meta-value">NPR 40 Lakh</div></div>
+        </div>
+        <span class="tx-badge tx-badge-franchise">Franchise Opportunity</span>
+        <div style="margin-top:0.75rem;">
+          <button class="btn btn-accent btn-sm" onclick="event.stopPropagation();alert('Contact company (demo)')">Contact Company</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:2rem;color:#888;font-size:0.85rem;">
+      Showing 3 of 12 brands • <a href="#" style="color:var(--accent);">Load more</a>
+    </div>
+  </div>
+
+  <div id="footer-root"></div>
+  <script>injectFooter();</script>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How To Guides — InvestMatch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="header.css">
+</head>
+<body>
+  <div id="header-root"></div>
+  <script src="icons.js"></script>
+  <script src="header.js"></script>
+  <script src="components.js"></script>
+  <script>injectHeader('public');</script>
+
+  <div class="breadcrumbs container">
+    <a href="index.html">Home</a> <span>/</span>
+    <span>How To Guides</span>
+  </div>
+
+  <div class="container" style="padding-bottom:4rem;">
+    <div style="max-width:720px; margin:0 auto 2rem; text-align:center;">
+      <h1>How InvestMatch Works</h1>
+      <p class="body-lg">Select your path below to get started. Every journey follows the same trusted process — tailored to your goal.</p>
+    </div>
+
+    <!-- Persona selector -->
+    <div class="persona-tabs" id="personaTabs">
+      <button class="persona-tab active" onclick="switchPersona('sell', this)">Sell Your Business</button>
+      <button class="persona-tab" onclick="switchPersona('buy', this)">Buy a Business</button>
+      <button class="persona-tab" onclick="switchPersona('invest', this)">Invest in a Business</button>
+      <button class="persona-tab" onclick="switchPersona('franchise', this)">Franchise Your Business</button>
+      <button class="persona-tab" onclick="switchPersona('advisor', this)">Register as an Advisor</button>
+    </div>
+
+    <!-- Sell path (default) -->
+    <div class="persona-content" id="content-sell">
+      <h2>Sell Your Business</h2>
+      <p class="body-lg">Thousands of pre-verified investors and buyers actively searching for businesses like yours.</p>
+
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="step-num">Step 1 — Today</div>
+          <div class="step-title">Create Business Profile</div>
+          <div class="step-desc">Register and complete your business profile with financials, documents, and description. Our team reviews within 2 business days.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">Step 2 — By Week 1</div>
+          <div class="step-title">Profile Activation &amp; Matching</div>
+          <div class="step-desc">Once approved, your profile is live. Our algorithm matches you with relevant buyers and investors based on industry, size, and location.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">Step 3 — By Week 2-3</div>
+          <div class="step-title">Buyer Introductions</div>
+          <div class="step-desc">Receive and review interest from verified buyers. Accept proposals that fit your criteria.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">Step 4 — By Week 3-4</div>
+          <div class="step-title">Share Documents</div>
+          <div class="step-desc">Share confidential documents with serious buyers after mutual NDA. Conduct management discussions.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">Step 5 — By Month 3</div>
+          <div class="step-title">Due Diligence &amp; Closure</div>
+          <div class="step-desc">Complete financial and legal due diligence. Finalize deal terms and close with your advisors.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+        <a href="sign-up.html" class="btn btn-primary">Create Business Profile</a>
+        <a href="business-valuation.html" class="btn btn-secondary">Value My Business First</a>
+      </div>
+    </div>
+
+    <!-- Buy path -->
+    <div class="persona-content" id="content-buy" style="display:none;">
+      <h2>Buy a Business</h2>
+      <p class="body-lg">Browse thousands of pre-screened businesses for sale across 900+ industries and 170+ countries.</p>
+
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="step-num">Step 1 — Today</div>
+          <div class="step-title">Create Investor Profile</div>
+          <div class="step-desc">Register and define your acquisition criteria: industry, location, size, and budget. Get verified.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">Step 2 — By Week 1</div>
+          <div class="step-title">Browse &amp; Get Matched</div>
+          <div class="step-desc">Search businesses for sale or receive smart matches based on your mandate. Save favorites.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">Step 3 — By Week 2-3</div>
+          <div class="step-title">Express Interest</div>
+          <div class="step-desc">Send proposals to businesses you're interested in. Sellers review your verified profile.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">Step 4 — By Week 3-4</div>
+          <div class="step-title">NDA &amp; Documents</div>
+          <div class="step-desc">Sign NDA through platform. Access confidential financial documents and data room.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">Step 5 — By Month 3</div>
+          <div class="step-title">Due Diligence &amp; Close</div>
+          <div class="step-desc">Conduct site visits, financial audits, legal review. Finalize acquisition with advisors.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem;">
+        <a href="browse-businesses.html" class="btn btn-primary">Browse Businesses for Sale</a>
+        <a href="sign-up.html" class="btn btn-secondary" style="margin-left:0.5rem;">Create Investor Profile</a>
+      </div>
+    </div>
+
+    <!-- Invest path -->
+    <div class="persona-content" id="content-invest" style="display:none;">
+      <h2>Invest in a Business</h2>
+      <p class="body-lg">Discover vetted investment opportunities — from startups to established businesses seeking growth capital.</p>
+
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="step-num">Step 1</div>
+          <div class="step-title">Register as Investor</div>
+          <div class="step-desc">Create your investor profile, define ticket size, sector preference, and investment stage.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">Step 2</div>
+          <div class="step-title">Discover Opportunities</div>
+          <div class="step-desc">Browse investment opportunities or get weekly smart-match recommendations via email.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">Step 3</div>
+          <div class="step-title">Connect &amp; Evaluate</div>
+          <div class="step-desc">Express interest, review documents, attend management presentations.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">Step 4</div>
+          <div class="step-title">Invest &amp; Monitor</div>
+          <div class="step-desc">Complete investment, receive post-investment updates through the platform.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem;">
+        <a href="sign-up.html" class="btn btn-primary">Register as Investor</a>
+        <a href="browse-businesses.html?type=investment" class="btn btn-secondary" style="margin-left:0.5rem;">View Investment Opportunities</a>
+      </div>
+    </div>
+
+    <!-- Franchise path -->
+    <div class="persona-content" id="content-franchise" style="display:none;">
+      <h2>Franchise Your Business</h2>
+      <p class="body-lg">Expand your brand through franchising. Connect with qualified franchisees looking for opportunities.</p>
+
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="step-num">Step 1</div>
+          <div class="step-title">Create Franchise Profile</div>
+          <div class="step-desc">List your brand with franchise details — investment required, space, training, and support.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">Step 2</div>
+          <div class="step-title">Get Discovered</div>
+          <div class="step-desc">Your brand appears in franchise searches and gets recommended to franchise investors.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">Step 3</div>
+          <div class="step-title">Screen Candidates</div>
+          <div class="step-desc">Review franchise applications, evaluate candidates' background and financial capacity.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">Step 4</div>
+          <div class="step-title">Expand Your Network</div>
+          <div class="step-desc">Sign franchise agreements and grow your brand presence across new locations.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem;">
+        <a href="sign-up.html" class="btn btn-primary">Create Franchise Profile</a>
+        <a href="browse-franchises.html" class="btn btn-secondary" style="margin-left:0.5rem;">View Franchise Opportunities</a>
+      </div>
+    </div>
+
+    <!-- Advisor path -->
+    <div class="persona-content" id="content-advisor" style="display:none;">
+      <h2>Register as an Advisor</h2>
+      <p class="body-lg">M&A advisors, business brokers, financial consultants, accountants, and law firms — help businesses close deals.</p>
+
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="step-num">Step 1</div>
+          <div class="step-title">Create Advisor Profile</div>
+          <div class="step-desc">Register with your credentials, specialization (M&A, valuation, legal, accounting), and track record.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">Step 2</div>
+          <div class="step-title">Get Discovered</div>
+          <div class="step-desc">Business owners and investors search for advisors by expertise, industry, and location.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">Step 3</div>
+          <div class="step-title">Engage &amp; Advise</div>
+          <div class="step-desc">Receive mandates, provide valuation, due diligence, deal structuring, and negotiation support.</div>
+        </div>
+        <div class="timeline-step">
+          <div class="step-num">Step 4</div>
+          <div class="step-title">Close Deals</div>
+          <div class="step-desc">Guide transactions to successful closure. Build your reputation through client ratings.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem;">
+        <a href="sign-up.html" class="btn btn-primary">Register as Advisor</a>
+      </div>
+    </div>
+
+    <!-- Service tiers -->
+    <div style="margin-top:3rem; padding:2rem; background:#f6f3f1; border-radius:2rem;">
+      <h3 style="text-align:center;">Select Your Service Level</h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:1rem; margin-top:1.5rem;">
+        <div class="card" style="text-align:center;">
+          <h4>Basic</h4>
+          <div style="font-size:2rem;font-weight:700;">Free</div>
+          <ul style="text-align:left;font-size:0.85rem;">
+            <li>Profile creation</li>
+            <li>Browse listings</li>
+            <li>Basic search</li>
+          </ul>
+        </div>
+        <div class="card" style="text-align:center;border-color:var(--accent);">
+          <h4>Premium</h4>
+          <div style="font-size:2rem;font-weight:700;">NPR 25,500</div>
+          <ul style="text-align:left;font-size:0.85rem;">
+            <li>Priority visibility</li>
+            <li>Unlimited connections</li>
+            <li>Analytics dashboard</li>
+            <li>1% finder's fee post close</li>
+          </ul>
+        </div>
+        <div class="card" style="text-align:center;">
+          <h4>Enterprise</h4>
+          <div style="font-size:2rem;font-weight:700;">NPR 2.55 L</div>
+          <ul style="text-align:left;font-size:0.85rem;">
+            <li>Dedicated relationship manager</li>
+            <li>CIM &amp; valuation reports</li>
+            <li>Priority support</li>
+            <li>1% finder's fee post close</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchPersona(id, btn) {
+      document.querySelectorAll('.persona-content').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.persona-tab').forEach(el => el.classList.remove('active'));
+      document.getElementById('content-' + id).style.display = 'block';
+      btn.classList.add('active');
+    }
+    // Hash-based routing
+    const hash = window.location.hash.replace('#', '');
+    if (hash && ['sell','buy','invest','franchise','advisor'].includes(hash)) {
+      const btn = document.querySelector(`.persona-tab[onclick*="${hash}"]`);
+      if (btn) btn.click();
+    }
+  </script>
+
+  <div id="footer-root"></div>
+  <script>injectFooter();</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Franchise Profile — InvestMatch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="header.css">
+</head>
+<body style="background:#f6f3f1;">
+  <div id="header-root"></div>
+  <script src="icons.js"></script>
+  <script src="header.js"></script>
+  <script src="components.js"></script>
+  <script>injectHeader('public');</script>
+
+  <div class="auth-container" style="max-width:640px; margin:2rem auto; padding:2.5rem; background:white; border-radius:2.5rem;">
+    <h2 style="text-align:center;margin-bottom:0.25rem;">Franchise / Brand Profile</h2>
+    <p style="text-align:center;color:#666;">Expand your brand by connecting with qualified franchisees.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem;">
+      <div class="input-group">
+        <label>Brand Name</label>
+        <input type="text" class="input" placeholder="e.g., Foodie's Point">
+      </div>
+      <div class="input-group">
+        <label>Industry</label>
+        <select class="input">
+          <option>Food &amp; Beverage</option>
+          <option>Retail</option>
+          <option>Education</option>
+          <option>Healthcare</option>
+          <option>Personal Services</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>Year Established</label>
+        <input type="text" class="input" placeholder="e.g., 2016">
+      </div>
+      <div class="input-group">
+        <label>Number of Franchisees</label>
+        <input type="text" class="input" placeholder="e.g., 48">
+      </div>
+      <div class="input-group">
+        <label>Expanding In</label>
+        <input type="text" class="input" placeholder="e.g., Nepal, North India">
+      </div>
+      <div class="input-group">
+        <label>Investment Required</label>
+        <input type="text" class="input" placeholder="e.g., NPR 15 Lakh">
+      </div>
+      <div class="input-group" style="grid-column:1/-1;">
+        <label>Brand Description</label>
+        <textarea class="input" placeholder="Describe your brand, support system, and franchise opportunity..." style="min-height:100px;"></textarea>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" style="width:100%;margin-top:1rem;" onclick="alert('Franchise profile created! (demo)')">Submit for Review</button>
+  </div>
+
+  <div id="footer-root"></div>
+  <script>injectFooter();</script>
+</body>
+</html>

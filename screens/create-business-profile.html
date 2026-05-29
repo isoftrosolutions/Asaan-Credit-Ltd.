@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Business Profile — InvestMatch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="header.css">
+</head>
+<body style="background:#f6f3f1;">
+  <div id="header-root"></div>
+  <script src="icons.js"></script>
+  <script src="header.js"></script>
+  <script src="components.js"></script>
+  <script>injectHeader('public');</script>
+
+  <div class="auth-container" style="max-width:640px; margin:2rem auto; padding:2.5rem; background:white; border-radius:2.5rem;">
+    <h2 style="text-align:center;margin-bottom:0.25rem;">List Your Business</h2>
+    <p style="text-align:center;color:#666;">Connect with thousands of pre-verified investors and buyers.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem;">
+      <div class="input-group">
+        <label>Business Name</label>
+        <input type="text" class="input" placeholder="e.g., Aarohan Kitchens">
+      </div>
+      <div class="input-group">
+        <label>Industry</label>
+        <select class="input">
+          <option>Technology</option>
+          <option>Manufacturing</option>
+          <option>Food &amp; Beverage</option>
+          <option>Retail</option>
+          <option>Healthcare</option>
+          <option>Hotels &amp; Resorts</option>
+          <option>Education</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>Country</label>
+        <input type="text" class="input" value="Nepal">
+      </div>
+      <div class="input-group">
+        <label>City</label>
+        <input type="text" class="input" placeholder="e.g., Kathmandu">
+      </div>
+      <div class="input-group">
+        <label>Transaction Type</label>
+        <select class="input">
+          <option>Business for Sale</option>
+          <option>Partial Stake Sale</option>
+          <option>Investment Opportunity</option>
+          <option>Business Loan</option>
+          <option>Asset Sale</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>Asking / Investment Amount</label>
+        <input type="text" class="input" placeholder="e.g., 12 Cr">
+      </div>
+      <div class="input-group" style="grid-column:1/-1;">
+        <label>Brief Description</label>
+        <textarea class="input" placeholder="Describe your business, products, customers, and growth potential..." style="min-height:100px;"></textarea>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" style="width:100%;margin-top:1rem;" onclick="alert('Business profile created! (demo)')">Submit for Review</button>
+    <p style="font-size:0.8rem;text-align:center;color:#888;margin-top:0.5rem;">Our team reviews your profile within 2 business days.</p>
+  </div>
+
+  <div id="footer-root"></div>
+  <script>injectFooter();</script>
+</body>
+</html>

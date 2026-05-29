@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Entrepreneurs — InvestMatch Nepal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="header.css">
+</head>
+<body>
+  <!-- Reusable Header -->
+  <div id="header-root"></div>
+  <script src="icons.js"></script>
+  <script src="header.js"></script>
+  <script src="components.js"></script>
+  <script>injectHeader('public');</script>
+  
+  <div class="container" style="padding:2rem 0;">
+    <div style="display:flex; gap:1rem; align-items:center; margin-bottom:1.5rem;">
+      <h2 style="margin:0;">Browse Entrepreneurs</h2>
+      <div style="background:#f0edeb; padding:4px 14px; border-radius:999px; font-size:0.8rem;">187 verified pitches</div>
+    </div>
+    
+    <div style="display:flex; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+      <input type="text" class="input" placeholder="Search by name, sector, location..." style="flex:1; max-width:340px; border-bottom:1px solid #ccc;">
+      <select class="select" style="width:180px;"><option>All Sectors</option><option>AgriTech</option><option>CleanTech</option><option>HealthTech</option><option>FinTech</option></select>
+      <select class="select" style="width:160px;"><option>Any Stage</option><option>Idea</option><option>MVP</option><option>Early Revenue</option><option>Growth</option></select>
+      <button class="btn btn-secondary btn-sm" onclick="alert('Filters applied (demo)')">Apply Filters</button>
+    </div>
+    
+    <div class="browse-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:1.25rem;">
+      <div class="card pitch-card" onclick="location.href='public-pitch-detail.html'">
+        <div class="header">
+          <div class="avatar">AK</div>
+          <div style="flex:1"><strong>Aarohan Kitchens</strong><div class="text-xs">AgriTech • Kathmandu • Verified</div></div>
+        </div>
+        <div style="margin:0.75rem 0;">AI-powered cold storage for Nepali farmers. 34% loss reduction.</div>
+        <div style="display:flex; justify-content:space-between; font-size:0.85rem;">
+          <div><strong>NPR 28M</strong> for 12%</div>
+          <div style="color:#166534; font-weight:700;">92% match</div>
+        </div>
+      </div>
+      
+      <div class="card pitch-card" onclick="location.href='public-pitch-detail.html'">
+        <div class="header">
+          <div class="avatar" style="background:#0ea5e9;">SS</div>
+          <div style="flex:1"><strong>Sajha Solar</strong><div class="text-xs">CleanTech • Pokhara • Verified</div></div>
+        </div>
+        <div style="margin:0.75rem 0;">Decentralized solar micro-grids. 1,180 households served.</div>
+        <div style="display:flex; justify-content:space-between; font-size:0.85rem;">
+          <div><strong>NPR 41M</strong> for 18%</div>
+          <div style="color:#166534; font-weight:700;">87% match</div>
+        </div>
+      </div>
+      
+      <div class="card pitch-card" onclick="location.href='public-pitch-detail.html'">
+        <div class="header">
+          <div class="avatar" style="background:#854d0e;">GP</div>
+          <div style="flex:1"><strong>GreenPath Logistics</strong><div class="text-xs">Logistics • Biratnagar • Verified</div></div>
+        </div>
+        <div style="margin:0.75rem 0;">Electric last-mile delivery fleet for e-commerce in Eastern Nepal.</div>
+        <div style="display:flex; justify-content:space-between; font-size:0.85rem;">
+          <div><strong>NPR 65M</strong> for 15%</div>
+          <div style="color:#166534; font-weight:700;">79% match</div>
+        </div>
+      </div>
+    </div>
+    
+    <div style="text-align:center; margin-top:2rem; color:#888; font-size:0.85rem;">Showing 12 of 187 • <a href="#" style="color:#C41E3A;">Load more</a></div>
+  </div>
+
+  <div id="footer-root"></div>
+  <script>injectFooter();</script>
+</body>
+</html>

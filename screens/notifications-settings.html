@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — InvestMatch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="header.css">
+</head>
+<body>
+  <div id="header-root"></div>
+  <script src="icons.js"></script>
+  <script src="header.js"></script>
+  <script src="components.js"></script>
+  <script>injectHeader('public');</script>
+
+  <div class="breadcrumbs container">
+    <a href="index.html">Home</a> <span>/</span>
+    <span>Settings</span>
+  </div>
+
+  <div class="container" style="max-width:620px; padding-bottom:3rem;">
+    <h2>Notifications &amp; Account Settings</h2>
+
+    <div class="card" style="margin-top:1.5rem;">
+      <h4>Email Notifications</h4>
+      <label style="display:block; margin:12px 0; display:flex; align-items:center; gap:8px; cursor:pointer;">
+        <input type="checkbox" checked style="accent-color:var(--accent);"> New interest requests
+      </label>
+      <label style="display:block; margin:12px 0; display:flex; align-items:center; gap:8px; cursor:pointer;">
+        <input type="checkbox" checked style="accent-color:var(--accent);"> Match confirmations
+      </label>
+      <label style="display:block; margin:12px 0; display:flex; align-items:center; gap:8px; cursor:pointer;">
+        <input type="checkbox" style="accent-color:var(--accent);"> Weekly digest of new matches
+      </label>
+      <label style="display:block; margin:12px 0; display:flex; align-items:center; gap:8px; cursor:pointer;">
+        <input type="checkbox" checked style="accent-color:var(--accent);"> Platform announcements
+      </label>
+    </div>
+
+    <div class="card" style="margin-top:1.5rem;">
+      <h4>Deal Preferences</h4>
+      <div class="input-group">
+        <label>Preferred transaction types</label>
+        <select class="input">
+          <option>All Types</option>
+          <option>Business for Sale</option>
+          <option>Investment Opportunities</option>
+          <option>Franchise Opportunities</option>
+          <option>Business Loan</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>Industry focus</label>
+        <select class="input">
+          <option>All Industries</option>
+          <option>Technology</option>
+          <option>Manufacturing</option>
+          <option>Food &amp; Beverage</option>
+          <option>Healthcare</option>
+          <option>Retail</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:1.5rem;">
+      <h4>Account</h4>
+      <button onclick="if(confirm('This is a demo. In real app this would request deletion.')) alert('Account deletion request submitted. Admin will contact you within 7 days.')" class="btn btn-secondary" style="margin-top:0.5rem;">Request Account Deletion</button>
+    </div>
+  </div>
+
+  <div id="footer-root"></div>
+  <script>injectFooter();</script>
+</body>
+</html>
