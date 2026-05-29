@@ -1,6 +1,6 @@
 <?php
 if (defined('APP_NAME')) return;
-define('APP_NAME', 'Asaan Marketplace');
+define('APP_NAME', 'Asaan Capital Ltd - Financial & Investment Services');
 define('APP_URL', 'https://asaancapital.com');
 define('DEBUG_MODE', false);
 
@@ -20,7 +20,7 @@ define('UPLOAD_ALLOWED_MIME', 'application/pdf,image/jpeg,image/png,image/webp')
 
 define('MAIL_DRIVER', 'log');
 define('MAIL_FROM', 'noreply@asaancapital.com');
-define('MAIL_FROM_NAME', 'Asaan Marketplace');
+define('MAIL_FROM_NAME', 'Asaan Capital Ltd');
 
 define('STORAGE_PATH', __DIR__ . '/../storage');
 define('PUBLIC_UPLOADS_PATH', __DIR__ . '/../public/uploads');

@@ -7,8 +7,8 @@ function injectFooter() {
       <div class="container">
         <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem;">
           <div>
-            <h4 style="color:#fff;margin-bottom:0.75rem;">Asaan Marketplace</h4>
-            <p style="font-size:0.85rem;line-height:1.7;">The premium marketplace connecting verified business owners with qualified investors, buyers, and franchise partners in Nepal.</p>
+            <h4 style="color:#fff;margin-bottom:0.75rem;">Asaan Capital Ltd</h4>
+            <p style="font-size:0.85rem;line-height:1.7;">Financial &amp; Investment Services — connecting verified business owners with qualified investors, buyers, and franchise partners in Nepal.</p>
           </div>
           <div>
             <h5 style="color:#fff;margin-bottom:0.75rem;font-size:0.9rem;">Marketplace</h5>
@@ -38,7 +38,7 @@ function injectFooter() {
           </div>
         </div>
         <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:1.5rem;font-size:0.8rem;text-align:center;">
-          &copy; ${new Date().getFullYear()} Asaan Marketplace. All rights reserved.
+          &copy; ${new Date().getFullYear()} Asaan Capital Ltd. All rights reserved.
         </div>
       </div>
     </footer>

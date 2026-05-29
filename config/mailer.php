@@ -20,7 +20,7 @@ function send_mail(string $to, string $subject, string $body): bool {
 
 function send_verification_email(string $to, string $token): void {
     $link = APP_URL . '/verify-email?token=' . urlencode($token);
-    $body = '<p>Welcome to Asaan Marketplace!</p><p>Click the link below to verify your email:</p>';
+    $body = '<p>Welcome to ' . APP_NAME . '!</p><p>Click the link below to verify your email:</p>';
     $body .= '<p><a href="' . $link . '">' . $link . '</a></p>';
     send_mail($to, 'Verify your email address', $body);
 }

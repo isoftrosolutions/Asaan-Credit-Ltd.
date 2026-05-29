@@ -15,7 +15,7 @@ if ($user) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= e($pageTitle ?? 'Asaan Marketplace') ?></title>
+  <title><?= e($pageTitle ?? APP_NAME) ?></title>
   <meta name="description" content="The premium marketplace for buying, selling, franchising, and funding SMEs.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

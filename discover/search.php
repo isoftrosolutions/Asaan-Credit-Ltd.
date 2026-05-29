@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 
-$pageTitle = 'Search Results — Asaan Marketplace';
+$pageTitle = 'Search Results — ' . APP_NAME;
 
 $q = trim($_GET['q'] ?? '');
 $page = max(1, (int)($_GET['page'] ?? 1));

@@ -39,7 +39,7 @@ $media = $mediaStmt->fetchAll();
 
 $initials = e(strtoupper(mb_substr($pitch['entrepreneur_name'] ?? '?', 0, 2)));
 
-$pageTitle = e($pitch['tagline']) . ' — Asaan Marketplace';
+$pageTitle = e($pitch['tagline']) . ' — ' . APP_NAME;
 require __DIR__ . '/../includes/layout-public.php';
 ?>
 <div class="breadcrumbs container">

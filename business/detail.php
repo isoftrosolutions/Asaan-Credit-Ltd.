@@ -46,7 +46,7 @@ $listingTypeLabels = [
 ];
 $listingTypeLabel = $listingTypeLabels[$business['listing_type']] ?? ucfirst($business['listing_type']);
 
-$pageTitle = e($business['business_name']) . ' — Asaan Marketplace';
+$pageTitle = e($business['business_name']) . ' — ' . APP_NAME;
 require __DIR__ . '/../includes/layout-public.php';
 ?>
 <div class="breadcrumbs container">
@@ -147,7 +147,7 @@ require __DIR__ . '/../includes/layout-public.php';
                 </div>
 
                 <div style="margin-top:0.75rem;padding:0.75rem;background:#fef9c3;border-radius:0.75rem;font-size:0.75rem;color:#854d0e;">
-                    <strong>&#8505;&#65039; Disclaimer:</strong> Asaan Marketplace is a discovery platform. We do not guarantee accuracy of financial data. Conduct your own due diligence.
+                    <strong>&#8505;&#65039; Disclaimer:</strong> Asaan Capital Ltd is a discovery platform. We do not guarantee accuracy of financial data. Conduct your own due diligence.
                 </div>
             </div>
         </div>

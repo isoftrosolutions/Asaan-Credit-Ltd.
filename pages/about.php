@@ -64,7 +64,7 @@ require __DIR__ . '/../includes/header.php';
       <div style="display:flex;justify-content:space-between;align-items:center;">
         <div>
           <strong>TechKhabar</strong>
-          <div style="font-size:0.85rem;color:var(--secondary-text);">Asaan Marketplace aims to digitize Nepal's SME investment landscape</div>
+          <div style="font-size:0.85rem;color:var(--secondary-text);">Asaan Capital Ltd aims to digitize Nepal's SME investment landscape</div>
         </div>
         <span style="font-size:0.75rem;color:var(--secondary-text);flex-shrink:0;margin-left:1rem;">Mar 2026</span>
       </div>

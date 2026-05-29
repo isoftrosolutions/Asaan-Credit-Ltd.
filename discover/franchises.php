@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 
-$pageTitle = 'Franchise Opportunities — Asaan Marketplace';
+$pageTitle = 'Franchise Opportunities — ' . APP_NAME;
 
 $page = max(1, (int)($_GET['page'] ?? 1));
 $perPage = 12;
