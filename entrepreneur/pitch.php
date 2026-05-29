@@ -104,7 +104,7 @@ require __DIR__ . '/../includes/layout-public.php';
             <?php endif; ?>
 
             <?php if ($hasMatch && $pitch['entrepreneur_name']): ?>
-            <div class="card" style="margin-top:1.5rem;background:#f0fdf4;">
+            <div class="card" style="margin-top:1.5rem;background:rgba(30,122,77,0.06);">
                 <h3 style="margin:0 0 0.5rem;">Contact Information</h3>
                 <p><strong>Name:</strong> <?= e($pitch['entrepreneur_name']) ?></p>
                 <?php if ($pitch['company_name']): ?>
@@ -120,7 +120,7 @@ require __DIR__ . '/../includes/layout-public.php';
                 <div class="label-md">FUNDING ASK</div>
                 <div style="font-size:2.25rem; font-weight:700; color:var(--ink);"><?= money($pitch['funding_amount']) ?></div>
                 <?php if ($pitch['equity_offered']): ?>
-                <div style="font-size:0.9rem; color:#666;">for <?= e($pitch['equity_offered']) ?>% equity</div>
+                <div style="font-size:0.9rem; color:var(--color-text-muted);">for <?= e($pitch['equity_offered']) ?>% equity</div>
                 <?php endif; ?>
             </div>
             <?php endif; ?>
@@ -143,7 +143,7 @@ require __DIR__ . '/../includes/layout-public.php';
             <a href="<?= APP_URL ?>/public/uploads/pitch-decks/<?= e($pitch['pitch_deck']) ?>" class="btn btn-secondary" style="width:100%; display:block; text-align:center; text-decoration:none; margin-bottom:0.75rem;" target="_blank">Download Pitch Deck (PDF)</a>
             <?php endif; ?>
 
-            <div style="margin-top:1.25rem; font-size:0.8rem; color:#666;">
+            <div style="margin-top:1.25rem; font-size:0.8rem; color:var(--color-text-muted);">
                 <?= (int)$pitch['views'] ?> views
             </div>
         </div>

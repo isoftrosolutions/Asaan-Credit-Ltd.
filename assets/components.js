@@ -3,15 +3,15 @@ function injectFooter() {
   if (!root) return;
 
   root.innerHTML = `
-    <footer style="background:var(--color-text-heading);color:rgba(255,255,255,0.7);padding:3rem 0 1.5rem;margin-top:4rem;">
+    <footer style="background:var(--color-text-heading);color:rgba(255,255,255,0.7);padding:var(--space-8) 0 var(--space-5);margin-top:var(--space-10);">
       <div class="container">
-        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem;">
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:var(--space-6);margin-bottom:var(--space-6);" class="footer-grid">
           <div>
-            <h4 style="font-family:var(--font-heading);color:#fff;margin-bottom:0.75rem;">Asaan Capital Ltd</h4>
+            <h4 style="font-family:var(--font-heading);color:#fff;margin-bottom:var(--space-3);">Asaan Capital Ltd</h4>
             <p style="font-size:0.85rem;line-height:1.7;">Financial &amp; Investment Services — connecting verified business owners with qualified investors, buyers, and franchise partners in Nepal.</p>
           </div>
           <div>
-            <h5 style="color:#fff;margin-bottom:0.75rem;font-size:0.9rem;">Marketplace</h5>
+            <h5 style="color:#fff;margin-bottom:var(--space-3);font-size:0.9rem;">Marketplace</h5>
             <div style="display:flex;flex-direction:column;gap:6px;font-size:0.85rem;">
               <a href="/browse/businesses" style="color:rgba(255,255,255,0.6);">Businesses for Sale</a>
               <a href="/browse/investors" style="color:rgba(255,255,255,0.6);">Find Investors</a>
@@ -20,7 +20,7 @@ function injectFooter() {
             </div>
           </div>
           <div>
-            <h5 style="color:#fff;margin-bottom:0.75rem;font-size:0.9rem;">Company</h5>
+            <h5 style="color:#fff;margin-bottom:var(--space-3);font-size:0.9rem;">Company</h5>
             <div style="display:flex;flex-direction:column;gap:6px;font-size:0.85rem;">
               <a href="/about" style="color:rgba(255,255,255,0.6);">About Us</a>
               <a href="/how-it-works" style="color:rgba(255,255,255,0.6);">How It Works</a>
@@ -29,7 +29,7 @@ function injectFooter() {
             </div>
           </div>
           <div>
-            <h5 style="color:#fff;margin-bottom:0.75rem;font-size:0.9rem;">For Users</h5>
+            <h5 style="color:#fff;margin-bottom:var(--space-3);font-size:0.9rem;">For Users</h5>
             <div style="display:flex;flex-direction:column;gap:6px;font-size:0.85rem;">
               <a href="/signup" style="color:rgba(255,255,255,0.6);">Create Account</a>
               <a href="/login" style="color:rgba(255,255,255,0.6);">Sign In</a>
@@ -37,7 +37,7 @@ function injectFooter() {
             </div>
           </div>
         </div>
-        <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:1.5rem;font-size:0.8rem;text-align:center;">
+        <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:var(--space-5);font-size:0.8rem;text-align:center;">
           &copy; ${new Date().getFullYear()} Asaan Capital Ltd. All rights reserved.
         </div>
       </div>
@@ -72,7 +72,7 @@ function showInterestModal(businessId, businessName) {
 }
 
 function showToast(message, type) {
-  const colors = { success: '#166534', error: '#b91c1c', info: '#1e40af', warning: '#b45309' };
+  const colors = { success: 'var(--color-success)', error: 'var(--color-error)', info: 'var(--color-secondary)', warning: 'var(--color-warning)' };
   const toast = document.createElement('div');
   toast.style.cssText = `position:fixed;bottom:24px;right:24px;background:${colors[type] || colors.info};color:#fff;padding:14px 24px;border-radius:12px;font-weight:600;font-size:0.9rem;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,0.15);max-width:400px;animation:fadeUp 0.3s ease;`;
   toast.textContent = message;

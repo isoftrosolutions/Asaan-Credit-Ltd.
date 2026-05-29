@@ -57,7 +57,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 ?>
 <div style="max-width:720px; margin:0 auto; padding:2rem 0 3rem;">
   <h2 style="margin-bottom:0.25rem;">Investor / Buyer Profile</h2>
-  <p style="color:#666; margin-bottom:1.5rem;">Define your investment mandate and get matched with opportunities.</p>
+  <p style="color:var(--color-text-muted); margin-bottom:1.5rem;">Define your investment mandate and get matched with opportunities.</p>
 
   <form method="POST" class="card" style="padding:2rem;">
     <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
@@ -118,7 +118,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
         <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:0.25rem;">
           <?php $selectedSectors = json_decode($profile['preferred_sectors'] ?? '[]', true) ?: []; ?>
           <?php foreach ($sectors as $s): ?>
-          <label class="preference-tag<?= in_array($s['name'], $selectedSectors) ? ' selected' : '' ?>" style="display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border-radius:999px;font-size:0.85rem;margin:2px;cursor:pointer;user-select:none;background:<?= in_array($s['name'], $selectedSectors) ? '#C41E3A' : 'rgba(196,30,58,0.1)' ?>;color:<?= in_array($s['name'], $selectedSectors) ? '#fff' : '#aa3700' ?>;">
+          <label class="preference-tag<?= in_array($s['name'], $selectedSectors) ? ' selected' : '' ?>" style="display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border-radius:999px;font-size:0.85rem;margin:2px;cursor:pointer;user-select:none;background:<?= in_array($s['name'], $selectedSectors) ? 'var(--color-primary-vivid)' : 'rgba(152,32,42,0.1)' ?>;color:<?= in_array($s['name'], $selectedSectors) ? 'var(--color-text-inverse)' : 'var(--color-text-muted)' ?>;">
             <input type="checkbox" name="preferred_sectors[]" value="<?= e($s['name']) ?>" <?= in_array($s['name'], $selectedSectors) ? 'checked' : '' ?> style="display:none;">
             <?= e($s['name']) ?>
           </label>
@@ -131,7 +131,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
           <?php $stages = ['Idea', 'MVP', 'Early Revenue', 'Growth', 'Established'];
           $selectedStages = json_decode($profile['preferred_stages'] ?? '[]', true) ?: []; ?>
           <?php foreach ($stages as $stage): ?>
-          <label class="preference-tag<?= in_array($stage, $selectedStages) ? ' selected' : '' ?>" style="display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border-radius:999px;font-size:0.85rem;margin:2px;cursor:pointer;user-select:none;background:<?= in_array($stage, $selectedStages) ? '#C41E3A' : 'rgba(196,30,58,0.1)' ?>;color:<?= in_array($stage, $selectedStages) ? '#fff' : '#aa3700' ?>;">
+          <label class="preference-tag<?= in_array($stage, $selectedStages) ? ' selected' : '' ?>" style="display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border-radius:999px;font-size:0.85rem;margin:2px;cursor:pointer;user-select:none;background:<?= in_array($stage, $selectedStages) ? 'var(--color-primary-vivid)' : 'rgba(152,32,42,0.1)' ?>;color:<?= in_array($stage, $selectedStages) ? 'var(--color-text-inverse)' : 'var(--color-text-muted)' ?>;">
             <input type="checkbox" name="preferred_stages[]" value="<?= e($stage) ?>" <?= in_array($stage, $selectedStages) ? 'checked' : '' ?> style="display:none;">
             <?= e($stage) ?>
           </label>
@@ -152,7 +152,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
           <?php $geos = ['Bagmati', 'Gandaki', 'Lumbini', 'Koshi', 'Karnali', 'Sudurpashchim'];
           $selectedGeos = json_decode($profile['preferred_geography'] ?? '[]', true) ?: []; ?>
           <?php foreach ($geos as $geo): ?>
-          <label style="display:flex;align-items:center;gap:6px;background:#f6f3f1;padding:8px 14px;border-radius:999px;cursor:pointer;">
+          <label style="display:flex;align-items:center;gap:6px;background:var(--color-bg-soft);padding:8px 14px;border-radius:999px;cursor:pointer;">
             <input type="checkbox" name="preferred_geography[]" value="<?= e($geo) ?>" <?= in_array($geo, $selectedGeos) ? 'checked' : '' ?>>
             <?= e($geo) ?>
           </label>
@@ -171,11 +171,11 @@ document.querySelectorAll('.preference-tag').forEach(function(tag) {
     var cb = this.querySelector('input[type=checkbox]');
     cb.checked = !cb.checked;
     if (cb.checked) {
-      this.style.background = '#C41E3A';
-      this.style.color = '#fff';
+      this.style.background = 'var(--color-primary-vivid)';
+      this.style.color = 'var(--color-text-inverse)';
     } else {
-      this.style.background = 'rgba(196,30,58,0.1)';
-      this.style.color = '#aa3700';
+      this.style.background = 'rgba(152,32,42,0.1)';
+      this.style.color = 'var(--color-text-muted)';
     }
   });
 });

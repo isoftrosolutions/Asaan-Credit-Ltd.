@@ -93,10 +93,10 @@ if ($queryParams) {
   <span>Entrepreneurs &amp; Pitches</span>
 </div>
 
-<div class="container" style="padding-bottom:3rem;">
+<div class="container" style="padding-bottom:var(--space-8);">
   <div style="display:flex; gap:1rem; align-items:center; margin-bottom:1.5rem;">
     <h2 style="margin:0;">Browse Entrepreneurs</h2>
-    <div style="background:#f0edeb; padding:4px 14px; border-radius:999px; font-size:0.8rem;"><?= $p['total'] ?> verified pitches</div>
+    <div style="background:var(--color-bg-soft); padding:4px 14px; border-radius:999px; font-size:0.8rem;"><?= $p['total'] ?> verified pitches</div>
   </div>
 
   <form method="GET" action="" style="display:flex; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap;">
@@ -112,8 +112,8 @@ if ($queryParams) {
         <option value="<?= e($st) ?>" <?= $stage === $st ? 'selected' : '' ?>><?= e($st) ?></option>
       <?php endforeach; ?>
     </select>
-    <input type="number" name="fund_min" placeholder="Min funding" value="<?= e($fundMin) ?>" class="input" style="width:130px;border-bottom:1px solid #ccc;">
-    <input type="number" name="fund_max" placeholder="Max funding" value="<?= e($fundMax) ?>" class="input" style="width:130px;border-bottom:1px solid #ccc;">
+    <input type="number" name="fund_min" placeholder="Min funding" value="<?= e($fundMin) ?>" class="input" style="width:130px;border-bottom:1px solid var(--color-border);">
+    <input type="number" name="fund_max" placeholder="Max funding" value="<?= e($fundMax) ?>" class="input" style="width:130px;border-bottom:1px solid var(--color-border);">
     <button class="btn btn-secondary btn-sm">Apply Filters</button>
     <a href="<?= APP_URL ?>/discover/entrepreneurs.php" class="btn btn-ghost btn-sm">Reset</a>
 
@@ -128,7 +128,7 @@ if ($queryParams) {
   </form>
 
   <?php if (empty($pitches)): ?>
-    <p style="text-align:center;padding:3rem 0;color:#888;">No pitches found matching your criteria.</p>
+    <p style="text-align:center;padding:3rem 0;color:var(--color-text-muted);">No pitches found matching your criteria.</p>
   <?php else: ?>
     <div class="browse-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:1.25rem;">
       <?php foreach ($pitches as $pitch): ?>
@@ -148,7 +148,7 @@ if ($queryParams) {
           <div style="margin:0.75rem 0;"><?= e(mb_substr($pitch['short_summary'] ?? $pitch['problem_statement'] ?? '', 0, 200)) ?></div>
           <div style="display:flex; justify-content:space-between; font-size:0.85rem;">
             <div><strong><?= money($pitch['funding_amount'] ?? 0) ?></strong><?= $pitch['equity_offered'] ? ' for ' . e($pitch['equity_offered']) . '%' : '' ?></div>
-            <div style="color:var(--accent); font-weight:700;"><?= e($pitch['stage'] ?? '') ?></div>
+            <div style="color:var(--color-primary-vivid); font-weight:700;"><?= e($pitch['stage'] ?? '') ?></div>
           </div>
         </div>
       <?php endforeach; ?>

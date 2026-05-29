@@ -51,12 +51,12 @@ $pageTitle = 'Entrepreneur Dashboard';
 require __DIR__ . '/../includes/layout-dashboard.php';
 ?>
 <h2 style="margin-bottom:0.25rem;">Entrepreneur Dashboard</h2>
-<p style="color:#666;">Manage your pitches and track investor interest.</p>
+<p style="color:var(--color-text-muted);">Manage your pitches and track investor interest.</p>
 
 <?php if (empty($pitches)): ?>
 <div class="card" style="text-align:center;padding:3rem 2rem;margin-top:1.5rem;">
   <h3 style="margin-bottom:0.5rem;">No pitches yet</h3>
-  <p style="color:#666;margin-bottom:1rem;">Create your first pitch to start connecting with investors.</p>
+  <p style="color:var(--color-text-muted);margin-bottom:1rem;">Create your first pitch to start connecting with investors.</p>
   <a href="pitch-create.php" class="btn btn-primary">Create Pitch</a>
 </div>
 <?php else: ?>
@@ -75,7 +75,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 <h3>Your Pitches</h3>
 <div class="card" style="padding:0;">
   <table style="width:100%;border-collapse:collapse;">
-    <tr style="border-bottom:1px solid #eae8e6;background:#faf8f6;">
+    <tr style="border-bottom:1px solid var(--color-border);background:var(--color-bg-soft);">
       <th style="text-align:left;padding:14px 18px;font-weight:600;">Tagline</th>
       <th style="text-align:left;padding:14px 18px;font-weight:600;">Stage</th>
       <th style="text-align:left;padding:14px 18px;font-weight:600;">Funding Ask</th>
@@ -83,7 +83,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
       <th style="text-align:right;padding:14px 18px;font-weight:600;"></th>
     </tr>
     <?php foreach ($pitches as $p): ?>
-    <tr style="border-bottom:1px solid #eae8e6;">
+    <tr style="border-bottom:1px solid var(--color-border);">
       <td style="padding:14px 18px;">
         <strong><?= e($p['tagline']) ?></strong>
         <?php if ($p['is_featured']): ?><span class="tx-badge tx-badge-sale" style="font-size:0.7rem;margin-left:0.5rem;">Featured</span><?php endif; ?>
@@ -91,8 +91,8 @@ require __DIR__ . '/../includes/layout-dashboard.php';
       <td style="padding:14px 18px;"><?= e(ucfirst($p['stage'] ?? '—')) ?></td>
       <td style="padding:14px 18px;"><?= $p['funding_amount'] ? money($p['funding_amount']) : '—' ?></td>
       <td style="padding:14px 18px;text-align:center;">
-        <?php if ($p['is_published']): ?><span style="color:#166534;font-weight:600;">Published</span>
-        <?php else: ?><span style="color:#b91c1c;font-weight:600;">Draft</span>
+        <?php if ($p['is_published']): ?><span style="color:var(--color-success);font-weight:600;">Published</span>
+        <?php else: ?><span style="color:var(--color-error);font-weight:600;">Draft</span>
         <?php endif; ?>
       </td>
       <td style="padding:14px 18px;text-align:right;">
@@ -108,7 +108,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 <h3 style="margin-top:2rem;">Recent Interest Requests</h3>
 <div class="card" style="padding:0;">
   <table style="width:100%;border-collapse:collapse;">
-    <tr style="border-bottom:1px solid #eae8e6;background:#faf8f6;">
+    <tr style="border-bottom:1px solid var(--color-border);background:var(--color-bg-soft);">
       <th style="text-align:left;padding:14px 18px;font-weight:600;">Investor</th>
       <th style="text-align:left;padding:14px 18px;font-weight:600;">Pitch</th>
       <th style="text-align:left;padding:14px 18px;font-weight:600;">Message</th>
@@ -116,14 +116,14 @@ require __DIR__ . '/../includes/layout-dashboard.php';
       <th style="padding:14px 18px;font-weight:600;"></th>
     </tr>
     <?php foreach ($interestRequests as $ir): ?>
-    <tr style="border-bottom:1px solid #eae8e6;">
+    <tr style="border-bottom:1px solid var(--color-border);">
       <td style="padding:14px 18px;">
         <strong><?= e($ir['sender_name']) ?></strong><br>
         <span class="text-xs"><?= e(ucfirst(str_replace('_', ' ', $ir['sender_role'] ?? ''))) ?></span>
       </td>
       <td style="padding:14px 18px;font-size:0.9rem;"><?= e(mb_substr($ir['pitch_tagline'], 0, 40)) ?>...</td>
       <td style="padding:14px 18px;font-size:0.9rem;"><?= e($ir['message'] ?? '—') ?></td>
-      <td style="padding:14px 18px;font-size:0.85rem;color:#666;"><?= date_human($ir['created_at']) ?></td>
+      <td style="padding:14px 18px;font-size:0.85rem;color:var(--color-text-muted);"><?= date_human($ir['created_at']) ?></td>
       <td style="padding:14px 18px;">
         <form method="POST" action="<?= APP_URL ?>/connections/respond" style="display:flex;gap:0.5rem;">
           <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">

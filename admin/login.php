@@ -51,7 +51,7 @@ require __DIR__ . '/../includes/header.php';
 <div class="container" style="padding-top:4rem;max-width:440px;margin:0 auto;">
   <div class="card" style="padding:2rem;">
     <h2 style="margin-bottom:0.25rem;">Admin Login</h2>
-    <p style="color:#666;margin-bottom:1.5rem;">Sign in with your admin credentials</p>
+    <p style="color:var(--color-text-muted);margin-bottom:1.5rem;">Sign in with your admin credentials</p>
     <?php if ($error): ?>
       <div class="flash flash-error"><?= e($error) ?></div>
     <?php endif; ?>
@@ -67,7 +67,7 @@ require __DIR__ . '/../includes/header.php';
       <button type="submit" class="btn btn-primary" style="width:100%;margin-top:0.5rem;">Sign In</button>
     </form>
     <p style="margin-top:1rem;font-size:0.85rem;text-align:center;">
-      <a href="<?= APP_URL ?>/login" style="color:#C41E3A;">Back to main site</a>
+      <a href="<?= APP_URL ?>/login" style="color:var(--color-primary-vivid);">Back to main site</a>
     </p>
   </div>
 </div>

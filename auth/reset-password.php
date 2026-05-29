@@ -64,12 +64,12 @@ $pageDescription = 'Reset your password for Asaan Capital Ltd.';
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
 <style>
-.auth-container-narrow { max-width: 460px; margin: 4rem auto; padding: 2.5rem; background: white; border-radius: 2.5rem; box-shadow: 0 10px 40px -15px rgba(0,0,0,0.08); }
+.auth-container-narrow { max-width: 460px; margin: 4rem auto; padding: 2.5rem; background: var(--color-bg); border-radius: 2.5rem; box-shadow: 0 10px 40px -15px rgba(0,0,0,0.08); }
 </style>
 <div class="auth-container-narrow">
     <div class="auth-header">
         <h2 style="margin-bottom:0.25rem;">Set new password</h2>
-        <p style="color:#666;font-size:0.95rem;">Choose a strong password for your account</p>
+        <p style="color:var(--color-text-muted);font-size:0.95rem;">Choose a strong password for your account</p>
     </div>
 
     <?php if ($success): ?>
@@ -88,7 +88,7 @@ $pageDescription = 'Reset your password for Asaan Capital Ltd.';
             <div class="input-group">
                 <label>New password</label>
                 <input type="password" name="password" class="input" placeholder="Min 8 characters" minlength="8" required autofocus>
-                <div style="font-size:0.75rem;color:#888;margin-top:4px;">Min 8 characters</div>
+                <div style="font-size:0.75rem;color:var(--color-text-muted);margin-top:4px;">Min 8 characters</div>
             </div>
 
             <div class="input-group">

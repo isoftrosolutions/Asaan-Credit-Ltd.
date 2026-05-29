@@ -39,7 +39,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 
     <?php if (empty($all)): ?>
         <div class="card">
-            <p style="text-align:center; padding:2rem; color:#888;">No notifications yet.</p>
+            <p style="text-align:center; padding:2rem; color:var(--color-text-muted);">No notifications yet.</p>
         </div>
     <?php else: ?>
         <div class="notifications-list">
@@ -53,10 +53,10 @@ require __DIR__ . '/../includes/layout-dashboard.php';
                                     <span class="badge badge-accent" style="font-size:0.7rem;">New</span>
                                 <?php endif; ?>
                             </div>
-                            <p style="margin:0.25rem 0 0; color:#555; font-size:0.9rem;"><?= e($n['body']) ?></p>
+                            <p style="margin:0.25rem 0 0; color:var(--color-text-muted); font-size:0.9rem;"><?= e($n['body']) ?></p>
                         </div>
                         <div style="text-align:right; flex-shrink:0;">
-                            <span style="font-size:0.8rem; color:#999;"><?= date_human($n['created_at']) ?></span>
+                            <span style="font-size:0.8rem; color:var(--color-text-muted);"><?= date_human($n['created_at']) ?></span>
                             <?php if (!$n['is_read']): ?>
                                 <form method="post" action="/notifications/mark-read" style="margin-top:0.25rem;">
                                     <?php $token2 = csrf_token(); ?>

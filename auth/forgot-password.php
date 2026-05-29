@@ -38,12 +38,12 @@ $pageDescription = 'Reset your password for Asaan Capital Ltd. Enter your email 
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
 <style>
-.auth-container-narrow { max-width: 460px; margin: 4rem auto; padding: 2.5rem; background: white; border-radius: 2.5rem; box-shadow: 0 10px 40px -15px rgba(0,0,0,0.08); }
+.auth-container-narrow { max-width: 460px; margin: 4rem auto; padding: 2.5rem; background: var(--color-bg); border-radius: 2.5rem; box-shadow: 0 10px 40px -15px rgba(0,0,0,0.08); }
 </style>
 <div class="auth-container-narrow">
     <div class="auth-header">
         <h2 style="margin-bottom:0.25rem;">Reset your password</h2>
-        <p style="color:#666;font-size:0.95rem;">Enter your email and we'll send you a reset link</p>
+        <p style="color:var(--color-text-muted);font-size:0.95rem;">Enter your email and we'll send you a reset link</p>
     </div>
 
     <?php if ($sent): ?>
@@ -51,7 +51,7 @@ $pageDescription = 'Reset your password for Asaan Capital Ltd. Enter your email 
             If an account with that email exists, a password reset link has been sent. Please check your email.
         </div>
         <div style="text-align:center;margin-top:1rem;">
-            <a href="/login" style="color:#C41E3A;">Back to login</a>
+            <a href="/login" style="color:var(--color-primary-vivid);">Back to login</a>
         </div>
     <?php else: ?>
         <form method="post" action="/forgot-password">
@@ -66,7 +66,7 @@ $pageDescription = 'Reset your password for Asaan Capital Ltd. Enter your email 
         </form>
 
         <div style="margin-top:1.5rem;text-align:center;font-size:0.9rem;">
-            Remember your password? <a href="/login" style="color:#C41E3A;font-weight:600;">Log in</a>
+            Remember your password? <a href="/login" style="color:var(--color-primary-vivid);font-weight:600;">Log in</a>
         </div>
     <?php endif; ?>
 </div>

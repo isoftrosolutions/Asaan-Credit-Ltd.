@@ -173,15 +173,15 @@ $pageDescription = 'Create your free account on Asaan Capital Ltd. Join Nepal\'s
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
 <style>
-.auth-container-wide { max-width: 620px; margin: 2.5rem auto; padding: 2.25rem 2.75rem; background: white; border-radius: 2.5rem; }
+.auth-container-wide { max-width: 620px; margin: 2.5rem auto; padding: 2.25rem 2.75rem; background: var(--color-bg); border-radius: 2.5rem; }
 .step-indicator { display: flex; gap: 8px; margin-bottom: 2rem; }
-.step-bar { flex: 1; height: 4px; background: #e5e2e0; border-radius: 999px; }
-.step-bar.active { background: #C41E3A; }
-.step-bar.done { background: #166534; }
+.step-bar { flex: 1; height: 4px; background: var(--color-border); border-radius: 999px; }
+.step-bar.active { background: var(--color-primary-vivid); }
+.step-bar.done { background: var(--color-success); }
 .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
-.role-card { border: 2px solid #e5e2e0; border-radius: 1.25rem; padding: 1.25rem; cursor: pointer; transition: all 0.2s; }
-.role-card:hover { border-color: #C41E3A; }
-.role-card.selected { border-color: #C41E3A; background: #fffaf5; }
+.role-card { border: 2px solid var(--color-border); border-radius: 1.25rem; padding: 1.25rem; cursor: pointer; transition: all 0.2s; }
+.role-card:hover { border-color: var(--color-primary-vivid); }
+.role-card.selected { border-color: var(--color-primary-vivid); background: rgba(152,32,42,0.06); }
 .role-card input { display: none; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 @media (max-width: 480px) { .form-grid { grid-template-columns: 1fr; } }
@@ -189,7 +189,7 @@ $pageDescription = 'Create your free account on Asaan Capital Ltd. Join Nepal\'s
 <div class="auth-container-wide">
     <div style="text-align:center;margin-bottom:1.5rem;">
         <h2 style="margin-bottom:0.25rem;">Create your account</h2>
-        <p style="color:#666;">Join Nepal's most trusted capital matching platform</p>
+        <p style="color:var(--color-text-muted);">Join Nepal's most trusted capital matching platform</p>
     </div>
 
     <?php if (!empty($errors)): ?>
@@ -227,7 +227,7 @@ $pageDescription = 'Create your free account on Asaan Capital Ltd. Join Nepal\'s
                 <div class="input-group">
                     <label>Password</label>
                     <input type="password" name="password" class="input" placeholder="Min 8 characters" minlength="8" required>
-                    <div style="font-size:0.75rem;color:#888;margin-top:4px;">Min 8 characters</div>
+                    <div style="font-size:0.75rem;color:var(--color-text-muted);margin-top:4px;">Min 8 characters</div>
                 </div>
                 <div class="input-group">
                     <label>Confirm password</label>
@@ -272,10 +272,10 @@ $pageDescription = 'Create your free account on Asaan Capital Ltd. Join Nepal\'s
                 <label>Account type</label>
                 <div style="display:flex;gap:1rem;margin-top:0.5rem;">
                     <?php $accType = $signupData['account_type'] ?? 'individual'; ?>
-                    <label style="flex:1;border:1.5px solid #e5e2e0;padding:10px 14px;border-radius:12px;cursor:pointer;<?= $accType === 'individual' ? 'border-color:#C41E3A;background:#fffaf5;' : '' ?>">
+                    <label style="flex:1;border:1.5px solid var(--color-border);padding:10px 14px;border-radius:12px;cursor:pointer;<?= $accType === 'individual' ? 'border-color:var(--color-primary-vivid);background:rgba(152,32,42,0.06);' : '' ?>">
                         <input type="radio" name="account_type" value="individual" <?= $accType === 'individual' ? 'checked' : '' ?> onchange="toggleCompany(this)"> Individual
                     </label>
-                    <label style="flex:1;border:1.5px solid #e5e2e0;padding:10px 14px;border-radius:12px;cursor:pointer;<?= $accType === 'company' ? 'border-color:#C41E3A;background:#fffaf5;' : '' ?>">
+                    <label style="flex:1;border:1.5px solid var(--color-border);padding:10px 14px;border-radius:12px;cursor:pointer;<?= $accType === 'company' ? 'border-color:var(--color-primary-vivid);background:rgba(152,32,42,0.06);' : '' ?>">
                         <input type="radio" name="account_type" value="company" <?= $accType === 'company' ? 'checked' : '' ?> onchange="toggleCompany(this)"> Registered Company
                     </label>
                 </div>
@@ -286,7 +286,7 @@ $pageDescription = 'Create your free account on Asaan Capital Ltd. Join Nepal\'s
                 <input type="text" name="company_registration" class="input" value="<?= e($signupData['company_name'] ?? '') ?>" placeholder="Company name or registration no.">
             </div>
 
-            <div style="background:#fffaf5;border-radius:12px;padding:1rem;font-size:0.9rem;margin:1.25rem 0;">
+            <div style="background:rgba(152,32,42,0.06);border-radius:12px;padding:1rem;font-size:0.9rem;margin:1.25rem 0;">
                 After signup we will send a verification link to your email. You must verify before your profile goes live.
             </div>
 
@@ -295,8 +295,8 @@ $pageDescription = 'Create your free account on Asaan Capital Ltd. Join Nepal\'s
                 <button type="submit" class="btn btn-accent" style="flex:1;">Create Account & Verify Email</button>
             </div>
 
-            <div style="margin-top:1rem;font-size:0.75rem;color:#888;text-align:center;">
-                By creating an account you agree to our <a href="/legal" style="color:#C41E3A;">Terms</a> and <a href="/legal" style="color:#C41E3A;">Privacy Policy</a>.
+            <div style="margin-top:1rem;font-size:0.75rem;color:var(--color-text-muted);text-align:center;">
+                By creating an account you agree to our <a href="/legal" style="color:var(--color-primary-vivid);">Terms</a> and <a href="/legal" style="color:var(--color-primary-vivid);">Privacy Policy</a>.
             </div>
         </div>
     </form>
@@ -313,14 +313,14 @@ function toggleCompany(el) {
     var group = document.getElementById('company-reg-group');
     if (el.value === 'company') {
         group.style.display = 'block';
-        document.querySelectorAll('label:has(input[name="account_type"])').forEach(function(l) { l.style.borderColor = '#e5e2e0'; l.style.background = ''; });
-        el.parentElement.style.borderColor = '#C41E3A';
-        el.parentElement.style.background = '#fffaf5';
+        document.querySelectorAll('label:has(input[name="account_type"])').forEach(function(l) { l.style.borderColor = 'var(--color-border)'; l.style.background = ''; });
+        el.parentElement.style.borderColor = 'var(--color-primary-vivid)';
+        el.parentElement.style.background = 'rgba(152,32,42,0.06)';
     } else {
         group.style.display = 'none';
-        document.querySelectorAll('label:has(input[name="account_type"])').forEach(function(l) { l.style.borderColor = '#e5e2e0'; l.style.background = ''; });
-        el.parentElement.style.borderColor = '#C41E3A';
-        el.parentElement.style.background = '#fffaf5';
+        document.querySelectorAll('label:has(input[name="account_type"])').forEach(function(l) { l.style.borderColor = 'var(--color-border)'; l.style.background = ''; });
+        el.parentElement.style.borderColor = 'var(--color-primary-vivid)';
+        el.parentElement.style.background = 'rgba(152,32,42,0.06)';
     }
 }
 

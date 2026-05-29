@@ -106,7 +106,7 @@ $history = $historyStmt->fetchAll();
 <h3 style="margin-top:2rem;">Sent Broadcasts</h3>
 <div class="card" style="margin-top:0.5rem;">
   <table style="width:100%;">
-    <tr style="border-bottom:1px solid #eae8e6;">
+    <tr style="border-bottom:1px solid var(--color-border);">
       <th style="text-align:left;padding:8px;">Title</th>
       <th style="padding:8px;">Audience</th>
       <th style="padding:8px;">Delivery</th>
@@ -115,7 +115,7 @@ $history = $historyStmt->fetchAll();
       <th style="padding:8px;">Date</th>
     </tr>
     <?php foreach ($history as $b): ?>
-    <tr style="border-bottom:1px solid #eee;">
+    <tr style="border-bottom:1px solid var(--color-border);">
       <td style="padding:10px 8px;font-weight:600;"><?= e($b['title']) ?></td>
       <td style="padding:10px 8px;"><span class="badge"><?= e($b['audience']) ?></span></td>
       <td style="padding:10px 8px;"><?= e($b['delivery']) ?></td>

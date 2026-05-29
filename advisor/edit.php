@@ -62,14 +62,14 @@ $pageTitle = 'Edit Advisor Profile';
 require __DIR__ . '/../includes/layout-dashboard.php';
 ?>
 <h2 style="margin-bottom:0.25rem;">Edit Advisor Profile</h2>
-<p style="color:#666;margin-bottom:1.5rem;">Update your professional profile for <strong><?= e($advisor['firm_name']) ?></strong>.</p>
+<p style="color:var(--color-text-muted);margin-bottom:1.5rem;">Update your professional profile for <strong><?= e($advisor['firm_name']) ?></strong>.</p>
 
 <form method="post" style="max-width:640px;">
   <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
     <div class="input-group">
-      <label>Full Name / Firm Name <span style="color:#b91c1c;">*</span></label>
+      <label>Full Name / Firm Name <span style="color:var(--color-error);">*</span></label>
       <input type="text" name="firm_name" class="input" value="<?= e($advisor['firm_name']) ?>" required>
     </div>
     <div class="input-group">

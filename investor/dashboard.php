@@ -47,7 +47,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.5rem;">
   <div>
     <h2 style="margin:0 0 0.25rem;"><?= e($greeting) ?>, <?= e($user['name']) ?></h2>
-    <div style="color:#666;">You have <strong><?= $matchesCount ?> match<?= $matchesCount !== 1 ? 'es' : '' ?></strong> on the platform</div>
+    <div style="color:var(--color-text-muted);">You have <strong><?= $matchesCount ?> match<?= $matchesCount !== 1 ? 'es' : '' ?></strong> on the platform</div>
   </div>
   <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-accent">Browse all businesses →</a>
 </div>
@@ -99,16 +99,16 @@ require __DIR__ . '/../includes/layout-dashboard.php';
   <h3>Recent Activity</h3>
   <div class="card" style="padding:1rem 1.25rem; font-size:0.9rem;">
     <?php if (empty($recentNotifications)): ?>
-      <div style="padding:8px 0; color:#888;">No recent activity.</div>
+      <div style="padding:8px 0; color:var(--color-text-muted);">No recent activity.</div>
     <?php else: ?>
       <?php foreach ($recentNotifications as $i => $n): ?>
-      <div style="display:flex; justify-content:space-between; padding:8px 0; <?= $i < count($recentNotifications) - 1 ? 'border-bottom:1px solid #f0edeb;' : '' ?>">
+      <div style="display:flex; justify-content:space-between; padding:8px 0; <?= $i < count($recentNotifications) - 1 ? 'border-bottom:1px solid var(--color-border);' : '' ?>">
         <div>
           <?php if ($n['type'] === 'match'): ?>✅<?php elseif ($n['type'] === 'interest'): ?>📩<?php elseif ($n['type'] === 'connection'): ?>🔗<?php else: ?>📌<?php endif; ?>
           <strong><?= e($n['title']) ?></strong>
           <?php if ($n['body']): ?> — <?= e(mb_substr($n['body'], 0, 80)) ?><?php endif; ?>
         </div>
-        <div style="color:#888; font-size:0.75rem; white-space:nowrap; margin-left:1rem;"><?= date_human($n['created_at']) ?></div>
+        <div style="color:var(--color-text-muted); font-size:0.75rem; white-space:nowrap; margin-left:1rem;"><?= date_human($n['created_at']) ?></div>
       </div>
       <?php endforeach; ?>
     <?php endif; ?>

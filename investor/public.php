@@ -62,7 +62,7 @@ require __DIR__ . '/../includes/layout-public.php';
 
     <div>
       <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
-        <div class="avatar" style="width:72px;height:72px;font-size:1.6rem;display:flex;align-items:center;justify-content:center;background:#C41E3A;color:#fff;border-radius:50%;font-weight:600;"><?= e($initials) ?></div>
+        <div class="avatar" style="width:72px;height:72px;font-size:1.6rem;display:flex;align-items:center;justify-content:center;background:var(--color-primary-vivid);color:var(--color-text-inverse);border-radius:50%;font-weight:600;"><?= e($initials) ?></div>
         <div>
           <h1 style="margin:0 0 0.1rem;"><?= e($profile['name']) ?></h1>
           <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
@@ -73,9 +73,9 @@ require __DIR__ . '/../includes/layout-public.php';
       </div>
 
       <div class="verify-row" style="margin-bottom:1.5rem;">
-        <span class="trust-badge" style="background:#dcfce7;color:#166534;">✓ Email <?= $profile['email_verified_at'] ? 'Verified' : 'Unverified' ?></span>
-        <?php if ($profile['phone']): ?><span class="trust-badge" style="background:#dcfce7;color:#166534;">✓ Phone Provided</span><?php endif; ?>
-        <?php if ($profile['verification_status'] === 'verified'): ?><span class="trust-badge" style="background:#dcfce7;color:#166534;">✓ Identity Verified</span><?php endif; ?>
+        <span class="trust-badge" style="background:rgba(30,122,77,0.1);color:var(--color-success);">✓ Email <?= $profile['email_verified_at'] ? 'Verified' : 'Unverified' ?></span>
+        <?php if ($profile['phone']): ?><span class="trust-badge" style="background:rgba(30,122,77,0.1);color:var(--color-success);">✓ Phone Provided</span><?php endif; ?>
+        <?php if ($profile['verification_status'] === 'verified'): ?><span class="trust-badge" style="background:rgba(30,122,77,0.1);color:var(--color-success);">✓ Identity Verified</span><?php endif; ?>
       </div>
 
       <div class="social-proof" style="margin-bottom:1.5rem;">
@@ -95,7 +95,7 @@ require __DIR__ . '/../includes/layout-public.php';
             <?php foreach ($preferredSectors as $sector): ?>
             <span class="tag"><?= e($sector) ?></span>
             <?php endforeach; ?>
-            <?php if (empty($preferredSectors)): ?><span style="color:#888;">Not specified</span><?php endif; ?>
+            <?php if (empty($preferredSectors)): ?><span style="color:var(--color-text-muted);">Not specified</span><?php endif; ?>
           </div>
         </div>
         <div>
@@ -104,7 +104,7 @@ require __DIR__ . '/../includes/layout-public.php';
             <?php if ($profile['ticket_min'] || $profile['ticket_max']): ?>
               NPR <?= e(number_format((float)$profile['ticket_min'])) ?> – <?= e(number_format((float)$profile['ticket_max'])) ?>
             <?php else: ?>
-              <span style="color:#888;">Not specified</span>
+              <span style="color:var(--color-text-muted);">Not specified</span>
             <?php endif; ?>
           </div>
         </div>
@@ -114,7 +114,7 @@ require __DIR__ . '/../includes/layout-public.php';
             <?php foreach ($preferredStages as $stage): ?>
             <span class="tag"><?= e($stage) ?></span>
             <?php endforeach; ?>
-            <?php if (empty($preferredStages)): ?><span style="color:#888;">Not specified</span><?php endif; ?>
+            <?php if (empty($preferredStages)): ?><span style="color:var(--color-text-muted);">Not specified</span><?php endif; ?>
           </div>
         </div>
         <div>
@@ -123,7 +123,7 @@ require __DIR__ . '/../includes/layout-public.php';
             <?php foreach ($preferredGeography as $geo): ?>
             <span class="tag"><?= e($geo) ?></span>
             <?php endforeach; ?>
-            <?php if (empty($preferredGeography)): ?><span style="color:#888;">Not specified</span><?php endif; ?>
+            <?php if (empty($preferredGeography)): ?><span style="color:var(--color-text-muted);">Not specified</span><?php endif; ?>
           </div>
         </div>
       </div>
@@ -152,27 +152,27 @@ require __DIR__ . '/../includes/layout-public.php';
     <div>
       <div class="card" style="position:sticky;top:1rem;">
         <div style="text-align:center;margin-bottom:1rem;">
-          <div class="avatar" style="width:80px;height:80px;font-size:1.8rem;margin:0 auto 0.75rem;display:flex;align-items:center;justify-content:center;background:#C41E3A;color:#fff;border-radius:50%;font-weight:600;"><?= e($initials) ?></div>
+          <div class="avatar" style="width:80px;height:80px;font-size:1.8rem;margin:0 auto 0.75rem;display:flex;align-items:center;justify-content:center;background:var(--color-primary-vivid);color:var(--color-text-inverse);border-radius:50%;font-weight:600;"><?= e($initials) ?></div>
           <h4 style="margin:0;"><?= e($profile['name']) ?></h4>
-          <?php if ($profile['company_name']): ?><div style="font-size:0.85rem;color:#666;"><?= e($profile['company_name']) ?></div><?php endif; ?>
+          <?php if ($profile['company_name']): ?><div style="font-size:0.85rem;color:var(--color-text-muted);"><?= e($profile['company_name']) ?></div><?php endif; ?>
         </div>
 
-        <div class="info-row" style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0edeb;">
-          <span class="label" style="color:#888;">Member Since</span>
+        <div class="info-row" style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--color-border);">
+          <span class="label" style="color:var(--color-text-muted);">Member Since</span>
           <span class="value"><?= $profile['created_at'] ? date('Y', strtotime($profile['created_at'])) : '—' ?></span>
         </div>
-        <div class="info-row" style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0edeb;">
-          <span class="label" style="color:#888;">Last Active</span>
+        <div class="info-row" style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--color-border);">
+          <span class="label" style="color:var(--color-text-muted);">Last Active</span>
           <span class="value"><?= date_human($profile['last_login_at'] ?? $profile['updated_at']) ?></span>
         </div>
         <?php if ($profile['total_capital_deployed']): ?>
-        <div class="info-row" style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0edeb;">
-          <span class="label" style="color:#888;">Capital Deployed</span>
+        <div class="info-row" style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--color-border);">
+          <span class="label" style="color:var(--color-text-muted);">Capital Deployed</span>
           <span class="value">NPR <?= e(number_format((float)$profile['total_capital_deployed'])) ?></span>
         </div>
         <?php endif; ?>
         <div class="info-row" style="display:flex;justify-content:space-between;padding:6px 0;">
-          <span class="label" style="color:#888;">Past Investments</span>
+          <span class="label" style="color:var(--color-text-muted);">Past Investments</span>
           <span class="value"><?= (int)$profile['past_investments'] ?></span>
         </div>
 
@@ -182,7 +182,7 @@ require __DIR__ . '/../includes/layout-public.php';
           <a href="<?= APP_URL ?>/login" class="btn btn-accent" style="width:100%;margin-top:1rem;display:block;text-align:center;">Login to Connect</a>
         <?php endif; ?>
 
-        <div style="margin-top:0.75rem;font-size:0.75rem;color:#888;text-align:center;">
+        <div style="margin-top:0.75rem;font-size:0.75rem;color:var(--color-text-muted);text-align:center;">
           <?php if ($showContact && $profile['email']): ?>
             <div>📧 <?= e($profile['email']) ?></div>
           <?php else: ?>
@@ -191,7 +191,7 @@ require __DIR__ . '/../includes/layout-public.php';
         </div>
 
         <?php if (!$showContact): ?>
-        <div style="margin-top:0.75rem;padding:0.75rem;background:#fef9c3;border-radius:0.75rem;font-size:0.75rem;color:#854d0e;">
+        <div style="margin-top:0.75rem;padding:0.75rem;background:rgba(199,122,18,0.1);border-radius:0.75rem;font-size:0.75rem;color:var(--color-warning);">
           <strong>ℹ Disclaimer:</strong> Profile reviewed by InvestMatch analysts. Connect to access contact details.
         </div>
         <?php endif; ?>

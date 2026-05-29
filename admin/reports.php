@@ -64,7 +64,7 @@ $closedReports = $closedStmt->fetchAll();
 <?php if (!empty($openReports)): ?>
 <div class="card" style="margin-top:1rem;">
   <table style="width:100%;">
-    <tr style="border-bottom:1px solid #eae8e6;">
+    <tr style="border-bottom:1px solid var(--color-border);">
       <th style="text-align:left;padding:8px;">Reporter</th>
       <th style="text-align:left;padding:8px;">Target</th>
       <th style="padding:8px;">Reason</th>
@@ -73,11 +73,11 @@ $closedReports = $closedStmt->fetchAll();
       <th style="padding:8px;">Actions</th>
     </tr>
     <?php foreach ($openReports as $r): ?>
-    <tr style="border-bottom:1px solid #eee;">
+    <tr style="border-bottom:1px solid var(--color-border);">
       <td style="padding:10px 8px;font-weight:600;"><?= e($r['reporter_name']) ?></td>
       <td style="padding:10px 8px;"><?= e($r['target_type']) ?> #<?= $r['target_id'] ?></td>
       <td style="padding:10px 8px;"><?= e($r['reason']) ?></td>
-      <td style="padding:10px 8px;max-width:200px;font-size:0.85rem;color:#666;"><?= e($r['details'] ?? '—') ?></td>
+      <td style="padding:10px 8px;max-width:200px;font-size:0.85rem;color:var(--color-text-muted);"><?= e($r['details'] ?? '—') ?></td>
       <td style="padding:10px 8px;font-size:0.85rem;"><?= date_human($r['created_at']) ?></td>
       <td style="padding:10px 8px;white-space:nowrap;">
         <form method="post" style="display:inline;">
@@ -99,7 +99,7 @@ $closedReports = $closedStmt->fetchAll();
           <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Suspend user?')">Suspend</button>
         </form>
         <details style="display:inline;vertical-align:middle;">
-          <summary style="font-size:0.8rem;cursor:pointer;color:#C41E3A;display:inline;margin-left:0.25rem;">Resolve</summary>
+          <summary style="font-size:0.8rem;cursor:pointer;color:var(--color-primary-vivid);display:inline;margin-left:0.25rem;">Resolve</summary>
           <form method="post" style="margin-top:0.25rem;">
             <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
             <input type="hidden" name="report_id" value="<?= $r['id'] ?>">
@@ -114,23 +114,23 @@ $closedReports = $closedStmt->fetchAll();
   </table>
 </div>
 <?php else: ?>
-<div class="card" style="margin-top:1rem;padding:2rem;text-align:center;color:#888;">No open reports.</div>
+<div class="card" style="margin-top:1rem;padding:2rem;text-align:center;color:var(--color-text-muted);">No open reports.</div>
 <?php endif; ?>
 
 <?php if (!empty($closedReports)): ?>
 <h3 style="margin-top:2rem;">Recently Processed</h3>
 <div class="card" style="margin-top:0.5rem;">
   <table style="width:100%;">
-    <tr style="border-bottom:1px solid #eae8e6;">
+    <tr style="border-bottom:1px solid var(--color-border);">
       <th style="text-align:left;padding:8px;">Reporter</th>
       <th style="padding:8px;">Status</th>
       <th style="padding:8px;">Action Taken</th>
       <th style="padding:8px;">Resolved</th>
     </tr>
     <?php foreach ($closedReports as $r): ?>
-    <tr style="border-bottom:1px solid #eee;">
+    <tr style="border-bottom:1px solid var(--color-border);">
       <td style="padding:10px 8px;"><?= e($r['reporter_name']) ?></td>
-      <td style="padding:10px 8px;"><span style="color:#166534;"><?= e($r['status']) ?></span></td>
+      <td style="padding:10px 8px;"><span style="color:var(--color-success);"><?= e($r['status']) ?></span></td>
       <td style="padding:10px 8px;font-size:0.85rem;"><?= e($r['action_taken'] ?? '—') ?></td>
       <td style="padding:10px 8px;font-size:0.85rem;"><?= date_human($r['resolved_at']) ?></td>
     </tr>

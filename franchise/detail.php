@@ -87,7 +87,7 @@ require __DIR__ . '/../includes/layout-public.php';
 
       <div class="card" style="padding:1.5rem;margin-top:1rem;">
         <h3 style="margin-bottom:0.5rem;">Interest in this Franchise?</h3>
-        <p style="font-size:0.85rem;color:#666;">Connect with the franchisor to learn more about this opportunity.</p>
+        <p style="font-size:0.85rem;color:var(--color-text-muted);">Connect with the franchisor to learn more about this opportunity.</p>
         <button class="btn btn-primary" style="width:100%;margin-top:0.75rem;" onclick="alert('Interest sent! (integration pending)')">Express Interest</button>
       </div>
     </div>

@@ -47,21 +47,21 @@ $roleData = json_encode(array_column($usersByRole, 'total'));
 ?>
 new Chart(document.getElementById('userGrowthChart'), {
   type: 'line',
-  data: { labels: <?= $growthLabels ?>, datasets: [{ label: 'New Users', data: <?= $growthData ?>, borderColor: '#C41E3A', backgroundColor: 'rgba(196,30,58,0.1)', fill: true, tension: 0.3 }] },
+  data: { labels: <?= $growthLabels ?>, datasets: [{ label: 'New Users', data: <?= $growthData ?>, borderColor: 'var(--color-primary-vivid)', backgroundColor: 'rgba(152,32,42,0.1)', fill: true, tension: 0.3 }] },
   options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
 });
 new Chart(document.getElementById('dealFlowChart'), {
   type: 'doughnut',
-  data: { labels: <?= $dealLabels ?>, datasets: [{ data: <?= $dealData ?>, backgroundColor: ['#d97706','#166534','#b91c1c','#666','#2563eb'] }] }
+  data: { labels: <?= $dealLabels ?>, datasets: [{ data: <?= $dealData ?>, backgroundColor: ['var(--color-warning)','var(--color-success)','var(--color-error)','var(--color-text-muted)','#2563eb'] }] }
 });
 new Chart(document.getElementById('topSectorsChart'), {
   type: 'bar',
-  data: { labels: <?= $sectorLabels ?>, datasets: [{ label: 'Businesses', data: <?= $sectorData ?>, backgroundColor: '#C41E3A' }] },
+  data: { labels: <?= $sectorLabels ?>, datasets: [{ label: 'Businesses', data: <?= $sectorData ?>, backgroundColor: 'var(--color-primary-vivid)' }] },
   options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } } }
 });
 new Chart(document.getElementById('usersByRoleChart'), {
   type: 'pie',
-  data: { labels: <?= $roleLabels ?>, datasets: [{ data: <?= $roleData ?>, backgroundColor: ['#C41E3A','#2563eb','#d97706','#166534','#7c3aed','#0891b2'] }] }
+  data: { labels: <?= $roleLabels ?>, datasets: [{ data: <?= $roleData ?>, backgroundColor: ['var(--color-primary-vivid)','#2563eb','var(--color-warning)','var(--color-success)','#7c3aed','#0891b2'] }] }
 });
 </script>
 <?php require __DIR__ . '/../includes/footer.php'; ?>

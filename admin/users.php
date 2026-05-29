@@ -100,7 +100,7 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv') {
 </div>
 <div class="card">
   <table style="width:100%;">
-    <tr style="border-bottom:1px solid #eae8e6;">
+    <tr style="border-bottom:1px solid var(--color-border);">
       <th style="text-align:left;padding:8px;">ID</th>
       <th style="text-align:left;padding:8px;">Name</th>
       <th style="text-align:left;padding:8px;">Email</th>
@@ -111,17 +111,17 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv') {
       <th style="padding:8px;">Actions</th>
     </tr>
     <?php foreach ($users as $u): ?>
-    <tr style="border-bottom:1px solid #eee;">
+    <tr style="border-bottom:1px solid var(--color-border);">
       <td style="padding:10px 8px;"><?= $u['id'] ?></td>
       <td style="padding:10px 8px;font-weight:600;"><?= e($u['name']) ?></td>
       <td style="padding:10px 8px;"><?= e($u['email']) ?></td>
       <td style="padding:10px 8px;"><span class="badge"><?= e($u['role']) ?></span></td>
       <td style="padding:10px 8px;"><?= e($u['verification_status']) ?></td>
-      <td style="padding:10px 8px;"><?= $u['is_suspended'] ? '<span style="color:#b91c1c;">Suspended</span>' : '<span style="color:#166534;">Active</span>' ?></td>
+      <td style="padding:10px 8px;"><?= $u['is_suspended'] ? '<span style="color:var(--color-error);">Suspended</span>' : '<span style="color:var(--color-success);">Active</span>' ?></td>
       <td style="padding:10px 8px;font-size:0.85rem;"><?= date('M j, Y', strtotime($u['created_at'])) ?></td>
       <td style="padding:10px 8px;">
         <?php if ($u['is_suspended']): ?>
-          <a href="?action=unsuspend&id=<?= $u['id'] ?>" class="btn btn-sm btn-outline" style="color:#166534;">Unsuspend</a>
+          <a href="?action=unsuspend&id=<?= $u['id'] ?>" class="btn btn-sm btn-outline" style="color:var(--color-success);">Unsuspend</a>
         <?php else: ?>
           <a href="?action=suspend&id=<?= $u['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Suspend this user?')">Suspend</a>
         <?php endif; ?>
@@ -139,7 +139,7 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv') {
     </tr>
     <?php endforeach; ?>
     <?php if (empty($users)): ?>
-    <tr><td colspan="8" style="padding:20px;text-align:center;color:#888;">No users found.</td></tr>
+    <tr><td colspan="8" style="padding:20px;text-align:center;color:var(--color-text-muted);">No users found.</td></tr>
     <?php endif; ?>
   </table>
 </div>

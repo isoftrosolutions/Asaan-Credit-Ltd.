@@ -69,10 +69,18 @@ function injectHeader(mode) {
     : mode === 'admin' ? ADMIN_LINKS
     : (DASHBOARD_LINKS[user?.role] || DASHBOARD_LINKS.investor);
 
+  const currentPath = window.location.pathname;
+
+  function isActive(url) {
+    if (url === '/') return currentPath === '/';
+    return currentPath === url || currentPath.startsWith(url + '/') || currentPath.startsWith(url + '?');
+  }
+
   let navHtml = '';
   if (mode === 'public') {
     PUBLIC_LINKS.forEach(link => {
-      navHtml += `<a href="${link.url}" onclick="closeMobileMenu()">${ICONS[link.icon] || ''} ${link.label}</a>`;
+      const active = isActive(link.url) ? ' active' : '';
+      navHtml += `<a href="${link.url}" class="header-nav-link${active}" onclick="closeMobileMenu()">${ICONS[link.icon] || ''} ${link.label}</a>`;
     });
     if (!isLoggedIn) {
       navHtml += `<div class="mobile-nav-divider"></div>`;
@@ -83,14 +91,16 @@ function injectHeader(mode) {
     }
   } else if (mode === 'admin') {
     ADMIN_LINKS.forEach(link => {
-      navHtml += `<a href="${link.url}" onclick="closeMobileMenu()">${ICONS[link.icon] || ''} ${link.label}</a>`;
+      const active = isActive(link.url) ? ' active' : '';
+      navHtml += `<a href="${link.url}" class="header-nav-link${active}" onclick="closeMobileMenu()">${ICONS[link.icon] || ''} ${link.label}</a>`;
     });
     navHtml += `<div class="mobile-nav-divider"></div>`;
     navHtml += `<a href="/logout" onclick="closeMobileMenu()">${ICONS.logout} Log out</a>`;
   } else {
     const links = DASHBOARD_LINKS[user?.role] || DASHBOARD_LINKS.investor;
     links.forEach(link => {
-      navHtml += `<a href="${link.url}" onclick="closeMobileMenu()">${ICONS[link.icon] || ''} ${link.label}</a>`;
+      const active = isActive(link.url) ? ' active' : '';
+      navHtml += `<a href="${link.url}" class="header-nav-link${active}" onclick="closeMobileMenu()">${ICONS[link.icon] || ''} ${link.label}</a>`;
     });
     navHtml += `<div class="mobile-nav-divider"></div>`;
     navHtml += `<a href="/logout" onclick="closeMobileMenu()">${ICONS.logout} Log out</a>`;
@@ -123,7 +133,17 @@ function injectHeader(mode) {
           <img src="/logo.png" alt="Asaan Capital Ltd - Financial &amp; Investment Services">
         </a>
         <nav class="header-nav" id="header-nav">
-          ${navHtml}
+          <div class="header-nav-header">
+            <a href="/" class="header-logo-mobile">
+              <img src="/logo.png" alt="Asaan Capital Ltd" style="height:28px;width:auto;">
+            </a>
+            <button class="header-nav-close" onclick="closeMobileMenu()" aria-label="Close menu">
+              ${ICONS.close}
+            </button>
+          </div>
+          <div class="header-nav-links">
+            ${navHtml}
+          </div>
         </nav>
         <div class="header-actions">
           ${actionsHtml}

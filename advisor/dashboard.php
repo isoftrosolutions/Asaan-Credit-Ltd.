@@ -22,12 +22,12 @@ $pageTitle = 'Advisor Dashboard';
 require __DIR__ . '/../includes/layout-dashboard.php';
 ?>
 <h2 style="margin-bottom:0.25rem;">Advisor Dashboard</h2>
-<p style="color:#666;">Manage your professional profile and track your engagement.</p>
+<p style="color:var(--color-text-muted);">Manage your professional profile and track your engagement.</p>
 
 <?php if (!$advisor): ?>
 <div class="card" style="text-align:center;padding:3rem 2rem;margin-top:1.5rem;">
   <h3 style="margin-bottom:0.5rem;">No advisor profile yet</h3>
-  <p style="color:#666;margin-bottom:1rem;">Create your advisor profile to start connecting with clients.</p>
+  <p style="color:var(--color-text-muted);margin-bottom:1rem;">Create your advisor profile to start connecting with clients.</p>
   <a href="create.php" class="btn btn-primary">Create Advisor Profile</a>
 </div>
 <?php else:
@@ -37,8 +37,8 @@ $specialtyNames = array_map(fn($s) => $specialtyLabels[$s] ?? $s, $specialties);
 <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:2rem;flex-wrap:wrap;gap:0.5rem;">
   <div>
     <h3 style="margin-bottom:0.25rem;"><?= e($advisor['firm_name']) ?></h3>
-    <div style="color:#666;display:flex;gap:1rem;flex-wrap:wrap;">
-      <?php if ($advisor['is_published']): ?><span style="color:#166534;font-weight:600;">Published</span><?php endif; ?>
+    <div style="color:var(--color-text-muted);display:flex;gap:1rem;flex-wrap:wrap;">
+      <?php if ($advisor['is_published']): ?><span style="color:var(--color-success);font-weight:600;">Published</span><?php endif; ?>
       <?php if ($advisor['rating']): ?><span>⭐ Rating <?= e($advisor['rating']) ?></span><?php endif; ?>
       <?php if ($advisor['years_experience']): ?><span><?= e($advisor['years_experience']) ?> yrs experience</span><?php endif; ?>
       <?php if ($advisor['past_deals_count']): ?><span><?= e($advisor['past_deals_count']) ?> deals closed</span><?php endif; ?>

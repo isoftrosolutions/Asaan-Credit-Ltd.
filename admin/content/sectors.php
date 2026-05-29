@@ -65,7 +65,7 @@ $sectors = $stmt->fetchAll();
 </div>
 <div class="card" style="margin-top:1rem;">
   <table style="width:100%;">
-    <tr style="border-bottom:1px solid #eae8e6;">
+    <tr style="border-bottom:1px solid var(--color-border);">
       <th style="text-align:left;padding:8px;">ID</th>
       <th style="text-align:left;padding:8px;">Name</th>
       <th style="text-align:left;padding:8px;">Slug</th>
@@ -73,11 +73,11 @@ $sectors = $stmt->fetchAll();
       <th style="padding:8px;">Actions</th>
     </tr>
     <?php foreach ($sectors as $s): ?>
-    <tr style="border-bottom:1px solid #eee;">
+    <tr style="border-bottom:1px solid var(--color-border);">
       <td style="padding:10px 8px;"><?= $s['id'] ?></td>
       <td style="padding:10px 8px;font-weight:600;"><?= e($s['name']) ?></td>
       <td style="padding:10px 8px;"><code><?= e($s['slug']) ?></code></td>
-      <td style="padding:10px 8px;"><?= $s['is_active'] ? '<span style="color:#166534;">Yes</span>' : '<span style="color:#b91c1c;">No</span>' ?></td>
+      <td style="padding:10px 8px;"><?= $s['is_active'] ? '<span style="color:var(--color-success);">Yes</span>' : '<span style="color:var(--color-error);">No</span>' ?></td>
       <td style="padding:10px 8px;">
         <form method="post" style="display:inline;">
           <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
@@ -86,7 +86,7 @@ $sectors = $stmt->fetchAll();
           <button type="submit" class="btn btn-sm btn-outline"><?= $s['is_active'] ? 'Deactivate' : 'Activate' ?></button>
         </form>
         <details style="display:inline;vertical-align:middle;">
-          <summary style="font-size:0.8rem;cursor:pointer;color:#C41E3A;display:inline;margin-left:0.25rem;">Edit</summary>
+          <summary style="font-size:0.8rem;cursor:pointer;color:var(--color-primary-vivid);display:inline;margin-left:0.25rem;">Edit</summary>
           <form method="post" style="margin-top:0.25rem;">
             <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
             <input type="hidden" name="action" value="edit">

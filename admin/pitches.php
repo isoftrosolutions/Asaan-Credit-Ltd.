@@ -57,7 +57,7 @@ $pitches = $stmt->fetchAll();
 </div>
 <div class="card">
   <table style="width:100%;">
-    <tr style="border-bottom:1px solid #eae8e6;">
+    <tr style="border-bottom:1px solid var(--color-border);">
       <th style="text-align:left;padding:8px;">User</th>
       <th style="text-align:left;padding:8px;">Tagline</th>
       <th style="padding:8px;">Stage</th>
@@ -67,31 +67,31 @@ $pitches = $stmt->fetchAll();
       <th style="padding:8px;">Actions</th>
     </tr>
     <?php foreach ($pitches as $p): ?>
-    <tr style="border-bottom:1px solid #eee;">
-      <td style="padding:10px 8px;font-weight:600;"><?= e($p['name']) ?><br><small style="color:#666;"><?= e($p['email']) ?></small></td>
+    <tr style="border-bottom:1px solid var(--color-border);">
+      <td style="padding:10px 8px;font-weight:600;"><?= e($p['name']) ?><br><small style="color:var(--color-text-muted);"><?= e($p['email']) ?></small></td>
       <td style="padding:10px 8px;max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?= e($p['tagline']) ?></td>
       <td style="padding:10px 8px;"><span class="badge"><?= e($p['stage']) ?></span></td>
       <td style="padding:10px 8px;"><?= $p['funding_amount'] ? money($p['funding_amount']) : '—' ?></td>
       <td style="padding:10px 8px;">
-        <?php if ($p['is_hidden']): ?><span style="color:#b91c1c;">Hidden</span>
-        <?php else: ?><span style="color:#166534;">Visible</span>
+        <?php if ($p['is_hidden']): ?><span style="color:var(--color-error);">Hidden</span>
+        <?php else: ?><span style="color:var(--color-success);">Visible</span>
         <?php endif; ?>
-        <?php if (!$p['is_published']): ?> / <span style="color:#888;">Draft</span><?php endif; ?>
+        <?php if (!$p['is_published']): ?> / <span style="color:var(--color-text-muted);">Draft</span><?php endif; ?>
       </td>
       <td style="padding:10px 8px;font-size:0.85rem;"><?= date_human($p['created_at']) ?></td>
       <td style="padding:10px 8px;">
         <a href="<?= APP_URL ?>/pitch/<?= $p['id'] ?>" target="_blank" class="btn btn-sm btn-outline">View</a>
         <?php if ($p['is_hidden']): ?>
-          <a href="?action=unhide&id=<?= $p['id'] ?>" class="btn btn-sm btn-outline" style="color:#166534;">Unhide</a>
+          <a href="?action=unhide&id=<?= $p['id'] ?>" class="btn btn-sm btn-outline" style="color:var(--color-success);">Unhide</a>
         <?php else: ?>
-          <a href="?action=hide&id=<?= $p['id'] ?>" class="btn btn-sm btn-outline" style="color:#b91c1c;" onclick="return confirm('Hide this pitch?')">Hide</a>
+          <a href="?action=hide&id=<?= $p['id'] ?>" class="btn btn-sm btn-outline" style="color:var(--color-error);" onclick="return confirm('Hide this pitch?')">Hide</a>
         <?php endif; ?>
         <a href="?action=flag&id=<?= $p['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Flag for review?')">Flag</a>
       </td>
     </tr>
     <?php endforeach; ?>
     <?php if (empty($pitches)): ?>
-    <tr><td colspan="7" style="padding:20px;text-align:center;color:#888;">No pitches found.</td></tr>
+    <tr><td colspan="7" style="padding:20px;text-align:center;color:var(--color-text-muted);">No pitches found.</td></tr>
     <?php endif; ?>
   </table>
 </div>

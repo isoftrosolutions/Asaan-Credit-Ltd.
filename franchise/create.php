@@ -51,14 +51,14 @@ $pageTitle = 'Create Franchise Profile';
 require __DIR__ . '/../includes/layout-dashboard.php';
 ?>
 <h2 style="margin-bottom:0.25rem;">Franchise / Brand Profile</h2>
-<p style="color:#666;margin-bottom:1.5rem;">Expand your brand by connecting with qualified franchisees.</p>
+<p style="color:var(--color-text-muted);margin-bottom:1.5rem;">Expand your brand by connecting with qualified franchisees.</p>
 
 <form method="post" enctype="multipart/form-data" style="max-width:640px;">
   <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
     <div class="input-group">
-      <label>Brand Name <span style="color:#b91c1c;">*</span></label>
+      <label>Brand Name <span style="color:var(--color-error);">*</span></label>
       <input type="text" name="brand_name" class="input" value="<?= e(old('brand_name')) ?>" placeholder="e.g., Foodie's Point" required>
     </div>
     <div class="input-group">

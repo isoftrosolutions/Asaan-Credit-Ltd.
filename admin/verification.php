@@ -58,7 +58,7 @@ $processedDocs = $approvedStmt->fetchAll();
 <?php if ($count > 0): ?>
 <div class="card" style="margin-top:1rem;">
   <table style="width:100%;">
-    <tr style="border-bottom:1px solid #eae8e6;">
+    <tr style="border-bottom:1px solid var(--color-border);">
       <th style="text-align:left;padding:8px;">User</th>
       <th style="text-align:left;padding:8px;">Role</th>
       <th style="padding:8px;">Document Type</th>
@@ -67,25 +67,25 @@ $processedDocs = $approvedStmt->fetchAll();
       <th style="padding:8px;">Actions</th>
     </tr>
     <?php foreach ($pendingDocs as $doc): ?>
-    <tr style="border-bottom:1px solid #eee;">
-      <td style="padding:10px 8px;font-weight:600;"><?= e($doc['name']) ?><br><small style="color:#666;"><?= e($doc['email']) ?></small></td>
+    <tr style="border-bottom:1px solid var(--color-border);">
+      <td style="padding:10px 8px;font-weight:600;"><?= e($doc['name']) ?><br><small style="color:var(--color-text-muted);"><?= e($doc['email']) ?></small></td>
       <td style="padding:10px 8px;"><?= e($doc['role']) ?></td>
       <td style="padding:10px 8px;"><?= e($doc['document_type']) ?></td>
-      <td style="padding:10px 8px;"><a href="<?= APP_URL ?>/public/uploads/<?= e($doc['file_path']) ?>" target="_blank" style="color:#C41E3A;">View</a></td>
+      <td style="padding:10px 8px;"><a href="<?= APP_URL ?>/public/uploads/<?= e($doc['file_path']) ?>" target="_blank" style="color:var(--color-primary-vivid);">View</a></td>
       <td style="padding:10px 8px;font-size:0.85rem;"><?= date_human($doc['created_at']) ?></td>
       <td style="padding:10px 8px;">
         <form method="post" style="display:inline;">
           <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
           <input type="hidden" name="document_id" value="<?= $doc['id'] ?>">
           <input type="hidden" name="action" value="approve">
-          <button type="submit" class="btn btn-sm" style="background:#166534;color:white;" onclick="return confirm('Approve this verification?')">Approve</button>
+          <button type="submit" class="btn btn-sm" style="background:var(--color-success);color:var(--color-bg);" onclick="return confirm('Approve this verification?')">Approve</button>
         </form>
         <form method="post" style="display:inline;margin-left:0.25rem;" onsubmit="var r=prompt('Enter rejection reason:');if(!r||!r.trim()){alert('Reason required');return false;}this.reason.value=r;">
           <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
           <input type="hidden" name="document_id" value="<?= $doc['id'] ?>">
           <input type="hidden" name="action" value="reject">
           <input type="hidden" name="rejection_reason" value="">
-          <button type="submit" class="btn btn-sm" style="background:#b91c1c;color:white;">Reject</button>
+          <button type="submit" class="btn btn-sm" style="background:var(--color-error);color:var(--color-bg);">Reject</button>
         </form>
       </td>
     </tr>
@@ -93,7 +93,7 @@ $processedDocs = $approvedStmt->fetchAll();
   </table>
 </div>
 <?php else: ?>
-<div class="card" style="margin-top:1rem;padding:2rem;text-align:center;color:#888;">
+<div class="card" style="margin-top:1rem;padding:2rem;text-align:center;color:var(--color-text-muted);">
   No pending verification documents.
 </div>
 <?php endif; ?>
@@ -102,16 +102,16 @@ $processedDocs = $approvedStmt->fetchAll();
 <h3 style="margin-top:2rem;">Recently Processed</h3>
 <div class="card" style="margin-top:0.5rem;">
   <table style="width:100%;">
-    <tr style="border-bottom:1px solid #eae8e6;">
+    <tr style="border-bottom:1px solid var(--color-border);">
       <th style="text-align:left;padding:8px;">User</th>
       <th style="padding:8px;">Status</th>
       <th style="padding:8px;">Reason</th>
       <th style="padding:8px;">Reviewed</th>
     </tr>
     <?php foreach ($processedDocs as $doc): ?>
-    <tr style="border-bottom:1px solid #eee;">
+    <tr style="border-bottom:1px solid var(--color-border);">
       <td style="padding:10px 8px;font-weight:600;"><?= e($doc['name']) ?></td>
-      <td style="padding:10px 8px;"><?php if ($doc['status'] === 'approved'): ?><span style="color:#166534;font-weight:600;">Approved</span><?php else: ?><span style="color:#b91c1c;font-weight:600;">Rejected</span><?php endif; ?></td>
+      <td style="padding:10px 8px;"><?php if ($doc['status'] === 'approved'): ?><span style="color:var(--color-success);font-weight:600;">Approved</span><?php else: ?><span style="color:var(--color-error);font-weight:600;">Rejected</span><?php endif; ?></td>
       <td style="padding:10px 8px;font-size:0.85rem;"><?= e($doc['rejection_reason'] ?? '—') ?></td>
       <td style="padding:10px 8px;font-size:0.85rem;"><?= date_human($doc['reviewed_at']) ?></td>
     </tr>

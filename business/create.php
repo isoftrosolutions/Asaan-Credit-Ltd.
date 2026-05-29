@@ -90,7 +90,7 @@ $pageTitle = 'Create Business Listing';
 require __DIR__ . '/../includes/layout-dashboard.php';
 ?>
 <h2 style="margin-bottom:0.25rem;">List Your Business</h2>
-<p style="color:#666;">Connect with thousands of pre-verified investors and buyers.</p>
+<p style="color:var(--color-text-muted);">Connect with thousands of pre-verified investors and buyers.</p>
 
 <form method="POST" enctype="multipart/form-data" style="margin-top:1.5rem;">
     <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
@@ -195,7 +195,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
         <div class="input-group">
             <label>Upload Business Photos</label>
             <input type="file" name="photos[]" class="input" multiple accept="image/jpeg,image/png,image/webp">
-            <p style="font-size:0.8rem;color:#888;margin-top:0.25rem;">Max 2MB per photo. JPEG, PNG, WebP accepted.</p>
+            <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Max 2MB per photo. JPEG, PNG, WebP accepted.</p>
         </div>
     </div>
 

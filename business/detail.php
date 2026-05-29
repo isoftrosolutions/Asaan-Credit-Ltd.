@@ -152,13 +152,13 @@ require __DIR__ . '/../includes/layout-public.php';
                 <button class="btn btn-ghost btn-sm" style="width:100%;margin-top:0.5rem;" onclick="alert('Saved to bookmarks (demo)')">&#9734; Save for later</button>
                 <?php endif; ?>
 
-                <div style="margin-top:1rem;font-size:0.75rem;color:#888;border-top:1px solid var(--surface-container-high);padding-top:0.75rem;">
+                    <div style="margin-top:1rem;font-size:0.75rem;color:var(--color-text-muted);border-top:1px solid var(--surface-container-high);padding-top:0.75rem;">
                     <div style="display:flex;align-items:center;gap:4px;margin-bottom:0.25rem;">
                         <span class="social-proof" style="background:transparent;padding:0;font-size:0.75rem;">&#128065; <?= (int)$business['views'] ?> views</span>
                     </div>
                 </div>
 
-                <div style="margin-top:0.75rem;padding:0.75rem;background:#fef9c3;border-radius:0.75rem;font-size:0.75rem;color:#854d0e;">
+                <div style="margin-top:0.75rem;padding:0.75rem;background:rgba(199,122,18,0.1);border-radius:0.75rem;font-size:0.75rem;color:var(--color-warning);">
                     <strong>&#8505;&#65039; Disclaimer:</strong> Asaan Capital Ltd is a discovery platform. We do not guarantee accuracy of financial data. Conduct your own due diligence.
                 </div>
             </div>

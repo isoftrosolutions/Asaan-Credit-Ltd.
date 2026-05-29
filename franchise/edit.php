@@ -70,14 +70,14 @@ $pageTitle = 'Edit Franchise - ' . $franchise['brand_name'];
 require __DIR__ . '/../includes/layout-dashboard.php';
 ?>
 <h2 style="margin-bottom:0.25rem;">Edit Franchise Profile</h2>
-<p style="color:#666;margin-bottom:1.5rem;">Update your franchise listing for <strong><?= e($franchise['brand_name']) ?></strong>.</p>
+<p style="color:var(--color-text-muted);margin-bottom:1.5rem;">Update your franchise listing for <strong><?= e($franchise['brand_name']) ?></strong>.</p>
 
 <form method="post" enctype="multipart/form-data" style="max-width:640px;">
   <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
     <div class="input-group">
-      <label>Brand Name <span style="color:#b91c1c;">*</span></label>
+      <label>Brand Name <span style="color:var(--color-error);">*</span></label>
       <input type="text" name="brand_name" class="input" value="<?= e($franchise['brand_name']) ?>" required>
     </div>
     <div class="input-group">

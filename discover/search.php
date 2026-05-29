@@ -75,7 +75,7 @@ $baseUrl = '/discover/search.php?q=' . urlencode($q);
   <span><?= e($q) ?></span>
 </div>
 
-<div class="container" style="padding-bottom:3rem;">
+<div class="container" style="padding-bottom:var(--space-8);">
   <form method="GET" action="" style="margin-bottom:2rem;">
     <div style="display:flex;gap:0.75rem;max-width:600px;">
       <input type="text" name="q" class="input" value="<?= e($q) ?>" placeholder="Search businesses, pitches, franchises..." style="flex:1;padding:0.75rem;font-size:1rem;">
@@ -86,25 +86,25 @@ $baseUrl = '/discover/search.php?q=' . urlencode($q);
   <?php if ($p['total'] === 0): ?>
     <div style="text-align:center; max-width:620px; margin:0 auto;">
       <h2 style="margin-bottom:0.5rem;">No results found for &ldquo;<?= e($q) ?>&rdquo;</h2>
-      <p style="color:#666;">Try broadening your filters or searching by sector only.</p>
+      <p style="color:var(--color-text-muted);">Try broadening your filters or searching by sector only.</p>
       <div style="margin-top:2rem;">
         <a href="<?= APP_URL ?>/discover/businesses.php" class="btn btn-primary">Browse Businesses</a>
         <a href="<?= APP_URL ?>/discover/entrepreneurs.php" class="btn btn-secondary" style="margin-left:0.75rem;">Browse Pitches</a>
         <a href="<?= APP_URL ?>/discover/investors.php" class="btn btn-secondary" style="margin-left:0.75rem;">Browse Investors</a>
       </div>
       <?php if (!$user): ?>
-        <div style="margin-top:3rem; font-size:0.85rem; color:#888;">
+        <div style="margin-top:3rem; font-size:0.85rem; color:var(--color-text-muted);">
           Tip: Smart suggestions are only shown to verified users. Complete verification to unlock personalized matches.
         </div>
       <?php endif; ?>
     </div>
   <?php else: ?>
-    <p style="margin-bottom:1.5rem;color:#666;"><?= $p['total'] ?> result<?= $p['total'] !== 1 ? 's' : '' ?> found for &ldquo;<?= e($q) ?>&rdquo;</p>
+    <p style="margin-bottom:1.5rem;color:var(--color-text-muted);"><?= $p['total'] ?> result<?= $p['total'] !== 1 ? 's' : '' ?> found for &ldquo;<?= e($q) ?>&rdquo;</p>
 
     <div style="display:flex;flex-direction:column;gap:1rem;">
       <?php foreach ($results as $r): ?>
         <?php $info = $typeLabels[$r['type']] ?? ['label' => 'Listing', 'url' => '#'] ?>
-        <div class="card search-result-card" onclick="location.href='<?= APP_URL ?><?= $info['url'] ?><?= $r['id'] ?>'" style="cursor:pointer;">
+        <div class="card search-result-card" onclick="location.href='<?= APP_URL ?><?= $info['url'] ?><?= $r['id'] ?>'">
           <div style="display:flex;justify-content:space-between;align-items:start;">
             <div style="flex:1;">
               <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.25rem;">
@@ -114,7 +114,7 @@ $baseUrl = '/discover/search.php?q=' . urlencode($q);
                 <?php endif; ?>
               </div>
               <h4 style="margin:0.25rem 0;"><?= e(mb_substr($r['title'] ?? '', 0, 120)) ?></h4>
-              <p style="font-size:0.85rem;margin:0.25rem 0 0;color:#666;">
+              <p style="font-size:0.85rem;margin:0.25rem 0 0;color:var(--color-text-muted);">
                 <?= e(mb_substr(strip_tags($r['description'] ?? ''), 0, 250)) ?>
               </p>
             </div>

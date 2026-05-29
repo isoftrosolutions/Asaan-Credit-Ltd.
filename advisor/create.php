@@ -50,14 +50,14 @@ $pageTitle = 'Create Advisor Profile';
 require __DIR__ . '/../includes/layout-dashboard.php';
 ?>
 <h2 style="margin-bottom:0.25rem;">Advisor / Professional Profile</h2>
-<p style="color:#666;margin-bottom:1.5rem;">Register as an M&A advisor, business broker, consultant, or law firm.</p>
+<p style="color:var(--color-text-muted);margin-bottom:1.5rem;">Register as an M&A advisor, business broker, consultant, or law firm.</p>
 
 <form method="post" style="max-width:640px;">
   <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
     <div class="input-group">
-      <label>Full Name / Firm Name <span style="color:#b91c1c;">*</span></label>
+      <label>Full Name / Firm Name <span style="color:var(--color-error);">*</span></label>
       <input type="text" name="firm_name" class="input" value="<?= e(old('firm_name')) ?>" placeholder="e.g., Krishna & Associates" required>
     </div>
     <div class="input-group">

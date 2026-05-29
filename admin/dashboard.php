@@ -35,13 +35,13 @@ $pendingVerification = (int)db()->query("SELECT COUNT(*) FROM verification_docum
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
   <div class="card">
     <h4>Recent Activity</h4>
-    <p style="font-size:1.25rem;font-weight:700;color:#C41E3A;"><?= $recentSignups ?></p>
-    <p style="color:#666;font-size:0.85rem;">New users in the last 7 days</p>
+    <p style="font-size:1.25rem;font-weight:700;color:var(--color-primary-vivid);"><?= $recentSignups ?></p>
+    <p style="color:var(--color-text-muted);font-size:0.85rem;">New users in the last 7 days</p>
   </div>
   <div class="card">
     <h4>Verification Queue</h4>
-    <p style="font-size:1.25rem;font-weight:700;color:#C41E3A;"><?= $pendingVerification ?></p>
-    <p style="color:#666;font-size:0.85rem;">Pending document verifications</p>
+    <p style="font-size:1.25rem;font-weight:700;color:var(--color-primary-vivid);"><?= $pendingVerification ?></p>
+    <p style="color:var(--color-text-muted);font-size:0.85rem;">Pending document verifications</p>
     <?php if ($pendingVerification > 0): ?>
       <a href="<?= APP_URL ?>/admin/verification" class="btn btn-sm btn-primary" style="margin-top:0.5rem;">Review Now</a>
     <?php endif; ?>

@@ -62,7 +62,7 @@ $pageTitle = 'Create Pitch';
 require __DIR__ . '/../includes/layout-dashboard.php';
 ?>
 <h2 style="margin-bottom:0.25rem;">Create Your Pitch</h2>
-<p style="color:#666;">Present your venture to thousands of pre-verified investors.</p>
+<p style="color:var(--color-text-muted);">Present your venture to thousands of pre-verified investors.</p>
 
 <form method="POST" enctype="multipart/form-data" style="margin-top:1.5rem;">
     <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">

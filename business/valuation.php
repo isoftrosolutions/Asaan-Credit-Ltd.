@@ -69,27 +69,27 @@ require __DIR__ . '/../includes/layout-dashboard.php';
     <div id="valuation-results" style="display:none;">
         <h3>Estimated Business Value</h3>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem;">
-            <div class="card" style="text-align:center;border-color:var(--accent);">
+            <div class="card" style="text-align:center;border-color:var(--color-primary-vivid);">
                 <div class="meta-label">DCF Method</div>
-                <div style="font-size:1.8rem;font-weight:700;color:var(--accent);" id="dcf-value">NPR 0</div>
-                <div style="font-size:0.8rem;color:#666;">Based on projected cash flows</div>
+                <div style="font-size:1.8rem;font-weight:700;color:var(--color-primary-vivid);" id="dcf-value">NPR 0</div>
+                <div style="font-size:0.8rem;color:var(--color-text-muted);">Based on projected cash flows</div>
             </div>
             <div class="card" style="text-align:center;">
                 <div class="meta-label">Trading Comparables</div>
                 <div style="font-size:1.8rem;font-weight:700;" id="trading-value">NPR 0</div>
-                <div style="font-size:0.8rem;color:#666;">Based on public company multiples</div>
+                <div style="font-size:0.8rem;color:var(--color-text-muted);">Based on public company multiples</div>
             </div>
             <div class="card" style="text-align:center;">
                 <div class="meta-label">Transaction Comparables</div>
                 <div style="font-size:1.8rem;font-weight:700;" id="transaction-value">NPR 0</div>
-                <div style="font-size:0.8rem;color:#666;">Based on similar M&A transactions</div>
+                <div style="font-size:0.8rem;color:var(--color-text-muted);">Based on similar M&A transactions</div>
             </div>
         </div>
 
-        <div class="card" style="background:#f6f3f1;text-align:center;">
+        <div class="card" style="background:var(--color-bg-soft);text-align:center;">
             <div class="meta-label">Optimal Value Range</div>
             <div style="font-size:2.5rem;font-weight:700;color:var(--ink);" id="range-value">NPR 0 – 0</div>
-            <div style="font-size:0.9rem;color:#666;">Based on weighted average of all three methods</div>
+            <div style="font-size:0.9rem;color:var(--color-text-muted);">Based on weighted average of all three methods</div>
         </div>
 
         <div style="margin-top:2rem;text-align:center;">

@@ -81,7 +81,7 @@ $pageTitle = 'Edit Pitch';
 require __DIR__ . '/../includes/layout-dashboard.php';
 ?>
 <h2 style="margin-bottom:0.25rem;">Edit Your Pitch</h2>
-<p style="color:#666;">Update your pitch to attract the right investors.</p>
+<p style="color:var(--color-text-muted);">Update your pitch to attract the right investors.</p>
 
 <form method="POST" enctype="multipart/form-data" style="margin-top:1.5rem;">
     <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
@@ -157,7 +157,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
             <label>Pitch Deck (PDF, max 10MB)</label>
             <input type="file" name="pitch_deck" class="input" accept="application/pdf">
             <?php if ($pitch['pitch_deck']): ?>
-            <p style="font-size:0.8rem;color:#888;margin-top:0.25rem;">Current: <?= e($pitch['pitch_deck']) ?></p>
+            <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Current: <?= e($pitch['pitch_deck']) ?></p>
             <?php endif; ?>
         </div>
         <div class="input-group">

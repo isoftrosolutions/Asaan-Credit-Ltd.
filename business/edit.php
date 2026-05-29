@@ -127,7 +127,7 @@ $pageTitle = 'Edit Business Listing';
 require __DIR__ . '/../includes/layout-dashboard.php';
 ?>
 <h2 style="margin-bottom:0.25rem;">Edit Business Listing</h2>
-<p style="color:#666;">Update your business information and photos.</p>
+<p style="color:var(--color-text-muted);">Update your business information and photos.</p>
 
 <form method="POST" enctype="multipart/form-data" style="margin-top:1.5rem;">
     <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
@@ -235,7 +235,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
             <?php foreach ($photos as $photo): ?>
             <div style="position:relative;">
                 <img src="<?= APP_URL ?>/public/uploads/business-photos/<?= e($photo['file_path']) ?>" alt="Business photo" style="width:100%;height:100px;object-fit:cover;border-radius:0.5rem;">
-                <label style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.6);color:#fff;padding:2px 6px;border-radius:4px;font-size:0.75rem;cursor:pointer;">
+                <label style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.6);color:var(--color-text-inverse);padding:2px 6px;border-radius:4px;font-size:0.75rem;cursor:pointer;">
                     <input type="checkbox" name="delete_photos[]" value="<?= $photo['id'] ?>"> Delete
                 </label>
             </div>
@@ -245,7 +245,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
         <div class="input-group">
             <label>Add New Photos</label>
             <input type="file" name="photos[]" class="input" multiple accept="image/jpeg,image/png,image/webp">
-            <p style="font-size:0.8rem;color:#888;margin-top:0.25rem;">Max 2MB per photo. JPEG, PNG, WebP accepted.</p>
+            <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Max 2MB per photo. JPEG, PNG, WebP accepted.</p>
         </div>
     </div>
 

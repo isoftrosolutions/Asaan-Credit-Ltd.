@@ -23,27 +23,25 @@ require __DIR__ . '/../includes/header.php';
 ?>
 <main>
 <!-- Hero Section -->
-<section class="relative overflow-hidden" style="background:#00263f;">
-  <div class="max-w-[1200px] mx-auto px-[24px] grid grid-cols-1 md:grid-cols-2 items-center gap-[32px] py-[48px] md:py-[80px]">
-    <div class="space-y-[24px] z-10">
-      <h1 class="text-[32px] md:text-[40px] leading-[38px] md:leading-[48px] font-[800] tracking-[-0.02em] text-white" style="font-family:Montserrat,sans-serif;">
+<section class="relative overflow-hidden min-h-[500px] md:min-h-[600px] flex items-center">
+  <div class="absolute inset-0 z-0" style="background-image:url('/assets/hero.jpeg');background-size:cover;background-position:center;"></div>
+  <div class="absolute inset-0 z-[1]" style="background:linear-gradient(135deg, #00263f 0%, rgba(0,38,63,0.85) 50%, rgba(0,38,63,0.3) 100%);"></div>
+  <div class="max-w-[1200px] mx-auto px-[24px] w-full relative z-10 py-[48px] md:py-[80px]">
+    <div class="max-w-[580px] space-y-[24px]">
+      <h1 class="text-[32px] md:text-[48px] leading-[38px] md:leading-[56px] font-[800] tracking-[-0.02em] text-white" style="font-family:Montserrat,sans-serif;">
         <?= $hero_title ?>
       </h1>
-      <p class="text-[18px] leading-[28px] text-white opacity-90 max-w-[500px]" style="font-family:Inter,sans-serif;">
+      <p class="text-[18px] leading-[28px] text-white opacity-90" style="font-family:Inter,sans-serif;">
         <?= e($hero_subtitle) ?>
       </p>
       <div class="flex flex-col sm:flex-row gap-[16px] pt-[16px]">
-        <a href="<?= APP_URL ?>/signup" class="inline-block bg-[#6B1D22] text-white px-[32px] py-[12px] rounded-lg font-[600] text-[16px] leading-[24px] hover:brightness-110 transition-all shadow-md active:scale-95 text-center" style="font-family:Inter,sans-serif;">
+        <a href="<?= APP_URL ?>/signup" class="inline-block bg-[#98202A] text-white px-[32px] py-[12px] rounded-lg font-[600] text-[16px] leading-[24px] hover:brightness-110 transition-all shadow-md active:scale-95 text-center" style="font-family:Inter,sans-serif;">
           I'm an Investor
         </a>
-        <a href="<?= APP_URL ?>/signup" class="inline-block border border-white text-white px-[32px] py-[12px] rounded-lg font-[600] text-[16px] leading-[24px] hover:bg-white/10 transition-all active:scale-95 text-center" style="font-family:Inter,sans-serif;">
+        <a href="<?= APP_URL ?>/signup" class="inline-block border border-white/40 text-white px-[32px] py-[12px] rounded-lg font-[600] text-[16px] leading-[24px] hover:bg-white/10 hover:border-white/70 transition-all active:scale-95 text-center backdrop-blur-sm" style="font-family:Inter,sans-serif;">
           I'm an Entrepreneur
         </a>
       </div>
-    </div>
-    <div class="relative">
-      <div class="absolute -top-10 -right-10 w-64 h-64 rounded-full opacity-20 blur-3xl" style="background:#6B1D22;"></div>
-      <img src="/assets/hero.jpeg" alt="Asaan Capital — Trusted Capital, Secure Future" class="rounded-xl shadow-lg relative z-10 w-full h-auto">
     </div>
   </div>
 </section>

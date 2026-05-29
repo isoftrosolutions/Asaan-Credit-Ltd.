@@ -27,12 +27,12 @@ $pageTitle = 'Franchisor Dashboard';
 require __DIR__ . '/../includes/layout-dashboard.php';
 ?>
 <h2 style="margin-bottom:0.25rem;">Franchise Dashboard</h2>
-<p style="color:#666;">Manage your franchise listings and track performance.</p>
+<p style="color:var(--color-text-muted);">Manage your franchise listings and track performance.</p>
 
 <?php if (empty($listings)): ?>
 <div class="card" style="text-align:center;padding:3rem 2rem;margin-top:1.5rem;">
   <h3 style="margin-bottom:0.5rem;">No franchise listings yet</h3>
-  <p style="color:#666;margin-bottom:1rem;">Create your first franchise profile to start connecting with franchisees.</p>
+  <p style="color:var(--color-text-muted);margin-bottom:1rem;">Create your first franchise profile to start connecting with franchisees.</p>
   <a href="create.php" class="btn btn-primary">Create Franchise Profile</a>
 </div>
 <?php else: ?>
@@ -51,7 +51,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 <h3>Your Franchise Listings</h3>
 <div class="card" style="padding:0;">
   <table style="width:100%;border-collapse:collapse;">
-    <tr style="border-bottom:1px solid #eae8e6;background:#faf8f6;">
+    <tr style="border-bottom:1px solid var(--color-border);background:var(--color-bg-soft);">
       <th style="text-align:left;padding:14px 18px;font-weight:600;">Brand</th>
       <th style="text-align:left;padding:14px 18px;font-weight:600;">Franchise Fee</th>
       <th style="text-align:left;padding:14px 18px;font-weight:600;">Investment</th>
@@ -60,7 +60,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
       <th style="text-align:right;padding:14px 18px;font-weight:600;"></th>
     </tr>
     <?php foreach ($listings as $f): ?>
-    <tr style="border-bottom:1px solid #eae8e6;">
+    <tr style="border-bottom:1px solid var(--color-border);">
       <td style="padding:14px 18px;">
         <strong><?= e($f['brand_name']) ?></strong>
         <?php if ($f['is_featured']): ?><span class="tx-badge tx-badge-franchise" style="font-size:0.7rem;margin-left:0.5rem;">Featured</span><?php endif; ?>
@@ -68,8 +68,8 @@ require __DIR__ . '/../includes/layout-dashboard.php';
       <td style="padding:14px 18px;"><?= $f['franchise_fee'] ? money($f['franchise_fee']) : '—' ?></td>
       <td style="padding:14px 18px;"><?= $f['total_investment_min'] ? money($f['total_investment_min']) . ' – ' . money($f['total_investment_max']) : '—' ?></td>
       <td style="padding:14px 18px;text-align:center;">
-        <?php if ($f['is_published']): ?><span style="color:#166534;font-weight:600;">Published</span>
-        <?php else: ?><span style="color:#b91c1c;font-weight:600;">Draft</span>
+        <?php if ($f['is_published']): ?><span style="color:var(--color-success);font-weight:600;">Published</span>
+        <?php else: ?><span style="color:var(--color-error);font-weight:600;">Draft</span>
         <?php endif; ?>
       </td>
       <td style="padding:14px 18px;text-align:center;"><?= (int)$f['views'] ?></td>

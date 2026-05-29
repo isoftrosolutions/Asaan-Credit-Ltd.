@@ -55,24 +55,24 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 ?>
 <div style="max-width:720px; margin:0 auto; padding:2rem 0 3rem;">
   <h2>Verification Documents</h2>
-  <p style="color:#666;">These documents are reviewed by our team within 48 hours. They are never shown publicly.</p>
+  <p style="color:var(--color-text-muted);">These documents are reviewed by our team within 48 hours. They are never shown publicly.</p>
 
   <?php if (!empty($documents)): ?>
     <?php foreach ($documents as $doc): ?>
     <div class="card" style="margin-top:1.5rem;">
       <h4><?= e($docTypes[$doc['document_type']] ?? ucfirst($doc['document_type'])) ?></h4>
-      <div style="border:2px dashed #ccc; border-radius:1rem; padding:1.5rem; text-align:center; margin-top:1rem;">
+      <div style="border:2px dashed var(--color-border); border-radius:1rem; padding:1.5rem; text-align:center; margin-top:1rem;">
         <div style="font-size:1.5rem; margin-bottom:0.5rem;">📄</div>
         <strong><?= e(basename($doc['file_path'])) ?></strong><br>
-        <span style="font-size:0.8rem; color:#888;">
+        <span style="font-size:0.8rem; color:var(--color-text-muted);">
           Uploaded <?= date_human($doc['created_at']) ?>
           <?php if ($doc['status'] === 'verified'): ?>
-            • Status: <strong style="color:#166534;">Verified</strong>
+            • Status: <strong style="color:var(--color-success);">Verified</strong>
           <?php elseif ($doc['status'] === 'rejected'): ?>
-            • Status: <strong style="color:#dc2626;">Rejected</strong>
+            • Status: <strong style="color:var(--color-error);">Rejected</strong>
             <?php if ($doc['rejection_reason']): ?> — <?= e($doc['rejection_reason']) ?><?php endif; ?>
           <?php else: ?>
-            • Status: <strong style="color:#ca8a04;">Pending Review</strong>
+            • Status: <strong style="color:var(--color-warning);">Pending Review</strong>
           <?php endif; ?>
         </span>
       </div>
@@ -85,7 +85,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 
     <div class="card">
       <h4>Upload New Documents</h4>
-      <p style="font-size:0.85rem; color:#666; margin-bottom:1rem;">Accepted: JPG, PNG, PDF (max 10MB per file)</p>
+      <p style="font-size:0.85rem; color:var(--color-text-muted); margin-bottom:1rem;">Accepted: JPG, PNG, PDF (max 10MB per file)</p>
 
       <div id="upload-rows">
         <div class="upload-row" style="display:flex; gap:1rem; align-items:end; margin-bottom:1rem;">
@@ -101,7 +101,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
             <label>File</label>
             <input type="file" name="document[]" class="input" accept=".jpg,.jpeg,.png,.pdf">
           </div>
-          <button type="button" onclick="this.parentElement.remove()" style="background:none;border:none;color:#dc2626;cursor:pointer;padding:0 0 4px;font-size:1.2rem;">×</button>
+          <button type="button" onclick="this.parentElement.remove()" style="background:none;border:none;color:var(--color-error);cursor:pointer;padding:0 0 4px;font-size:1.2rem;">×</button>
         </div>
       </div>
 
@@ -111,9 +111,9 @@ require __DIR__ . '/../includes/layout-dashboard.php';
     <button type="submit" class="btn btn-primary" style="margin-top:1.5rem; width:100%;">Submit for Verification</button>
   </form>
 
-  <div style="margin-top:1rem; font-size:0.85rem; color:#888; text-align:center;">
+  <div style="margin-top:1rem; font-size:0.85rem; color:var(--color-text-muted); text-align:center;">
     Verification Status:
-    <strong style="<?= $userVerificationStatus === 'verified' ? 'color:#166534;' : ($userVerificationStatus === 'rejected' ? 'color:#dc2626;' : 'color:#ca8a04;') ?>">
+    <strong style="<?= $userVerificationStatus === 'verified' ? 'color:var(--color-success);' : ($userVerificationStatus === 'rejected' ? 'color:var(--color-error);' : 'color:var(--color-warning);') ?>">
       <?= e(ucfirst($userVerificationStatus)) ?>
     </strong>
     <?php if ($userVerificationStatus === 'verified'): ?>
@@ -132,7 +132,7 @@ function addUploadRow() {
     '<?php foreach ($docTypes as $val => $label): ?><option value="<?= e($val) ?>"><?= e($label) ?></option><?php endforeach; ?>' +
     '</select></div>' +
     '<div class="input-group" style="flex:2;"><label>File</label><input type="file" name="document[]" class="input" accept=".jpg,.jpeg,.png,.pdf"></div>' +
-    '<button type="button" onclick="this.parentElement.remove()" style="background:none;border:none;color:#dc2626;cursor:pointer;padding:0 0 4px;font-size:1.2rem;">×</button>';
+    '<button type="button" onclick="this.parentElement.remove()" style="background:none;border:none;color:var(--color-error);cursor:pointer;padding:0 0 4px;font-size:1.2rem;">×</button>';
   document.getElementById('upload-rows').appendChild(div);
 }
 </script>

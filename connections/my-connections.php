@@ -56,21 +56,21 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 
 <div class="connections-page">
     <h2>My Connections (<?= count($allMatches) ?>)</h2>
-    <p style="color:#666; margin-bottom:1.5rem;">These are mutual matches where contact details have been revealed.</p>
+    <p style="color:var(--color-text-muted); margin-bottom:1.5rem;">These are mutual matches where contact details have been revealed.</p>
 
     <?php if (empty($allMatches)): ?>
         <div class="card">
-            <p style="text-align:center; padding:2rem; color:#888;">No connections yet. Browse listings and send interest requests to get started.</p>
+            <p style="text-align:center; padding:2rem; color:var(--color-text-muted);">No connections yet. Browse listings and send interest requests to get started.</p>
         </div>
     <?php else: ?>
         <?php foreach ($allMatches as $m): ?>
             <div class="card" style="margin-bottom:1rem;">
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem;">
                     <div style="display:flex; align-items:center; gap:1rem;">
-                        <div class="avatar avatar-sm" style="background:#0ea5e9;"><?= e(strtoupper(substr($m['connected_name'], 0, 2))) ?></div>
+                        <div class="avatar avatar-sm" style="background:var(--color-accent-blue);"><?= e(strtoupper(substr($m['connected_name'], 0, 2))) ?></div>
                         <div>
                             <strong><?= e($m['connected_name']) ?></strong><br>
-                            <span style="font-size:0.8rem; color:#666;"><?= e(ucfirst(str_replace('_', ' ', $m['connected_role'] ?? ''))) ?>
+                            <span style="font-size:0.8rem; color:var(--color-text-muted);"><?= e(ucfirst(str_replace('_', ' ', $m['connected_role'] ?? ''))) ?>
                                 <?php if ($m['context_name']): ?> &middot; <?= e($m['context_name']) ?><?php endif; ?>
                             </span>
                         </div>
@@ -80,7 +80,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
                     </div>
                 </div>
                 <?php if ($m['interest_message']): ?>
-                    <div style="margin-top:0.75rem; font-size:0.85rem; color:#555; border-top:1px solid #eee; padding-top:0.75rem;">
+                    <div style="margin-top:0.75rem; font-size:0.85rem; color:var(--color-text-muted); border-top:1px solid var(--color-border); padding-top:0.75rem;">
                         <em>"<?= e($m['interest_message']) ?>"</em>
                     </div>
                 <?php endif; ?>
@@ -93,20 +93,20 @@ require __DIR__ . '/../includes/layout-dashboard.php';
             <h4>Recent Activity</h4>
             <ul style="list-style:none; padding:0; margin-top:0.5rem;">
                 <?php foreach ($activities as $act): ?>
-                    <li style="padding:0.5rem 0; border-bottom:1px solid #f0f0f0; font-size:0.9rem;">
+                    <li style="padding:0.5rem 0; border-bottom:1px solid var(--color-border); font-size:0.9rem;">
                         <?php if ($act['event_type'] === 'match'): ?>
                             &#x1F91D; Connected with <strong><?= e($act['other_name']) ?></strong>
                         <?php else: ?>
                             &#x1F4E8; Interest request from <strong><?= e($act['other_name']) ?></strong>
                         <?php endif; ?>
-                        <span style="color:#999; font-size:0.8rem; margin-left:0.5rem;"><?= date_human($act['event_at']) ?></span>
+                        <span style="color:var(--color-text-muted); font-size:0.8rem; margin-left:0.5rem;"><?= date_human($act['event_at']) ?></span>
                     </li>
                 <?php endforeach; ?>
             </ul>
         </div>
     <?php endif; ?>
 
-    <div style="margin-top:2rem; font-size:0.85rem; color:#888;">
+    <div style="margin-top:2rem; font-size:0.85rem; color:var(--color-text-muted);">
         Connections are permanent. You can use the revealed contact details to communicate directly.
     </div>
 </div>

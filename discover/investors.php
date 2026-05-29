@@ -77,7 +77,7 @@ if ($queryParams) {
   <span>Investors &amp; Buyers</span>
 </div>
 
-<div class="container" style="padding-bottom:3rem;">
+<div class="container" style="padding-bottom:var(--space-8);">
   <h2 style="margin-bottom:0.25rem;">Investors &amp; Buyers</h2>
   <p style="margin-top:0;font-size:0.9rem;">Pre-verified investors, buyers, lenders, and advisors actively looking for opportunities.</p>
 
@@ -96,7 +96,7 @@ if ($queryParams) {
 
       <h5>Interested In Sector</h5>
       <div class="filter-group">
-        <select name="sector" class="input" style="border-bottom:1px solid #ccc;padding:0.5rem 0;font-size:0.85rem;" onchange="this.form.submit()">
+        <select name="sector" class="input" style="border-bottom:1px solid var(--color-border);padding:0.5rem 0;font-size:0.85rem;" onchange="this.form.submit()">
           <option value="">All Sectors</option>
           <?php
           $sectors = db()->query("SELECT name FROM sectors WHERE is_active = 1 ORDER BY name")->fetchAll();
@@ -109,7 +109,7 @@ if ($queryParams) {
 
       <h5>Location</h5>
       <div class="filter-group">
-        <input type="text" name="location" placeholder="Search location..." value="<?= e($location) ?>" class="input" style="border-bottom:1px solid #ccc;padding:0.5rem 0;font-size:0.85rem;">
+        <input type="text" name="location" placeholder="Search location..." value="<?= e($location) ?>" class="input" style="border-bottom:1px solid var(--color-border);padding:0.5rem 0;font-size:0.85rem;">
       </div>
 
       <button class="btn btn-primary btn-sm" style="width:100%;margin-top:0.5rem;">Apply Filters</button>
@@ -130,16 +130,16 @@ if ($queryParams) {
       </div>
 
       <?php if (empty($investors)): ?>
-        <p style="text-align:center;padding:3rem 0;color:#888;">No investors found matching your criteria.</p>
+        <p style="text-align:center;padding:3rem 0;color:var(--color-text-muted);">No investors found matching your criteria.</p>
       <?php else: ?>
         <div class="listing-grid">
           <?php foreach ($investors as $inv): ?>
-            <div class="card" onclick="location.href='<?= APP_URL ?>/investor/public.php?id=<?= $inv['id'] ?>'" style="cursor:pointer;">
+            <div class="card" onclick="location.href='<?= APP_URL ?>/investor/public.php?id=<?= $inv['id'] ?>'">
               <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;">
                 <div class="avatar avatar-sm"><?= e(mb_substr($inv['name'], 0, 2)) ?></div>
                 <div style="flex:1;">
                   <strong><?= e($inv['name']) ?></strong>
-                  <div style="font-size:0.8rem;color:#666;">
+                  <div style="font-size:0.8rem;color:var(--color-text-muted);">
                     <?= e($inv['company_name'] ?? '') ?>
                     <?php if ($inv['account_type']): ?>
                       <span class="tag" style="font-size:0.7rem;"><?= e(ucfirst($inv['account_type'])) ?> in <?= e($inv['province'] ?? '') ?></span>

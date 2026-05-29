@@ -78,7 +78,7 @@ if ($queryParams) {
   <span>Franchise Opportunities</span>
 </div>
 
-<div class="container" style="padding-bottom:3rem;">
+<div class="container" style="padding-bottom:var(--space-8);">
   <h2>Franchise &amp; Brand Opportunities</h2>
   <p style="font-size:0.9rem;margin-top:0;">Showing franchise opportunities from verified brands and franchisors.</p>
 
@@ -86,7 +86,7 @@ if ($queryParams) {
     <div class="filter-sidebar">
       <h5 style="margin-top:0;">Industry</h5>
       <div class="filter-group">
-        <select name="sector_id" class="input" style="border-bottom:1px solid #ccc;padding:0.5rem 0;font-size:0.85rem;" onchange="this.form.submit()">
+        <select name="sector_id" class="input" style="border-bottom:1px solid var(--color-border);padding:0.5rem 0;font-size:0.85rem;" onchange="this.form.submit()">
           <option value="">All Industries</option>
           <?php foreach ($sectors as $s): ?>
             <option value="<?= $s['id'] ?>" <?= (string)$s['id'] === $sectorId ? 'selected' : '' ?>><?= e($s['name']) ?></option>
@@ -119,15 +119,15 @@ if ($queryParams) {
       </div>
 
       <?php if (empty($franchises)): ?>
-        <p style="text-align:center;padding:3rem 0;color:#888;">No franchise opportunities found matching your criteria.</p>
+        <p style="text-align:center;padding:3rem 0;color:var(--color-text-muted);">No franchise opportunities found matching your criteria.</p>
       <?php else: ?>
         <div class="listing-grid">
           <?php foreach ($franchises as $f): ?>
-            <div class="card" onclick="location.href='<?= APP_URL ?>/franchise/<?= $f['id'] ?>'" style="cursor:pointer;">
+            <div class="card" onclick="location.href='<?= APP_URL ?>/franchise/<?= $f['id'] ?>'">
               <div style="display:flex;justify-content:space-between;align-items:start;">
                 <div>
                   <h4 style="margin:0;"><?= e($f['brand_name']) ?></h4>
-                  <div style="font-size:0.85rem;color:#666;">
+                  <div style="font-size:0.85rem;color:var(--color-text-muted);">
                     <?= (int)$f['existing_units'] ?> Franchisees &bull; Est'd <?= e($f['established_year'] ?? 'N/A') ?>
                     <?php if ($f['countries_present']): ?>&bull; <?= e($f['countries_present']) ?><?php endif; ?>
                     <?php if ($f['sector_name']): ?>&bull; <?= e($f['sector_name']) ?><?php endif; ?>

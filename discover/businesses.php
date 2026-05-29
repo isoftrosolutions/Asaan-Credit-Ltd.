@@ -103,7 +103,7 @@ if ($queryParams) {
   <span>Businesses</span>
 </div>
 
-<div class="container" style="padding-bottom:3rem;">
+<div class="container" style="padding-bottom:var(--space-8);">
   <h2 style="margin-bottom:0.25rem;">Businesses for Sale and Investment</h2>
   <p style="margin-top:0;font-size:0.9rem;">Showing <?= $p['total'] ?: 0 ?> businesses. Buy or invest in a business.</p>
 
@@ -120,7 +120,7 @@ if ($queryParams) {
 
       <h5>Industry</h5>
       <div class="filter-group">
-        <select name="sector_id" class="input" style="border-bottom:1px solid #ccc;padding:0.5rem 0;font-size:0.85rem;" onchange="this.form.submit()">
+        <select name="sector_id" class="input" style="border-bottom:1px solid var(--color-border);padding:0.5rem 0;font-size:0.85rem;" onchange="this.form.submit()">
           <option value="">All Industries</option>
           <?php foreach ($sectors as $s): ?>
             <option value="<?= $s['id'] ?>" <?= (string)$s['id'] === $sectorId ? 'selected' : '' ?>><?= e($s['name']) ?></option>
@@ -130,7 +130,7 @@ if ($queryParams) {
 
       <h5>Location</h5>
       <div class="filter-group">
-        <select name="province" class="input" style="border-bottom:1px solid #ccc;padding:0.5rem 0;font-size:0.85rem;" onchange="this.form.submit()">
+        <select name="province" class="input" style="border-bottom:1px solid var(--color-border);padding:0.5rem 0;font-size:0.85rem;" onchange="this.form.submit()">
           <option value="">All Locations</option>
           <option value="Bagmati" <?= $province === 'Bagmati' ? 'selected' : '' ?>>Bagmati</option>
           <option value="Gandaki" <?= $province === 'Gandaki' ? 'selected' : '' ?>>Gandaki</option>
@@ -167,7 +167,7 @@ if ($queryParams) {
       </div>
 
       <?php if (empty($businesses)): ?>
-        <p style="text-align:center;padding:3rem 0;color:#888;">No businesses found matching your criteria.</p>
+        <p style="text-align:center;padding:3rem 0;color:var(--color-text-muted);">No businesses found matching your criteria.</p>
       <?php else: ?>
         <div class="listing-grid">
           <?php foreach ($businesses as $b): ?>
