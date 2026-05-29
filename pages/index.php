@@ -63,85 +63,8 @@ require __DIR__ . '/../includes/header.php';
         </div>
       </div>
 
-      <div class="dashboard-mock-premium">
-        <div class="dashboard-mock-inner">
-          <div class="dashboard-mock-sidebar">
-            <div class="dashboard-mock-sidebar-item active">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-              Dashboard
-            </div>
-            <div class="dashboard-mock-sidebar-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-              Discover
-            </div>
-            <div class="dashboard-mock-sidebar-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
-              Messages
-            </div>
-            <div class="dashboard-mock-sidebar-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2 3 3 0 003 3 3 3 0 003-3 2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"/></svg>
-              Matches
-            </div>
-            <div style="flex:1;"></div>
-            <div class="dashboard-mock-sidebar-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-              Settings
-            </div>
-          </div>
-          <div class="dashboard-mock-main">
-            <div class="dashboard-mock-topbar">
-              <div class="dashboard-mock-topbar-title">Deal Pipeline</div>
-              <div style="display:flex;align-items:center;gap:8px;">
-                <span style="font-size:0.65rem;color:#16a34a;font-weight:600;display:flex;align-items:center;gap:4px;">
-                  <span style="width:6px;height:6px;border-radius:50%;background:#16a34a;display:inline-block;"></span>
-                  Live
-                </span>
-                <div class="dashboard-mock-avatar">AK</div>
-              </div>
-            </div>
-            <div class="dashboard-mock-grid">
-              <div class="dashboard-mock-card dashboard-mock-card-accent">
-                <div class="dashboard-mock-card-label">Match Score</div>
-                <div class="dashboard-mock-card-value">94%</div>
-                <div class="dashboard-mock-card-change">↑ 12% this week</div>
-              </div>
-              <div class="dashboard-mock-card">
-                <div class="dashboard-mock-card-label">Active Deals</div>
-                <div class="dashboard-mock-card-value">14</div>
-                <div class="dashboard-mock-card-change">3 new this week</div>
-              </div>
-            </div>
-            <div class="dashboard-mock-list-title">Recommended Matches</div>
-            <div class="dashboard-mock-list">
-              <div class="dashboard-mock-list-item">
-                <div class="dashboard-mock-list-item-left"><span class="dashboard-mock-list-dot" style="background:#16a34a;"></span><span class="dashboard-mock-list-name">Enterprise Software Co.</span></div>
-                <span class="dashboard-mock-list-price">NPR 12 Cr</span>
-              </div>
-              <div class="dashboard-mock-list-item">
-                <div class="dashboard-mock-list-item-left"><span class="dashboard-mock-list-dot" style="background:#ca8a04;"></span><span class="dashboard-mock-list-name">Hotel Equity Stake</span></div>
-                <span class="dashboard-mock-list-price">NPR 3 Cr</span>
-              </div>
-              <div class="dashboard-mock-list-item">
-                <div class="dashboard-mock-list-item-left"><span class="dashboard-mock-list-dot" style="background:#2563eb;"></span><span class="dashboard-mock-list-name">Retail Pharmacy Chain</span></div>
-                <span class="dashboard-mock-list-price">NPR 2.5 Cr</span>
-              </div>
-            </div>
-            <div class="dashboard-mock-footer">
-              <div class="dashboard-mock-footer-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                142 views this week
-              </div>
-              <div class="dashboard-mock-footer-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
-                12 proposals
-              </div>
-              <div class="dashboard-mock-footer-item">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                9.3 rating
-              </div>
-            </div>
-          </div>
-        </div>
+      <div style="flex:0 0 auto;max-width:520px;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);">
+        <img src="/assets/hero.jpeg" alt="Asaan Capital — Trusted Capital, Secure Future" style="display:block;width:100%;height:auto;border-radius:var(--radius-lg);">
       </div>
 
     </div>
