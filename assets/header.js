@@ -80,7 +80,7 @@ function injectHeader(mode) {
   if (mode === 'public') {
     PUBLIC_LINKS.forEach(link => {
       const active = isActive(link.url) ? ' active' : '';
-      navHtml += `<a href="${link.url}" class="header-nav-link${active}" onclick="closeMobileMenu()">${ICONS[link.icon] || ''} ${link.label}</a>`;
+      navHtml += `<a href="${link.url}" class="header-nav-link${active}"${active ? ' aria-current="page"' : ''} onclick="closeMobileMenu()">${ICONS[link.icon] || ''} ${link.label}</a>`;
     });
     if (!isLoggedIn) {
       navHtml += `<div class="mobile-nav-divider"></div>`;
@@ -92,7 +92,7 @@ function injectHeader(mode) {
   } else if (mode === 'admin') {
     ADMIN_LINKS.forEach(link => {
       const active = isActive(link.url) ? ' active' : '';
-      navHtml += `<a href="${link.url}" class="header-nav-link${active}" onclick="closeMobileMenu()">${ICONS[link.icon] || ''} ${link.label}</a>`;
+      navHtml += `<a href="${link.url}" class="header-nav-link${active}"${active ? ' aria-current="page"' : ''} onclick="closeMobileMenu()">${ICONS[link.icon] || ''} ${link.label}</a>`;
     });
     navHtml += `<div class="mobile-nav-divider"></div>`;
     navHtml += `<a href="/logout" onclick="closeMobileMenu()">${ICONS.logout} Log out</a>`;
@@ -100,7 +100,7 @@ function injectHeader(mode) {
     const links = DASHBOARD_LINKS[user?.role] || DASHBOARD_LINKS.investor;
     links.forEach(link => {
       const active = isActive(link.url) ? ' active' : '';
-      navHtml += `<a href="${link.url}" class="header-nav-link${active}" onclick="closeMobileMenu()">${ICONS[link.icon] || ''} ${link.label}</a>`;
+      navHtml += `<a href="${link.url}" class="header-nav-link${active}"${active ? ' aria-current="page"' : ''} onclick="closeMobileMenu()">${ICONS[link.icon] || ''} ${link.label}</a>`;
     });
     navHtml += `<div class="mobile-nav-divider"></div>`;
     navHtml += `<a href="/logout" onclick="closeMobileMenu()">${ICONS.logout} Log out</a>`;
@@ -109,15 +109,16 @@ function injectHeader(mode) {
   let actionsHtml = '';
   if (isLoggedIn && user) {
     const initials = (user.name || 'U').charAt(0).toUpperCase();
+    const bellLabel = unread > 0 ? `Notifications (${unread} unread)` : 'Notifications';
     actionsHtml = `
-      <span class="notification-bell" onclick="location.href='/notifications'">
+      <a href="/notifications" class="notification-bell" aria-label="${bellLabel}">
         ${ICONS.bell}
-        ${unread > 0 ? `<span class="notification-badge">${unread > 9 ? '9+' : unread}</span>` : ''}
-      </span>
-      <div class="header-user" onclick="location.href='/dashboard'">
-        <div class="avatar avatar-sm">${initials}</div>
+        <span class="notification-badge" aria-hidden="true"${unread > 0 ? '' : ' style="display:none;"'}>${unread > 9 ? '9+' : unread}</span>
+      </a>
+      <a href="/dashboard" class="header-user" aria-label="${user.name || 'User'} — go to dashboard">
+        <div class="avatar avatar-sm" aria-hidden="true">${initials}</div>
         <span class="header-user-name">${user.name || 'User'}</span>
-      </div>
+      </a>
     `;
   } else {
     actionsHtml = `
@@ -130,12 +131,12 @@ function injectHeader(mode) {
     <header class="site-header">
       <div class="header-inner">
         <a href="/" class="header-logo">
-          <img src="/logo.png" alt="Asaan Capital Ltd - Financial &amp; Investment Services">
+          <img src="/logo.png" width="160" height="40" alt="Asaan Capital Ltd - Financial &amp; Investment Services">
         </a>
         <nav class="header-nav" id="header-nav">
           <div class="header-nav-header">
             <a href="/" class="header-logo-mobile">
-              <img src="/logo.png" alt="Asaan Capital Ltd" style="height:28px;width:auto;">
+              <img src="/logo.png" width="120" height="28" alt="Asaan Capital Ltd" style="height:28px;width:auto;">
             </a>
             <button class="header-nav-close" onclick="closeMobileMenu()" aria-label="Close menu">
               ${ICONS.close}
@@ -147,7 +148,7 @@ function injectHeader(mode) {
         </nav>
         <div class="header-actions">
           ${actionsHtml}
-          <button class="header-mobile-toggle" id="header-mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+          <button class="header-mobile-toggle" id="header-mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle menu" aria-expanded="false" aria-controls="header-nav">
             ${ICONS.menu}
           </button>
         </div>
@@ -157,26 +158,68 @@ function injectHeader(mode) {
   `;
 }
 
+let lastFocusedBeforeMenu = null;
+
 function toggleMobileMenu() {
   const nav = document.getElementById('header-nav');
-  const backdrop = document.getElementById('header-backdrop');
-  const isOpen = nav?.classList.contains('open');
-
-  if (isOpen) {
+  if (nav?.classList.contains('open')) {
     closeMobileMenu();
   } else {
-    if (nav) nav.classList.add('open');
-    if (backdrop) backdrop.classList.add('open');
-    document.body.classList.add('menu-open');
+    openMobileMenu();
   }
+}
+
+function openMobileMenu() {
+  const nav = document.getElementById('header-nav');
+  const backdrop = document.getElementById('header-backdrop');
+  const toggle = document.getElementById('header-mobile-toggle');
+  lastFocusedBeforeMenu = document.activeElement;
+  if (nav) nav.classList.add('open');
+  if (backdrop) backdrop.classList.add('open');
+  document.body.classList.add('menu-open');
+  if (toggle) toggle.setAttribute('aria-expanded', 'true');
+  // Move focus into the drawer for keyboard/screen-reader users
+  nav?.querySelector('.header-nav-close')?.focus();
+  document.addEventListener('keydown', handleMenuKeydown);
 }
 
 function closeMobileMenu() {
   const nav = document.getElementById('header-nav');
   const backdrop = document.getElementById('header-backdrop');
+  const toggle = document.getElementById('header-mobile-toggle');
+  const wasOpen = nav?.classList.contains('open');
   if (nav) nav.classList.remove('open');
   if (backdrop) backdrop.classList.remove('open');
   document.body.classList.remove('menu-open');
+  if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  document.removeEventListener('keydown', handleMenuKeydown);
+  // Restore focus only if the drawer was actually open (avoids stealing focus on desktop link clicks)
+  if (wasOpen && lastFocusedBeforeMenu) lastFocusedBeforeMenu.focus();
+  lastFocusedBeforeMenu = null;
+}
+
+function handleMenuKeydown(e) {
+  const nav = document.getElementById('header-nav');
+  if (!nav || !nav.classList.contains('open')) return;
+
+  if (e.key === 'Escape') {
+    closeMobileMenu();
+    return;
+  }
+  if (e.key !== 'Tab') return;
+
+  const focusable = nav.querySelectorAll('a[href], button:not([disabled])');
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault();
+    first.focus();
+  }
 }
 
 function injectSidebar(role) {
@@ -237,10 +280,14 @@ function initNotificationPoller() {
       .then(r => r.json())
       .then(data => {
         const badge = document.querySelector('.notification-badge');
+        const bell = document.querySelector('.notification-bell');
         const count = data.count || 0;
         if (badge) {
           badge.textContent = count > 9 ? '9+' : count;
           badge.style.display = count > 0 ? 'flex' : 'none';
+        }
+        if (bell) {
+          bell.setAttribute('aria-label', count > 0 ? `Notifications (${count} unread)` : 'Notifications');
         }
       })
       .catch(() => {});
