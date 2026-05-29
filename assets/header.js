@@ -119,9 +119,8 @@ function injectHeader(mode) {
   root.innerHTML = `
     <header class="site-header">
       <div class="header-inner">
-        <a href="/" class="header-logo" style="font-weight:700;font-size:1.05rem;color:var(--accent);text-decoration:none;white-space:nowrap;">
-          Asaan Capital Ltd
-          <span style="font-weight:400;color:var(--secondary-text);font-size:0.85rem;">Financial &amp; Investment Services</span>
+        <a href="/" class="header-logo">
+          <img src="/logo.png" alt="Asaan Capital Ltd - Financial &amp; Investment Services">
         </a>
         <nav class="header-nav" id="header-nav">
           ${navHtml}
