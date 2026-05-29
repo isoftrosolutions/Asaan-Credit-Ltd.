@@ -2,6 +2,16 @@
 require __DIR__ . '/../config/bootstrap.php';
 
 $pageTitle = 'Search Results — ' . APP_NAME;
+$pageDescription = 'Search results for businesses, investors, franchises, and investment opportunities on Asaan Capital Ltd.';
+
+$breadcrumbSchema = '<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem","position":1,"name":"Home","item":"'.APP_URL.'/"},
+    {"@type": "ListItem","position":2,"name":"Search","item":"'.APP_URL.'/discover/search.php"}
+  ]
+}</script>';
 
 $q = trim($_GET['q'] ?? '');
 $page = max(1, (int)($_GET['page'] ?? 1));
@@ -58,6 +68,7 @@ $typeLabels = [
 $baseUrl = '/discover/search.php?q=' . urlencode($q);
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
+<?= $breadcrumbSchema ?>
 <div class="breadcrumbs container">
   <a href="<?= APP_URL ?>">Home</a> <span>/</span>
   <a href="<?= APP_URL ?>/discover/search.php">Search</a> <span>/</span>

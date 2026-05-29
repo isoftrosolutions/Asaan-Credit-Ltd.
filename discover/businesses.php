@@ -2,6 +2,16 @@
 require __DIR__ . '/../config/bootstrap.php';
 
 $pageTitle = 'Browse Businesses — ' . APP_NAME;
+$pageDescription = 'Browse businesses for sale and investment opportunities in Nepal. Find vetted businesses across 40+ industries. Updated daily.';
+
+$breadcrumbSchema = '<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem","position":1,"name":"Home","item":"'.APP_URL.'/"},
+    {"@type": "ListItem","position":2,"name":"Businesses","item":"'.APP_URL.'/discover/businesses.php"}
+  ]
+}</script>';
 
 $page = max(1, (int)($_GET['page'] ?? 1));
 $perPage = 12;
@@ -87,6 +97,7 @@ if ($queryParams) {
 }
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
+<?= $breadcrumbSchema ?>
 <div class="breadcrumbs container">
   <a href="<?= APP_URL ?>">Home</a> <span>/</span>
   <span>Businesses</span>

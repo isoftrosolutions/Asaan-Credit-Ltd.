@@ -20,9 +20,21 @@ if (!$franchise) {
 db()->prepare('UPDATE franchises SET views = views + 1 WHERE id = ?')->execute([$id]);
 
 $pageTitle = $franchise['brand_name'] . ' — Franchise Opportunity';
+$pageDescription = 'View this franchise opportunity on Asaan Capital Ltd. Details about investment requirements, training, and support.';
+
+$breadcrumbSchema = '<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem","position":1,"name":"Home","item":"'.APP_URL.'/"},
+    {"@type": "ListItem","position":2,"name":"Franchises","item":"'.APP_URL.'/discover/franchises.php"},
+    {"@type": "ListItem","position":3,"name":"'.e($franchise['brand_name']).'","item":"'.APP_URL.'/franchise/detail.php?id='.$id.'"}
+  ]
+}</script>';
 require __DIR__ . '/../includes/layout-public.php';
 ?>
 
+<?= $breadcrumbSchema ?>
 <div class="breadcrumbs container">
   <a href="<?= APP_URL ?>">Home</a> <span>/</span>
   <a href="<?= APP_URL ?>/browse/franchises">Franchises</a> <span>/</span>

@@ -2,6 +2,16 @@
 require __DIR__ . '/../config/bootstrap.php';
 
 $pageTitle = 'Franchise Opportunities — ' . APP_NAME;
+$pageDescription = 'Explore franchise opportunities in Nepal. Find verified franchise brands looking for qualified franchisees across all regions.';
+
+$breadcrumbSchema = '<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem","position":1,"name":"Home","item":"'.APP_URL.'/"},
+    {"@type": "ListItem","position":2,"name":"Franchises","item":"'.APP_URL.'/discover/franchises.php"}
+  ]
+}</script>';
 
 $page = max(1, (int)($_GET['page'] ?? 1));
 $perPage = 12;
@@ -62,6 +72,7 @@ if ($queryParams) {
 }
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
+<?= $breadcrumbSchema ?>
 <div class="breadcrumbs container">
   <a href="<?= APP_URL ?>">Home</a> <span>/</span>
   <span>Franchise Opportunities</span>
@@ -112,7 +123,7 @@ if ($queryParams) {
       <?php else: ?>
         <div class="listing-grid">
           <?php foreach ($franchises as $f): ?>
-            <div class="card" onclick="location.href='<?= APP_URL ?>/franchise/detail/<?= $f['id'] ?>'" style="cursor:pointer;">
+            <div class="card" onclick="location.href='<?= APP_URL ?>/franchise/<?= $f['id'] ?>'" style="cursor:pointer;">
               <div style="display:flex;justify-content:space-between;align-items:start;">
                 <div>
                   <h4 style="margin:0;"><?= e($f['brand_name']) ?></h4>
@@ -132,7 +143,7 @@ if ($queryParams) {
               </div>
               <span class="tx-badge tx-badge-franchise">Franchise Opportunity</span>
               <div style="margin-top:0.75rem;">
-                <button class="btn btn-accent btn-sm" onclick="event.stopPropagation();location.href='<?= APP_URL ?>/franchise/detail/<?= $f['id'] ?>'">View Details</button>
+                <button class="btn btn-accent btn-sm" onclick="event.stopPropagation();location.href='<?= APP_URL ?>/franchise/<?= $f['id'] ?>'">View Details</button>
               </div>
             </div>
           <?php endforeach; ?>

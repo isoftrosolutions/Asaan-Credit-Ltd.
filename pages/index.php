@@ -189,7 +189,7 @@ require __DIR__ . '/../includes/header.php';
       <p>Choose your path — we'll match you with the right opportunities.</p>
     </div>
     <div class="feature-cards-grid">
-      <a href="<?= APP_URL ?>/business/create" class="feature-card-premium">
+      <a href="<?= APP_URL ?>/signup" class="feature-card-premium">
         <div class="feature-card-icon" style="background:rgba(196,30,58,0.1);color:var(--brand-red);">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
         </div>

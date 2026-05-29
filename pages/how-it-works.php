@@ -1,10 +1,21 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 $pageTitle = 'How To Guides — ' . APP_NAME;
+$pageDescription = 'Step-by-step guides for selling a business, buying a business, investing, franchising, or registering as an advisor on Asaan Capital Ltd.';
+
+$breadcrumbSchema = '<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem","position":1,"name":"Home","item":"'.APP_URL.'/"},
+    {"@type": "ListItem","position":2,"name":"How To Guides","item":"'.APP_URL.'/how-it-works"}
+  ]
+}</script>';
 require __DIR__ . '/../includes/header.php';
 ?>
 <main class="main-content" style="padding-top:0;">
 
+<?= $breadcrumbSchema ?>
 <div class="breadcrumbs container" style="padding-top:1rem;padding-bottom:1rem;font-size:0.85rem;color:var(--secondary-text);">
   <a href="<?= APP_URL ?>">Home</a> <span style="margin:0 0.5rem;">/</span>
   <span>How To Guides</span>

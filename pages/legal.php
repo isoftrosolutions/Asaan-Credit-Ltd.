@@ -1,10 +1,21 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 $pageTitle = 'Terms & Privacy — ' . APP_NAME;
+$pageDescription = 'Terms of Service and Privacy Policy for Asaan Capital Ltd - Financial & Investment Services.';
+
+$breadcrumbSchema = '<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem","position":1,"name":"Home","item":"'.APP_URL.'/"},
+    {"@type": "ListItem","position":2,"name":"Terms & Privacy","item":"'.APP_URL.'/legal"}
+  ]
+}</script>';
 require __DIR__ . '/../includes/header.php';
 ?>
 <main class="main-content" style="padding-top:0;">
 
+<?= $breadcrumbSchema ?>
 <div class="breadcrumbs container" style="padding-top:1rem;padding-bottom:1rem;font-size:0.85rem;color:var(--secondary-text);">
   <a href="<?= APP_URL ?>">Home</a> <span style="margin:0 0.5rem;">/</span>
   <span>Terms &amp; Privacy</span>

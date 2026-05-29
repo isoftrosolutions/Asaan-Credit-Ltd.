@@ -58,10 +58,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 }
 
 $pageTitle = 'Business Valuation Calculator — ' . APP_NAME;
+$pageDescription = 'Free business valuation calculator. Estimate the value of your SME business in Nepal with our easy-to-use valuation tool.';
+
+$breadcrumbSchema = '<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem","position":1,"name":"Home","item":"'.APP_URL.'/"},
+    {"@type": "ListItem","position":2,"name":"How To","item":"'.APP_URL.'/how-it-works"},
+    {"@type": "ListItem","position":3,"name":"Business Valuation Calculator","item":"'.APP_URL.'/business-valuation"}
+  ]
+}</script>';
 require __DIR__ . '/../includes/header.php';
 ?>
 <main class="main-content" style="padding-top:0;">
 
+<?= $breadcrumbSchema ?>
 <div class="breadcrumbs container" style="padding-top:1rem;padding-bottom:1rem;font-size:0.85rem;color:var(--secondary-text);">
   <a href="<?= APP_URL ?>">Home</a> <span style="margin:0 0.5rem;">/</span>
   <a href="<?= APP_URL ?>/how-it-works">How To</a> <span style="margin:0 0.5rem;">/</span>

@@ -2,6 +2,16 @@
 require __DIR__ . '/../config/bootstrap.php';
 
 $pageTitle = 'Browse Entrepreneurs — ' . APP_NAME;
+$pageDescription = 'Browse investment opportunities from pre-verified entrepreneurs in Nepal seeking capital for growth across multiple sectors.';
+
+$breadcrumbSchema = '<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem","position":1,"name":"Home","item":"'.APP_URL.'/"},
+    {"@type": "ListItem","position":2,"name":"Entrepreneurs","item":"'.APP_URL.'/discover/entrepreneurs.php"}
+  ]
+}</script>';
 
 $page = max(1, (int)($_GET['page'] ?? 1));
 $perPage = 12;
@@ -77,6 +87,7 @@ if ($queryParams) {
 }
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
+<?= $breadcrumbSchema ?>
 <div class="breadcrumbs container">
   <a href="<?= APP_URL ?>">Home</a> <span>/</span>
   <span>Entrepreneurs &amp; Pitches</span>
@@ -121,7 +132,7 @@ if ($queryParams) {
   <?php else: ?>
     <div class="browse-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:1.25rem;">
       <?php foreach ($pitches as $pitch): ?>
-        <div class="card pitch-card" onclick="location.href='<?= APP_URL ?>/entrepreneur/pitch/<?= $pitch['id'] ?>'">
+        <div class="card pitch-card" onclick="location.href='<?= APP_URL ?>/pitch/<?= $pitch['id'] ?>'">
           <div class="header">
             <div class="avatar"><?= e(mb_substr($pitch['user_name'] ?? '', 0, 2)) ?></div>
             <div style="flex:1">

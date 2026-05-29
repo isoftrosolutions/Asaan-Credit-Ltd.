@@ -65,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $pageTitle = 'Log In — ' . APP_NAME;
+$pageDescription = 'Log in to your Asaan Capital Ltd account. Access your dashboard, matches, and connections.';
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
 <style>

@@ -60,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $pageTitle = 'Reset Password — ' . APP_NAME;
+$pageDescription = 'Reset your password for Asaan Capital Ltd.';
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
 <style>

@@ -2,6 +2,16 @@
 require __DIR__ . '/../config/bootstrap.php';
 
 $pageTitle = 'Browse Investors — ' . APP_NAME;
+$pageDescription = 'Browse verified investors and buyers in Nepal. Connect with qualified investors for your business sale or funding needs.';
+
+$breadcrumbSchema = '<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem","position":1,"name":"Home","item":"'.APP_URL.'/"},
+    {"@type": "ListItem","position":2,"name":"Investors","item":"'.APP_URL.'/discover/investors.php"}
+  ]
+}</script>';
 
 $page = max(1, (int)($_GET['page'] ?? 1));
 $perPage = 12;
@@ -61,6 +71,7 @@ if ($queryParams) {
 }
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
+<?= $breadcrumbSchema ?>
 <div class="breadcrumbs container">
   <a href="<?= APP_URL ?>">Home</a> <span>/</span>
   <span>Investors &amp; Buyers</span>

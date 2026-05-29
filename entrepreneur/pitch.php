@@ -40,8 +40,20 @@ $media = $mediaStmt->fetchAll();
 $initials = e(strtoupper(mb_substr($pitch['entrepreneur_name'] ?? '?', 0, 2)));
 
 $pageTitle = e($pitch['tagline']) . ' — ' . APP_NAME;
+$pageDescription = 'View this investment pitch on Asaan Capital Ltd. Learn about the funding opportunity, equity offered, and entrepreneur background.';
+
+$breadcrumbSchema = '<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem","position":1,"name":"Home","item":"'.APP_URL.'/"},
+    {"@type": "ListItem","position":2,"name":"Entrepreneurs","item":"'.APP_URL.'/discover/entrepreneurs.php"},
+    {"@type": "ListItem","position":3,"name":"'.e($pitch['tagline']).'","item":"'.APP_URL.'/entrepreneur/pitch.php?id='.$pitchId.'"}
+  ]
+}</script>';
 require __DIR__ . '/../includes/layout-public.php';
 ?>
+<?= $breadcrumbSchema ?>
 <div class="breadcrumbs container">
     <a href="<?= APP_URL ?>/">Home</a> <span>/</span>
     <a href="<?= APP_URL ?>/browse/entrepreneurs">Entrepreneurs</a> <span>/</span>

@@ -4,8 +4,20 @@ require_login();
 require_role(ROLE_BUSINESS_OWNER);
 
 $pageTitle = 'Business Valuation Calculator';
+$pageDescription = 'Free business valuation tool for SMEs in Nepal. Calculate your business worth based on financial metrics.';
+
+$breadcrumbSchema = '<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem","position":1,"name":"Home","item":"'.APP_URL.'/"},
+    {"@type": "ListItem","position":2,"name":"Dashboard","item":"'.APP_URL.'/dashboard"},
+    {"@type": "ListItem","position":3,"name":"Business Valuation Calculator","item":"'.APP_URL.'/business/valuation.php"}
+  ]
+}</script>';
 require __DIR__ . '/../includes/layout-dashboard.php';
 ?>
+<?= $breadcrumbSchema ?>
 <div class="breadcrumbs container">
     <a href="<?= APP_URL ?>/">Home</a> <span>/</span>
     <a href="dashboard.php">Dashboard</a> <span>/</span>

@@ -16,10 +16,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 $faqs = db()->query("SELECT * FROM faqs WHERE is_active=1 ORDER BY sort_order")->fetchAll();
 
 $pageTitle = 'FAQ & Support — ' . APP_NAME;
+$pageDescription = 'Frequently asked questions about Asaan Capital Ltd - Financial & Investment Services. Learn how our platform works for business owners, investors, and advisors.';
+
+$breadcrumbSchema = '<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem","position":1,"name":"Home","item":"'.APP_URL.'/"},
+    {"@type": "ListItem","position":2,"name":"Q & A","item":"'.APP_URL.'/support"}
+  ]
+}</script>';
+
+$faqSchema = '<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does the platform ensure profiles are genuine?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every profile undergoes a manual review process before being approved. We verify key details such as business ownership, financial standing, and identity to maintain a trusted marketplace. Profiles that do not meet our verification standards are rejected or flagged for additional review."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When do contact details get shared?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Contact details are only shared when there is mutual interest between the parties. This means both the business owner and the investor (or relevant counterparty) must express interest before any contact information is exchanged, ensuring privacy and reducing unwanted communication."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What types of transactions are supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "InvestMatch supports a wide range of transaction types including business sale, stake acquisition, investment partnership, loan-based arrangements, and franchise opportunities. Each listing specifies the transaction type so you can filter and find opportunities that match your goals."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a fee to use InvestMatch?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "InvestMatch offers a free basic plan that allows you to browse listings and create a profile. Premium plans with additional features such as advanced analytics, priority support, and enhanced visibility are available for a subscription fee. A finder\'s fee may apply for successfully facilitated transactions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does verification take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most profiles are verified within 24 to 48 hours after submission. In some cases where additional documentation is required, the process may take slightly longer. You will be notified via email once your profile has been reviewed."
+      }
+    }
+  ]
+}
+</script>';
 require __DIR__ . '/../includes/header.php';
 ?>
 <main class="main-content" style="padding-top:0;">
 
+<?= $breadcrumbSchema ?>
 <div class="breadcrumbs container" style="padding-top:1rem;padding-bottom:1rem;font-size:0.85rem;color:var(--secondary-text);">
   <a href="<?= APP_URL ?>">Home</a> <span style="margin:0 0.5rem;">/</span>
   <span>Q &amp; A</span>
@@ -97,5 +157,6 @@ function filterFAQ(category, btn) {
 }
 </script>
 
+<?php if (isset($faqSchema)) echo $faqSchema; ?>
 </main>
 <?php require __DIR__ . '/../includes/footer.php'; ?>

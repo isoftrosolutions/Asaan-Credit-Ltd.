@@ -169,6 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $signupData = $_SESSION['_signup'] ?? [];
 $pageTitle = 'Sign Up — ' . APP_NAME;
+$pageDescription = 'Create your free account on Asaan Capital Ltd. Join Nepal\'s most trusted marketplace for business matching and investment.';
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
 <style>

@@ -1,5 +1,6 @@
 <?php
 $pageTitle = 'Page Not Found';
+$pageDescription = 'Page not found. The page you are looking for does not exist on Asaan Capital Ltd.';
 require __DIR__ . '/../includes/layout-public.php';
 ?>
 <div style="text-align:center;padding:6rem 2rem;">
