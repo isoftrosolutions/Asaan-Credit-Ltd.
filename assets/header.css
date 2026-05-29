@@ -303,12 +303,13 @@
     text-decoration: none;
   }
 
-  .mobile-nav-divider {
+  .header-nav.open .mobile-nav-divider {
+    display: block;
     border-top: 1px solid var(--surface-container-high);
     margin: 6px 0;
   }
 
-  .mobile-nav-actions {
+  .header-nav.open .mobile-nav-actions {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -326,8 +327,7 @@
 
   .header-actions .btn-outline,
   .header-actions .btn-primary {
-    font-size: 0.78rem;
-    padding: 5px 10px;
+    display: none;
   }
 
   .header-user .avatar-sm { width: 30px; height: 30px; font-size: 0.65rem; }
@@ -379,8 +379,6 @@
   .header-user-name { display: none; }
   .header-actions .btn-outline,
   .header-actions .btn-primary {
-    font-size: 0.72rem;
-    padding: 4px 8px;
-    gap: 4px;
+    display: none;
   }
 }
