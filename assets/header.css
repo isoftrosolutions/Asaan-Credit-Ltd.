@@ -69,6 +69,11 @@
   display: none;
 }
 
+.mobile-nav-divider,
+.mobile-nav-actions {
+  display: none;
+}
+
 .header-actions {
   display: flex;
   align-items: center;
