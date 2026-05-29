@@ -65,6 +65,10 @@
   color: var(--brand-red);
 }
 
+.header-nav a svg {
+  display: none;
+}
+
 .header-actions {
   display: flex;
   align-items: center;
@@ -267,6 +271,13 @@
     transform: translateY(0);
     opacity: 1;
     pointer-events: auto;
+  }
+
+  .header-nav a svg {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
   }
 
   .header-nav.open a,
