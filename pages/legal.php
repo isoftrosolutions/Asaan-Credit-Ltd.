@@ -39,17 +39,16 @@ require __DIR__ . '/../includes/header.php';
   <p style="color:var(--secondary-text);">Paid subscription plans include a 1% finder's fee post deal closure. This fee is payable upon successful transaction completion between matched parties.</p>
 
   <h3>9. Governing Law</h3>
-  <p style="color:var(--secondary-text);">These terms are governed by the laws of India. Disputes shall be subject to the exclusive jurisdiction of courts in Bangalore, India.</p>
+  <p style="color:var(--secondary-text);">These terms are governed by the laws of Nepal. Disputes shall be subject to the exclusive jurisdiction of courts in Kathmandu, Nepal.</p>
 
   <h3>10. Indemnification</h3>
   <p style="color:var(--secondary-text);">Users agree to indemnify and hold <?= APP_NAME ?> harmless from any claims arising from their use of the platform, including but not limited to transaction disputes, misrepresentation, or breach of terms.</p>
 
   <div style="margin-top:2.5rem; padding:1.5rem; background:var(--surface-container); border-radius:1.5rem; font-size:0.9rem;">
     <strong>Contact:</strong><br>
-    SMERGERS Online Services Pvt Ltd<br>
-    Helios Business Park, Bangalore 560103<br>
-    CIN: U74900KA2015PTC082128<br>
-    Email: <a href="mailto:support@investmatch.com.np" style="color:var(--brand-red);">support@investmatch.com.np</a>
+    Asaan Credit Ltd<br>
+    Kathmandu, Nepal<br>
+    Email: <a href="mailto:hello@asaancapital.com" style="color:var(--brand-red);">hello@asaancapital.com</a>
   </div>
 </div>
 

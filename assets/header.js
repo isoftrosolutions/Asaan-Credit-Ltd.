@@ -1,8 +1,8 @@
 const PUBLIC_LINKS = [
-  { label: 'Browse', url: '/browse/businesses' },
-  { label: 'How It Works', url: '/how-it-works' },
-  { label: 'Valuation', url: '/business-valuation' },
-  { label: 'Support', url: '/support' },
+  { label: 'Browse', url: '/browse/businesses', icon: 'search' },
+  { label: 'How It Works', url: '/how-it-works', icon: 'document' },
+  { label: 'Valuation', url: '/business-valuation', icon: 'chart' },
+  { label: 'Support', url: '/support', icon: 'message' },
 ];
 
 const DASHBOARD_LINKS = {
@@ -65,15 +65,35 @@ function injectHeader(mode) {
   const user = window.CURRENT_USER;
   const unread = window.UNREAD_COUNT || 0;
 
+  const mobileLinks = mode === 'public' ? PUBLIC_LINKS
+    : mode === 'admin' ? ADMIN_LINKS
+    : (DASHBOARD_LINKS[user?.role] || DASHBOARD_LINKS.investor);
+
   let navHtml = '';
   if (mode === 'public') {
     PUBLIC_LINKS.forEach(link => {
-      navHtml += `<a href="${link.url}">${link.label}</a>`;
+      navHtml += `<a href="${link.url}" onclick="closeMobileMenu()">${ICONS[link.icon] || ''} ${link.label}</a>`;
     });
+    if (!isLoggedIn) {
+      navHtml += `<div class="mobile-nav-divider"></div>`;
+      navHtml += `<div class="mobile-nav-actions">`;
+      navHtml += `<a href="/login" class="btn btn-outline" onclick="closeMobileMenu()">Log in</a>`;
+      navHtml += `<a href="/signup" class="btn btn-primary" onclick="closeMobileMenu()">Sign up</a>`;
+      navHtml += `</div>`;
+    }
   } else if (mode === 'admin') {
-    navHtml = `<a href="/admin">Admin Panel</a>`;
+    ADMIN_LINKS.forEach(link => {
+      navHtml += `<a href="${link.url}" onclick="closeMobileMenu()">${ICONS[link.icon] || ''} ${link.label}</a>`;
+    });
+    navHtml += `<div class="mobile-nav-divider"></div>`;
+    navHtml += `<a href="/logout" onclick="closeMobileMenu()">${ICONS.logout} Log out</a>`;
   } else {
-    navHtml = `<a href="/dashboard">Dashboard</a>`;
+    const links = DASHBOARD_LINKS[user?.role] || DASHBOARD_LINKS.investor;
+    links.forEach(link => {
+      navHtml += `<a href="${link.url}" onclick="closeMobileMenu()">${ICONS[link.icon] || ''} ${link.label}</a>`;
+    });
+    navHtml += `<div class="mobile-nav-divider"></div>`;
+    navHtml += `<a href="/logout" onclick="closeMobileMenu()">${ICONS.logout} Log out</a>`;
   }
 
   let actionsHtml = '';
@@ -100,25 +120,43 @@ function injectHeader(mode) {
     <header class="site-header">
       <div class="header-inner">
         <a href="/" class="header-logo">
-          <img src="/logo.png" alt="Asaan" style="height:32px;width:auto;border-radius:4px;max-width:140px;object-fit:contain;">
+          <img src="/logo.png" alt="Asaan">
         </a>
-        <div class="header-nav" id="header-nav">
+        <nav class="header-nav" id="header-nav">
           ${navHtml}
-        </div>
+        </nav>
         <div class="header-actions">
           ${actionsHtml}
-          <button class="header-mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+          <button class="header-mobile-toggle" id="header-mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle menu">
             ${ICONS.menu}
           </button>
         </div>
       </div>
+      <div class="header-backdrop" id="header-backdrop" onclick="closeMobileMenu()"></div>
     </header>
   `;
 }
 
 function toggleMobileMenu() {
   const nav = document.getElementById('header-nav');
-  if (nav) nav.classList.toggle('open');
+  const backdrop = document.getElementById('header-backdrop');
+  const isOpen = nav?.classList.contains('open');
+
+  if (isOpen) {
+    closeMobileMenu();
+  } else {
+    if (nav) nav.classList.add('open');
+    if (backdrop) backdrop.classList.add('open');
+    document.body.classList.add('menu-open');
+  }
+}
+
+function closeMobileMenu() {
+  const nav = document.getElementById('header-nav');
+  const backdrop = document.getElementById('header-backdrop');
+  if (nav) nav.classList.remove('open');
+  if (backdrop) backdrop.classList.remove('open');
+  document.body.classList.remove('menu-open');
 }
 
 function injectSidebar(role) {
@@ -128,7 +166,14 @@ function injectSidebar(role) {
   const links = role === 'admin' ? ADMIN_LINKS : (DASHBOARD_LINKS[role] || DASHBOARD_LINKS.investor);
   const currentPath = window.location.pathname;
 
-  let html = `<div class="sidebar">`;
+  let html = `<button class="sidebar-mobile-toggle" onclick="toggleMobileSidebar()" aria-label="Toggle sidebar">
+    ${ICONS.menu} Menu
+  </button>`;
+  html += `<div class="sidebar" id="sidebar">`;
+  html += `<div class="sidebar-header-mobile">
+    <strong>Navigation</strong>
+    <button class="sidebar-close-btn" onclick="toggleMobileSidebar()" aria-label="Close sidebar">${ICONS.close}</button>
+  </div>`;
   html += `<nav class="sidebar-nav">`;
   links.forEach(link => {
     const active = currentPath === link.url || currentPath.startsWith(link.url + '/') ? ' active' : '';
@@ -136,10 +181,33 @@ function injectSidebar(role) {
   });
   html += `</nav>`;
   html += `<div style="margin-top:auto;padding-top:1rem;border-top:1px solid var(--surface-container-high);margin-top:1rem;">
-    <a href="/logout" class="sidebar-nav-item">${ICONS.logout} Log out</a>
+    <a href="/logout" class="sidebar-nav-item" onclick="closeMobileSidebar()">${ICONS.logout} Log out</a>
   </div>`;
   html += `</div>`;
+  html += `<div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeMobileSidebar()"></div>`;
   root.innerHTML = html;
+}
+
+function toggleMobileSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  const isOpen = sidebar?.classList.contains('open');
+
+  if (isOpen) {
+    closeMobileSidebar();
+  } else {
+    if (sidebar) sidebar.classList.add('open');
+    if (backdrop) backdrop.classList.add('open');
+    document.body.classList.add('menu-open');
+  }
+}
+
+function closeMobileSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  if (sidebar) sidebar.classList.remove('open');
+  if (backdrop) backdrop.classList.remove('open');
+  document.body.classList.remove('menu-open');
 }
 
 function initNotificationPoller() {

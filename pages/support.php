@@ -77,7 +77,7 @@ require __DIR__ . '/../includes/header.php';
       </div>
     </form>
     <div style="margin-top:1rem; font-size:0.85rem; color:var(--secondary-text);">
-      Or email us at <a href="mailto:support@investmatch.com.np" style="color:var(--brand-red);">support@investmatch.com.np</a>
+      Or email us at <a href="mailto:hello@asaancapital.com" style="color:var(--brand-red);">hello@asaancapital.com</a>
     </div>
   </div>
 </div>

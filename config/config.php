@@ -19,7 +19,7 @@ define('UPLOAD_MAX_BYTES_PHOTO', 2097152);
 define('UPLOAD_ALLOWED_MIME', 'application/pdf,image/jpeg,image/png,image/webp');
 
 define('MAIL_DRIVER', 'log');
-define('MAIL_FROM', 'noreply@investmatch.com');
+define('MAIL_FROM', 'noreply@asaancapital.com');
 define('MAIL_FROM_NAME', 'Asaan Marketplace');
 
 define('STORAGE_PATH', __DIR__ . '/../storage');
