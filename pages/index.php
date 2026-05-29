@@ -21,7 +21,7 @@ $featured_biz = db()->query("SELECT * FROM businesses WHERE is_published=1 AND i
 // Featured pitches
 $featured_pitches = db()->query("SELECT p.*, s.name as sector_name FROM pitches p LEFT JOIN sectors s ON p.sector_id = s.id WHERE p.is_published=1 AND p.is_featured=1 ORDER BY p.id DESC LIMIT 6")->fetchAll();
 
-$pageTitle = APP_NAME . ' — Connect with Investors. Sell or Grow Your Business Faster.';
+$pageTitle = APP_NAME;
 require __DIR__ . '/../includes/header.php';
 ?>
 <main class="main-content" style="padding-top:0;">
