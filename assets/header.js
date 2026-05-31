@@ -8,7 +8,6 @@ const PUBLIC_LINKS = [
 const DASHBOARD_LINKS = {
   investor: [
     { label: 'Dashboard', url: '/dashboard', icon: 'home' },
-    { label: 'Discover', url: '/browse/businesses', icon: 'search' },
     { label: 'My Connections', url: '/connections', icon: 'matches' },
     { label: 'Notifications', url: '/notifications', icon: 'bell' },
     { label: 'My Profile', url: '/investor/profile-create', icon: 'user' },
