@@ -62,6 +62,7 @@ if ($user) {
 <script>
 const UNREAD_COUNT = <?= $unreadCount ?>;
 const CURRENT_USER = <?= json_encode($user) ?>;
+const CSRF_TOKEN = '<?= csrf_token() ?>';
 <?php if ($user && empty($forcePublicHeader)): ?>
 injectHeader('<?= $isAdmin ? 'admin' : 'dashboard' ?>');
 <?php else: ?>

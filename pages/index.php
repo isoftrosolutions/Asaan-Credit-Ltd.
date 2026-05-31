@@ -104,44 +104,7 @@ require __DIR__ . '/../includes/header.php';
   </div>
 </section>
 
-<!-- Wave Divider -->
-<div style="background:linear-gradient(90deg,#6B1D22 0%,#1E4866 100%);height:4px;width:100%;"></div>
 
-<!-- How It Works -->
-<section style="padding:48px 0;background:#fcf9f8;">
-  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
-    <div style="text-align:center;margin-bottom:48px;">
-      <h2 style="font-size:32px;line-height:40px;font-weight:700;letter-spacing:-0.01em;margin-bottom:16px;color:#6B1D22;font-family:Montserrat,sans-serif;">How It Works</h2>
-      <p style="font-size:16px;line-height:24px;color:#554242;font-family:Inter,sans-serif;margin:0;">A streamlined three-step journey to your next big opportunity.</p>
-    </div>
-    <div class="hp-grid-3 hp-gap-48" style="display:grid;">
-      <div style="padding:24px;background:white;border-radius:12px;border:1px solid #dbc0bf4d;text-align:center;transition:box-shadow 0.3s;cursor:default;" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='0 1px 2px rgba(0,0,0,0.05)'">
-        <div style="width:64px;height:64px;margin:0 auto 24px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#f0eded;transition:transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-          <span style="color:#6B1D22;font-family:'Material Symbols Outlined';font-size:32px;">person_add</span>
-        </div>
-        <h3 style="font-size:20px;line-height:28px;font-weight:600;margin-bottom:16px;color:#00263f;font-family:Montserrat,sans-serif;">Step 1</h3>
-        <p style="font-weight:600;font-size:16px;line-height:24px;margin-bottom:8px;color:#1c1b1b;font-family:Inter,sans-serif;">Create your profile</p>
-        <p style="font-size:14px;line-height:20px;color:#554242;font-family:Inter,sans-serif;margin:0;">Detailed background to ensure quality and intent.</p>
-      </div>
-      <div style="padding:24px;background:white;border-radius:12px;border:1px solid #dbc0bf4d;text-align:center;transition:box-shadow 0.3s;cursor:default;" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='0 1px 2px rgba(0,0,0,0.05)'">
-        <div style="width:64px;height:64px;margin:0 auto 24px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#f0eded;transition:transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-          <span style="color:#3b6281;font-family:'Material Symbols Outlined';font-size:32px;">verified</span>
-        </div>
-        <h3 style="font-size:20px;line-height:28px;font-weight:600;margin-bottom:16px;color:#00263f;font-family:Montserrat,sans-serif;">Step 2</h3>
-        <p style="font-weight:600;font-size:16px;line-height:24px;margin-bottom:8px;color:#1c1b1b;font-family:Inter,sans-serif;">Get verified by our team</p>
-        <p style="font-size:14px;line-height:20px;color:#554242;font-family:Inter,sans-serif;margin:0;">Strict compliance checks for maximum security.</p>
-      </div>
-      <div style="padding:24px;background:white;border-radius:12px;border:1px solid #dbc0bf4d;text-align:center;transition:box-shadow 0.3s;cursor:default;" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='0 1px 2px rgba(0,0,0,0.05)'">
-        <div style="width:64px;height:64px;margin:0 auto 24px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#f0eded;transition:transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-          <span style="color:#6B1D22;font-family:'Material Symbols Outlined';font-size:32px;">handshake</span>
-        </div>
-        <h3 style="font-size:20px;line-height:28px;font-weight:600;margin-bottom:16px;color:#00263f;font-family:Montserrat,sans-serif;">Step 3</h3>
-        <p style="font-weight:600;font-size:16px;line-height:24px;margin-bottom:8px;color:#1c1b1b;font-family:Inter,sans-serif;">Connect with the right match</p>
-        <p style="font-size:14px;line-height:20px;color:#554242;font-family:Inter,sans-serif;margin:0;">Direct messaging and deal-flow management.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- Dual Path Cards -->
 <section style="padding:48px 0;background:#ffffff;">

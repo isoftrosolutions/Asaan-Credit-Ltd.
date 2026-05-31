@@ -195,6 +195,38 @@ require __DIR__ . '/../includes/layout-public.php';
           <strong>ℹ Disclaimer:</strong> Profile reviewed by InvestMatch analysts. Connect to access contact details.
         </div>
         <?php endif; ?>
+
+        <button class="btn btn-ghost btn-sm" style="width:100%;margin-top:0.75rem;font-size:0.75rem;color:var(--color-text-muted);" onclick="document.getElementById('report-modal').classList.add('open')">Report listing</button>
+      </div>
+    </div>
+
+    <div id="report-modal" class="modal" onclick="if(event.target===this)this.classList.remove('open')">
+      <div class="modal-content" onclick="event.stopImmediatePropagation()">
+        <div class="modal-header">
+          <h3>Report Listing</h3>
+          <button class="close-btn" onclick="document.getElementById('report-modal').classList.remove('open')">&times;</button>
+        </div>
+        <form method="POST" action="/connections/send-interest" onsubmit="event.preventDefault();const f=this;fetch('/api/report.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f))}).then(r=>r.json()).then(d=>{if(d.ok){alert('Report submitted. Thank you.');f.closest('.modal').classList.remove('open')}else{alert('Error submitting report.')}}).catch(()=>{alert('Error submitting report.')})">
+          <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
+          <input type="hidden" name="target_type" value="investor">
+          <input type="hidden" name="target_id" value="<?= $investorId ?>">
+          <div class="input-group">
+            <label>Reason</label>
+            <select name="reason" class="input" required>
+              <option value="">Select a reason...</option>
+              <option value="inaccurate_info">Inaccurate information</option>
+              <option value="suspicious">Suspicious or fraudulent</option>
+              <option value="duplicate">Duplicate listing</option>
+              <option value="inappropriate">Inappropriate content</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Details (optional)</label>
+            <textarea name="details" class="input" rows="3" placeholder="Provide additional context..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;">Submit Report</button>
+        </form>
       </div>
     </div>
 

@@ -66,7 +66,7 @@ function showInterestModal(businessId, businessName) {
         Send an interest request to <strong>${businessName || 'this listing'}</strong>
       </p>
       <form id="interest-form" action="/connections/send-interest" method="POST">
-        <input type="hidden" name="_csrf" value="">
+        <input type="hidden" name="_csrf" value="${CSRF_TOKEN}">
         <input type="hidden" name="listing_type" value="business">
         <input type="hidden" name="listing_id" value="${businessId || ''}">
         <div class="input-group">

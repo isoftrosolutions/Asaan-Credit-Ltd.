@@ -37,6 +37,10 @@ $mediaStmt = $db->prepare('SELECT * FROM pitch_media WHERE pitch_id = ? ORDER BY
 $mediaStmt->execute([$pitchId]);
 $media = $mediaStmt->fetchAll();
 
+$teamStmt = $db->prepare('SELECT * FROM pitch_team_members WHERE pitch_id = ? ORDER BY id');
+$teamStmt->execute([$pitchId]);
+$teamMembers = $teamStmt->fetchAll();
+
 $initials = e(strtoupper(mb_substr($pitch['entrepreneur_name'] ?? '?', 0, 2)));
 
 $pageTitle = e($pitch['tagline']) . ' — ' . APP_NAME;
@@ -103,6 +107,26 @@ require __DIR__ . '/../includes/layout-public.php';
             <p><a href="<?= e($pitch['pitch_video_url']) ?>" target="_blank" rel="noopener"><?= e($pitch['pitch_video_url']) ?></a></p>
             <?php endif; ?>
 
+            <?php if (!empty($teamMembers)): ?>
+            <h3>Team</h3>
+            <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.5rem;">
+                <?php foreach ($teamMembers as $member): ?>
+                <div style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:var(--surface-container-high);border-radius:0.75rem;">
+                    <div class="avatar avatar-sm"><?= e(strtoupper(mb_substr($member['name'], 0, 2))) ?></div>
+                    <div>
+                        <div style="font-weight:600;font-size:0.9rem;"><?= e($member['name']) ?></div>
+                        <?php if ($member['role']): ?>
+                        <div style="font-size:0.8rem;color:var(--color-text-muted);"><?= e($member['role']) ?></div>
+                        <?php endif; ?>
+                    </div>
+                    <?php if ($member['linkedin_url']): ?>
+                    <a href="<?= e($member['linkedin_url']) ?>" target="_blank" rel="noopener" style="margin-left:auto;font-size:0.8rem;color:var(--color-secondary);text-decoration:none;">LinkedIn</a>
+                    <?php endif; ?>
+                </div>
+                <?php endforeach; ?>
+            </div>
+            <?php endif; ?>
+
             <?php if ($hasMatch && $pitch['entrepreneur_name']): ?>
             <div class="card" style="margin-top:1.5rem;background:rgba(30,122,77,0.06);">
                 <h3 style="margin:0 0 0.5rem;">Contact Information</h3>
@@ -146,7 +170,39 @@ require __DIR__ . '/../includes/layout-public.php';
             <div style="margin-top:1.25rem; font-size:0.8rem; color:var(--color-text-muted);">
                 <?= (int)$pitch['views'] ?> views
             </div>
+
+            <button class="btn btn-ghost btn-sm" style="width:100%;margin-top:0.75rem;font-size:0.75rem;color:var(--color-text-muted);" onclick="document.getElementById('report-modal').classList.add('open')">Report listing</button>
         </div>
+    </div>
+</div>
+
+<div id="report-modal" class="modal" onclick="if(event.target===this)this.classList.remove('open')">
+    <div class="modal-content" onclick="event.stopImmediatePropagation()">
+        <div class="modal-header">
+            <h3>Report Listing</h3>
+            <button class="close-btn" onclick="document.getElementById('report-modal').classList.remove('open')">&times;</button>
+        </div>
+        <form method="POST" action="/connections/send-interest" onsubmit="event.preventDefault();const f=this;fetch('/api/report.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f))}).then(r=>r.json()).then(d=>{if(d.ok){alert('Report submitted. Thank you.');f.closest('.modal').classList.remove('open')}else{alert('Error submitting report.')}}).catch(()=>{alert('Error submitting report.')})">
+            <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
+            <input type="hidden" name="target_type" value="pitch">
+            <input type="hidden" name="target_id" value="<?= $pitchId ?>">
+            <div class="input-group">
+                <label>Reason</label>
+                <select name="reason" class="input" required>
+                    <option value="">Select a reason...</option>
+                    <option value="inaccurate_info">Inaccurate information</option>
+                    <option value="suspicious">Suspicious or fraudulent</option>
+                    <option value="duplicate">Duplicate listing</option>
+                    <option value="inappropriate">Inappropriate content</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Details (optional)</label>
+                <textarea name="details" class="input" rows="3" placeholder="Provide additional context..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Submit Report</button>
+        </form>
     </div>
 </div>
 

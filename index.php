@@ -24,6 +24,7 @@ $routes = [
     '/notifications'                => 'notifications/index.php',
     '/notifications/mark-read'      => 'notifications/mark-read.php',
     '/notifications/settings'       => 'notifications/settings.php',
+    '/my-saved'                     => 'notifications/saved-listings.php',
     '/admin'                        => 'admin/dashboard.php',
     '/admin/login'                  => 'admin/login.php',
     '/admin/users'                  => 'admin/users.php',
@@ -39,6 +40,7 @@ $routes = [
     '/api/notifications-unread'     => 'api/notifications-unread.php',
     '/api/mark-notification-read'   => 'api/mark-notification-read.php',
     '/api/smart-suggestions'        => 'api/smart-suggestions.php',
+    '/api/toggle-save'              => 'api/toggle-save.php',
     '/api/upload'                   => 'api/upload.php',
 ];
 
