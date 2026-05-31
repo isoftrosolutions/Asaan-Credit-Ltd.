@@ -5,6 +5,36 @@ const PUBLIC_LINKS = [
   { label: 'Support', url: '/support', icon: 'message' },
 ];
 
+// SMERGERS-style public mega-menu (Phase 1)
+const PUBLIC_NAV = [
+  { label: 'Home', url: '/' },
+  { label: 'Businesses for Sale', url: '/browse/businesses' },
+  { label: 'Franchises', url: '/browse/franchises' },
+  { label: 'Investors & Buyers', url: '/browse/investors' },
+  { label: 'Invest in Startups', url: '/browse/entrepreneurs' },
+  { label: 'How To', url: '/how-it-works' },
+  { label: 'Q & A', url: '/support' },
+];
+
+const COMPANY_LINKS = [
+  { label: 'Our Story', url: '/about' },
+  { label: 'Contact Us', url: '/contact' },
+  { label: 'Careers', url: '/careers' },
+  { label: 'Press', url: '/press' },
+  { label: 'Testimonials', url: '/testimonials' },
+  { label: 'Blog', url: '/blog' },
+  { label: 'Industry Watch', url: '/industry-watch' },
+];
+
+const ADD_PROFILE_LINKS = [
+  { label: 'Add Business Profile', url: '/business/create' },
+  { label: 'Add Investor Profile', url: '/investor/profile-create' },
+  { label: 'Add Franchise Profile', url: '/franchise/create' },
+  { label: 'Add Advisor Profile', url: '/advisor/create' },
+];
+
+const CARET = '<svg class="pub-caret" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>';
+
 const DASHBOARD_LINKS = {
   investor: [
     { label: 'Dashboard', url: '/dashboard', icon: 'home' },
@@ -64,6 +94,12 @@ function injectHeader(mode) {
   // Auth state, not page mode — so the public/home header also reflects login.
   const isLoggedIn = !!user;
   const unread = window.UNREAD_COUNT || 0;
+
+  // Public marketing header uses the two-row mega-menu (separate markup).
+  if (mode === 'public') {
+    renderPublicHeader(root, user, isLoggedIn, unread);
+    return;
+  }
 
   const mobileLinks = mode === 'public' ? PUBLIC_LINKS
     : mode === 'admin' ? ADMIN_LINKS
@@ -166,6 +202,144 @@ function injectHeader(mode) {
     </header>
   `;
 }
+
+function renderPublicHeader(root, user, isLoggedIn, unread) {
+  const path = window.location.pathname;
+  const isActive = (url) => url === '/' ? path === '/' : (path === url || path.startsWith(url + '/'));
+
+  const mainNav = PUBLIC_NAV.map(l =>
+    `<a href="${l.url}" class="pub-nav-link${isActive(l.url) ? ' active' : ''}"${isActive(l.url) ? ' aria-current="page"' : ''}>${l.label}</a>`
+  ).join('');
+
+  const companyDD = `
+    <div class="pub-dd pub-dd-company">
+      <button type="button" class="pub-nav-link pub-dd-toggle" onclick="pubToggleDD(this)" aria-haspopup="true" aria-expanded="false">Company ${CARET}</button>
+      <div class="pub-dd-menu" role="menu">${COMPANY_LINKS.map(l => `<a href="${l.url}" role="menuitem">${l.label}</a>`).join('')}</div>
+    </div>`;
+
+  const addProfileDD = `
+    <div class="pub-dd pub-dd-add">
+      <button type="button" class="pub-add-btn pub-dd-toggle" onclick="pubToggleDD(this)" aria-haspopup="true" aria-expanded="false">${ICONS.plus}<span>Add Profile</span>${CARET}</button>
+      <div class="pub-dd-menu pub-dd-menu-right" role="menu">${ADD_PROFILE_LINKS.map(l => `<a href="${l.url}" role="menuitem">${ICONS.plus}<span>${l.label}</span></a>`).join('')}</div>
+    </div>`;
+
+  let right = '';
+  if (isLoggedIn && user) {
+    const initials = (user.name || 'U').charAt(0).toUpperCase();
+    const bellLabel = unread > 0 ? `Notifications (${unread} unread)` : 'Notifications';
+    right = `
+      <a href="/notifications" class="notification-bell" aria-label="${bellLabel}">
+        ${ICONS.bell}
+        <span class="notification-badge" aria-hidden="true"${unread > 0 ? '' : ' style="display:none;"'}>${unread > 9 ? '9+' : unread}</span>
+      </a>
+      <div class="pub-dd pub-dd-avatar">
+        <button type="button" class="pub-avatar-toggle pub-dd-toggle" onclick="pubToggleDD(this)" aria-haspopup="true" aria-expanded="false" aria-label="Account menu">
+          <div class="avatar avatar-sm">${initials}</div>
+        </button>
+        <div class="pub-dd-menu pub-dd-menu-right" role="menu">
+          <div class="pub-dd-userinfo">
+            <div class="pub-dd-username">${user.name || 'User'}</div>
+            ${user.email ? `<div class="pub-dd-useremail">${user.email}</div>` : ''}
+          </div>
+          <a href="/dashboard" role="menuitem">${ICONS.home}<span>Dashboard</span></a>
+          <a href="/my-saved" role="menuitem">${ICONS.heart}<span>Bookmarks</span></a>
+          <a href="/notifications" role="menuitem">${ICONS.bell}<span>Notifications</span></a>
+          <a href="/notifications/settings" role="menuitem">${ICONS.settings}<span>Settings</span></a>
+          <a href="/logout" role="menuitem">${ICONS.logout}<span>Log out</span></a>
+        </div>
+      </div>`;
+  } else {
+    right = `
+      <a href="/login" class="btn btn-sm btn-outline pub-auth-btn">Log in</a>
+      <a href="/signup" class="btn btn-sm btn-primary pub-auth-btn">Sign up</a>`;
+  }
+
+  const searchForm = `
+    <form class="pub-search" action="/search" method="get" role="search">
+      <select name="type" class="pub-search-type" aria-label="Search category">
+        <option value="businesses">Businesses</option>
+        <option value="investors">Investors</option>
+      </select>
+      <input type="text" name="q" class="pub-search-input" placeholder="Try: Businesses for sale in Kathmandu" aria-label="Search">
+      <button type="submit" class="pub-search-btn" aria-label="Search">${ICONS.search}</button>
+    </form>`;
+
+  // Mobile drawer
+  let drawer = '';
+  drawer += PUBLIC_NAV.map(l => `<a href="${l.url}" class="${isActive(l.url) ? 'active' : ''}" onclick="closeMobileMenu()">${l.label}</a>`).join('');
+  drawer += `<div class="mobile-nav-divider"></div><div class="pub-drawer-label">Company</div>`;
+  drawer += COMPANY_LINKS.map(l => `<a href="${l.url}" onclick="closeMobileMenu()">${l.label}</a>`).join('');
+  drawer += `<div class="mobile-nav-divider"></div><div class="pub-drawer-label">Add a Profile</div>`;
+  drawer += ADD_PROFILE_LINKS.map(l => `<a href="${l.url}" onclick="closeMobileMenu()">${ICONS.plus} ${l.label}</a>`).join('');
+  drawer += `<div class="mobile-nav-divider"></div>`;
+  if (isLoggedIn && user) {
+    drawer += `<a href="/dashboard" onclick="closeMobileMenu()">${ICONS.home} Dashboard</a>`;
+    drawer += `<a href="/my-saved" onclick="closeMobileMenu()">${ICONS.heart} Bookmarks</a>`;
+    drawer += `<a href="/notifications" onclick="closeMobileMenu()">${ICONS.bell} Notifications</a>`;
+    drawer += `<a href="/notifications/settings" onclick="closeMobileMenu()">${ICONS.settings} Settings</a>`;
+    drawer += `<a href="/logout" onclick="closeMobileMenu()">${ICONS.logout} Log out</a>`;
+  } else {
+    drawer += `<div class="mobile-nav-actions"><a href="/login" class="btn btn-outline" onclick="closeMobileMenu()">Log in</a><a href="/signup" class="btn btn-primary" onclick="closeMobileMenu()">Sign up</a></div>`;
+  }
+
+  root.innerHTML = `
+    <header class="site-header pub-header">
+      <div class="pub-topbar">
+        <div class="pub-topbar-inner">
+          <a href="/" class="header-logo"><img src="/logo.png" width="160" height="40" alt="Asaan Capital Ltd"></a>
+          ${searchForm}
+          <div class="pub-topbar-actions">
+            ${addProfileDD}
+            ${right}
+            <button class="header-mobile-toggle" id="header-mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle menu" aria-expanded="false" aria-controls="header-nav">${ICONS.menu}</button>
+          </div>
+        </div>
+      </div>
+      <nav class="pub-mainnav">
+        <div class="pub-mainnav-inner">
+          ${mainNav}
+          ${companyDD}
+        </div>
+      </nav>
+      <nav class="header-nav" id="header-nav">
+        <div class="header-nav-header">
+          <a href="/" class="header-logo-mobile"><img src="/logo.png" width="120" height="28" alt="Asaan Capital Ltd" style="height:28px;width:auto;"></a>
+          <button class="header-nav-close" onclick="closeMobileMenu()" aria-label="Close menu">${ICONS.close}</button>
+        </div>
+        <div class="header-nav-links">
+          <div class="pub-drawer-search">${searchForm}</div>
+          ${drawer}
+        </div>
+      </nav>
+      <div class="header-backdrop" id="header-backdrop" onclick="closeMobileMenu()"></div>
+    </header>`;
+}
+
+function pubCloseAllDD() {
+  document.querySelectorAll('.pub-dd.open').forEach(d => {
+    d.classList.remove('open');
+    const t = d.querySelector('.pub-dd-toggle');
+    if (t) t.setAttribute('aria-expanded', 'false');
+  });
+}
+
+function pubToggleDD(btn) {
+  const dd = btn.closest('.pub-dd');
+  if (!dd) return;
+  const isOpen = dd.classList.contains('open');
+  pubCloseAllDD();
+  if (!isOpen) {
+    dd.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.pub-dd')) pubCloseAllDD();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') pubCloseAllDD();
+});
 
 let lastFocusedBeforeMenu = null;
 

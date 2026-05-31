@@ -11,6 +11,7 @@ $breadcrumbSchema = '<script type="application/ld+json">{
     {"@type": "ListItem","position":2,"name":"Our Story","item":"'.APP_URL.'/about"}
   ]
 }</script>';
+$forcePublicHeader = true;
 require __DIR__ . '/../includes/header.php';
 ?>
 <main class="main-content" style="padding-top:0;">

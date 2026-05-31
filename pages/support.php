@@ -75,6 +75,7 @@ $faqSchema = '<script type="application/ld+json">
   ]
 }
 </script>';
+$forcePublicHeader = true;
 require __DIR__ . '/../includes/header.php';
 ?>
 <main class="main-content" style="padding-top:0;">

@@ -1,64 +1,8 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 
-$result = null;
-
-$industry_multipliers = [
-    'Technology' => 3.5,
-    'Manufacturing' => 2.5,
-    'Food & Beverage' => 2.0,
-    'Retail' => 1.8,
-    'Healthcare' => 3.0,
-    'Hotels & Resorts' => 2.2,
-    'Agriculture' => 1.5,
-    'Transportation' => 2.0,
-    'Construction' => 2.3,
-    'Education' => 2.8,
-    'E-commerce' => 3.2,
-    'Real Estate' => 2.5,
-    'FinTech' => 4.0,
-    'EdTech' => 3.8,
-    'CleanTech' => 3.0,
-    'Other' => 2.0,
-];
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'valuate') {
-    $business_name = trim($_POST['business_name'] ?? '');
-    $industry = $_POST['industry'] ?? 'Other';
-    $annual_revenue = (float)($_POST['annual_revenue'] ?? 0);
-    $profit_margin = (float)($_POST['profit_margin'] ?? 0);
-    $growth_rate = (float)($_POST['growth_rate'] ?? 0);
-    $employee_count = (int)($_POST['employee_count'] ?? 0);
-    $year_established = (int)($_POST['year_established'] ?? date('Y'));
-    $revenue_unit = $_POST['revenue_unit'] ?? 'crore';
-
-    $unit_multiplier = match ($revenue_unit) {
-        'lakh' => 100000,
-        'thousand' => 1000,
-        default => 10000000, // crore
-    };
-
-    $revenue_in_npr = $annual_revenue * $unit_multiplier;
-    $multiplier = $industry_multipliers[$industry] ?? 2.0;
-
-    $valuation = $revenue_in_npr * (1 + $growth_rate / 100) * $multiplier;
-    $years_operating = date('Y') - $year_established;
-    if ($years_operating > 0) {
-        $valuation *= (1 + ($years_operating * 0.02));
-    }
-
-    $result = [
-        'business_name' => $business_name,
-        'industry' => $industry,
-        'annual_revenue' => $revenue_in_npr,
-        'multiplier' => $multiplier,
-        'valuation' => round($valuation),
-        'years_operating' => max(0, $years_operating),
-    ];
-}
-
 $pageTitle = 'Business Valuation Calculator — ' . APP_NAME;
-$pageDescription = 'Free business valuation calculator. Estimate the value of your SME business in Nepal with our easy-to-use valuation tool.';
+$pageDescription = 'Free online business valuation calculator. Estimate the value of your SME in Nepal using trading and transaction comparables.';
 
 $breadcrumbSchema = '<script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -69,130 +13,229 @@ $breadcrumbSchema = '<script type="application/ld+json">{
     {"@type": "ListItem","position":3,"name":"Business Valuation Calculator","item":"'.APP_URL.'/business-valuation"}
   ]
 }</script>';
+$forcePublicHeader = true;
 require __DIR__ . '/../includes/header.php';
 ?>
-<main class="main-content" style="padding-top:0;">
-
 <?= $breadcrumbSchema ?>
-<div class="breadcrumbs container" style="padding-top:1rem;padding-bottom:1rem;font-size:0.85rem;color:var(--secondary-text);">
-  <a href="<?= APP_URL ?>">Home</a> <span style="margin:0 0.5rem;">/</span>
-  <a href="<?= APP_URL ?>/how-it-works">How To</a> <span style="margin:0 0.5rem;">/</span>
-  <span>Business Valuation Calculator</span>
-</div>
+<style>
+@media (min-width:768px) {
+  .bv-grid-2 { grid-template-columns:repeat(2,1fr); }
+  .bv-results-cards { grid-template-columns:repeat(2,1fr); }
+  .bv-methods { grid-template-columns:repeat(3,1fr); }
+}
+@media (max-width:767px) {
+  .bv-grid-2 { grid-template-columns:1fr; }
+  .bv-results-cards { grid-template-columns:1fr; }
+  .bv-methods { grid-template-columns:1fr; }
+}
+.bv-input { width:100%; padding:10px 12px; border:1px solid #dbc0bf; border-radius:8px; font-size:15px; font-family:Inter,sans-serif; color:#1c1b1b; background:#fff; box-sizing:border-box; }
+.bv-input:focus { outline:none; border-color:#6B1D22; box-shadow:0 0 0 3px rgba(107,29,34,0.1); }
+.bv-label { display:block; font-size:13px; font-weight:600; color:#554242; margin-bottom:6px; font-family:Inter,sans-serif; }
+</style>
+<main>
 
-<div class="container" style="max-width:860px;padding-bottom:4rem;">
-  <div style="text-align:center;margin-bottom:2rem;">
-    <h1>Business Valuation Calculator</h1>
-    <p style="font-size:1.05rem;color:var(--secondary-text);">Get an instant estimate of your business worth based on earnings, growth, and industry benchmarks.</p>
+<!-- Intro -->
+<section style="padding:48px 0 24px;background:#ffffff;">
+  <div style="max-width:860px;margin:0 auto;padding:0 24px;">
+    <div class="breadcrumbs" style="font-size:13px;color:#887271;font-family:Inter,sans-serif;margin-bottom:16px;">
+      <a href="<?= APP_URL ?>/" style="color:#887271;text-decoration:none;">Home</a> <span style="margin:0 6px;">/</span>
+      <a href="<?= APP_URL ?>/how-it-works" style="color:#887271;text-decoration:none;">How To</a> <span style="margin:0 6px;">/</span>
+      <span style="color:#554242;">Business Valuation Calculator</span>
+    </div>
+    <h1 style="font-size:36px;line-height:44px;font-weight:800;letter-spacing:-0.02em;color:#6B1D22;font-family:Montserrat,sans-serif;margin:0 0 16px;">Business Valuation Calculator</h1>
+    <p style="font-size:16px;line-height:26px;color:#554242;font-family:Inter,sans-serif;margin:0;">
+      At <?= APP_NAME ?>, we define Business Valuation as a technique used to capture the true value of a business based on similar comparable companies. Our comparable data includes publicly traded companies across global stock exchanges and private transactions of thousands of small businesses, which makes our valuation estimate as precise as it can get. Curious to know the valuation of your business? Try our simple, yet one of the most effective, online valuation calculators out there &mdash; for free.
+    </p>
   </div>
+</section>
 
-  <div class="card" style="margin-bottom:2rem;">
-    <h3>Business Details</h3>
-    <form method="post" action="<?= APP_URL ?>/business-valuation">
-      <input type="hidden" name="action" value="valuate">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
-        <div class="input-group">
-          <label>Business Name</label>
-          <input type="text" name="business_name" class="input" placeholder="e.g., My Business" value="<?= e($_POST['business_name'] ?? '') ?>">
-        </div>
-        <div class="input-group">
-          <label>Industry</label>
-          <select name="industry" class="input">
-            <?php foreach (array_keys($industry_multipliers) as $ind): ?>
-            <option value="<?= e($ind) ?>"<?= ($_POST['industry'] ?? '') === $ind ? ' selected' : '' ?>><?= e($ind) ?></option>
-            <?php endforeach; ?>
+<!-- Calculator -->
+<section style="padding:24px 0 48px;background:#ffffff;">
+  <div style="max-width:860px;margin:0 auto;padding:0 24px;">
+    <div style="background:#fff;border-radius:16px;border:1px solid #dbc0bf4d;border-top:4px solid #6B1D22;padding:28px;box-shadow:0 4px 16px rgba(0,0,0,0.04);">
+      <h2 style="font-size:20px;line-height:28px;font-weight:700;color:#1c1b1b;font-family:Montserrat,sans-serif;margin:0 0 20px;">Business Details</h2>
+      <div class="bv-grid-2" style="display:grid;gap:20px;">
+        <div>
+          <label class="bv-label" for="bv-industry">Industry</label>
+          <select class="bv-input" id="bv-industry">
+            <option value="Technology">Technology</option>
+            <option value="FinTech">FinTech</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Education">Education</option>
+            <option value="E-commerce">E-commerce</option>
+            <option value="Manufacturing">Manufacturing</option>
+            <option value="Food & Beverage">Food &amp; Beverage</option>
+            <option value="Hotels & Resorts">Hotels &amp; Resorts</option>
+            <option value="Retail">Retail</option>
+            <option value="Construction">Construction</option>
+            <option value="Real Estate">Real Estate</option>
+            <option value="Transportation">Transportation</option>
+            <option value="Agriculture">Agriculture</option>
+            <option value="Other">Other</option>
           </select>
         </div>
-        <div class="input-group">
-          <label>Annual Revenue</label>
-          <div style="display:flex;gap:0.5rem;">
-            <input type="number" step="0.01" name="annual_revenue" class="input" placeholder="e.g., 12" style="flex:1;" value="<?= e($_POST['annual_revenue'] ?? '') ?>">
-            <select name="revenue_unit" class="input" style="width:120px;">
-              <option value="crore"<?= ($_POST['revenue_unit'] ?? '') === 'crore' ? ' selected' : '' ?>>Crore</option>
-              <option value="lakh"<?= ($_POST['revenue_unit'] ?? '') === 'lakh' ? ' selected' : '' ?>>Lakh</option>
-              <option value="thousand"<?= ($_POST['revenue_unit'] ?? '') === 'thousand' ? ' selected' : '' ?>>Thousand</option>
+        <div>
+          <label class="bv-label" for="bv-revenue">Annual Revenue</label>
+          <div style="display:flex;gap:8px;">
+            <input type="number" min="0" step="0.01" class="bv-input" id="bv-revenue" placeholder="e.g., 1.6" style="flex:1;" value="1.6">
+            <select class="bv-input" id="bv-unit" style="width:110px;flex:none;">
+              <option value="10000000">Crore</option>
+              <option value="100000">Lakh</option>
             </select>
           </div>
         </div>
-        <div class="input-group">
-          <label>Profit Margin (%)</label>
-          <input type="number" step="0.1" name="profit_margin" class="input" placeholder="e.g., 18" value="<?= e($_POST['profit_margin'] ?? '') ?>">
+        <div>
+          <label class="bv-label" for="bv-ebitda">EBITDA Margin (%)</label>
+          <input type="number" min="0" step="0.1" class="bv-input" id="bv-ebitda" placeholder="e.g., 20" value="20">
         </div>
-        <div class="input-group">
-          <label>Growth Rate (% YoY)</label>
-          <input type="number" step="0.1" name="growth_rate" class="input" placeholder="e.g., 15" value="<?= e($_POST['growth_rate'] ?? '') ?>">
+        <div>
+          <label class="bv-label" for="bv-growth">Growth Rate (% YoY)</label>
+          <input type="number" step="0.1" class="bv-input" id="bv-growth" placeholder="e.g., 15" value="15">
         </div>
-        <div class="input-group">
-          <label>Year Established</label>
-          <input type="number" name="year_established" class="input" placeholder="e.g., 2015" value="<?= e($_POST['year_established'] ?? '') ?>">
-        </div>
-        <div class="input-group">
-          <label>Employee Count</label>
-          <input type="number" name="employee_count" class="input" placeholder="e.g., 45" value="<?= e($_POST['employee_count'] ?? '') ?>">
+        <div>
+          <label class="bv-label" for="bv-year">Year Established</label>
+          <input type="number" min="1900" class="bv-input" id="bv-year" placeholder="e.g., 2016" value="2016">
         </div>
       </div>
-
-      <button type="submit" class="btn btn-primary" style="margin-top:1rem;">Calculate Value</button>
-    </form>
-  </div>
-
-  <?php if ($result): ?>
-  <div id="valuation-results">
-    <h3>Estimated Business Value</h3>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem;">
-      <div class="card" style="text-align:center;border-color:var(--brand-red);">
-        <div class="meta-label">Industry Multiplier</div>
-        <div style="font-size:1.8rem;font-weight:700;color:var(--brand-red);"><?= e($result['multiplier']) ?>x</div>
-        <div style="font-size:0.8rem;color:var(--secondary-text);"><?= e($result['industry']) ?> sector</div>
-      </div>
-      <div class="card" style="text-align:center;">
-        <div class="meta-label">Annual Revenue</div>
-        <div style="font-size:1.8rem;font-weight:700;"><?= money($result['annual_revenue']) ?></div>
-        <div style="font-size:0.8rem;color:var(--secondary-text);">Reported revenue</div>
-      </div>
-      <div class="card" style="text-align:center;">
-        <div class="meta-label">Years Operating</div>
-        <div style="font-size:1.8rem;font-weight:700;"><?= (int)$result['years_operating'] ?></div>
-        <div style="font-size:0.8rem;color:var(--secondary-text);">Established track record</div>
-      </div>
-    </div>
-
-    <div class="card" style="background:var(--surface-container);text-align:center;">
-      <div class="meta-label">Estimated Value</div>
-      <div style="font-size:2.5rem;font-weight:700;color:var(--dark);"><?= money($result['valuation']) ?></div>
-      <div style="font-size:0.9rem;color:var(--secondary-text);">Based on revenue × industry multiplier × growth adjustment</div>
-    </div>
-
-    <div style="margin-top:1rem;padding:1rem;background:rgba(180,83,9,0.08);border-radius:12px;font-size:0.85rem;color:var(--warning);">
-      <strong>Disclaimer:</strong> This is a rough estimate for informational purposes only. It does not constitute a professional valuation. Actual business value may vary significantly. Consult a qualified M&A advisor or valuation expert for an accurate assessment.
-    </div>
-
-    <div style="margin-top:2rem;text-align:center;">
-      <p style="font-size:0.9rem;color:var(--secondary-text);">Want a detailed Confidential Information Memorandum (CIM) for your business?</p>
-      <a href="<?= APP_URL ?>/signup" class="btn btn-primary">Get a Professional Valuation Report</a>
+      <button type="button" onclick="bvCalculate()" style="margin-top:24px;display:inline-flex;align-items:center;gap:8px;padding:12px 32px;border-radius:8px;font-weight:600;font-size:16px;line-height:24px;color:#fff;background:#6B1D22;font-family:Inter,sans-serif;border:none;cursor:pointer;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);transition:filter 0.2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">
+        <span style="font-family:'Material Symbols Outlined';font-size:20px;">calculate</span>
+        Calculate Value
+      </button>
+      <p id="bv-error" style="display:none;margin:16px 0 0;font-size:14px;color:#98202A;font-family:Inter,sans-serif;"></p>
     </div>
   </div>
-  <?php endif; ?>
+</section>
 
-  <div style="margin-top:2rem;">
-    <h3>How to Value a Business</h3>
-    <p style="color:var(--secondary-text);">Three common approaches are used to value a business for sale or investment:</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
-      <div class="card card-compact">
-        <h4>DCF Method</h4>
-        <p style="font-size:0.85rem;margin:0;color:var(--secondary-text);">Discounted Cash Flow — projects future cash flows and discounts them to present value using a discount rate that reflects risk.</p>
+<!-- Results -->
+<section id="bv-results" style="display:none;padding:0 0 48px;background:#ffffff;">
+  <div style="max-width:860px;margin:0 auto;padding:0 24px;">
+    <div style="background:linear-gradient(135deg,#6B1D22,#4A1317);border-radius:16px;padding:40px 24px;text-align:center;">
+      <div style="font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;margin-bottom:8px;">Estimated Valuation Range</div>
+      <div id="bv-range" style="font-size:40px;line-height:48px;font-weight:800;color:#fff;font-family:Montserrat,sans-serif;">&mdash;</div>
+      <div style="margin-top:8px;font-size:14px;color:rgba(255,255,255,0.8);font-family:Inter,sans-serif;">Midpoint estimate: <span id="bv-mid" style="font-weight:700;">&mdash;</span></div>
+    </div>
+
+    <div class="bv-results-cards" style="display:grid;gap:16px;margin-top:16px;">
+      <div style="background:#fcf9f8;border-radius:12px;border:1px solid #dbc0bf4d;padding:20px;text-align:center;">
+        <div style="font-size:13px;font-weight:600;color:#554242;font-family:Inter,sans-serif;margin-bottom:6px;">Trading Comparables</div>
+        <div id="bv-trading" style="font-size:26px;font-weight:700;color:#3b6281;font-family:Montserrat,sans-serif;">&mdash;</div>
+        <div style="font-size:12px;color:#887271;font-family:Inter,sans-serif;margin-top:4px;">Public company EV/EBITDA multiples</div>
       </div>
-      <div class="card card-compact">
-        <h4>Trading Comparables</h4>
-        <p style="font-size:0.85rem;margin:0;color:var(--secondary-text);">Compares your business to publicly traded companies in similar industries using multiples like EV/EBITDA and P/E.</p>
+      <div style="background:#fcf9f8;border-radius:12px;border:1px solid #dbc0bf4d;padding:20px;text-align:center;">
+        <div style="font-size:13px;font-weight:600;color:#554242;font-family:Inter,sans-serif;margin-bottom:6px;">Transaction Comparables</div>
+        <div id="bv-transaction" style="font-size:26px;font-weight:700;color:#6B1D22;font-family:Montserrat,sans-serif;">&mdash;</div>
+        <div style="font-size:12px;color:#887271;font-family:Inter,sans-serif;margin-top:4px;">Private M&amp;A deal multiples</div>
       </div>
-      <div class="card card-compact">
-        <h4>Transaction Comparables</h4>
-        <p style="font-size:0.85rem;margin:0;color:var(--secondary-text);">Uses data from actual M&A transactions of similar businesses to derive valuation multiples.</p>
+    </div>
+
+    <div style="margin-top:16px;padding:16px;background:rgba(199,122,18,0.08);border-radius:12px;font-size:13px;line-height:20px;color:#8a5a12;font-family:Inter,sans-serif;">
+      <strong>Disclaimer:</strong> This is an indicative estimate for informational purposes only and does not constitute a professional valuation. Actual value depends on many factors. Consult a qualified M&amp;A advisor for an accurate assessment.
+    </div>
+
+    <div style="margin-top:24px;text-align:center;">
+      <p style="font-size:15px;color:#554242;font-family:Inter,sans-serif;margin:0 0 12px;">Ready to take the next step with your business?</p>
+      <a href="<?= APP_URL ?>/signup" style="display:inline-block;padding:12px 32px;border-radius:8px;font-weight:600;font-size:16px;line-height:24px;color:#fff;background:#3b6281;font-family:Inter,sans-serif;text-decoration:none;transition:filter 0.2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">List Your Business</a>
+    </div>
+  </div>
+</section>
+
+<!-- Methodology -->
+<section style="padding:48px 0;background:#fcf9f8;">
+  <div style="max-width:860px;margin:0 auto;padding:0 24px;">
+    <h2 style="font-size:28px;line-height:36px;font-weight:700;letter-spacing:-0.01em;color:#6B1D22;font-family:Montserrat,sans-serif;margin:0 0 8px;">How We Value a Business</h2>
+    <p style="font-size:16px;line-height:24px;color:#554242;font-family:Inter,sans-serif;margin:0 0 24px;">Three common approaches are used to value a business for sale or investment.</p>
+    <div class="bv-methods" style="display:grid;gap:16px;">
+      <div style="background:#fff;border-radius:12px;border:1px solid #dbc0bf4d;padding:20px;">
+        <span style="color:#6B1D22;font-family:'Material Symbols Outlined';font-size:28px;font-variation-settings:'FILL' 1;">trending_up</span>
+        <h3 style="font-size:16px;font-weight:700;margin:10px 0 6px;color:#1c1b1b;font-family:Montserrat,sans-serif;">DCF Method</h3>
+        <p style="font-size:13px;line-height:20px;margin:0;color:#554242;font-family:Inter,sans-serif;">Discounted Cash Flow projects future cash flows and discounts them to present value using a rate that reflects risk.</p>
+      </div>
+      <div style="background:#fff;border-radius:12px;border:1px solid #dbc0bf4d;padding:20px;">
+        <span style="color:#3b6281;font-family:'Material Symbols Outlined';font-size:28px;font-variation-settings:'FILL' 1;">show_chart</span>
+        <h3 style="font-size:16px;font-weight:700;margin:10px 0 6px;color:#1c1b1b;font-family:Montserrat,sans-serif;">Trading Comparables</h3>
+        <p style="font-size:13px;line-height:20px;margin:0;color:#554242;font-family:Inter,sans-serif;">Compares your business to publicly traded companies in similar industries using multiples like EV/EBITDA and P/E.</p>
+      </div>
+      <div style="background:#fff;border-radius:12px;border:1px solid #dbc0bf4d;padding:20px;">
+        <span style="color:#6B1D22;font-family:'Material Symbols Outlined';font-size:28px;font-variation-settings:'FILL' 1;">handshake</span>
+        <h3 style="font-size:16px;font-weight:700;margin:10px 0 6px;color:#1c1b1b;font-family:Montserrat,sans-serif;">Transaction Comparables</h3>
+        <p style="font-size:13px;line-height:20px;margin:0;color:#554242;font-family:Inter,sans-serif;">Uses data from actual M&amp;A transactions of similar businesses to derive valuation multiples.</p>
       </div>
     </div>
   </div>
-</div>
+</section>
 
 </main>
+
+<script>
+// Industry EV/EBITDA multiples: [trading (public), transaction (private M&A)]
+var BV_MULTIPLES = {
+  'Technology':      [11.0, 8.5],
+  'FinTech':         [12.0, 9.0],
+  'Healthcare':      [10.0, 7.5],
+  'Education':       [10.0, 7.5],
+  'E-commerce':      [9.0,  7.0],
+  'Manufacturing':   [7.0,  5.5],
+  'Food & Beverage': [7.0,  5.5],
+  'Hotels & Resorts':[8.0,  6.0],
+  'Retail':          [6.0,  4.5],
+  'Construction':    [6.5,  5.0],
+  'Real Estate':     [8.0,  6.0],
+  'Transportation':  [6.5,  5.0],
+  'Agriculture':     [5.5,  4.0],
+  'Other':           [7.0,  5.5]
+};
+
+function bvFormat(val) {
+  val = Math.round(val);
+  if (val >= 10000000) return 'NPR ' + (val / 10000000).toFixed(2).replace(/\.00$/, '') + ' Cr';
+  if (val >= 100000)   return 'NPR ' + (val / 100000).toFixed(2).replace(/\.00$/, '') + ' L';
+  return 'NPR ' + val.toLocaleString('en-IN');
+}
+
+function bvCalculate() {
+  var errEl = document.getElementById('bv-error');
+  errEl.style.display = 'none';
+
+  var industry = document.getElementById('bv-industry').value;
+  var unit = parseFloat(document.getElementById('bv-unit').value) || 10000000;
+  var revenue = (parseFloat(document.getElementById('bv-revenue').value) || 0) * unit;
+  var margin = parseFloat(document.getElementById('bv-ebitda').value) || 0;
+  var growth = parseFloat(document.getElementById('bv-growth').value) || 0;
+  var year = parseInt(document.getElementById('bv-year').value, 10) || new Date().getFullYear();
+
+  var ebitda = revenue * (margin / 100);
+  if (ebitda <= 0) {
+    errEl.textContent = 'Please enter a positive annual revenue and EBITDA margin to estimate a valuation.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  var mult = BV_MULTIPLES[industry] || BV_MULTIPLES['Other'];
+
+  // Growth premium: clamp growth to [-50, 100], half-weighted
+  var g = Math.max(-50, Math.min(100, growth));
+  var growthAdj = 1 + (g / 100) * 0.5;
+
+  // Track-record premium: up to +20% for 20+ years operating
+  var yearsOperating = Math.max(0, new Date().getFullYear() - year);
+  var yearsAdj = 1 + Math.min(yearsOperating, 20) * 0.01;
+
+  var trading = ebitda * mult[0] * growthAdj * yearsAdj;
+  var transaction = ebitda * mult[1] * growthAdj * yearsAdj;
+
+  var low = Math.min(trading, transaction);
+  var high = Math.max(trading, transaction);
+  var mid = (low + high) / 2;
+
+  document.getElementById('bv-trading').textContent = bvFormat(trading);
+  document.getElementById('bv-transaction').textContent = bvFormat(transaction);
+  document.getElementById('bv-range').innerHTML = bvFormat(low) + ' &ndash; ' + bvFormat(high);
+  document.getElementById('bv-mid').textContent = bvFormat(mid);
+
+  var results = document.getElementById('bv-results');
+  results.style.display = 'block';
+  results.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
 <?php require __DIR__ . '/../includes/footer.php'; ?>
