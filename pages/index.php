@@ -32,6 +32,9 @@ require __DIR__ . '/../includes/header.php';
   .hp-stats-row { flex-direction:row; }
   .hp-grid-2 { grid-template-columns:repeat(2,1fr); }
   .hp-grid-3 { grid-template-columns:repeat(3,1fr); }
+  .hp-grid-4 { grid-template-columns:repeat(4,1fr); }
+  .hp-biz-split { grid-template-columns:1.7fr 1fr; }
+  .hp-biz-cards { grid-template-columns:1fr 1fr; }
   .hp-gap-48 { gap:48px; }
 }
 @media (max-width:767px) {
@@ -43,8 +46,14 @@ require __DIR__ . '/../includes/header.php';
   .hp-stats-row { flex-direction:column; }
   .hp-grid-2 { grid-template-columns:1fr; }
   .hp-grid-3 { grid-template-columns:1fr; }
+  .hp-grid-4 { grid-template-columns:repeat(2,1fr); }
+  .hp-biz-split { grid-template-columns:1fr; }
+  .hp-biz-cards { grid-template-columns:1fr; }
   .hp-gap-48 { gap:24px; }
   .hp-stats-divider { display:none; }
+}
+@media (max-width:479px) {
+  .hp-grid-4 { grid-template-columns:1fr; }
 }
 @media (max-width:639px) {
   .hp-hero-actions { flex-direction:column; }
@@ -104,7 +113,71 @@ require __DIR__ . '/../includes/header.php';
   </div>
 </section>
 
+<!-- Trust Pillars -->
+<section style="padding:48px 0;background:#ffffff;border-bottom:1px solid #dbc0bf4d;">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+    <div class="hp-grid-4 hp-gap-48" style="display:grid;">
+      <div style="text-align:center;">
+        <span style="color:#6B1D22;font-family:'Material Symbols Outlined';font-size:36px;font-variation-settings:'FILL' 1;">verified</span>
+        <h3 style="font-size:18px;line-height:24px;font-weight:700;margin:12px 0 8px;color:#1c1b1b;font-family:Montserrat,sans-serif;">Pre-approved</h3>
+        <p style="font-size:14px;line-height:20px;color:#554242;font-family:Inter,sans-serif;margin:0;">Every business, investor and advisor profile is pre-screened by our analysts.</p>
+      </div>
+      <div style="text-align:center;">
+        <span style="color:#3b6281;font-family:'Material Symbols Outlined';font-size:36px;font-variation-settings:'FILL' 1;">lock</span>
+        <h3 style="font-size:18px;line-height:24px;font-weight:700;margin:12px 0 8px;color:#1c1b1b;font-family:Montserrat,sans-serif;">Confidential</h3>
+        <p style="font-size:14px;line-height:20px;color:#554242;font-family:Inter,sans-serif;margin:0;">Your contact details stay private until there is a mutual match.</p>
+      </div>
+      <div style="text-align:center;">
+        <span style="color:#6B1D22;font-family:'Material Symbols Outlined';font-size:36px;font-variation-settings:'FILL' 1;">insights</span>
+        <h3 style="font-size:18px;line-height:24px;font-weight:700;margin:12px 0 8px;color:#1c1b1b;font-family:Montserrat,sans-serif;">Fair Valuation</h3>
+        <p style="font-size:14px;line-height:20px;color:#554242;font-family:Inter,sans-serif;margin:0;">Benchmark your business against comparable private companies in Nepal.</p>
+      </div>
+      <div style="text-align:center;">
+        <span style="color:#3b6281;font-family:'Material Symbols Outlined';font-size:36px;font-variation-settings:'FILL' 1;">public</span>
+        <h3 style="font-size:18px;line-height:24px;font-weight:700;margin:12px 0 8px;color:#1c1b1b;font-family:Montserrat,sans-serif;">Global Network</h3>
+        <p style="font-size:14px;line-height:20px;color:#554242;font-family:Inter,sans-serif;margin:0;">Connect with investors, buyers and partners across Nepal and beyond.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- Businesses for Sale -->
+<?php if (!empty($featured_biz)): ?>
+<section style="padding:48px 0;background:#fcf9f8;">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+    <div class="hp-biz-split" style="display:grid;gap:32px;align-items:center;">
+      <div class="hp-biz-cards" style="display:grid;gap:16px;">
+        <?php foreach (array_slice($featured_biz, 0, 2) as $biz): ?>
+        <div style="background:white;border-radius:12px;border:1px solid #dbc0bf4d;border-left:4px solid #6B1D22;padding:16px;cursor:pointer;transition:box-shadow 0.3s;" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='0 1px 2px rgba(0,0,0,0.05)'">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+            <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.02em;border-radius:999px;background:rgba(30,122,77,0.1);color:#1E7A4D;">Business for Sale</span>
+            <?php if (!empty($biz['rating'])): ?>
+            <span style="display:inline-flex;align-items:center;gap:3px;padding:3px 8px;font-size:12px;font-weight:700;border-radius:999px;background:rgba(199,122,18,0.12);color:#C77A12;"><?= e($biz['rating']) ?></span>
+            <?php endif; ?>
+          </div>
+          <h4 style="font-size:16px;font-weight:700;margin:0 0 6px;color:#1c1b1b;font-family:Montserrat,sans-serif;"><?= e($biz['business_name']) ?></h4>
+          <p style="font-size:13px;line-height:1.5;margin:0 0 12px;color:#554242;font-family:Inter,sans-serif;"><?= e(mb_substr($biz['description'] ?? '', 0, 120)) ?></p>
+          <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding-top:12px;border-top:1px solid #dbc0bf4d;">
+            <div><span style="font-size:11px;font-weight:600;color:#554242;display:block;">Run Rate</span><span style="font-size:14px;font-weight:700;color:#1c1b1b;"><?= money($biz['annual_revenue']) ?></span></div>
+            <?php if (!empty($biz['ebitda_pct'])): ?>
+            <div><span style="font-size:11px;font-weight:600;color:#554242;display:block;">EBITDA</span><span style="font-size:14px;font-weight:700;color:#1c1b1b;"><?= e($biz['ebitda_pct']) ?>%</span></div>
+            <?php endif; ?>
+            <?php if (!empty($biz['asking_price'])): ?>
+            <div style="width:100%;padding-top:8px;"><strong style="font-size:16px;color:#7d2a2e;">Asking <?= money($biz['asking_price']) ?></strong></div>
+            <?php endif; ?>
+          </div>
+        </div>
+        <?php endforeach; ?>
+      </div>
+      <div>
+        <h2 style="font-size:28px;line-height:36px;font-weight:700;letter-spacing:-0.01em;color:#6B1D22;font-family:Montserrat,sans-serif;margin:0 0 16px;">Businesses for Sale on <?= APP_NAME ?></h2>
+        <p style="font-size:16px;line-height:24px;color:#554242;font-family:Inter,sans-serif;margin:0 0 24px;">Explore pre-screened businesses for sale across diverse sectors in Nepal. Find ventures looking for a full sale, raising capital, or seeking a business loan. Register as an investor to connect and invest in them.</p>
+        <a href="<?= APP_URL ?>/browse/businesses" style="display:inline-block;padding:12px 32px;border-radius:8px;font-weight:600;font-size:16px;line-height:24px;color:white;background:#6B1D22;font-family:Inter,sans-serif;text-decoration:none;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);transition:filter 0.2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">View All Businesses</a>
+      </div>
+    </div>
+  </div>
+</section>
+<?php endif; ?>
 
 <!-- Dual Path Cards -->
 <section style="padding:48px 0;background:#ffffff;">
@@ -157,47 +230,6 @@ require __DIR__ . '/../includes/header.php';
     </div>
   </div>
 </section>
-
-<!-- Featured Businesses -->
-<?php if (!empty($featured_biz)): ?>
-<section style="padding:48px 0;background:#fcf9f8;">
-  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;gap:16px;flex-wrap:wrap;">
-      <div>
-        <h2 style="font-size:32px;line-height:40px;font-weight:700;letter-spacing:-0.01em;color:#6B1D22;font-family:Montserrat,sans-serif;margin:0 0 8px 0;">Featured Businesses</h2>
-        <p style="font-size:16px;line-height:24px;color:#554242;font-family:Inter,sans-serif;margin:0;">Hand-picked opportunities from verified business owners.</p>
-      </div>
-      <a href="<?= APP_URL ?>/browse/businesses" class="hp-hide-mobile" style="display:inline-block;padding:8px 24px;border-radius:8px;font-weight:600;font-size:14px;border:1.5px solid #887271;color:#1c1b1b;font-family:Inter,sans-serif;text-decoration:none;transition:filter 0.2s;flex-shrink:0;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">View All</a>
-    </div>
-    <div style="display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;">
-      <?php foreach ($featured_biz as $biz): ?>
-      <div style="flex-shrink:0;width:300px;background:white;border-radius:12px;border:1px solid #dbc0bf4d;border-left:4px solid #6B1D22;padding:16px;cursor:pointer;transition:box-shadow 0.3s;" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='0 1px 2px rgba(0,0,0,0.05)'">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
-          <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.02em;border-radius:999px;background:rgba(30,122,77,0.1);color:#1E7A4D;">Business for Sale</span>
-          <?php if (!empty($biz['rating'])): ?>
-          <span style="display:inline-flex;align-items:center;gap:3px;padding:3px 8px;font-size:12px;font-weight:700;border-radius:999px;background:rgba(199,122,18,0.12);color:#C77A12;"><?= e($biz['rating']) ?></span>
-          <?php endif; ?>
-        </div>
-        <h4 style="font-size:16px;font-weight:700;margin:0 0 6px;color:#1c1b1b;font-family:Montserrat,sans-serif;"><?= e($biz['business_name']) ?></h4>
-        <p style="font-size:13px;line-height:1.5;margin:0 0 12px;color:#554242;font-family:Inter,sans-serif;"><?= e(mb_substr($biz['description'] ?? '', 0, 120)) ?></p>
-        <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding-top:12px;border-top:1px solid #dbc0bf4d;">
-          <div><span style="font-size:11px;font-weight:600;color:#554242;display:block;">Run Rate</span><span style="font-size:14px;font-weight:700;color:#1c1b1b;"><?= money($biz['annual_revenue']) ?></span></div>
-          <?php if (!empty($biz['ebitda_pct'])): ?>
-          <div><span style="font-size:11px;font-weight:600;color:#554242;display:block;">EBITDA</span><span style="font-size:14px;font-weight:700;color:#1c1b1b;"><?= e($biz['ebitda_pct']) ?>%</span></div>
-          <?php endif; ?>
-          <?php if (!empty($biz['asking_price'])): ?>
-          <div style="width:100%;padding-top:8px;"><strong style="font-size:16px;color:#7d2a2e;">Asking <?= money($biz['asking_price']) ?></strong></div>
-          <?php endif; ?>
-        </div>
-      </div>
-      <?php endforeach; ?>
-    </div>
-    <div class="hp-show-mobile" style="text-align:center;margin-top:16px;">
-      <a href="<?= APP_URL ?>/browse/businesses" style="display:inline-block;padding:8px 24px;border-radius:8px;font-weight:600;font-size:14px;border:1.5px solid #887271;color:#1c1b1b;font-family:Inter,sans-serif;text-decoration:none;">View All</a>
-    </div>
-  </div>
-</section>
-<?php endif; ?>
 
 <!-- Featured Pitches -->
 <?php if (!empty($featured_pitches)): ?>
