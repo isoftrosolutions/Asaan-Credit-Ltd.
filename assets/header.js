@@ -89,7 +89,12 @@ function injectHeader(mode) {
       navHtml += `<a href="/signup" class="btn btn-primary" onclick="closeMobileMenu()">Sign up</a>`;
       navHtml += `</div>`;
     } else {
+      const initials = (user.name || 'U').charAt(0).toUpperCase();
       navHtml += `<div class="mobile-nav-divider"></div>`;
+      navHtml += `<div class="mobile-user-info" style="padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--surface-container-high);">`;
+      navHtml += `<div class="avatar avatar-sm">${initials}</div>`;
+      navHtml += `<span style="font-weight:600;color:var(--ink);">${user.name || 'User'}</span>`;
+      navHtml += `</div>`;
       navHtml += `<a href="/dashboard" class="header-nav-link" onclick="closeMobileMenu()">${ICONS.home || ''} Dashboard</a>`;
       navHtml += `<a href="/logout" onclick="closeMobileMenu()">${ICONS.logout} Log out</a>`;
     }
