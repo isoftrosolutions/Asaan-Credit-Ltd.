@@ -206,7 +206,7 @@ $pageDescription = 'Create your free account on Asaan Capital Ltd. Join Nepal\'s
         <div class="step-bar <?= $step >= 3 ? 'active' : '' ?>"></div>
     </div>
 
-    <form method="post" action="/signup" id="signup-form">
+    <form method="post" action="/signup" id="signup-form" novalidate>
         <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
         <input type="hidden" name="step" value="<?= $step ?>">
 

@@ -41,65 +41,7 @@ if ($user) {
   </script>
   <link rel="icon" type="image/png" href="<?= APP_URL ?>/favicon.png">
   <link rel="shortcut icon" href="<?= APP_URL ?>/favicon.png">
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <script>
-  tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        colors: {
-          "on-tertiary-fixed-variant": "#0a4a72",
-          "background": "#fcf9f8",
-          "primary-container": "#6b1d22",
-          "on-tertiary": "#ffffff",
-          "tertiary": "#00263f",
-          "on-background": "#1c1b1b",
-          "on-secondary-fixed": "#001e31",
-          "secondary-fixed-dim": "#a4cbef",
-          "inverse-primary": "#ffb3b2",
-          "surface-bright": "#fcf9f8",
-          "on-primary-fixed": "#410008",
-          "on-tertiary-fixed": "#001d32",
-          "error": "#ba1a1a",
-          "on-error-container": "#93000a",
-          "on-error": "#ffffff",
-          "primary": "#4d060f",
-          "surface-tint": "#9b4144",
-          "surface-container-high": "#eae7e7",
-          "on-primary-fixed-variant": "#7d2a2e",
-          "error-container": "#ffdad6",
-          "surface-container-low": "#f6f3f2",
-          "tertiary-fixed": "#cde5ff",
-          "surface-container-highest": "#e5e2e1",
-          "on-surface": "#1c1b1b",
-          "on-tertiary-container": "#76a8d5",
-          "secondary": "#3b6281",
-          "surface-dim": "#dcd9d9",
-          "outline-variant": "#dbc0bf",
-          "inverse-surface": "#313030",
-          "surface-container": "#f0eded",
-          "outline": "#887271",
-          "on-secondary": "#ffffff",
-          "on-surface-variant": "#554242",
-          "secondary-container": "#b1d9fd",
-          "primary-fixed": "#ffdad9",
-          "tertiary-fixed-dim": "#9accfa",
-          "surface": "#fcf9f8",
-          "on-primary-container": "#f08484",
-          "on-secondary-container": "#385f7e",
-          "on-secondary-fixed-variant": "#214a68",
-          "surface-variant": "#e5e2e1",
-          "tertiary-container": "#003d60",
-          "on-primary": "#ffffff",
-          "inverse-on-surface": "#f3f0ef",
-          "primary-fixed-dim": "#ffb3b2",
-          "surface-container-lowest": "#ffffff",
-          "secondary-fixed": "#cce5ff"
-        }
-      }
-    }
-  }
-  </script>
+  <style>html.scroll-smooth { scroll-behavior: smooth; }</style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
