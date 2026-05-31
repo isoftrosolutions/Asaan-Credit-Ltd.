@@ -63,6 +63,20 @@ $stmt = db()->prepare($sql);
 $stmt->execute($params);
 $investors = $stmt->fetchAll();
 
+$activeFilters = 0;
+if ($investorType !== '') $activeFilters++;
+if ($sector !== '') $activeFilters++;
+if ($location !== '') $activeFilters++;
+
+$investorTypeLabels = [
+    'individual' => 'Individual',
+    'company' => 'Company',
+    'lender' => 'Lender',
+    'vc' => 'Venture Capital',
+    'pe' => 'Private Equity',
+    'family_office' => 'Family Office',
+];
+
 $baseUrl = '/discover/investors.php';
 $queryParams = $_GET;
 unset($queryParams['page']);
@@ -78,12 +92,19 @@ if ($queryParams) {
 </div>
 
 <div class="container" style="padding-bottom:var(--space-8);">
-  <h2 style="margin-bottom:0.25rem;">Investors &amp; Buyers</h2>
-  <p style="margin-top:0;font-size:0.9rem;">Pre-verified investors, buyers, lenders, and advisors actively looking for opportunities.</p>
+  <div class="browse-title-bar">
+    <h2>Investors &amp; Buyers</h2>
+    <span class="result-pill"><?= number_format($p['total']) ?> verified investor<?= $p['total'] !== 1 ? 's' : '' ?></span>
+  </div>
 
-  <form class="filter-layout" style="margin-top:1.5rem;" method="GET" action="">
-    <div class="filter-sidebar">
-      <h5 style="margin-top:0;">Investor Type</h5>
+  <button type="button" class="filter-toggle-mobile" onclick="document.getElementById('filter-sidebar').classList.toggle('open')" aria-label="Toggle filters">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M2 14h4"/><path d="M10 8h4"/><path d="M18 16h4"/></svg>
+    Filters<?= $activeFilters > 0 ? ' (' . $activeFilters . ')' : '' ?>
+  </button>
+
+  <form class="filter-layout" method="GET" action="">
+    <div class="filter-sidebar" id="filter-sidebar">
+      <h5>Investor Type</h5>
       <div class="filter-group">
         <label><input type="radio" name="investor_type" value="" <?= $investorType === '' ? 'checked' : '' ?> onchange="this.form.submit()"> All</label>
         <label><input type="radio" name="investor_type" value="individual" <?= $investorType === 'individual' ? 'checked' : '' ?> onchange="this.form.submit()"> Individual Investors</label>
@@ -96,7 +117,7 @@ if ($queryParams) {
 
       <h5>Interested In Sector</h5>
       <div class="filter-group">
-        <select name="sector" class="input" style="border-bottom:1px solid var(--color-border);padding:0.5rem 0;font-size:0.85rem;" onchange="this.form.submit()">
+        <select name="sector" onchange="this.form.submit()">
           <option value="">All Sectors</option>
           <?php
           $sectors = db()->query("SELECT name FROM sectors WHERE is_active = 1 ORDER BY name")->fetchAll();
@@ -109,17 +130,43 @@ if ($queryParams) {
 
       <h5>Location</h5>
       <div class="filter-group">
-        <input type="text" name="location" placeholder="Search location..." value="<?= e($location) ?>" class="input" style="border-bottom:1px solid var(--color-border);padding:0.5rem 0;font-size:0.85rem;">
+        <input type="text" name="location" class="input" placeholder="Search location..." value="<?= e($location) ?>">
       </div>
 
-      <button class="btn btn-primary btn-sm" style="width:100%;margin-top:0.5rem;">Apply Filters</button>
+      <button class="btn btn-primary btn-sm" style="width:100%;">Apply Filters</button>
       <a href="<?= APP_URL ?>/discover/investors.php" class="btn btn-ghost btn-sm" style="width:100%;display:block;text-align:center;">Reset</a>
     </div>
 
     <div>
+      <?php if ($activeFilters > 0): ?>
+      <div class="filter-chips">
+        <?php if ($investorType !== ''): ?>
+          <a href="<?= remove_query_param($baseUrl, 'investor_type') ?>" class="filter-chip">
+            <?= $investorTypeLabels[$investorType] ?? e($investorType) ?>
+            <span class="filter-chip-remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+          </a>
+        <?php endif; ?>
+        <?php if ($sector !== ''): ?>
+          <a href="<?= remove_query_param($baseUrl, 'sector') ?>" class="filter-chip">
+            <?= e($sector) ?>
+            <span class="filter-chip-remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+          </a>
+        <?php endif; ?>
+        <?php if ($location !== ''): ?>
+          <a href="<?= remove_query_param($baseUrl, 'location') ?>" class="filter-chip">
+            <?= e($location) ?>
+            <span class="filter-chip-remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+          </a>
+        <?php endif; ?>
+        <a href="<?= APP_URL ?>/discover/investors.php" class="filter-chip" style="background:transparent;color:var(--color-text-muted);font-weight:500;">Clear all</a>
+      </div>
+      <?php endif; ?>
+
       <div class="sort-bar">
-        <span>Showing <?= ($p['offset'] + 1) ?> &ndash; <?= min($p['offset'] + $perPage, $p['total']) ?> of <?= $p['total'] ?></span>
-        <div style="display:flex;align-items:center;gap:0.5rem;">
+        <span class="result-count">
+          Showing <strong><?= $p['total'] > 0 ? ($p['offset'] + 1) . '&ndash;' . min($p['offset'] + $perPage, $p['total']) : 0 ?></strong> of <strong><?= number_format($p['total']) ?></strong>
+        </span>
+        <div class="sort-controls">
           <span class="meta-label">Sort by:</span>
           <select name="sort" onchange="this.form.submit()">
             <option value="newest" <?= $sort === 'newest' ? 'selected' : '' ?>>Recently Joined</option>
@@ -130,42 +177,45 @@ if ($queryParams) {
       </div>
 
       <?php if (empty($investors)): ?>
-        <p style="text-align:center;padding:3rem 0;color:var(--color-text-muted);">No investors found matching your criteria.</p>
+        <div class="empty-state-browse">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6"/><path d="M11 8v6"/></svg>
+          <h3>No investors found</h3>
+          <p>Try adjusting your filters to find investors that match your criteria.</p>
+          <a href="<?= APP_URL ?>/discover/investors.php" class="btn btn-primary btn-sm">Clear All Filters</a>
+        </div>
       <?php else: ?>
         <div class="listing-grid">
           <?php foreach ($investors as $inv): ?>
-            <div class="card" onclick="location.href='<?= APP_URL ?>/investor/public.php?id=<?= $inv['id'] ?>'">
-              <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;">
+            <div class="browse-card" onclick="location.href='<?= APP_URL ?>/investor/public.php?id=<?= $inv['id'] ?>'">
+              <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;">
                 <div class="avatar avatar-sm"><?= e(mb_substr($inv['name'], 0, 2)) ?></div>
-                <div style="flex:1;">
-                  <strong><?= e($inv['name']) ?></strong>
-                  <div style="font-size:0.8rem;color:var(--color-text-muted);">
+                <div style="flex:1;min-width:0;">
+                  <div class="card-title" style="margin:0;font-size:0.95rem;"><?= e($inv['name']) ?></div>
+                  <div class="card-meta" style="margin:0;">
                     <?= e($inv['company_name'] ?? '') ?>
                     <?php if ($inv['account_type']): ?>
-                      <span class="tag" style="font-size:0.7rem;"><?= e(ucfirst($inv['account_type'])) ?> in <?= e($inv['province'] ?? '') ?></span>
+                      &bull; <?= e(ucfirst($investorTypeLabels[$inv['account_type']] ?? $inv['account_type'])) ?>
                     <?php endif; ?>
                   </div>
                 </div>
               </div>
-              <p style="font-size:0.85rem;margin:0.5rem 0;">
+              <div class="card-desc">
                 <strong>Interests:</strong> <?= e(implode(', ', json_decode($inv['preferred_sectors'] ?? '[]', true) ?: [])) ?>.
-                <?= e(mb_substr($inv['bio'] ?? '', 0, 150)) ?>
-              </p>
-              <div style="display:flex;justify-content:space-between;font-size:0.85rem;flex-wrap:wrap;">
-                <span class="meta-label">Location: <?= e($inv['province'] ?? '') ?><?= $inv['district'] ? ', ' . e($inv['district']) : '' ?></span>
-                <span class="meta-label">Investment: <?= money($inv['ticket_min'] ?? 0) ?> &ndash; <?= money($inv['ticket_max'] ?? 0) ?></span>
+                <?= e(mb_substr($inv['bio'] ?? '', 0, 120)) ?>
               </div>
-              <div style="margin-top:0.75rem;">
-                <button class="btn btn-accent btn-sm" style="width:100%;" onclick="event.stopPropagation();location.href='<?= APP_URL ?>/investor/public.php?id=<?= $inv['id'] ?>'">View Profile</button>
+              <div style="display:flex;justify-content:space-between;font-size:0.8rem;flex-wrap:wrap;gap:0.5rem;margin-top:0.5rem;">
+                <span class="meta-label"><?= e($inv['province'] ?? '') ?><?= $inv['district'] ? ', ' . e($inv['district']) : '' ?></span>
+                <span class="meta-label" style="font-weight:700;color:var(--color-text);"><?= money($inv['ticket_min'] ?? 0) ?> &ndash; <?= money($inv['ticket_max'] ?? 0) ?></span>
+              </div>
+              <div class="card-footer">
+                <button class="btn btn-accent btn-sm" onclick="event.stopPropagation();location.href='<?= APP_URL ?>/investor/public.php?id=<?= $inv['id'] ?>'" style="width:100%;">View Profile</button>
               </div>
             </div>
           <?php endforeach; ?>
         </div>
       <?php endif; ?>
 
-      <div style="text-align:center;margin-top:2rem;">
-        <?= render_pagination($p['page'], $p['lastPage'], $baseUrl) ?>
-      </div>
+      <?= render_pagination($p['page'], $p['lastPage'], $baseUrl) ?>
     </div>
   </form>
 </div>

@@ -64,6 +64,10 @@ $franchises = $stmt->fetchAll();
 
 $sectors = db()->query("SELECT id, name FROM sectors WHERE is_active = 1 ORDER BY name")->fetchAll();
 
+$activeFilters = 0;
+if ($sectorId !== '') $activeFilters++;
+if ($invMin !== '' || $invMax !== '') $activeFilters++;
+
 $baseUrl = '/discover/franchises.php';
 $queryParams = $_GET;
 unset($queryParams['page']);
@@ -79,14 +83,21 @@ if ($queryParams) {
 </div>
 
 <div class="container" style="padding-bottom:var(--space-8);">
-  <h2>Franchise &amp; Brand Opportunities</h2>
-  <p style="font-size:0.9rem;margin-top:0;">Showing franchise opportunities from verified brands and franchisors.</p>
+  <div class="browse-title-bar">
+    <h2>Franchise &amp; Brand Opportunities</h2>
+    <span class="result-pill"><?= number_format($p['total']) ?> opportunit<?= $p['total'] !== 1 ? 'ies' : 'y' ?></span>
+  </div>
 
-  <form class="filter-layout" style="margin-top:1.5rem;" method="GET" action="">
-    <div class="filter-sidebar">
-      <h5 style="margin-top:0;">Industry</h5>
+  <button type="button" class="filter-toggle-mobile" onclick="document.getElementById('filter-sidebar').classList.toggle('open')" aria-label="Toggle filters">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M2 14h4"/><path d="M10 8h4"/><path d="M18 16h4"/></svg>
+    Filters<?= $activeFilters > 0 ? ' (' . $activeFilters . ')' : '' ?>
+  </button>
+
+  <form class="filter-layout" method="GET" action="">
+    <div class="filter-sidebar" id="filter-sidebar">
+      <h5>Industry</h5>
       <div class="filter-group">
-        <select name="sector_id" class="input" style="border-bottom:1px solid var(--color-border);padding:0.5rem 0;font-size:0.85rem;" onchange="this.form.submit()">
+        <select name="sector_id" onchange="this.form.submit()">
           <option value="">All Industries</option>
           <?php foreach ($sectors as $s): ?>
             <option value="<?= $s['id'] ?>" <?= (string)$s['id'] === $sectorId ? 'selected' : '' ?>><?= e($s['name']) ?></option>
@@ -96,18 +107,38 @@ if ($queryParams) {
 
       <h5>Investment Range</h5>
       <div class="filter-group" style="display:flex;gap:0.5rem;">
-        <input type="number" name="inv_min" placeholder="Min" value="<?= e($invMin) ?>" class="input" style="padding:0.4rem;font-size:0.85rem;width:48%;">
-        <input type="number" name="inv_max" placeholder="Max" value="<?= e($invMax) ?>" class="input" style="padding:0.4rem;font-size:0.85rem;width:48%;">
+        <input type="number" name="inv_min" class="input" placeholder="Min" value="<?= e($invMin) ?>" style="width:48%;">
+        <input type="number" name="inv_max" class="input" placeholder="Max" value="<?= e($invMax) ?>" style="width:48%;">
       </div>
 
-      <button class="btn btn-primary btn-sm" style="width:100%;margin-top:0.5rem;">Apply Filters</button>
+      <button class="btn btn-primary btn-sm" style="width:100%;">Apply Filters</button>
       <a href="<?= APP_URL ?>/discover/franchises.php" class="btn btn-ghost btn-sm" style="width:100%;display:block;text-align:center;">Reset</a>
     </div>
 
     <div>
+      <?php if ($activeFilters > 0): ?>
+      <div class="filter-chips">
+        <?php if ($sectorId !== ''): $selSector = current(array_filter($sectors, fn($s) => (string)$s['id'] === $sectorId)); ?>
+          <a href="<?= remove_query_param($baseUrl, 'sector_id') ?>" class="filter-chip">
+            <?= e($selSector['name'] ?? $sectorId) ?>
+            <span class="filter-chip-remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+          </a>
+        <?php endif; ?>
+        <?php if ($invMin !== '' || $invMax !== ''): ?>
+          <a href="<?= remove_query_param(remove_query_param($baseUrl, 'inv_min'), 'inv_max') ?>" class="filter-chip">
+            NPR <?= $invMin !== '' ? number_format((float)$invMin) : '0' ?> &ndash; NPR <?= $invMax !== '' ? number_format((float)$invMax) : 'Any' ?>
+            <span class="filter-chip-remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+          </a>
+        <?php endif; ?>
+        <a href="<?= APP_URL ?>/discover/franchises.php" class="filter-chip" style="background:transparent;color:var(--color-text-muted);font-weight:500;">Clear all</a>
+      </div>
+      <?php endif; ?>
+
       <div class="sort-bar">
-        <span>Showing <?= ($p['offset'] + 1) ?> &ndash; <?= min($p['offset'] + $perPage, $p['total']) ?> of <?= $p['total'] ?></span>
-        <div style="display:flex;align-items:center;gap:0.5rem;">
+        <span class="result-count">
+          Showing <strong><?= $p['total'] > 0 ? ($p['offset'] + 1) . '&ndash;' . min($p['offset'] + $perPage, $p['total']) : 0 ?></strong> of <strong><?= number_format($p['total']) ?></strong>
+        </span>
+        <div class="sort-controls">
           <span class="meta-label">Sort by:</span>
           <select name="sort" onchange="this.form.submit()">
             <option value="newest" <?= $sort === 'newest' ? 'selected' : '' ?>>Newest</option>
@@ -119,30 +150,44 @@ if ($queryParams) {
       </div>
 
       <?php if (empty($franchises)): ?>
-        <p style="text-align:center;padding:3rem 0;color:var(--color-text-muted);">No franchise opportunities found matching your criteria.</p>
+        <div class="empty-state-browse">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6"/><path d="M11 8v6"/></svg>
+          <h3>No franchise opportunities found</h3>
+          <p>Try adjusting your filters to discover more franchise brands.</p>
+          <a href="<?= APP_URL ?>/discover/franchises.php" class="btn btn-primary btn-sm">Clear All Filters</a>
+        </div>
       <?php else: ?>
         <div class="listing-grid">
           <?php foreach ($franchises as $f): ?>
-            <div class="card" onclick="location.href='<?= APP_URL ?>/franchise/<?= $f['id'] ?>'">
-              <div style="display:flex;justify-content:space-between;align-items:start;">
+            <div class="franchise-card" onclick="location.href='<?= APP_URL ?>/franchise/<?= $f['id'] ?>'">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;">
                 <div>
-                  <h4 style="margin:0;"><?= e($f['brand_name']) ?></h4>
-                  <div style="font-size:0.85rem;color:var(--color-text-muted);">
-                    <?= (int)$f['existing_units'] ?> Franchisees &bull; Est'd <?= e($f['established_year'] ?? 'N/A') ?>
+                  <div class="card-title" style="margin:0;"><?= e($f['brand_name']) ?></div>
+                  <div class="card-meta" style="margin-top:2px;">
+                    <?= (int)$f['existing_units'] ?> Franchisee<?= (int)$f['existing_units'] !== 1 ? 's' : '' ?>
+                    &bull; Est'd <?= e($f['established_year'] ?? 'N/A') ?>
                     <?php if ($f['countries_present']): ?>&bull; <?= e($f['countries_present']) ?><?php endif; ?>
-                    <?php if ($f['sector_name']): ?>&bull; <?= e($f['sector_name']) ?><?php endif; ?>
                   </div>
                 </div>
                 <span class="rating-badge"><?= e($f['rating']) ?></span>
               </div>
-              <p style="font-size:0.9rem;margin:0.5rem 0;"><?= e(mb_substr($f['description'] ?? '', 0, 200)) ?></p>
-              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin:0.75rem 0;">
-                <div><span class="meta-label">Franchise Fee</span><div class="meta-value"><?= money($f['franchise_fee'] ?? 0) ?></div></div>
-                <div><span class="meta-label">Royalty</span><div class="meta-value"><?= e($f['royalty_pct'] ?? 0) ?>%</div></div>
-                <div><span class="meta-label">Investment</span><div class="meta-value"><?= money($f['total_investment_min'] ?? 0) ?> &ndash; <?= money($f['total_investment_max'] ?? 0) ?></div></div>
+              <div class="card-desc" style="margin:0.5rem 0 0;"><?= e(mb_substr($f['description'] ?? '', 0, 150)) ?></div>
+              <div class="franchise-stats">
+                <div>
+                  <div class="franchise-stat-label">Franchise Fee</div>
+                  <div class="franchise-stat-value"><?= money($f['franchise_fee'] ?? 0) ?></div>
+                </div>
+                <div>
+                  <div class="franchise-stat-label">Royalty</div>
+                  <div class="franchise-stat-value"><?= e($f['royalty_pct'] ?? 0) ?>%</div>
+                </div>
+                <div>
+                  <div class="franchise-stat-label">Investment</div>
+                  <div class="franchise-stat-value"><?= money($f['total_investment_min'] ?? 0) ?> &ndash; <?= money($f['total_investment_max'] ?? 0) ?></div>
+                </div>
               </div>
               <span class="tx-badge tx-badge-franchise">Franchise Opportunity</span>
-              <div style="margin-top:0.75rem;">
+              <div class="card-footer" style="margin-top:auto;">
                 <button class="btn btn-accent btn-sm" onclick="event.stopPropagation();location.href='<?= APP_URL ?>/franchise/<?= $f['id'] ?>'">View Details</button>
               </div>
             </div>
@@ -150,9 +195,7 @@ if ($queryParams) {
         </div>
       <?php endif; ?>
 
-      <div style="text-align:center;margin-top:2rem;">
-        <?= render_pagination($p['page'], $p['lastPage'], $baseUrl) ?>
-      </div>
+      <?= render_pagination($p['page'], $p['lastPage'], $baseUrl) ?>
     </div>
   </form>
 </div>

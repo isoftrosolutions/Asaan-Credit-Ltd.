@@ -89,12 +89,37 @@ if ($user) {
 
 $sectors = db()->query("SELECT id, name FROM sectors WHERE is_active = 1 ORDER BY name")->fetchAll();
 
+$activeFilters = 0;
+if ($listingType !== '') $activeFilters++;
+if ($sectorId !== '') $activeFilters++;
+if ($province !== '') $activeFilters++;
+if ($priceMin !== '' || $priceMax !== '') $activeFilters++;
+
 $baseUrl = '/discover/businesses.php';
 $queryParams = $_GET;
 unset($queryParams['page']);
 if ($queryParams) {
     $baseUrl .= '?' . http_build_query($queryParams);
 }
+
+$badgeMap = [
+    'sale' => 'Business for Sale',
+    'partial_stake' => 'Partial Stake Sale',
+    'loan' => 'Business Loan',
+    'asset_sale' => 'Asset Sale',
+];
+$badgeClass = [
+    'sale' => 'tx-badge-sale',
+    'partial_stake' => 'tx-badge-partial',
+    'loan' => 'tx-badge-loan',
+    'asset_sale' => 'tx-badge-asset',
+];
+$listingTypeLabels = [
+    'sale' => 'For Sale',
+    'partial_stake' => 'Partial Stake',
+    'loan' => 'Loan',
+    'asset_sale' => 'Asset Sale',
+];
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
 <?= $breadcrumbSchema ?>
@@ -104,12 +129,19 @@ if ($queryParams) {
 </div>
 
 <div class="container" style="padding-bottom:var(--space-8);">
-  <h2 style="margin-bottom:0.25rem;">Businesses for Sale and Investment</h2>
-  <p style="margin-top:0;font-size:0.9rem;">Showing <?= $p['total'] ?: 0 ?> businesses. Buy or invest in a business.</p>
+  <div class="browse-title-bar">
+    <h2>Businesses for Sale &amp; Investment</h2>
+    <span class="result-pill"><?= number_format($p['total']) ?> listing<?= $p['total'] !== 1 ? 's' : '' ?></span>
+  </div>
 
-  <form class="filter-layout" style="margin-top:1.5rem;" method="GET" action="">
-    <div class="filter-sidebar">
-      <h5 style="margin-top:0;">Transaction Type</h5>
+  <button type="button" class="filter-toggle-mobile" onclick="document.getElementById('filter-sidebar').classList.toggle('open')" aria-label="Toggle filters">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M2 14h4"/><path d="M10 8h4"/><path d="M18 16h4"/></svg>
+    Filters<?= $activeFilters > 0 ? ' (' . $activeFilters . ')' : '' ?>
+  </button>
+
+  <form class="filter-layout" method="GET" action="">
+    <div class="filter-sidebar" id="filter-sidebar">
+      <h5>Transaction Type</h5>
       <div class="filter-group">
         <label><input type="radio" name="listing_type" value="" <?= $listingType === '' ? 'checked' : '' ?> onchange="this.form.submit()"> All</label>
         <label><input type="radio" name="listing_type" value="sale" <?= $listingType === 'sale' ? 'checked' : '' ?> onchange="this.form.submit()"> Businesses For Sale</label>
@@ -120,7 +152,7 @@ if ($queryParams) {
 
       <h5>Industry</h5>
       <div class="filter-group">
-        <select name="sector_id" class="input" style="border-bottom:1px solid var(--color-border);padding:0.5rem 0;font-size:0.85rem;" onchange="this.form.submit()">
+        <select name="sector_id" onchange="this.form.submit()">
           <option value="">All Industries</option>
           <?php foreach ($sectors as $s): ?>
             <option value="<?= $s['id'] ?>" <?= (string)$s['id'] === $sectorId ? 'selected' : '' ?>><?= e($s['name']) ?></option>
@@ -130,7 +162,7 @@ if ($queryParams) {
 
       <h5>Location</h5>
       <div class="filter-group">
-        <select name="province" class="input" style="border-bottom:1px solid var(--color-border);padding:0.5rem 0;font-size:0.85rem;" onchange="this.form.submit()">
+        <select name="province" onchange="this.form.submit()">
           <option value="">All Locations</option>
           <option value="Bagmati" <?= $province === 'Bagmati' ? 'selected' : '' ?>>Bagmati</option>
           <option value="Gandaki" <?= $province === 'Gandaki' ? 'selected' : '' ?>>Gandaki</option>
@@ -144,18 +176,50 @@ if ($queryParams) {
 
       <h5>Price Range</h5>
       <div class="filter-group" style="display:flex;gap:0.5rem;">
-        <input type="number" name="price_min" placeholder="Min" value="<?= e($priceMin) ?>" class="input" style="padding:0.4rem;font-size:0.85rem;width:48%;">
-        <input type="number" name="price_max" placeholder="Max" value="<?= e($priceMax) ?>" class="input" style="padding:0.4rem;font-size:0.85rem;width:48%;">
+        <input type="number" name="price_min" class="input" placeholder="Min" value="<?= e($priceMin) ?>" style="width:48%;">
+        <input type="number" name="price_max" class="input" placeholder="Max" value="<?= e($priceMax) ?>" style="width:48%;">
       </div>
 
-      <button class="btn btn-primary btn-sm" style="width:100%;margin-top:0.5rem;">Apply Filters</button>
+      <button class="btn btn-primary btn-sm" style="width:100%;">Apply Filters</button>
       <a href="<?= APP_URL ?>/discover/businesses.php" class="btn btn-ghost btn-sm" style="width:100%;display:block;text-align:center;">Reset</a>
     </div>
 
     <div>
+      <?php if ($activeFilters > 0): ?>
+      <div class="filter-chips">
+        <?php if ($listingType !== ''): ?>
+          <a href="<?= remove_query_param($baseUrl, 'listing_type') ?>" class="filter-chip">
+            <?= $listingTypeLabels[$listingType] ?? e($listingType) ?>
+            <span class="filter-chip-remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+          </a>
+        <?php endif; ?>
+        <?php if ($sectorId !== ''): $selSector = current(array_filter($sectors, fn($s) => (string)$s['id'] === $sectorId)); ?>
+          <a href="<?= remove_query_param($baseUrl, 'sector_id') ?>" class="filter-chip">
+            <?= e($selSector['name'] ?? $sectorId) ?>
+            <span class="filter-chip-remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+          </a>
+        <?php endif; ?>
+        <?php if ($province !== ''): ?>
+          <a href="<?= remove_query_param($baseUrl, 'province') ?>" class="filter-chip">
+            <?= e($province) ?>
+            <span class="filter-chip-remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+          </a>
+        <?php endif; ?>
+        <?php if ($priceMin !== '' || $priceMax !== ''): ?>
+          <a href="<?= remove_query_param(remove_query_param($baseUrl, 'price_min'), 'price_max') ?>" class="filter-chip">
+            <?= $priceMin !== '' ? 'NPR ' . number_format((float)$priceMin) : 'NPR 0' ?> &ndash; <?= $priceMax !== '' ? 'NPR ' . number_format((float)$priceMax) : 'Any' ?>
+            <span class="filter-chip-remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+          </a>
+        <?php endif; ?>
+        <a href="<?= APP_URL ?>/discover/businesses.php" class="filter-chip" style="background:transparent;color:var(--color-text-muted);font-weight:500;">Clear all</a>
+      </div>
+      <?php endif; ?>
+
       <div class="sort-bar">
-        <span>Showing <?= ($p['offset'] + 1) ?> &ndash; <?= min($p['offset'] + $perPage, $p['total']) ?> of <?= $p['total'] ?></span>
-        <div style="display:flex;align-items:center;gap:0.5rem;">
+        <span class="result-count">
+          Showing <strong><?= $p['total'] > 0 ? ($p['offset'] + 1) . '&ndash;' . min($p['offset'] + $perPage, $p['total']) : 0 ?></strong> of <strong><?= number_format($p['total']) ?></strong>
+        </span>
+        <div class="sort-controls">
           <span class="meta-label">Sort by:</span>
           <select name="sort" onchange="this.form.submit()">
             <option value="newest" <?= $sort === 'newest' ? 'selected' : '' ?>>Recently Listed</option>
@@ -167,44 +231,34 @@ if ($queryParams) {
       </div>
 
       <?php if (empty($businesses)): ?>
-        <p style="text-align:center;padding:3rem 0;color:var(--color-text-muted);">No businesses found matching your criteria.</p>
+        <div class="empty-state-browse">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6"/><path d="M11 8v6"/></svg>
+          <h3>No businesses found</h3>
+          <p>Try adjusting your filters or search criteria to find more results.</p>
+          <a href="<?= APP_URL ?>/discover/businesses.php" class="btn btn-primary btn-sm">Clear All Filters</a>
+        </div>
       <?php else: ?>
         <div class="listing-grid">
           <?php foreach ($businesses as $b): ?>
-            <div class="card business-card" onclick="location.href='<?= APP_URL ?>/business/detail.php?id=<?= $b['id'] ?>'">
-              <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:0.5rem;">
+            <div class="browse-card" onclick="location.href='<?= APP_URL ?>/business/detail.php?id=<?= $b['id'] ?>'">
+              <div class="card-header-row">
                 <span>
-                  <?php
-                  $badgeMap = [
-                    'sale' => 'Business for Sale',
-                    'partial_stake' => 'Partial Stake Sale',
-                    'loan' => 'Business Loan',
-                    'asset_sale' => 'Asset Sale',
-                  ];
-                  $badgeClass = [
-                    'sale' => 'tx-badge-sale',
-                    'partial_stake' => 'tx-badge-partial',
-                    'loan' => 'tx-badge-loan',
-                    'asset_sale' => 'tx-badge-asset',
-                  ];
-                  $label = $badgeMap[$b['listing_type']] ?? e($b['listing_type']);
-                  $cls = $badgeClass[$b['listing_type']] ?? '';
-                  ?>
-                  <span class="tx-badge <?= $cls ?>"><?= $label ?></span>
+                  <span class="tx-badge <?= $badgeClass[$b['listing_type']] ?? '' ?>"><?= $badgeMap[$b['listing_type']] ?? e($b['listing_type']) ?></span>
                   <?php if (!empty($b['is_featured'])): ?>
                     <span class="premium-ribbon" style="margin-left:4px;">PREMIUM</span>
                   <?php endif; ?>
                 </span>
-                <span class="rating-badge"><?= e($b['rating']) ?> <?= e($b['province'] ?? '') ?></span>
+                <span class="rating-badge"><?= e($b['rating']) ?></span>
               </div>
-              <h4 style="margin:0.5rem 0 0.25rem;"><?= e($b['business_name']) ?></h4>
-              <p style="font-size:0.85rem;margin:0 0 0.5rem;"><?= e(mb_substr($b['description'] ?? '', 0, 120)) ?><?= mb_strlen($b['description'] ?? '') > 120 ? '...' : '' ?></p>
-              <?php if (!empty($b['sector_name'])): ?>
-                <div style="font-size:0.8rem;color:var(--on-surface-variant);margin-bottom:0.5rem;">Sector: <?= e($b['sector_name']) ?></div>
-              <?php endif; ?>
-              <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--surface-container-high);display:flex;justify-content:space-between;align-items:center;">
-                <strong style="font-size:1.05rem;"><?= money($b['asking_price']) ?></strong>
-                <div style="display:flex;gap:0.5rem;align-items:center;">
+              <div class="card-title"><?= e($b['business_name']) ?></div>
+              <div class="card-meta">
+                <?php if (!empty($b['sector_name'])): ?><?= e($b['sector_name']) ?><?php endif; ?>
+                <?php if (!empty($b['province'])): ?>&bull; <?= e($b['province']) ?><?php endif; ?>
+              </div>
+              <div class="card-desc"><?= e(mb_substr($b['description'] ?? '', 0, 120)) ?><?= mb_strlen($b['description'] ?? '') > 120 ? '...' : '' ?></div>
+              <div class="card-footer">
+                <div class="card-price"><?= money($b['asking_price']) ?></div>
+                <div class="card-actions">
                   <?php if ($user): ?>
                     <button class="btn btn-sm <?= in_array($b['id'], $savedIds) ? 'btn-primary' : 'btn-ghost' ?>" onclick="event.stopPropagation();fetch('<?= APP_URL ?>/api/toggle-save.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'listing_type=business&listing_id=<?= $b['id'] ?>&_csrf=<?= csrf_token() ?>'}).then(r=>r.json()).then(d=>{if(d.saved){this.classList.remove('btn-ghost');this.classList.add('btn-primary')}else{this.classList.remove('btn-primary');this.classList.add('btn-ghost')}})">
                       <?= in_array($b['id'], $savedIds) ? 'Saved' : 'Save' ?>
@@ -218,9 +272,7 @@ if ($queryParams) {
         </div>
       <?php endif; ?>
 
-      <div style="text-align:center;margin-top:2rem;">
-        <?= render_pagination($p['page'], $p['lastPage'], $baseUrl) ?>
-      </div>
+      <?= render_pagination($p['page'], $p['lastPage'], $baseUrl) ?>
     </div>
   </form>
 </div>

@@ -49,18 +49,68 @@ function paginate(PDOStatement $countStmt, int $page, int $perPage = 12): array 
 
 function render_pagination(int $page, int $lastPage, string $baseUrl): string {
     if ($lastPage <= 1) return '';
-    $html = '<div class="pagination">';
-    for ($i = 1; $i <= $lastPage; $i++) {
-        $active = $i === $page ? ' active' : '';
-        $html .= '<a href="' . $baseUrl . '?page=' . $i . '" class="page-link' . $active . '">' . $i . '</a>';
+    $sep = str_contains($baseUrl, '?') ? '&' : '?';
+    $html = '<nav class="pagination" role="navigation" aria-label="Pagination">';
+
+    $prevUrl = $baseUrl . $sep . 'page=' . ($page - 1);
+    $nextUrl = $baseUrl . $sep . 'page=' . ($page + 1);
+
+    $prevDisabled = $page <= 1 ? ' disabled' : '';
+    $nextDisabled = $page >= $lastPage ? ' disabled' : '';
+
+    $html .= '<a href="' . ($prevDisabled ? '#' : $prevUrl) . '" class="page-link page-link-nav' . $prevDisabled . '" ' . ($prevDisabled ? 'tabindex="-1" aria-disabled="true"' : '') . ' aria-label="Previous page">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </a>';
+
+    $startPage = max(1, min($page - 2, $lastPage - 4));
+    $endPage = min($lastPage, max($page + 2, 5));
+
+    if ($lastPage > 7) {
+        if ($startPage > 1) {
+            $html .= '<a href="' . $baseUrl . $sep . 'page=1" class="page-link" aria-label="Page 1">1</a>';
+            if ($startPage > 2) {
+                $html .= '<span class="page-link page-link-dots" aria-hidden="true">&hellip;</span>';
+            }
+        }
+        for ($i = $startPage; $i <= $endPage; $i++) {
+            $active = $i === $page ? ' active' : '';
+            $html .= '<a href="' . $baseUrl . $sep . 'page=' . $i . '" class="page-link' . $active . '" aria-label="Page ' . $i . '"' . ($active ? ' aria-current="page"' : '') . '>' . $i . '</a>';
+        }
+        if ($endPage < $lastPage) {
+            if ($endPage < $lastPage - 1) {
+                $html .= '<span class="page-link page-link-dots" aria-hidden="true">&hellip;</span>';
+            }
+            $html .= '<a href="' . $baseUrl . $sep . 'page=' . $lastPage . '" class="page-link" aria-label="Page ' . $lastPage . '">' . $lastPage . '</a>';
+        }
+    } else {
+        for ($i = 1; $i <= $lastPage; $i++) {
+            $active = $i === $page ? ' active' : '';
+            $html .= '<a href="' . $baseUrl . $sep . 'page=' . $i . '" class="page-link' . $active . '" aria-label="Page ' . $i . '"' . ($active ? ' aria-current="page"' : '') . '>' . $i . '</a>';
+        }
     }
-    $html .= '</div>';
+
+    $html .= '<a href="' . ($nextDisabled ? '#' : $nextUrl) . '" class="page-link page-link-nav' . $nextDisabled . '" ' . ($nextDisabled ? 'tabindex="-1" aria-disabled="true"' : '') . ' aria-label="Next page">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </a>';
+
+    $html .= '</nav>';
     return $html;
 }
 
 function generate_slug(string $str): string {
     $str = preg_replace('/[^a-z0-9]+/', '-', strtolower(trim($str)));
     return trim($str, '-');
+}
+
+function remove_query_param(string $url, string $param): string {
+    $parts = parse_url($url);
+    parse_str($parts['query'] ?? '', $qs);
+    unset($qs[$param]);
+    $baseUrl = ($parts['path'] ?? '');
+    if ($qs) {
+        return $baseUrl . '?' . http_build_query($qs);
+    }
+    return $baseUrl;
 }
 
 function notifiable_roles(): array {
