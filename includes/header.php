@@ -62,7 +62,7 @@ if ($user) {
 <script>
 const UNREAD_COUNT = <?= $unreadCount ?>;
 const CURRENT_USER = <?= json_encode($user) ?>;
-<?php if ($user): ?>
+<?php if ($user && empty($forcePublicHeader)): ?>
 injectHeader('<?= $isAdmin ? 'admin' : 'dashboard' ?>');
 <?php else: ?>
 injectHeader('public');

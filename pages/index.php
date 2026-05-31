@@ -19,6 +19,7 @@ $featured_pitches = db()->query("SELECT p.*, s.name as sector_name FROM pitches 
 $faqs = db()->query("SELECT * FROM faqs WHERE is_active=1 ORDER BY sort_order LIMIT 4")->fetchAll();
 
 $pageTitle = APP_NAME;
+$forcePublicHeader = true; // home keeps the public marketing nav even when logged in
 require __DIR__ . '/../includes/header.php';
 ?>
 <style>

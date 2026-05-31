@@ -1,5 +1,5 @@
 const PUBLIC_LINKS = [
-  { label: 'Browse', url: '/browse/businesses', icon: 'search' },
+  { label: 'Home', url: '/', icon: 'home' },
   { label: 'How It Works', url: '/how-it-works', icon: 'document' },
   { label: 'Valuation', url: '/business-valuation', icon: 'chart' },
   { label: 'Support', url: '/support', icon: 'message' },
@@ -61,8 +61,9 @@ function injectHeader(mode) {
   const root = document.getElementById('header-root');
   if (!root) return;
 
-  const isLoggedIn = mode === 'dashboard' || mode === 'admin';
   const user = window.CURRENT_USER;
+  // Auth state, not page mode — so the public/home header also reflects login.
+  const isLoggedIn = !!user;
   const unread = window.UNREAD_COUNT || 0;
 
   const mobileLinks = mode === 'public' ? PUBLIC_LINKS
@@ -88,6 +89,10 @@ function injectHeader(mode) {
       navHtml += `<a href="/login" class="btn btn-outline" onclick="closeMobileMenu()">Log in</a>`;
       navHtml += `<a href="/signup" class="btn btn-primary" onclick="closeMobileMenu()">Sign up</a>`;
       navHtml += `</div>`;
+    } else {
+      navHtml += `<div class="mobile-nav-divider"></div>`;
+      navHtml += `<a href="/dashboard" class="header-nav-link" onclick="closeMobileMenu()">${ICONS.home || ''} Dashboard</a>`;
+      navHtml += `<a href="/logout" onclick="closeMobileMenu()">${ICONS.logout} Log out</a>`;
     }
   } else if (mode === 'admin') {
     ADMIN_LINKS.forEach(link => {
