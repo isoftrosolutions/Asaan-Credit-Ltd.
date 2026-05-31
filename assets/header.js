@@ -228,6 +228,8 @@ function injectSidebar(role) {
 
   const links = role === 'admin' ? ADMIN_LINKS : (DASHBOARD_LINKS[role] || DASHBOARD_LINKS.investor);
   const currentPath = window.location.pathname;
+  const user = window.CURRENT_USER;
+  const unread = window.UNREAD_COUNT || 0;
 
   let html = `<button class="sidebar-mobile-toggle" onclick="toggleMobileSidebar()" aria-label="Toggle sidebar">
     ${ICONS.menu} Menu
@@ -237,13 +239,30 @@ function injectSidebar(role) {
     <strong>Navigation</strong>
     <button class="sidebar-close-btn" onclick="toggleMobileSidebar()" aria-label="Close sidebar">${ICONS.close}</button>
   </div>`;
+
+  if (user) {
+    const initials = (user.name || 'U').charAt(0).toUpperCase();
+    const roleLabels = { investor: 'Investor', business_owner: 'Business Owner', entrepreneur: 'Entrepreneur', franchisor: 'Franchisor', advisor: 'Advisor' };
+    html += `<div class="sidebar-user">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="avatar avatar-sm">${initials}</div>
+        <div>
+          <div class="sidebar-user-name">${user.name || 'User'}</div>
+          <div class="sidebar-user-role">${roleLabels[user.role] || user.role || ''}</div>
+        </div>
+      </div>
+    </div>`;
+  }
+
   html += `<nav class="sidebar-nav">`;
   links.forEach(link => {
     const active = currentPath === link.url || currentPath.startsWith(link.url + '/') ? ' active' : '';
-    html += `<a href="${link.url}" class="sidebar-nav-item${active}">${ICONS[link.icon] || ''} ${link.label}</a>`;
+    const badge = (link.label === 'Notifications' && unread > 0) ? `<span class="sidebar-notif-badge">${unread > 9 ? '9+' : unread}</span>` : '';
+    html += `<a href="${link.url}" class="sidebar-nav-item${active}">${ICONS[link.icon] || ''} ${link.label}${badge}</a>`;
   });
   html += `</nav>`;
-  html += `<div style="margin-top:auto;padding-top:1rem;border-top:1px solid var(--surface-container-high);margin-top:1rem;">
+
+  html += `<div class="sidebar-footer">
     <a href="/logout" class="sidebar-nav-item" onclick="closeMobileSidebar()">${ICONS.logout} Log out</a>
   </div>`;
   html += `</div>`;

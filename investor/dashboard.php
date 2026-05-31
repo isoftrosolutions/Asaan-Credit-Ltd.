@@ -32,7 +32,7 @@ $stmt = db()->prepare("
 $stmt->execute([$userId]);
 $suggestions = $stmt->fetchAll();
 
-$stmt = db()->prepare('SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC LIMIT 5');
+$stmt = db()->prepare('SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC LIMIT 8');
 $stmt->execute([$userId]);
 $recentNotifications = $stmt->fetchAll();
 
@@ -44,71 +44,123 @@ elseif ($hour < 17) $greeting = 'Good afternoon';
 $pageTitle = 'Investor Dashboard';
 require __DIR__ . '/../includes/layout-dashboard.php';
 ?>
-<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.5rem;">
+<div class="dashboard-heading">
   <div>
-    <h2 style="margin:0 0 0.25rem;"><?= e($greeting) ?>, <?= e($user['name']) ?></h2>
-    <div style="color:var(--color-text-muted);">You have <strong><?= $matchesCount ?> match<?= $matchesCount !== 1 ? 'es' : '' ?></strong> on the platform</div>
+    <h2><?= e($greeting) ?>, <?= e($user['name']) ?></h2>
+    <div class="greeting-sub">You have <strong><?= $matchesCount ?> match<?= $matchesCount !== 1 ? 'es' : '' ?></strong> on the platform</div>
   </div>
-  <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-accent">Browse all businesses →</a>
+  <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-accent btn-sm">Browse all businesses →</a>
 </div>
 
-<div class="stats-grid" style="display:grid; grid-template-columns:repeat(4, 1fr); gap:1rem; margin-bottom:2rem;">
+<div class="dashboard-stats">
   <div class="stat-card">
-    <div class="stat-value"><?= $interestSent ?></div>
-    <div class="stat-label">Interest requests sent</div>
+    <div class="stat-card-icon" style="background:rgba(30,122,77,0.1);color:var(--color-success);">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    </div>
+    <div class="stat-card-content">
+      <div class="stat-value"><?= $interestSent ?></div>
+      <div class="stat-label">Interest requests sent</div>
+    </div>
   </div>
   <div class="stat-card">
-    <div class="stat-value"><?= $matchesCount ?></div>
-    <div class="stat-label">Matches made</div>
+    <div class="stat-card-icon" style="background:rgba(30,72,102,0.1);color:var(--color-secondary);">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+    </div>
+    <div class="stat-card-content">
+      <div class="stat-value"><?= $matchesCount ?></div>
+      <div class="stat-label">Matches made</div>
+    </div>
   </div>
   <div class="stat-card">
-    <div class="stat-value"><?= $savedCount ?></div>
-    <div class="stat-label">Saved listings</div>
+    <div class="stat-card-icon" style="background:rgba(199,122,18,0.1);color:var(--color-warning);">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+    </div>
+    <div class="stat-card-content">
+      <div class="stat-value"><?= $savedCount ?></div>
+      <div class="stat-label">Saved listings</div>
+    </div>
   </div>
   <div class="stat-card">
-    <div class="stat-value"><?= $interestSent + $matchesCount ?></div>
-    <div class="stat-label">Total engagements</div>
+    <div class="stat-card-icon" style="background:rgba(152,32,42,0.1);color:var(--color-primary-vivid);">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+    </div>
+    <div class="stat-card-content">
+      <div class="stat-value"><?= $interestSent + $matchesCount ?></div>
+      <div class="stat-label">Total engagements</div>
+    </div>
   </div>
 </div>
 
 <?php if (!empty($suggestions)): ?>
-<h3 style="margin-bottom:1rem;">Smart Matches for You</h3>
-<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(310px, 1fr)); gap:1rem;">
+<div class="section-header">
+  <h3>Smart Matches for You</h3>
+  <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-ghost btn-sm">View all</a>
+</div>
+<div class="match-grid">
   <?php foreach ($suggestions as $s): ?>
-  <div class="card business-card" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$s['biz_id'] ?>'" style="cursor:pointer;">
-    <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:0.5rem;">
-      <span class="tx-badge tx-badge-<?= e($s['listing_type'] === 'sale' ? 'sale' : 'investment') ?>"><?= e($s['listing_type'] === 'sale' ? 'Business for Sale' : 'Investment Opportunity') ?></span>
-      <?php if ($s['match_score']): ?><span class="rating-badge"><?= e(number_format($s['match_score'], 0)) ?>%</span><?php endif; ?>
+  <div class="match-card" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$s['biz_id'] ?>'">
+    <div class="match-header">
+      <span class="tx-badge tx-badge-<?= e($s['listing_type'] === 'sale' ? 'sale' : 'investment') ?>"><?= e($s['listing_type'] === 'sale' ? 'For Sale' : 'Investment') ?></span>
+      <?php if ($s['province']): ?>
+        <span style="font-size:0.75rem;color:var(--color-text-muted);"><?= e($s['province']) ?></span>
+      <?php endif; ?>
     </div>
-    <h4 style="margin:0.5rem 0 0.25rem;"><?= e($s['business_name'] ?? 'Untitled') ?></h4>
-    <p style="font-size:0.85rem;margin:0 0 0.5rem;">
-      <?= e($s['sector_name'] ?? 'General') ?>
-      <?php if ($s['annual_revenue']): ?> • NPR <?= e(number_format((float)$s['annual_revenue'], 0)) ?> revenue<?php endif; ?>
-      <?php if ($s['match_score']): ?> • <?= e(number_format($s['match_score'], 0)) ?>% match<?php endif; ?>
-    </p>
-    <div style="display:flex;gap:1rem;font-size:0.85rem;">
-      <?php if ($s['asking_price']): ?><span><span class="meta-label">Asking:</span> NPR <?= e(number_format((float)$s['asking_price'], 0)) ?></span><?php endif; ?>
-      <?php if ($s['ebitda_pct']): ?><span><span class="meta-label">EBITDA:</span> <?= e($s['ebitda_pct']) ?>%</span><?php endif; ?>
+    <div class="match-title"><?= e($s['business_name'] ?? 'Untitled') ?></div>
+    <div class="match-meta"><?= e($s['sector_name'] ?? 'General') ?><?php if ($s['annual_revenue']): ?> &bull; NPR <?= e(number_format((float)$s['annual_revenue'], 0)) ?> revenue<?php endif; ?></div>
+    <div class="match-details">
+      <?php if ($s['asking_price']): ?>
+      <div class="match-detail">
+        <span class="match-detail-label">Asking</span>
+        <span class="match-detail-value">NPR <?= e(number_format((float)$s['asking_price'], 0)) ?></span>
+      </div>
+      <?php endif; ?>
+      <?php if ($s['ebitda_pct']): ?>
+      <div class="match-detail">
+        <span class="match-detail-label">EBITDA</span>
+        <span class="match-detail-value"><?= e($s['ebitda_pct']) ?>%</span>
+      </div>
+      <?php endif; ?>
+    </div>
+    <div class="match-footer">
+      <div class="match-score-bar">
+        <span class="match-score-label"><?= e(number_format($s['match_score'], 0)) ?>%</span>
+        <div class="match-score-track">
+          <div class="match-score-fill" style="width:<?= e(number_format($s['match_score'], 0)) ?>%;background:<?= $s['match_score'] >= 80 ? 'var(--color-success)' : ($s['match_score'] >= 60 ? 'var(--color-warning)' : 'var(--color-text-muted)') ?>;"></div>
+        </div>
+      </div>
+      <span style="font-size:0.8rem;color:var(--color-primary);font-weight:600;">View &rarr;</span>
     </div>
   </div>
   <?php endforeach; ?>
 </div>
 <?php endif; ?>
 
-<div style="margin-top:2.5rem;">
-  <h3>Recent Activity</h3>
-  <div class="card" style="padding:1rem 1.25rem; font-size:0.9rem;">
+<div class="activity-feed">
+  <div class="section-header">
+    <h3>Recent Activity</h3>
+    <?php if (!empty($recentNotifications)): ?>
+    <a href="<?= APP_URL ?>/notifications" class="btn btn-ghost btn-sm">View all</a>
+    <?php endif; ?>
+  </div>
+  <div class="activity-card">
     <?php if (empty($recentNotifications)): ?>
-      <div style="padding:8px 0; color:var(--color-text-muted);">No recent activity.</div>
+      <div class="activity-empty">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-4"/></svg>
+        <div>No recent activity yet.</div>
+      </div>
     <?php else: ?>
-      <?php foreach ($recentNotifications as $i => $n): ?>
-      <div style="display:flex; justify-content:space-between; padding:8px 0; <?= $i < count($recentNotifications) - 1 ? 'border-bottom:1px solid var(--color-border);' : '' ?>">
-        <div>
-          <?php if ($n['type'] === 'match'): ?>✅<?php elseif ($n['type'] === 'interest'): ?>📩<?php elseif ($n['type'] === 'connection'): ?>🔗<?php else: ?>📌<?php endif; ?>
-          <strong><?= e($n['title']) ?></strong>
-          <?php if ($n['body']): ?> — <?= e(mb_substr($n['body'], 0, 80)) ?><?php endif; ?>
+      <?php foreach ($recentNotifications as $n): ?>
+      <div class="activity-item">
+        <div class="activity-icon" style="background:<?php if ($n['type'] === 'match'): ?>rgba(30,122,77,0.1)<?php elseif ($n['type'] === 'interest'): ?>rgba(30,72,102,0.1)<?php elseif ($n['type'] === 'connection'): ?>rgba(199,122,18,0.1)<?php else: ?>rgba(152,32,42,0.1)<?php endif; ?>">
+          <?php if ($n['type'] === 'match'): ?>🤝<?php elseif ($n['type'] === 'interest'): ?>📩<?php elseif ($n['type'] === 'connection'): ?>🔗<?php else: ?>📌<?php endif; ?>
         </div>
-        <div style="color:var(--color-text-muted); font-size:0.75rem; white-space:nowrap; margin-left:1rem;"><?= date_human($n['created_at']) ?></div>
+        <div class="activity-content">
+          <div class="activity-title"><?= e($n['title']) ?></div>
+          <?php if ($n['body']): ?>
+          <div class="activity-body"><?= e(mb_substr($n['body'], 0, 80)) ?></div>
+          <?php endif; ?>
+        </div>
+        <div class="activity-time"><?= date_human($n['created_at']) ?></div>
       </div>
       <?php endforeach; ?>
     <?php endif; ?>

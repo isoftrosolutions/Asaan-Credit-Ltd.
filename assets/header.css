@@ -116,7 +116,42 @@
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+}
+
+.header-actions .btn-outline {
+  padding: 6px 16px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  border-color: var(--color-border);
+  background: transparent;
+  color: var(--color-text-muted);
+  transition: all var(--motion-fast) var(--ease-standard);
+}
+
+.header-actions .btn-outline:hover {
+  border-color: var(--color-primary-vivid);
+  color: var(--color-primary-vivid);
+  background: rgba(152, 32, 42, 0.04);
+}
+
+.header-actions .btn-primary {
+  padding: 6px 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-color: var(--color-primary);
+  transition: all var(--motion-fast) var(--ease-standard);
+}
+
+.header-actions .btn-primary:hover {
+  background: #4A1317;
+  border-color: #4A1317;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .header-user {
