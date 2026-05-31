@@ -1,6 +1,13 @@
-.site-header {
+/* The header lives inside #header-root (a direct child of <body>). Sticky must
+   live on this wrapper — not the inner <header> — so its containing block is the
+   full-height <body> and it stays pinned through the whole scroll. */
+#header-root {
   position: sticky;
   top: 0;
+  z-index: 100;
+}
+
+.site-header {
   z-index: 100;
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(12px);
