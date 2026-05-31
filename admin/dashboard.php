@@ -22,7 +22,7 @@ foreach ($queries as $key => $sql) {
 $recentSignups = (int)db()->query("SELECT COUNT(*) FROM users WHERE created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)")->fetchColumn();
 $pendingVerification = (int)db()->query("SELECT COUNT(*) FROM verification_documents WHERE status = 'pending'")->fetchColumn();
 ?>
-<div class="stats-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:1.5rem 0;">
+<div class="stats-grid" style="margin:1.5rem 0;">
   <div class="stat-card"><div class="stat-value"><?= number_format($stats['total_users']) ?></div><div class="stat-label">Total Users</div></div>
   <div class="stat-card"><div class="stat-value"><?= number_format($stats['total_verified']) ?></div><div class="stat-label">Verified</div></div>
   <div class="stat-card"><div class="stat-value"><?= number_format($stats['total_businesses']) ?></div><div class="stat-label">Businesses</div></div>
@@ -32,7 +32,7 @@ $pendingVerification = (int)db()->query("SELECT COUNT(*) FROM verification_docum
   <div class="stat-card"><div class="stat-value"><?= number_format($stats['total_matches']) ?></div><div class="stat-label">Matches</div></div>
   <div class="stat-card"><div class="stat-value"><?= number_format($stats['total_reports']) ?></div><div class="stat-label">Open Reports</div></div>
 </div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
   <div class="card">
     <h4>Recent Activity</h4>
     <p style="font-size:1.25rem;font-weight:700;color:var(--color-primary-vivid);"><?= $recentSignups ?></p>

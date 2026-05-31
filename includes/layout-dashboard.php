@@ -1,3 +1,4 @@
+<?php $hidePublicFooter = true; ?>
 <?php require __DIR__ . '/header.php'; ?>
 <div class="dashboard">
   <div id="sidebar-root"></div>

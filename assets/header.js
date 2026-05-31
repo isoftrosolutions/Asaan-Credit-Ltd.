@@ -226,6 +226,10 @@ function injectSidebar(role) {
   const root = document.getElementById('sidebar-root');
   if (!root) return;
 
+  // Mark the dashboard shell so the header can drop its redundant nav links
+  // (the sidebar is the primary navigation here).
+  document.body.classList.add('has-dashboard-sidebar');
+
   const links = role === 'admin' ? ADMIN_LINKS : (DASHBOARD_LINKS[role] || DASHBOARD_LINKS.investor);
   const currentPath = window.location.pathname;
   const user = window.CURRENT_USER;

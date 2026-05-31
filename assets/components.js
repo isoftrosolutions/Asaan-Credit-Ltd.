@@ -2,6 +2,18 @@ function injectFooter() {
   const root = document.getElementById('footer-root');
   if (!root) return;
 
+  const isLoggedIn = !!window.CURRENT_USER;
+  const userLinks = isLoggedIn
+    ? `
+              <a href="/dashboard" style="color:rgba(255,255,255,0.6);">My Dashboard</a>
+              <a href="/notifications" style="color:rgba(255,255,255,0.6);">Notifications</a>
+              <a href="/support" style="color:rgba(255,255,255,0.6);">FAQ</a>
+              <a href="/logout" style="color:rgba(255,255,255,0.6);">Log Out</a>`
+    : `
+              <a href="/signup" style="color:rgba(255,255,255,0.6);">Create Account</a>
+              <a href="/login" style="color:rgba(255,255,255,0.6);">Sign In</a>
+              <a href="/support" style="color:rgba(255,255,255,0.6);">FAQ</a>`;
+
   root.innerHTML = `
     <footer style="background:var(--color-text-heading);color:rgba(255,255,255,0.7);padding:var(--space-8) 0 var(--space-5);margin-top:var(--space-10);">
       <div class="container">
@@ -30,10 +42,7 @@ function injectFooter() {
           </div>
           <div>
             <h5 style="color:#fff;margin-bottom:var(--space-3);font-size:0.9rem;">For Users</h5>
-            <div style="display:flex;flex-direction:column;gap:6px;font-size:0.85rem;">
-              <a href="/signup" style="color:rgba(255,255,255,0.6);">Create Account</a>
-              <a href="/login" style="color:rgba(255,255,255,0.6);">Sign In</a>
-              <a href="/support" style="color:rgba(255,255,255,0.6);">FAQ</a>
+            <div style="display:flex;flex-direction:column;gap:6px;font-size:0.85rem;">${userLinks}
             </div>
           </div>
         </div>

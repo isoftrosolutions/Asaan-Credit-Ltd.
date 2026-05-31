@@ -561,3 +561,16 @@
   .header-inner { padding: 0 0.75rem; }
   .header-links a { padding: 12px 14px; font-size: 0.9rem; }
 }
+
+/* ============================================================
+   DASHBOARD SHELL — avoid duplicate navigation
+   The left sidebar is the primary nav inside the dashboard, so the
+   top-bar nav links are redundant. Keep the header slim (logo + bell +
+   user) on desktop, and on mobile let the single header hamburger drawer
+   carry the nav while the duplicate sidebar "Menu" toggle is hidden.
+   ============================================================ */
+@media (min-width: 821px) {
+  body.has-dashboard-sidebar .header-nav { display: none; }
+}
+
+body.has-dashboard-sidebar .sidebar-mobile-toggle { display: none; }

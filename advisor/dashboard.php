@@ -39,7 +39,7 @@ $specialtyNames = array_map(fn($s) => $specialtyLabels[$s] ?? $s, $specialties);
     <h3 style="margin-bottom:0.25rem;"><?= e($advisor['firm_name']) ?></h3>
     <div style="color:var(--color-text-muted);display:flex;gap:1rem;flex-wrap:wrap;">
       <?php if ($advisor['is_published']): ?><span style="color:var(--color-success);font-weight:600;">Published</span><?php endif; ?>
-      <?php if ($advisor['rating']): ?><span>⭐ Rating <?= e($advisor['rating']) ?></span><?php endif; ?>
+      <?php if ($advisor['rating']): ?><span style="display:inline-flex;align-items:center;gap:4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="color:var(--color-warning);"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>Rating <?= e($advisor['rating']) ?></span><?php endif; ?>
       <?php if ($advisor['years_experience']): ?><span><?= e($advisor['years_experience']) ?> yrs experience</span><?php endif; ?>
       <?php if ($advisor['past_deals_count']): ?><span><?= e($advisor['past_deals_count']) ?> deals closed</span><?php endif; ?>
     </div>
@@ -47,7 +47,7 @@ $specialtyNames = array_map(fn($s) => $specialtyLabels[$s] ?? $s, $specialties);
   <a href="edit.php" class="btn btn-secondary">Edit Profile</a>
 </div>
 
-<div class="stats-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;">
+<div class="stats-grid" style="margin-bottom:2rem;">
   <div class="stat-card"><div class="stat-value"><?= e($advisor['years_experience']) ?: '—' ?></div><div class="stat-label">Years Experience</div></div>
   <div class="stat-card"><div class="stat-value"><?= e($advisor['past_deals_count']) ?: '—' ?></div><div class="stat-label">Deals Closed</div></div>
   <div class="stat-card"><div class="stat-value"><?= $advisor['total_deal_value'] ? money($advisor['total_deal_value']) : '—' ?></div><div class="stat-label">Total Deal Value</div></div>
@@ -56,7 +56,7 @@ $specialtyNames = array_map(fn($s) => $specialtyLabels[$s] ?? $s, $specialties);
 
 <div class="card" style="padding:1.5rem;">
   <h3 style="margin-bottom:0.75rem;">Profile Details</h3>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
     <div><span class="meta-label">Specialties</span><div class="meta-value"><?= count($specialtyNames) ? implode(', ', $specialtyNames) : '—' ?></div></div>
     <div><span class="meta-label">Fee Structure</span><div class="meta-value"><?= e(ucwords(str_replace('_', ' ', $advisor['service_fee_structure']))) ?: '—' ?></div></div>
     <div><span class="meta-label">Fee Range</span><div class="meta-value"><?= $advisor['fee_min'] ? money($advisor['fee_min']) . ' – ' . money($advisor['fee_max']) : '—' ?></div></div>

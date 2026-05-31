@@ -71,7 +71,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
   <a href="create.php" class="btn btn-primary">+ New Business</a>
 </div>
 
-<div class="stats-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;">
+<div class="stats-grid" style="margin-bottom:2rem;">
   <div class="stat-card"><div class="stat-value"><?= $totalViews ?></div><div class="stat-label">Profile views</div></div>
   <div class="stat-card"><div class="stat-value"><?= $interestCount ?></div><div class="stat-label">Interest requests</div></div>
   <div class="stat-card"><div class="stat-value"><?= $matchCount ?></div><div class="stat-label">Accepted matches</div></div>
@@ -79,7 +79,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 </div>
 
 <h3>Your Listings</h3>
-<div class="card" style="padding:0;">
+<div class="card" style="padding:0;overflow-x:auto;">
   <table style="width:100%;border-collapse:collapse;">
     <tr style="border-bottom:1px solid var(--color-border);background:var(--color-bg-soft);">
       <th style="text-align:left;padding:14px 18px;font-weight:600;">Business</th>
@@ -114,7 +114,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 
 <?php if (!empty($interestRequests)): ?>
 <h3 style="margin-top:2rem;">Interest Requests</h3>
-<div class="card" style="padding:0;">
+<div class="card" style="padding:0;overflow-x:auto;">
   <table style="width:100%;border-collapse:collapse;">
     <tr style="border-bottom:1px solid var(--color-border);background:var(--color-bg-soft);">
       <th style="text-align:left;padding:14px 18px;font-weight:600;">Investor / Buyer</th>

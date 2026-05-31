@@ -149,10 +149,19 @@ require __DIR__ . '/../includes/layout-dashboard.php';
         <div>No recent activity yet.</div>
       </div>
     <?php else: ?>
+      <?php
+        $activityIcons = [
+          'match'      => ['bg' => 'rgba(30,122,77,0.1)',  'color' => 'var(--color-success)',       'svg' => '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>'],
+          'interest'   => ['bg' => 'rgba(30,72,102,0.1)',  'color' => 'var(--color-secondary)',     'svg' => '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>'],
+          'connection' => ['bg' => 'rgba(199,122,18,0.1)', 'color' => 'var(--color-warning)',       'svg' => '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>'],
+          'default'    => ['bg' => 'rgba(152,32,42,0.1)',  'color' => 'var(--color-primary-vivid)', 'svg' => '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>'],
+        ];
+      ?>
       <?php foreach ($recentNotifications as $n): ?>
+      <?php $ic = $activityIcons[$n['type']] ?? $activityIcons['default']; ?>
       <div class="activity-item">
-        <div class="activity-icon" style="background:<?php if ($n['type'] === 'match'): ?>rgba(30,122,77,0.1)<?php elseif ($n['type'] === 'interest'): ?>rgba(30,72,102,0.1)<?php elseif ($n['type'] === 'connection'): ?>rgba(199,122,18,0.1)<?php else: ?>rgba(152,32,42,0.1)<?php endif; ?>">
-          <?php if ($n['type'] === 'match'): ?>🤝<?php elseif ($n['type'] === 'interest'): ?>📩<?php elseif ($n['type'] === 'connection'): ?>🔗<?php else: ?>📌<?php endif; ?>
+        <div class="activity-icon" style="background:<?= $ic['bg'] ?>;color:<?= $ic['color'] ?>;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><?= $ic['svg'] ?></svg>
         </div>
         <div class="activity-content">
           <div class="activity-title"><?= e($n['title']) ?></div>

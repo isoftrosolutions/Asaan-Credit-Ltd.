@@ -41,7 +41,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
   <a href="create.php" class="btn btn-primary">+ New Franchise</a>
 </div>
 
-<div class="stats-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;">
+<div class="stats-grid" style="margin-bottom:2rem;">
   <div class="stat-card"><div class="stat-value"><?= $totalListings ?></div><div class="stat-label">Total listings</div></div>
   <div class="stat-card"><div class="stat-value"><?= $published ?></div><div class="stat-label">Published</div></div>
   <div class="stat-card"><div class="stat-value"><?= $totalViews ?></div><div class="stat-label">Total views</div></div>
@@ -49,7 +49,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 </div>
 
 <h3>Your Franchise Listings</h3>
-<div class="card" style="padding:0;">
+<div class="card" style="padding:0;overflow-x:auto;">
   <table style="width:100%;border-collapse:collapse;">
     <tr style="border-bottom:1px solid var(--color-border);background:var(--color-bg-soft);">
       <th style="text-align:left;padding:14px 18px;font-weight:600;">Brand</th>
