@@ -54,6 +54,7 @@ $routes = [
     '/admin/analytics'              => 'admin/analytics.php',
     '/admin/sectors'                => 'admin/content/sectors.php',
     '/admin/faqs'                   => 'admin/content/faqs.php',
+    '/admin/blog'                   => 'admin/content/blog.php',
     '/admin/homepage'               => 'admin/content/homepage.php',
     '/api/notifications-unread'     => 'api/notifications-unread.php',
     '/api/mark-notification-read'   => 'api/mark-notification-read.php',
@@ -72,6 +73,12 @@ if (preg_match('#^/browse/(businesses|investors|entrepreneurs|franchises)$#', $p
 
 if (preg_match('#^/search$#', $path)) {
     require __DIR__ . '/discover/search.php';
+    exit;
+}
+
+if (preg_match('#^/blog/([a-z0-9-]+)$#', $path, $m)) {
+    $_GET['slug'] = $m[1];
+    require __DIR__ . '/pages/blog-post.php';
     exit;
 }
 

@@ -83,6 +83,7 @@ const ADMIN_LINKS = [
   { label: 'Broadcast', url: '/admin/broadcast', icon: 'share' },
   { label: 'Sectors', url: '/admin/sectors', icon: 'tag' },
   { label: 'FAQs', url: '/admin/faqs', icon: 'message' },
+  { label: 'Blog', url: '/admin/blog', icon: 'document' },
   { label: 'Homepage', url: '/admin/homepage', icon: 'settings' },
 ];
 
