@@ -25,6 +25,8 @@ require __DIR__ . '/../includes/header.php';
 <div class="container" style="max-width:900px; padding-bottom:4rem;">
   <h1 style="font-size:3rem; margin-bottom:0.5rem;">Nepal's trusted marketplace.<br>Built for business growth.</h1>
 
+  <img src="/assets/about-team.jpg" alt="The Asaan Capital team at our Kathmandu office" loading="lazy" style="width:100%;height:auto;border-radius:1.25rem;margin:1.5rem 0 2rem;box-shadow:0 8px 28px rgba(0,0,0,0.10);object-fit:cover;">
+
   <p style="font-size:1.1rem;line-height:1.8;color:var(--secondary-text);">For too long, Nepali business owners and investors have relied on fragmented networks, Facebook groups, and word-of-mouth to find the right opportunities. <?= APP_NAME ?> changes that — a single, trusted platform where verified business owners, investors, franchise brands, and advisors connect and close deals with confidence.
 
   <div style="margin:3rem 0; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:2rem;">
