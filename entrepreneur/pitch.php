@@ -13,7 +13,7 @@ $user = current_user();
 $userId = $user ? (int)$user['id'] : 0;
 
 $stmt = $db->prepare('SELECT p.*, s.name AS sector_name, u.name AS entrepreneur_name, u.company_name, u.province, u.district, u.verification_status, u.id AS owner_id, u.profile_photo FROM pitches p LEFT JOIN sectors s ON s.id = p.sector_id JOIN users u ON u.id = p.user_id WHERE p.id = ? AND (p.is_published = 1 OR p.user_id = ?)');
-$stmt->execute([$pitchId]);
+$stmt->execute([$pitchId, $userId]);
 $pitch = $stmt->fetch();
 
 if (!$pitch) {
