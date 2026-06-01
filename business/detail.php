@@ -10,11 +10,19 @@ if ($businessId < 1) {
 
 $db = db();
 
-$stmt = $db->prepare('SELECT b.*, s.name AS sector_name, u.name AS owner_name, u.company_name, u.verification_status, u.id AS owner_id FROM businesses b LEFT JOIN sectors s ON s.id = b.sector_id JOIN users u ON u.id = b.user_id WHERE b.id = ? AND b.is_published = 1');
+$user = current_user();
+
+$stmt = $db->prepare('SELECT b.*, s.name AS sector_name, u.name AS owner_name, u.company_name, u.verification_status, u.id AS owner_id FROM businesses b LEFT JOIN sectors s ON s.id = b.sector_id JOIN users u ON u.id = b.user_id WHERE b.id = ?');
 $stmt->execute([$businessId]);
 $business = $stmt->fetch();
 
 if (!$business) {
+    http_response_code(404);
+    require __DIR__ . '/../pages/404.php';
+    exit;
+}
+
+if (!$business['is_published'] && (!$user || (int)$user['id'] !== (int)$business['owner_id'])) {
     http_response_code(404);
     require __DIR__ . '/../pages/404.php';
     exit;
@@ -26,7 +34,6 @@ $photoStmt = $db->prepare('SELECT * FROM business_photos WHERE business_id = ? O
 $photoStmt->execute([$businessId]);
 $photos = $photoStmt->fetchAll();
 
-$user = current_user();
 $hasMatch = false;
 $ownerUserId = (int)$business['owner_id'];
 
@@ -73,6 +80,9 @@ require __DIR__ . '/../includes/layout-public.php';
             <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap;">
                 <span class="tx-badge tx-badge-sale" style="font-size:0.85rem;padding:4px 14px;"><?= e($listingTypeLabel) ?></span>
                 <?php if ($business['is_featured']): ?><span class="premium-ribbon" style="padding:3px 12px;">PREMIUM</span><?php endif; ?>
+                <?php if ($user && (int)$user['id'] === $ownerUserId): ?>
+                <a href="<?= APP_URL ?>/business/edit.php?id=<?= (int)$businessId ?>" class="btn btn-primary btn-sm" style="margin-left:auto;">✏ Edit Listing</a>
+                <?php endif; ?>
             </div>
 
             <h1 style="margin-bottom:0.25rem;"><?= e($business['business_name']) ?></h1>

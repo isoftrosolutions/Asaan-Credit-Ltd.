@@ -3,11 +3,13 @@ require __DIR__ . '/../config/bootstrap.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
+$user = current_user();
+
 $stmt = db()->prepare('SELECT f.*, s.name AS sector_name, u.name AS user_name
                         FROM franchises f
                         LEFT JOIN sectors s ON s.id = f.sector_id
                         LEFT JOIN users u ON u.id = f.user_id
-                        WHERE f.id = ? AND f.is_published = 1');
+                        WHERE f.id = ?');
 $stmt->execute([$id]);
 $franchise = $stmt->fetch();
 
@@ -17,9 +19,14 @@ if (!$franchise) {
     exit;
 }
 
+if (!$franchise['is_published'] && (!$user || (int)$user['id'] !== (int)$franchise['user_id'])) {
+    http_response_code(404);
+    require __DIR__ . '/../pages/404.php';
+    exit;
+}
+
 db()->prepare('UPDATE franchises SET views = views + 1 WHERE id = ?')->execute([$id]);
 
-$user = current_user();
 $ownerUserId = (int)$franchise['user_id'];
 $hasMatch = false;
 if ($user) {
@@ -58,6 +65,11 @@ require __DIR__ . '/../includes/layout-public.php';
       <img src="<?= APP_URL ?>/public/uploads/franchise-logos/<?= e($franchise['logo_path']) ?>" alt="<?= e($franchise['brand_name']) ?> logo" style="max-width:100%;border-radius:1.5rem;max-height:300px;object-fit:contain;">
       <?php endif; ?>
       <h2 style="margin-top:1rem 0 0.25rem;"><?= e($franchise['brand_name']) ?></h2>
+      <?php if ($user && (int)$user['id'] === $ownerUserId): ?>
+      <div style="margin-bottom:0.75rem;">
+        <a href="<?= APP_URL ?>/franchise/edit.php?id=<?= (int)$id ?>" class="btn btn-primary btn-sm">✏ Edit Franchise</a>
+      </div>
+      <?php endif; ?>
       <?php if ($franchise['sector_name']): ?>
       <span class="tx-badge tx-badge-franchise"><?= e($franchise['sector_name']) ?></span>
       <?php endif; ?>

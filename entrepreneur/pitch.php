@@ -9,8 +9,10 @@ if ($pitchId < 1) {
 }
 
 $db = db();
+$user = current_user();
+$userId = $user ? (int)$user['id'] : 0;
 
-$stmt = $db->prepare('SELECT p.*, s.name AS sector_name, u.name AS entrepreneur_name, u.company_name, u.province, u.district, u.verification_status, u.id AS owner_id, u.profile_photo FROM pitches p LEFT JOIN sectors s ON s.id = p.sector_id JOIN users u ON u.id = p.user_id WHERE p.id = ? AND p.is_published = 1');
+$stmt = $db->prepare('SELECT p.*, s.name AS sector_name, u.name AS entrepreneur_name, u.company_name, u.province, u.district, u.verification_status, u.id AS owner_id, u.profile_photo FROM pitches p LEFT JOIN sectors s ON s.id = p.sector_id JOIN users u ON u.id = p.user_id WHERE p.id = ? AND (p.is_published = 1 OR p.user_id = ?)');
 $stmt->execute([$pitchId]);
 $pitch = $stmt->fetch();
 
@@ -22,7 +24,6 @@ if (!$pitch) {
 
 $db->prepare('UPDATE pitches SET views = views + 1 WHERE id = ?')->execute([$pitchId]);
 
-$user = current_user();
 $hasMatch = false;
 $ownerUserId = (int)$pitch['owner_id'];
 
@@ -72,6 +73,11 @@ require __DIR__ . '/../includes/layout-public.php';
             <div><?= e($pitch['province'] ?? '') ?><?= $pitch['province'] && $pitch['district'] ? ', ' : '' ?><?= e($pitch['district'] ?? '') ?> <?php if ($pitch['verification_status'] === 'verified'): ?><span class="verified-badge">Verified</span><?php endif; ?></div>
         </div>
     </div>
+    <?php if ($user && (int)$user['id'] === $ownerUserId): ?>
+    <div style="margin-bottom:1rem;">
+      <a href="<?= APP_URL ?>/entrepreneur/pitch-edit.php?id=<?= (int)$pitchId ?>" class="btn btn-primary btn-sm">✏ Edit Pitch</a>
+    </div>
+    <?php endif; ?>
 
     <div style="margin:1.5rem 0 2rem;">
         <?php if ($pitch['sector_name']): ?>

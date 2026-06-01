@@ -8,8 +8,14 @@ $userId = (int)$user['id'];
 $pitchId = (int)($_GET['id'] ?? $_POST['id'] ?? 0);
 
 if ($pitchId < 1) {
-    flash_set('error', 'Invalid pitch ID.');
-    redirect('/entrepreneur/dashboard.php');
+    $stmt = db()->prepare('SELECT id FROM pitches WHERE user_id = ? ORDER BY updated_at DESC LIMIT 1');
+    $stmt->execute([$userId]);
+    $lastId = (int)$stmt->fetchColumn();
+    if ($lastId > 0) {
+        redirect('/entrepreneur/pitch-edit.php?id=' . $lastId);
+    }
+    flash_set('error', 'No pitch found. Create one first.');
+    redirect('/entrepreneur/pitch-create.php');
 }
 
 $stmt = db()->prepare('SELECT * FROM pitches WHERE id = ? AND user_id = ?');

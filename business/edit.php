@@ -8,8 +8,14 @@ $userId = (int)$user['id'];
 $businessId = (int)($_GET['id'] ?? $_POST['id'] ?? 0);
 
 if ($businessId < 1) {
-    flash_set('error', 'Invalid business ID.');
-    redirect('/business/dashboard.php');
+    $stmt = db()->prepare('SELECT id FROM businesses WHERE user_id = ? ORDER BY updated_at DESC LIMIT 1');
+    $stmt->execute([$userId]);
+    $lastId = (int)$stmt->fetchColumn();
+    if ($lastId > 0) {
+        redirect('/business/edit.php?id=' . $lastId);
+    }
+    flash_set('error', 'No business listing found. Create one first.');
+    redirect('/business/create.php');
 }
 
 $stmt = db()->prepare('SELECT * FROM businesses WHERE id = ? AND user_id = ?');

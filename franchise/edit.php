@@ -7,6 +7,17 @@ $user = current_user();
 $userId = (int)$user['id'];
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
+if ($id < 1) {
+    $stmt = db()->prepare('SELECT id FROM franchises WHERE user_id = ? ORDER BY updated_at DESC LIMIT 1');
+    $stmt->execute([$userId]);
+    $lastId = (int)$stmt->fetchColumn();
+    if ($lastId > 0) {
+        redirect('/franchise/edit.php?id=' . $lastId);
+    }
+    flash_set('error', 'No franchise found. Create one first.');
+    redirect('/franchise/create.php');
+}
+
 $stmt = db()->prepare('SELECT * FROM franchises WHERE id = ? AND user_id = ?');
 $stmt->execute([$id, $userId]);
 $franchise = $stmt->fetch();
