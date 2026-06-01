@@ -61,7 +61,7 @@ if ($user) {
 <script src="<?= APP_URL ?>/assets/components.js?v=<?= filemtime(__DIR__ . '/../assets/components.js') ?>"></script>
 <script>
 const UNREAD_COUNT = <?= $unreadCount ?>;
-const CURRENT_USER = <?= json_encode($user) ?>;
+const CURRENT_USER = <?= json_encode($user, JSON_INVALID_UTF8_SUBSTITUTE) ?: 'null' ?>;
 const CSRF_TOKEN = '<?= csrf_token() ?>';
 <?php if ($user && empty($forcePublicHeader)): ?>
 injectHeader('<?= $isAdmin ? 'admin' : 'dashboard' ?>');
