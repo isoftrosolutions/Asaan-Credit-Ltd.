@@ -1,4 +1,10 @@
 <?php
+// Self-sufficient: guarantees bootstrap (current_user(), db(), …) is loaded
+// even when this header is rendered by a page reached directly rather than
+// through index.php (e.g. a direct hit on pages/404.php). bootstrap.php has
+// its own re-entry guard, so this is a no-op on the normal routed path.
+require_once __DIR__ . '/../config/bootstrap.php';
+
 $user = current_user();
 $isAdmin = $user && !empty($user['is_admin']);
 $unreadCount = 0;
