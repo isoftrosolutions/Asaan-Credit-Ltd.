@@ -87,9 +87,15 @@ const ADMIN_LINKS = [
   { label: 'Homepage', url: '/admin/homepage', icon: 'settings' },
 ];
 
-function injectHeader(mode) {
+function injectHeader(mode, actionsHtml) {
   const root = document.getElementById('header-root');
   if (!root) return;
+
+  if (!actionsHtml) {
+    actionsHtml = window.CURRENT_USER
+      ? '<a href="/dashboard" class="header-user" aria-label="User — go to dashboard"><div class="avatar avatar-sm">U</div><span class="header-user-name">User</span></a>'
+      : '<a href="/login" class="btn btn-sm btn-outline">Log in</a><a href="/signup" class="btn btn-sm btn-primary">Sign up</a>';
+  }
 
   const user = window.CURRENT_USER;
   // Auth state, not page mode — so the public/home header also reflects login.
@@ -152,26 +158,7 @@ function injectHeader(mode) {
     navHtml += `<a href="/logout" onclick="closeMobileMenu()">${ICONS.logout} Log out</a>`;
   }
 
-  let actionsHtml = '';
-  if (isLoggedIn && user) {
-    const initials = (user.name || 'U').charAt(0).toUpperCase();
-    const bellLabel = unread > 0 ? `Notifications (${unread} unread)` : 'Notifications';
-    actionsHtml = `
-      <a href="/notifications" class="notification-bell" aria-label="${bellLabel}">
-        ${ICONS.bell}
-        <span class="notification-badge" aria-hidden="true"${unread > 0 ? '' : ' style="display:none;"'}>${unread > 9 ? '9+' : unread}</span>
-      </a>
-      <a href="/dashboard" class="header-user" aria-label="${user.name || 'User'} — go to dashboard">
-        <div class="avatar avatar-sm" aria-hidden="true">${initials}</div>
-        <span class="header-user-name">${user.name || 'User'}</span>
-      </a>
-    `;
-  } else {
-    actionsHtml = `
-      <a href="/login" class="btn btn-sm btn-outline">Log in</a>
-      <a href="/signup" class="btn btn-sm btn-primary">Sign up</a>
-    `;
-  }
+  // actionsHtml is pre-rendered by PHP and passed as a parameter
 
   root.innerHTML = `
     <header class="site-header">

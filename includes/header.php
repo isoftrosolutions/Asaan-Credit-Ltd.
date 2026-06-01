@@ -63,10 +63,29 @@ if ($user) {
 const UNREAD_COUNT = <?= $unreadCount ?>;
 const CURRENT_USER = <?= json_encode($user, JSON_INVALID_UTF8_SUBSTITUTE) ?: 'null' ?>;
 const CSRF_TOKEN = '<?= csrf_token() ?>';
+<?php
+$headerActions = '';
+if ($user) {
+    $initial = mb_strtoupper(mb_substr($user['name'] ?? 'U', 0, 1));
+    $bellLabel = $unreadCount > 0 ? "Notifications ({$unreadCount} unread)" : 'Notifications';
+    $badgeStyle = $unreadCount > 0 ? '' : ' style="display:none;"';
+    $badgeText = $unreadCount > 9 ? '9+' : (string)$unreadCount;
+    $userName = $user['name'] ?? 'User';
+    $headerActions = '<a href="/notifications" class="notification-bell" aria-label="' . e($bellLabel) . '">'
+        . '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>'
+        . '<span class="notification-badge" aria-hidden="true"' . $badgeStyle . '>' . $badgeText . '</span></a>'
+        . '<a href="/dashboard" class="header-user" aria-label="' . e($userName) . ' — go to dashboard">'
+        . '<div class="avatar avatar-sm" aria-hidden="true">' . e($initial) . '</div>'
+        . '<span class="header-user-name">' . e($userName) . '</span></a>';
+} else {
+    $headerActions = '<a href="/login" class="btn btn-sm btn-outline">Log in</a>'
+        . '<a href="/signup" class="btn btn-sm btn-primary">Sign up</a>';
+}
+?>
 <?php if ($user && empty($forcePublicHeader)): ?>
-injectHeader('<?= $isAdmin ? 'admin' : 'dashboard' ?>');
+injectHeader('<?= $isAdmin ? 'admin' : 'dashboard' ?>', <?= json_encode($headerActions) ?>);
 <?php else: ?>
-injectHeader('public');
+injectHeader('public', <?= json_encode($headerActions) ?>);
 <?php endif; ?>
 </script>
 <?php flash_render(); ?>
