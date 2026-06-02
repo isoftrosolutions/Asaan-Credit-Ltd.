@@ -61,6 +61,12 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 
         <button type="submit" class="btn btn-primary" style="margin-top:1.5rem;">Save Preferences</button>
     </form>
+
+    <div class="card" style="margin-top:1.5rem;">
+        <h4>Security</h4>
+        <p style="color:var(--color-text-muted);font-size:0.9rem;margin:8px 0 14px;">Update the password you use to sign in.</p>
+        <a href="/change-password" class="btn btn-outline">Change Password</a>
+    </div>
 </div>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>

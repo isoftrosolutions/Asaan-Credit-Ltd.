@@ -2,9 +2,6 @@
 require __DIR__ . '/../config/bootstrap.php';
 require_admin();
 
-$pageTitle = 'Broadcast';
-require __DIR__ . '/../includes/layout-admin.php';
-
 $user = current_user();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'send') {
@@ -65,9 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
 $historyStmt = db()->query('SELECT b.*, u.name AS admin_name FROM broadcasts b JOIN users u ON u.id = b.sent_by ORDER BY b.created_at DESC LIMIT 20');
 $history = $historyStmt->fetchAll();
+$pageTitle = 'Broadcast';
+require __DIR__ . '/../includes/layout-admin.php';
+
+ui_page_header('Send Platform Broadcast', 'Message members in-app, by email, or both.');
 ?>
-<h2>Send Platform Broadcast</h2>
-<div class="card" style="max-width:620px;">
+<div class="dash-panel dash-panel-pad dash-form" style="max-width:620px;">
   <form method="post">
     <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
     <input type="hidden" name="action" value="send">
@@ -98,33 +98,34 @@ $history = $historyStmt->fetchAll();
       <label>Message</label>
       <textarea name="body" class="input" rows="5" required style="resize:vertical;"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Send Broadcast</button>
+    <div class="dash-form-actions" style="border-top:none;padding-top:0;margin-top:var(--space-4);">
+      <button type="submit" class="btn btn-primary">Send broadcast</button>
+    </div>
   </form>
 </div>
 
 <?php if (!empty($history)): ?>
-<h3 style="margin-top:2rem;">Sent Broadcasts</h3>
-<div class="card" style="margin-top:0.5rem;">
-  <table style="width:100%;">
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <th style="text-align:left;padding:8px;">Title</th>
-      <th style="padding:8px;">Audience</th>
-      <th style="padding:8px;">Delivery</th>
-      <th style="padding:8px;">Recipients</th>
-      <th style="padding:8px;">Sent By</th>
-      <th style="padding:8px;">Date</th>
-    </tr>
+<?php ui_section_header('Sent broadcasts'); ?>
+<div class="dash-panel">
+  <div class="dash-table-wrap">
+    <table class="dash-table">
+      <thead><tr>
+        <th>Title</th><th>Audience</th><th>Delivery</th><th class="ta-center">Recipients</th><th>Sent by</th><th>Date</th>
+      </tr></thead>
+      <tbody>
     <?php foreach ($history as $b): ?>
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <td style="padding:10px 8px;font-weight:600;"><?= e($b['title']) ?></td>
-      <td style="padding:10px 8px;"><span class="badge"><?= e($b['audience']) ?></span></td>
-      <td style="padding:10px 8px;"><?= e($b['delivery']) ?></td>
-      <td style="padding:10px 8px;"><?= $b['recipients_count'] ?></td>
-      <td style="padding:10px 8px;"><?= e($b['admin_name']) ?></td>
-      <td style="padding:10px 8px;font-size:0.85rem;"><?= date_human($b['sent_at']) ?></td>
+    <tr>
+      <td class="t-strong"><?= e($b['title']) ?></td>
+      <td><span class="dash-pill open"><?= e($b['audience']) ?></span></td>
+      <td><?= e($b['delivery']) ?></td>
+      <td class="ta-center"><?= $b['recipients_count'] ?></td>
+      <td><?= e($b['admin_name']) ?></td>
+      <td class="t-muted"><?= date_human($b['sent_at']) ?></td>
     </tr>
     <?php endforeach; ?>
-  </table>
+      </tbody>
+    </table>
+  </div>
 </div>
 <?php endif; ?>
 <?php require __DIR__ . '/../includes/footer.php'; ?>

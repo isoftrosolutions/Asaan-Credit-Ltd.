@@ -88,7 +88,9 @@ if ($user) {
         . '<a href="/signup" class="btn btn-sm btn-primary">Sign up</a>';
 }
 ?>
-<?php if ($user && empty($forcePublicHeader)): ?>
+<?php if (!empty($dashChrome)): ?>
+/* Dashboard chrome is rendered in PHP (see layout-dashboard.php); skip JS injection. */
+<?php elseif ($user && empty($forcePublicHeader)): ?>
 injectHeader('<?= $isAdmin ? 'admin' : 'dashboard' ?>', <?= json_encode($headerActions) ?>);
 <?php else: ?>
 injectHeader('public', <?= json_encode($headerActions) ?>);

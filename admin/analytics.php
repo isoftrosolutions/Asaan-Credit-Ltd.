@@ -12,23 +12,23 @@ $dealFlow = db()->query("SELECT status, COUNT(*) AS total FROM interest_requests
 $topSectors = db()->query("SELECT s.name, COUNT(*) AS total FROM businesses b JOIN sectors s ON s.id = b.sector_id WHERE b.is_published = 1 GROUP BY s.id ORDER BY total DESC LIMIT 10")->fetchAll();
 
 $usersByRole = db()->query("SELECT role, COUNT(*) AS total FROM users GROUP BY role ORDER BY total DESC")->fetchAll();
+ui_page_header('Deep Analytics', 'Platform trends across users, deal flow and sectors.');
 ?>
-<h2>Deep Analytics</h2>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-  <div class="card">
-    <h4>User Growth (12 Months)</h4>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+  <div class="dash-panel dash-panel-pad">
+    <div class="dash-panel-title" style="margin-bottom:var(--space-3);">User growth (12 months)</div>
     <canvas id="userGrowthChart" height="200"></canvas>
   </div>
-  <div class="card">
-    <h4>Deal Flow by Status</h4>
+  <div class="dash-panel dash-panel-pad">
+    <div class="dash-panel-title" style="margin-bottom:var(--space-3);">Deal flow by status</div>
     <canvas id="dealFlowChart" height="200"></canvas>
   </div>
-  <div class="card">
-    <h4>Top Sectors</h4>
+  <div class="dash-panel dash-panel-pad">
+    <div class="dash-panel-title" style="margin-bottom:var(--space-3);">Top sectors</div>
     <canvas id="topSectorsChart" height="200"></canvas>
   </div>
-  <div class="card">
-    <h4>Users by Role</h4>
+  <div class="dash-panel dash-panel-pad">
+    <div class="dash-panel-title" style="margin-bottom:var(--space-3);">Users by role</div>
     <canvas id="usersByRoleChart" height="200"></canvas>
   </div>
 </div>

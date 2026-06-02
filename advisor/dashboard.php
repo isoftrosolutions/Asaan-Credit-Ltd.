@@ -20,62 +20,65 @@ $specialtyLabels = [
 
 $pageTitle = 'Advisor Dashboard';
 require __DIR__ . '/../includes/layout-dashboard.php';
+
+ui_page_header(
+    'Advisor Dashboard',
+    'Manage your professional profile and track your engagement.',
+    $advisor ? '<a href="' . APP_URL . '/advisor/edit" class="btn btn-primary btn-sm">' . ui_icon_str('settings') . ' Edit profile</a>' : ''
+);
 ?>
-<h2 style="margin-bottom:0.25rem;">Advisor Dashboard</h2>
-<p style="color:var(--color-text-muted);">Manage your professional profile and track your engagement.</p>
 
 <?php if (!$advisor): ?>
-<div class="card" style="text-align:center;padding:3rem 2rem;margin-top:1.5rem;">
-  <h3 style="margin-bottom:0.5rem;">No advisor profile yet</h3>
-  <p style="color:var(--color-text-muted);margin-bottom:1rem;">Create your advisor profile to start connecting with clients.</p>
-  <a href="create.php" class="btn btn-primary">Create Advisor Profile</a>
-</div>
+  <div class="dash-panel">
+    <?php ui_empty_state(['icon' => 'user', 'title' => 'No advisor profile yet', 'text' => 'Create your advisor profile to start connecting with clients.', 'ctaHref' => APP_URL . '/advisor/create', 'ctaLabel' => 'Create advisor profile']); ?>
+  </div>
 <?php else:
 $specialties = json_decode($advisor['specialties'] ?? '[]', true) ?: [];
 $specialtyNames = array_map(fn($s) => $specialtyLabels[$s] ?? $s, $specialties);
 ?>
-<div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:2rem;flex-wrap:wrap;gap:0.5rem;">
+
+<div class="dash-panel dash-panel-pad" style="margin-bottom:var(--space-6);display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap;">
   <div>
-    <h3 style="margin-bottom:0.25rem;"><?= e($advisor['firm_name']) ?></h3>
-    <div style="color:var(--color-text-muted);display:flex;gap:1rem;flex-wrap:wrap;">
-      <?php if ($advisor['is_published']): ?><span style="color:var(--color-success);font-weight:600;">Published</span><?php endif; ?>
-      <?php if ($advisor['rating']): ?><span style="display:inline-flex;align-items:center;gap:4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="color:var(--color-warning);"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>Rating <?= e($advisor['rating']) ?></span><?php endif; ?>
-      <?php if ($advisor['years_experience']): ?><span><?= e($advisor['years_experience']) ?> yrs experience</span><?php endif; ?>
-      <?php if ($advisor['past_deals_count']): ?><span><?= e($advisor['past_deals_count']) ?> deals closed</span><?php endif; ?>
+    <div class="dash-section-title" style="margin-bottom:6px;"><?= e($advisor['firm_name']) ?></div>
+    <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:center;">
+      <?php if ($advisor['is_published']): ?><span class="dash-pill published">Published</span><?php endif; ?>
+      <?php if ($advisor['rating']): ?><span class="t-muted" style="display:inline-flex;align-items:center;gap:4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="color:var(--dash-warning);"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>Rating <?= e($advisor['rating']) ?></span><?php endif; ?>
+      <?php if ($advisor['years_experience']): ?><span class="t-muted"><?= e($advisor['years_experience']) ?> yrs experience</span><?php endif; ?>
+      <?php if ($advisor['past_deals_count']): ?><span class="t-muted"><?= e($advisor['past_deals_count']) ?> deals closed</span><?php endif; ?>
     </div>
   </div>
-  <a href="edit.php" class="btn btn-secondary">Edit Profile</a>
 </div>
 
-<div class="stats-grid" style="margin-bottom:2rem;">
-  <div class="stat-card"><div class="stat-value"><?= e($advisor['years_experience']) ?: '—' ?></div><div class="stat-label">Years Experience</div></div>
-  <div class="stat-card"><div class="stat-value"><?= e($advisor['past_deals_count']) ?: '—' ?></div><div class="stat-label">Deals Closed</div></div>
-  <div class="stat-card"><div class="stat-value"><?= $advisor['total_deal_value'] ? money($advisor['total_deal_value']) : '—' ?></div><div class="stat-label">Total Deal Value</div></div>
-  <div class="stat-card"><div class="stat-value"><?= $advisor['rating'] ?: '—' ?></div><div class="stat-label">Rating</div></div>
+<div class="dash-stats">
+  <?php
+    ui_stat_card(['label' => 'Years experience', 'value' => $advisor['years_experience'] ?: '—', 'icon' => 'clock', 'tone' => 'info']);
+    ui_stat_card(['label' => 'Deals closed', 'value' => $advisor['past_deals_count'] ?: '—', 'icon' => 'check', 'tone' => 'success']);
+    ui_stat_card(['label' => 'Total deal value', 'value' => $advisor['total_deal_value'] ? money($advisor['total_deal_value']) : '—', 'icon' => 'tag', 'tone' => 'primary']);
+    ui_stat_card(['label' => 'Rating', 'value' => $advisor['rating'] ?: '—', 'icon' => 'chart', 'tone' => 'warning']);
+  ?>
 </div>
 
-<div class="card" style="padding:1.5rem;">
-  <h3 style="margin-bottom:0.75rem;">Profile Details</h3>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
-    <div><span class="meta-label">Specialties</span><div class="meta-value"><?= count($specialtyNames) ? implode(', ', $specialtyNames) : '—' ?></div></div>
-    <div><span class="meta-label">Fee Structure</span><div class="meta-value"><?= e(ucwords(str_replace('_', ' ', $advisor['service_fee_structure']))) ?: '—' ?></div></div>
-    <div><span class="meta-label">Fee Range</span><div class="meta-value"><?= $advisor['fee_min'] ? money($advisor['fee_min']) . ' – ' . money($advisor['fee_max']) : '—' ?></div></div>
-    <div><span class="meta-label">Bar Council ID</span><div class="meta-value"><?= e($advisor['bar_council_id']) ?: '—' ?></div></div>
+<?php ui_section_header('Profile details'); ?>
+<div class="dash-panel dash-panel-pad">
+  <div class="dash-deflist">
+    <div><div class="dash-def-label">Specialties</div><div class="dash-def-value"><?= count($specialtyNames) ? e(implode(', ', $specialtyNames)) : '—' ?></div></div>
+    <div><div class="dash-def-label">Fee structure</div><div class="dash-def-value"><?= e(ucwords(str_replace('_', ' ', $advisor['service_fee_structure']))) ?: '—' ?></div></div>
+    <div><div class="dash-def-label">Fee range</div><div class="dash-def-value"><?= $advisor['fee_min'] ? money($advisor['fee_min']) . ' – ' . money($advisor['fee_max']) : '—' ?></div></div>
+    <div><div class="dash-def-label">Bar council ID</div><div class="dash-def-value"><?= e($advisor['bar_council_id']) ?: '—' ?></div></div>
   </div>
   <?php if ($advisor['credentials']): ?>
-  <div style="margin-top:1rem;">
-    <span class="meta-label">Credentials</span>
-    <p style="margin-top:0.25rem;"><?= nl2br(e($advisor['credentials'])) ?></p>
+  <div style="margin-top:var(--space-5);">
+    <div class="dash-def-label">Credentials</div>
+    <p class="dash-prose" style="margin-top:6px;"><?= nl2br(e($advisor['credentials'])) ?></p>
   </div>
   <?php endif; ?>
   <?php if ($advisor['description']): ?>
-  <div style="margin-top:1rem;">
-    <span class="meta-label">About</span>
-    <p style="margin-top:0.25rem;"><?= nl2br(e($advisor['description'])) ?></p>
+  <div style="margin-top:var(--space-5);">
+    <div class="dash-def-label">About</div>
+    <p class="dash-prose" style="margin-top:6px;"><?= nl2br(e($advisor['description'])) ?></p>
   </div>
   <?php endif; ?>
 </div>
 <?php endif; ?>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
-</div></div>

@@ -14,6 +14,24 @@ function redirect(string $path): void {
     exit;
 }
 
+// One-way hash for single-use email tokens (password reset / verification).
+// We store only the hash so a leaked DB row cannot be used to reset an account.
+function reset_token_hash(string $token): string {
+    return hash('sha256', $token);
+}
+
+// Absolute base URL of the current request (scheme + host), used to build
+// links inside emails so they resolve to wherever the app is actually served
+// rather than always pointing at the hard-coded production APP_URL.
+function public_base_url(): string {
+    $host = $_SERVER['HTTP_HOST'] ?? '';
+    if ($host === '') {
+        return rtrim(APP_URL, '/');
+    }
+    $scheme = (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') ? 'https' : 'http';
+    return $scheme . '://' . $host;
+}
+
 function redirect_back(): void {
     $ref = $_SERVER['HTTP_REFERER'] ?? '/';
     header('Location: ' . $ref);

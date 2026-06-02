@@ -143,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     INSERT INTO password_reset_tokens (email, token, type, created_at)
                     VALUES (?, ?, ?, ?)
                 ');
-                $stmt->execute([$email, $token, 'email', $now]);
+                $stmt->execute([$email, reset_token_hash($token), 'email', $now]);
 
                 db()->commit();
 

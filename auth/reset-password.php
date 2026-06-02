@@ -12,8 +12,10 @@ if ($token === '') {
     redirect('/login');
 }
 
+$tokenHash = reset_token_hash($token);
+
 $stmt = db()->prepare('SELECT email, created_at FROM password_reset_tokens WHERE token = ? AND type = ? LIMIT 1');
-$stmt->execute([$token, 'password']);
+$stmt->execute([$tokenHash, 'password']);
 $row = $stmt->fetch();
 
 if (!$row) {
@@ -24,7 +26,7 @@ if (!$row) {
 $expires = strtotime($row['created_at']) + 86400;
 if (time() > $expires) {
     $stmt = db()->prepare('DELETE FROM password_reset_tokens WHERE token = ? AND type = ?');
-    $stmt->execute([$token, 'password']);
+    $stmt->execute([$tokenHash, 'password']);
     flash_set('error', 'Password reset link has expired. Please request a new one.');
     redirect('/forgot-password');
 }
@@ -55,6 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         db()->commit();
 
+        // Clear any lockout so the user can log in immediately with the new password.
+        db()->prepare('UPDATE users SET failed_login_attempts = 0, locked_until = NULL WHERE email = ?')
+            ->execute([$row['email']]);
+
         $success = true;
     }
 }
@@ -73,9 +79,10 @@ $pageDescription = 'Reset your password for Asaan Capital Ltd.';
     </div>
 
     <?php if ($success): ?>
-        <div class="flash flash-success" style="margin-bottom:1rem;">Password reset successful! You can now log in with your new password.</div>
+        <meta http-equiv="refresh" content="3;url=/login">
+        <div class="flash flash-success" style="margin-bottom:1rem;">Password reset successful! Redirecting you to log in…</div>
         <div style="text-align:center;margin-top:1rem;">
-            <a href="/login" class="btn btn-primary" style="display:inline-block;">Log in</a>
+            <a href="/login" class="btn btn-primary" style="display:inline-block;">Log in now</a>
         </div>
     <?php else: ?>
         <form method="post" action="/reset-password?token=<?= e($token) ?>">

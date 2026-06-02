@@ -52,63 +52,55 @@ $activities = $recentActivity->fetchAll();
 
 $pageTitle = 'My Connections';
 require __DIR__ . '/../includes/layout-dashboard.php';
+
+ui_page_header(
+    'My Connections',
+    'Mutual matches where contact details have been revealed &mdash; <strong>' . count($allMatches) . '</strong> total.'
+);
 ?>
 
-<div class="connections-page">
-    <h2>My Connections (<?= count($allMatches) ?>)</h2>
-    <p style="color:var(--color-text-muted); margin-bottom:1.5rem;">These are mutual matches where contact details have been revealed.</p>
-
-    <?php if (empty($allMatches)): ?>
-        <div class="card">
-            <p style="text-align:center; padding:2rem; color:var(--color-text-muted);">No connections yet. Browse listings and send interest requests to get started.</p>
+<?php if (empty($allMatches)): ?>
+  <div class="dash-panel">
+    <?php ui_empty_state(['icon' => 'matches', 'title' => 'No connections yet', 'text' => 'Browse listings and send interest requests to get started.', 'ctaHref' => APP_URL . '/browse/businesses', 'ctaLabel' => 'Browse businesses']); ?>
+  </div>
+<?php else: ?>
+  <div class="dash-panel dash-list">
+    <?php foreach ($allMatches as $m): ?>
+      <div class="dash-listrow" style="flex-wrap:wrap;">
+        <div class="dash-avatar"><?= e(strtoupper(substr($m['connected_name'], 0, 2))) ?></div>
+        <div class="dash-listrow-main">
+          <div class="dash-listrow-title"><?= e($m['connected_name']) ?></div>
+          <div class="dash-listrow-sub"><?= e(ucfirst(str_replace('_', ' ', $m['connected_role'] ?? ''))) ?><?php if ($m['context_name']): ?> &middot; <?= e($m['context_name']) ?><?php endif; ?></div>
         </div>
-    <?php else: ?>
-        <?php foreach ($allMatches as $m): ?>
-            <div class="card" style="margin-bottom:1rem;">
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem;">
-                    <div style="display:flex; align-items:center; gap:1rem;">
-                        <div class="avatar avatar-sm" style="background:var(--color-accent-blue);"><?= e(strtoupper(substr($m['connected_name'], 0, 2))) ?></div>
-                        <div>
-                            <strong><?= e($m['connected_name']) ?></strong><br>
-                            <span style="font-size:0.8rem; color:var(--color-text-muted);"><?= e(ucfirst(str_replace('_', ' ', $m['connected_role'] ?? ''))) ?>
-                                <?php if ($m['context_name']): ?> &middot; <?= e($m['context_name']) ?><?php endif; ?>
-                            </span>
-                        </div>
-                    </div>
-                    <div style="text-align:right; display:flex; gap:0.5rem; align-items:center;">
-                        <a href="#" class="btn btn-sm btn-accent" onclick="alert('Email: <?= e($m['connected_email']) ?>\nPhone: <?= e($m['connected_phone'] ?? '—') ?>')">View Contact</a>
-                    </div>
-                </div>
-                <?php if ($m['interest_message']): ?>
-                    <div style="margin-top:0.75rem; font-size:0.85rem; color:var(--color-text-muted); border-top:1px solid var(--color-border); padding-top:0.75rem;">
-                        <em>"<?= e($m['interest_message']) ?>"</em>
-                    </div>
-                <?php endif; ?>
-            </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
-
-    <?php if (!empty($activities)): ?>
-        <div class="card" style="margin-top:2rem;">
-            <h4>Recent Activity</h4>
-            <ul style="list-style:none; padding:0; margin-top:0.5rem;">
-                <?php foreach ($activities as $act): ?>
-                    <li style="padding:0.5rem 0; border-bottom:1px solid var(--color-border); font-size:0.9rem;">
-                        <?php if ($act['event_type'] === 'match'): ?>
-                            &#x1F91D; Connected with <strong><?= e($act['other_name']) ?></strong>
-                        <?php else: ?>
-                            &#x1F4E8; Interest request from <strong><?= e($act['other_name']) ?></strong>
-                        <?php endif; ?>
-                        <span style="color:var(--color-text-muted); font-size:0.8rem; margin-left:0.5rem;"><?= date_human($act['event_at']) ?></span>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+        <div class="dash-listrow-actions">
+          <button type="button" class="btn btn-sm btn-primary" onclick="alert('Email: <?= e($m['connected_email']) ?>\nPhone: <?= e($m['connected_phone'] ?? '—') ?>')">View contact</button>
         </div>
-    <?php endif; ?>
+        <?php if ($m['interest_message']): ?>
+          <div class="dash-listrow-quote" style="flex-basis:100%;">&ldquo;<?= e($m['interest_message']) ?>&rdquo;</div>
+        <?php endif; ?>
+      </div>
+    <?php endforeach; ?>
+  </div>
+<?php endif; ?>
 
-    <div style="margin-top:2rem; font-size:0.85rem; color:var(--color-text-muted);">
-        Connections are permanent. You can use the revealed contact details to communicate directly.
+<?php if (!empty($activities)): ?>
+  <?php ui_section_header('Recent activity'); ?>
+  <div class="dash-panel">
+    <div class="dash-timeline">
+      <?php foreach ($activities as $act): ?>
+        <?php $isMatch = $act['event_type'] === 'match'; ?>
+        <div class="dash-tl-item">
+          <span class="dash-tl-ico tone-<?= $isMatch ? 'success' : 'info' ?>"><?php ui_icon($isMatch ? 'matches' : 'share'); ?></span>
+          <div class="dash-tl-body">
+            <div class="dash-tl-title"><?= $isMatch ? 'Connected with' : 'Interest request from' ?> <?= e($act['other_name']) ?></div>
+          </div>
+          <span class="dash-tl-time"><?= date_human($act['event_at']) ?></span>
+        </div>
+      <?php endforeach; ?>
     </div>
-</div>
+  </div>
+<?php endif; ?>
+
+<p class="t-muted" style="margin-top:var(--space-5);font-size:.85rem;color:var(--dash-ink-soft);">Connections are permanent. You can use the revealed contact details to communicate directly.</p>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>

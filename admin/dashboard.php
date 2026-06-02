@@ -1,10 +1,7 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
-$pageTitle = 'Admin Dashboard';
-require __DIR__ . '/../includes/layout-admin.php';
-?>
-<h2>Platform Analytics</h2>
-<?php
+require_admin();
+
 $stats = [];
 $queries = [
     'total_users' => 'SELECT COUNT(*) FROM users',
@@ -21,40 +18,53 @@ foreach ($queries as $key => $sql) {
 }
 $recentSignups = (int)db()->query("SELECT COUNT(*) FROM users WHERE created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)")->fetchColumn();
 $pendingVerification = (int)db()->query("SELECT COUNT(*) FROM verification_documents WHERE status = 'pending'")->fetchColumn();
+
+$pageTitle = 'Admin Dashboard';
+require __DIR__ . '/../includes/layout-admin.php';
+
+ui_page_header('Platform Analytics', 'A live snapshot of activity across the marketplace.');
 ?>
-<div class="stats-grid" style="margin:1.5rem 0;">
-  <div class="stat-card"><div class="stat-value"><?= number_format($stats['total_users']) ?></div><div class="stat-label">Total Users</div></div>
-  <div class="stat-card"><div class="stat-value"><?= number_format($stats['total_verified']) ?></div><div class="stat-label">Verified</div></div>
-  <div class="stat-card"><div class="stat-value"><?= number_format($stats['total_businesses']) ?></div><div class="stat-label">Businesses</div></div>
-  <div class="stat-card"><div class="stat-value"><?= number_format($stats['total_pitches']) ?></div><div class="stat-label">Pitches</div></div>
-  <div class="stat-card"><div class="stat-value"><?= number_format($stats['total_franchises']) ?></div><div class="stat-label">Franchises</div></div>
-  <div class="stat-card"><div class="stat-value"><?= number_format($stats['total_interest_requests']) ?></div><div class="stat-label">Interest Requests</div></div>
-  <div class="stat-card"><div class="stat-value"><?= number_format($stats['total_matches']) ?></div><div class="stat-label">Matches</div></div>
-  <div class="stat-card"><div class="stat-value"><?= number_format($stats['total_reports']) ?></div><div class="stat-label">Open Reports</div></div>
+
+<div class="dash-stats">
+  <?php
+    ui_stat_card(['label' => 'Total users', 'value' => number_format($stats['total_users']), 'icon' => 'users', 'tone' => 'info']);
+    ui_stat_card(['label' => 'Verified', 'value' => number_format($stats['total_verified']), 'icon' => 'check', 'tone' => 'success']);
+    ui_stat_card(['label' => 'Businesses', 'value' => number_format($stats['total_businesses']), 'icon' => 'briefcase', 'tone' => 'primary']);
+    ui_stat_card(['label' => 'Pitches', 'value' => number_format($stats['total_pitches']), 'icon' => 'chart', 'tone' => 'warning']);
+    ui_stat_card(['label' => 'Franchises', 'value' => number_format($stats['total_franchises']), 'icon' => 'tag', 'tone' => 'info']);
+    ui_stat_card(['label' => 'Interest requests', 'value' => number_format($stats['total_interest_requests']), 'icon' => 'share', 'tone' => 'success']);
+    ui_stat_card(['label' => 'Matches', 'value' => number_format($stats['total_matches']), 'icon' => 'matches', 'tone' => 'primary']);
+    ui_stat_card(['label' => 'Open reports', 'value' => number_format($stats['total_reports']), 'icon' => 'lock', 'tone' => $stats['total_reports'] > 0 ? 'warning' : 'success']);
+  ?>
 </div>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-  <div class="card">
-    <h4>Recent Activity</h4>
-    <p style="font-size:1.25rem;font-weight:700;color:var(--color-primary-vivid);"><?= $recentSignups ?></p>
-    <p style="color:var(--color-text-muted);font-size:0.85rem;">New users in the last 7 days</p>
+
+<div class="dash-cols" style="margin-top:var(--space-8);">
+  <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+    <div class="dash-qa-grid">
+      <?php
+        ui_quick_action(['title' => 'Manage users', 'desc' => 'View & moderate accounts', 'icon' => 'users', 'href' => APP_URL . '/admin/users', 'tone' => 'info']);
+        ui_quick_action(['title' => 'Moderate pitches', 'desc' => 'Review listings', 'icon' => 'chart', 'href' => APP_URL . '/admin/pitches', 'tone' => 'primary']);
+        ui_quick_action(['title' => 'Reports', 'desc' => 'Handle flagged content', 'icon' => 'lock', 'href' => APP_URL . '/admin/reports', 'tone' => 'warning']);
+        ui_quick_action(['title' => 'Send broadcast', 'desc' => 'Message all members', 'icon' => 'share', 'href' => APP_URL . '/admin/broadcast', 'tone' => 'success']);
+        ui_quick_action(['title' => 'View analytics', 'desc' => 'Deeper platform metrics', 'icon' => 'chart', 'href' => APP_URL . '/admin/analytics', 'tone' => 'info']);
+        ui_quick_action(['title' => 'Verification queue', 'desc' => 'Approve documents', 'icon' => 'document', 'href' => APP_URL . '/admin/verification', 'tone' => 'primary']);
+      ?>
+    </div>
   </div>
-  <div class="card">
-    <h4>Verification Queue</h4>
-    <p style="font-size:1.25rem;font-weight:700;color:var(--color-primary-vivid);"><?= $pendingVerification ?></p>
-    <p style="color:var(--color-text-muted);font-size:0.85rem;">Pending document verifications</p>
-    <?php if ($pendingVerification > 0): ?>
-      <a href="<?= APP_URL ?>/admin/verification" class="btn btn-sm btn-primary" style="margin-top:0.5rem;">Review Now</a>
-    <?php endif; ?>
+
+  <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+    <div class="dash-panel dash-panel-pad">
+      <div class="dash-def-label">New users (last 7 days)</div>
+      <div class="dash-stat-value" style="margin-top:6px;"><?= number_format($recentSignups) ?></div>
+    </div>
+    <div class="dash-panel dash-panel-pad">
+      <div class="dash-def-label">Pending verifications</div>
+      <div class="dash-stat-value" style="margin-top:6px;"><?= number_format($pendingVerification) ?></div>
+      <?php if ($pendingVerification > 0): ?>
+        <a href="<?= APP_URL ?>/admin/verification" class="btn btn-sm btn-primary" style="margin-top:var(--space-3);">Review now</a>
+      <?php endif; ?>
+    </div>
   </div>
 </div>
-<div class="card" style="margin-top:1rem;">
-  <h4>Quick Links</h4>
-  <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem;">
-    <a href="<?= APP_URL ?>/admin/users" class="btn btn-sm btn-secondary">Manage Users</a>
-    <a href="<?= APP_URL ?>/admin/pitches" class="btn btn-sm btn-secondary">Moderate Pitches</a>
-    <a href="<?= APP_URL ?>/admin/reports" class="btn btn-sm btn-secondary">Reports</a>
-    <a href="<?= APP_URL ?>/admin/broadcast" class="btn btn-sm btn-secondary">Send Broadcast</a>
-    <a href="<?= APP_URL ?>/admin/analytics" class="btn btn-sm btn-secondary">View Analytics</a>
-  </div>
-</div>
+
 <?php require __DIR__ . '/../includes/footer.php'; ?>

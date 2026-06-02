@@ -49,95 +49,93 @@ if (!empty($pitchIds)) {
 
 $pageTitle = 'Entrepreneur Dashboard';
 require __DIR__ . '/../includes/layout-dashboard.php';
+
+ui_page_header(
+    'Entrepreneur Dashboard',
+    'Manage your pitches and track investor interest.',
+    empty($pitches) ? '' : '<a href="' . APP_URL . '/entrepreneur/pitch-create" class="btn btn-primary btn-sm">' . ui_icon_str('plus') . ' New pitch</a>'
+);
 ?>
-<h2 style="margin-bottom:0.25rem;">Entrepreneur Dashboard</h2>
-<p style="color:var(--color-text-muted);">Manage your pitches and track investor interest.</p>
 
 <?php if (empty($pitches)): ?>
-<div class="card" style="text-align:center;padding:3rem 2rem;margin-top:1.5rem;">
-  <h3 style="margin-bottom:0.5rem;">No pitches yet</h3>
-  <p style="color:var(--color-text-muted);margin-bottom:1rem;">Create your first pitch to start connecting with investors.</p>
-  <a href="pitch-create.php" class="btn btn-primary">Create Pitch</a>
-</div>
+  <div class="dash-panel">
+    <?php ui_empty_state(['icon' => 'chart', 'title' => 'No pitches yet', 'text' => 'Create your first pitch to start connecting with investors.', 'ctaHref' => APP_URL . '/entrepreneur/pitch-create', 'ctaLabel' => 'Create pitch']); ?>
+  </div>
 <?php else: ?>
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
-  <div></div>
-  <a href="pitch-create.php" class="btn btn-primary">+ New Pitch</a>
+
+<div class="dash-stats">
+  <?php
+    ui_stat_card(['label' => 'Profile views', 'value' => number_format($totalViews), 'icon' => 'eye', 'tone' => 'info']);
+    ui_stat_card(['label' => 'Interest requests', 'value' => $totalInterest, 'icon' => 'share', 'tone' => 'success']);
+    ui_stat_card(['label' => 'Published', 'value' => $published . '/' . $totalPitches, 'icon' => 'check', 'tone' => 'warning']);
+    ui_stat_card(['label' => 'Current ask', 'value' => $topFunding ? money($topFunding) : '—', 'icon' => 'tag', 'tone' => 'primary']);
+  ?>
 </div>
 
-<div class="stats-grid" style="margin-bottom:2rem;">
-  <div class="stat-card"><div class="stat-value"><?= $totalViews ?></div><div class="stat-label">Profile views</div></div>
-  <div class="stat-card"><div class="stat-value"><?= $totalInterest ?></div><div class="stat-label">Interest requests</div></div>
-  <div class="stat-card"><div class="stat-value"><?= $published ?>/<?= $totalPitches ?></div><div class="stat-label">Published</div></div>
-  <div class="stat-card"><div class="stat-value"><?= $topFunding ? money($topFunding) : '—' ?></div><div class="stat-label">Current ask</div></div>
-</div>
-
-<h3>Your Pitches</h3>
-<div class="card" style="padding:0;overflow-x:auto;">
-  <table style="width:100%;border-collapse:collapse;">
-    <tr style="border-bottom:1px solid var(--color-border);background:var(--color-bg-soft);">
-      <th style="text-align:left;padding:14px 18px;font-weight:600;">Tagline</th>
-      <th style="text-align:left;padding:14px 18px;font-weight:600;">Stage</th>
-      <th style="text-align:left;padding:14px 18px;font-weight:600;">Funding Ask</th>
-      <th style="text-align:center;padding:14px 18px;font-weight:600;">Status</th>
-      <th style="text-align:right;padding:14px 18px;font-weight:600;"></th>
-    </tr>
-    <?php foreach ($pitches as $p): ?>
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <td style="padding:14px 18px;">
-        <strong><?= e($p['tagline']) ?></strong>
-        <?php if ($p['is_featured']): ?><span class="tx-badge tx-badge-sale" style="font-size:0.7rem;margin-left:0.5rem;">Featured</span><?php endif; ?>
-      </td>
-      <td style="padding:14px 18px;"><?= e(ucfirst($p['stage'] ?? '—')) ?></td>
-      <td style="padding:14px 18px;"><?= $p['funding_amount'] ? money($p['funding_amount']) : '—' ?></td>
-      <td style="padding:14px 18px;text-align:center;">
-        <?php if ($p['is_published']): ?><span style="color:var(--color-success);font-weight:600;">Published</span>
-        <?php else: ?><span style="color:var(--color-error);font-weight:600;">Draft</span>
-        <?php endif; ?>
-      </td>
-      <td style="padding:14px 18px;text-align:right;">
-        <a href="<?= APP_URL ?>/pitch/<?= $p['id'] ?>" class="btn btn-sm btn-secondary" style="text-decoration:none;">View</a>
-        <a href="pitch-edit.php?id=<?= $p['id'] ?>" class="btn btn-sm btn-accent" style="text-decoration:none;">Edit</a>
-      </td>
-    </tr>
-    <?php endforeach; ?>
-  </table>
+<?php ui_section_header('Your pitches'); ?>
+<div class="dash-panel">
+  <div class="dash-table-wrap">
+    <table class="dash-table">
+      <thead><tr>
+        <th>Tagline</th><th>Stage</th><th>Funding ask</th>
+        <th class="ta-center">Status</th><th class="ta-right">Actions</th>
+      </tr></thead>
+      <tbody>
+      <?php foreach ($pitches as $p): ?>
+        <tr>
+          <td>
+            <span class="t-strong"><?= e($p['tagline']) ?></span>
+            <?php if ($p['is_featured']): ?> <span class="dash-pill featured">Featured</span><?php endif; ?>
+          </td>
+          <td><?= e(ucfirst($p['stage'] ?? '—')) ?></td>
+          <td><?= $p['funding_amount'] ? money($p['funding_amount']) : '—' ?></td>
+          <td class="ta-center"><span class="dash-pill <?= $p['is_published'] ? 'published' : 'draft' ?>"><?= $p['is_published'] ? 'Published' : 'Draft' ?></span></td>
+          <td class="ta-right">
+            <span class="dash-table-actions">
+              <a href="<?= APP_URL ?>/pitch/<?= $p['id'] ?>" class="btn btn-sm btn-outline">View</a>
+              <a href="<?= APP_URL ?>/entrepreneur/pitch-edit?id=<?= $p['id'] ?>" class="btn btn-sm btn-primary">Edit</a>
+            </span>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <?php if (!empty($interestRequests)): ?>
-<h3 style="margin-top:2rem;">Recent Interest Requests</h3>
-<div class="card" style="padding:0;overflow-x:auto;">
-  <table style="width:100%;border-collapse:collapse;">
-    <tr style="border-bottom:1px solid var(--color-border);background:var(--color-bg-soft);">
-      <th style="text-align:left;padding:14px 18px;font-weight:600;">Investor</th>
-      <th style="text-align:left;padding:14px 18px;font-weight:600;">Pitch</th>
-      <th style="text-align:left;padding:14px 18px;font-weight:600;">Message</th>
-      <th style="padding:14px 18px;font-weight:600;">Date</th>
-      <th style="padding:14px 18px;font-weight:600;"></th>
-    </tr>
-    <?php foreach ($interestRequests as $ir): ?>
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <td style="padding:14px 18px;">
-        <strong><?= e($ir['sender_name']) ?></strong><br>
-        <span class="text-xs"><?= e(ucfirst(str_replace('_', ' ', $ir['sender_role'] ?? ''))) ?></span>
-      </td>
-      <td style="padding:14px 18px;font-size:0.9rem;"><?= e(mb_substr($ir['pitch_tagline'], 0, 40)) ?>...</td>
-      <td style="padding:14px 18px;font-size:0.9rem;"><?= e($ir['message'] ?? '—') ?></td>
-      <td style="padding:14px 18px;font-size:0.85rem;color:var(--color-text-muted);"><?= date_human($ir['created_at']) ?></td>
-      <td style="padding:14px 18px;">
-        <form method="POST" action="<?= APP_URL ?>/connections/respond" style="display:flex;gap:0.5rem;">
-          <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
-          <input type="hidden" name="request_id" value="<?= $ir['id'] ?>">
-          <button type="submit" name="action" value="accept" class="btn btn-accent btn-sm">Accept & Connect</button>
-          <button type="submit" name="action" value="reject" class="btn btn-outline btn-sm" onclick="return confirm('Decline this interest request?')">Decline</button>
-        </form>
-      </td>
-    </tr>
-    <?php endforeach; ?>
-  </table>
-</div>
+  <?php ui_section_header('Recent interest requests'); ?>
+  <div class="dash-panel">
+    <div class="dash-table-wrap">
+      <table class="dash-table">
+        <thead><tr>
+          <th>Investor</th><th>Pitch</th><th>Message</th><th>Date</th><th class="ta-right">Respond</th>
+        </tr></thead>
+        <tbody>
+        <?php foreach ($interestRequests as $ir): ?>
+          <tr>
+            <td>
+              <span class="t-strong"><?= e($ir['sender_name']) ?></span><br>
+              <span class="t-muted"><?= e(ucfirst(str_replace('_', ' ', $ir['sender_role'] ?? ''))) ?></span>
+            </td>
+            <td><?= e(mb_substr($ir['pitch_tagline'], 0, 40)) ?>&hellip;</td>
+            <td class="t-muted"><?= e($ir['message'] ?? '—') ?></td>
+            <td class="t-muted"><?= date_human($ir['created_at']) ?></td>
+            <td class="ta-right">
+              <form method="POST" action="<?= APP_URL ?>/connections/respond" class="dash-table-actions">
+                <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
+                <input type="hidden" name="request_id" value="<?= $ir['id'] ?>">
+                <button type="submit" name="action" value="accept" class="btn btn-primary btn-sm">Accept</button>
+                <button type="submit" name="action" value="reject" class="btn btn-outline btn-sm" onclick="return confirm('Decline this interest request?')">Decline</button>
+              </form>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
 <?php endif; ?>
 <?php endif; ?>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
-</div></div>

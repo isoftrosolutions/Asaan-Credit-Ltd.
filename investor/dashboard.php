@@ -43,136 +43,126 @@ elseif ($hour < 17) $greeting = 'Good afternoon';
 
 $pageTitle = 'Investor Dashboard';
 require __DIR__ . '/../includes/layout-dashboard.php';
+
+ui_page_header(
+    "$greeting, " . e($user['name']),
+    'You have <strong>' . $matchesCount . ' match' . ($matchesCount !== 1 ? 'es' : '') . '</strong> on the platform right now.',
+    '<a href="' . APP_URL . '/browse/businesses" class="btn btn-primary btn-sm">Browse businesses ' . ui_icon_str('arrowRight') . '</a>'
+);
 ?>
-<div class="dashboard-heading">
-  <div>
-    <h2><?= e($greeting) ?>, <?= e($user['name']) ?></h2>
-    <div class="greeting-sub">You have <strong><?= $matchesCount ?> match<?= $matchesCount !== 1 ? 'es' : '' ?></strong> on the platform</div>
-  </div>
-  <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-accent btn-sm">Browse all businesses →</a>
+
+<div class="dash-stats">
+  <?php
+    ui_stat_card(['label' => 'Interest requests sent', 'value' => $interestSent, 'icon' => 'share', 'tone' => 'success']);
+    ui_stat_card(['label' => 'Matches made', 'value' => $matchesCount, 'icon' => 'matches', 'tone' => 'info']);
+    ui_stat_card(['label' => 'Saved listings', 'value' => $savedCount, 'icon' => 'heart', 'tone' => 'warning']);
+    ui_stat_card(['label' => 'Total engagements', 'value' => $interestSent + $matchesCount, 'icon' => 'trending', 'tone' => 'primary']);
+  ?>
 </div>
 
-<div class="dashboard-stats">
-  <div class="stat-card">
-    <div class="stat-card-icon" style="background:rgba(30,122,77,0.1);color:var(--color-success);">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-    </div>
-    <div class="stat-card-content">
-      <div class="stat-value"><?= $interestSent ?></div>
-      <div class="stat-label">Interest requests sent</div>
-    </div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-card-icon" style="background:rgba(30,72,102,0.1);color:var(--color-secondary);">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-    </div>
-    <div class="stat-card-content">
-      <div class="stat-value"><?= $matchesCount ?></div>
-      <div class="stat-label">Matches made</div>
-    </div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-card-icon" style="background:rgba(199,122,18,0.1);color:var(--color-warning);">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
-    </div>
-    <div class="stat-card-content">
-      <div class="stat-value"><?= $savedCount ?></div>
-      <div class="stat-label">Saved listings</div>
-    </div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-card-icon" style="background:rgba(152,32,42,0.1);color:var(--color-primary-vivid);">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
-    </div>
-    <div class="stat-card-content">
-      <div class="stat-value"><?= $interestSent + $matchesCount ?></div>
-      <div class="stat-label">Total engagements</div>
-    </div>
-  </div>
+<?php ui_section_header('Quick actions'); ?>
+<div class="dash-qa-grid">
+  <?php
+    ui_quick_action(['title' => 'Browse businesses', 'desc' => 'Discover new opportunities', 'icon' => 'briefcase', 'href' => APP_URL . '/browse/businesses', 'tone' => 'info']);
+    ui_quick_action(['title' => 'My connections', 'desc' => 'Manage your conversations', 'icon' => 'matches', 'href' => APP_URL . '/connections', 'tone' => 'success']);
+    ui_quick_action(['title' => 'Investment preferences', 'desc' => 'Sharpen your matches', 'icon' => 'settings', 'href' => APP_URL . '/investor/preferences-edit', 'tone' => 'warning']);
+    ui_quick_action(['title' => 'My documents', 'desc' => 'Verification & files', 'icon' => 'document', 'href' => APP_URL . '/investor/documents-edit', 'tone' => 'primary']);
+  ?>
 </div>
 
 <?php if (!empty($suggestions)): ?>
-<div class="section-header">
-  <h3>Smart Matches for You</h3>
-  <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-ghost btn-sm">View all</a>
-</div>
-<div class="match-grid">
-  <?php foreach ($suggestions as $s): ?>
-  <div class="match-card" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$s['biz_id'] ?>'">
-    <div class="match-header">
-      <span class="tx-badge tx-badge-<?= e($s['listing_type'] === 'sale' ? 'sale' : 'investment') ?>"><?= e($s['listing_type'] === 'sale' ? 'For Sale' : 'Investment') ?></span>
-      <?php if ($s['province']): ?>
-        <span style="font-size:0.75rem;color:var(--color-text-muted);"><?= e($s['province']) ?></span>
-      <?php endif; ?>
-    </div>
-    <div class="match-title"><?= e($s['business_name'] ?? 'Untitled') ?></div>
-    <div class="match-meta"><?= e($s['sector_name'] ?? 'General') ?><?php if ($s['annual_revenue']): ?> &bull; NPR <?= e(number_format((float)$s['annual_revenue'], 0)) ?> revenue<?php endif; ?></div>
-    <div class="match-details">
-      <?php if ($s['asking_price']): ?>
-      <div class="match-detail">
-        <span class="match-detail-label">Asking</span>
-        <span class="match-detail-value">NPR <?= e(number_format((float)$s['asking_price'], 0)) ?></span>
+  <?php ui_section_header('Smart matches for you', APP_URL . '/browse/businesses', 'View all'); ?>
+  <div class="dash-rec-grid">
+    <?php foreach ($suggestions as $s):
+      $isSale = ($s['listing_type'] === 'sale');
+      $score = (float)$s['match_score'];
+      $scoreColor = $score >= 80 ? 'var(--dash-success)' : ($score >= 60 ? 'var(--dash-warning)' : 'var(--dash-ink-soft)');
+    ?>
+    <a class="dash-rec" href="<?= APP_URL ?>/business/<?= (int)$s['biz_id'] ?>">
+      <div class="dash-rec-top">
+        <span class="dash-rec-badge <?= $isSale ? 'sale' : 'investment' ?>"><?= $isSale ? 'For Sale' : 'Investment' ?></span>
+        <?php if ($s['province']): ?>
+          <span class="dash-rec-loc"><?php ui_icon('mapPin'); ?><?= e($s['province']) ?></span>
+        <?php endif; ?>
       </div>
-      <?php endif; ?>
-      <?php if ($s['ebitda_pct']): ?>
-      <div class="match-detail">
-        <span class="match-detail-label">EBITDA</span>
-        <span class="match-detail-value"><?= e($s['ebitda_pct']) ?>%</span>
+      <div>
+        <div class="dash-rec-title"><?= e($s['business_name'] ?? 'Untitled') ?></div>
+        <div class="dash-rec-meta"><?= e($s['sector_name'] ?? 'General') ?><?php if ($s['annual_revenue']): ?> &bull; NPR <?= e(number_format((float)$s['annual_revenue'], 0)) ?> revenue<?php endif; ?></div>
       </div>
-      <?php endif; ?>
-    </div>
-    <div class="match-footer">
-      <div class="match-score-bar">
-        <span class="match-score-label"><?= e(number_format($s['match_score'], 0)) ?>%</span>
-        <div class="match-score-track">
-          <div class="match-score-fill" style="width:<?= e(number_format($s['match_score'], 0)) ?>%;background:<?= $s['match_score'] >= 80 ? 'var(--color-success)' : ($s['match_score'] >= 60 ? 'var(--color-warning)' : 'var(--color-text-muted)') ?>;"></div>
+      <?php if ($s['asking_price'] || $s['ebitda_pct']): ?>
+      <div class="dash-rec-details">
+        <?php if ($s['asking_price']): ?>
+        <div>
+          <div class="dash-rec-detail-label">Asking</div>
+          <div class="dash-rec-detail-value">NPR <?= e(number_format((float)$s['asking_price'], 0)) ?></div>
         </div>
+        <?php endif; ?>
+        <?php if ($s['ebitda_pct']): ?>
+        <div>
+          <div class="dash-rec-detail-label">EBITDA</div>
+          <div class="dash-rec-detail-value"><?= e($s['ebitda_pct']) ?>%</div>
+        </div>
+        <?php endif; ?>
       </div>
-      <span style="font-size:0.8rem;color:var(--color-primary);font-weight:600;">View &rarr;</span>
-    </div>
+      <?php endif; ?>
+      <div class="dash-rec-foot">
+        <div class="dash-rec-score">
+          <div class="dash-rec-score-top"><span>Match score</span><span class="dash-rec-score-num"><?= e(number_format($score, 0)) ?>%</span></div>
+          <div class="dash-rec-score-track"><div class="dash-rec-score-fill" style="width:<?= e(number_format($score, 0)) ?>%;background:<?= $scoreColor ?>;"></div></div>
+        </div>
+        <span class="dash-rec-cta">View <?php ui_icon('arrowRight'); ?></span>
+      </div>
+    </a>
+    <?php endforeach; ?>
   </div>
-  <?php endforeach; ?>
-</div>
 <?php endif; ?>
 
-<div class="activity-feed">
-  <div class="section-header">
-    <h3>Recent Activity</h3>
-    <?php if (!empty($recentNotifications)): ?>
-    <a href="<?= APP_URL ?>/notifications" class="btn btn-ghost btn-sm">View all</a>
-    <?php endif; ?>
-  </div>
-  <div class="activity-card">
+<div class="dash-cols" style="margin-top:var(--space-8);">
+  <div class="dash-panel">
+    <div class="dash-panel-head">
+      <span class="dash-panel-title">Recent activity</span>
+      <?php if (!empty($recentNotifications)): ?>
+        <a href="<?= APP_URL ?>/notifications" class="dash-section-link">View all <?php ui_icon('arrowRight'); ?></a>
+      <?php endif; ?>
+    </div>
     <?php if (empty($recentNotifications)): ?>
-      <div class="activity-empty">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-4"/></svg>
-        <div>No recent activity yet.</div>
-      </div>
+      <?php ui_empty_state(['icon' => 'bell', 'title' => 'No recent activity yet', 'text' => 'When you connect with businesses, updates will show up here.', 'ctaHref' => APP_URL . '/browse/businesses', 'ctaLabel' => 'Browse businesses']); ?>
     <?php else: ?>
       <?php
-        $activityIcons = [
-          'match'      => ['bg' => 'rgba(30,122,77,0.1)',  'color' => 'var(--color-success)',       'svg' => '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>'],
-          'interest'   => ['bg' => 'rgba(30,72,102,0.1)',  'color' => 'var(--color-secondary)',     'svg' => '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>'],
-          'connection' => ['bg' => 'rgba(199,122,18,0.1)', 'color' => 'var(--color-warning)',       'svg' => '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>'],
-          'default'    => ['bg' => 'rgba(152,32,42,0.1)',  'color' => 'var(--color-primary-vivid)', 'svg' => '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>'],
-        ];
+        $activityTone = ['match' => 'success', 'interest' => 'info', 'connection' => 'warning'];
+        $activityIcon = ['match' => 'matches', 'interest' => 'share', 'connection' => 'matches'];
       ?>
-      <?php foreach ($recentNotifications as $n): ?>
-      <?php $ic = $activityIcons[$n['type']] ?? $activityIcons['default']; ?>
-      <div class="activity-item">
-        <div class="activity-icon" style="background:<?= $ic['bg'] ?>;color:<?= $ic['color'] ?>;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><?= $ic['svg'] ?></svg>
+      <div class="dash-timeline">
+        <?php foreach ($recentNotifications as $n):
+          $tone = $activityTone[$n['type']] ?? 'primary';
+          $icon = $activityIcon[$n['type']] ?? 'bell';
+        ?>
+        <div class="dash-tl-item">
+          <span class="dash-tl-ico tone-<?= $tone ?>"><?php ui_icon($icon); ?></span>
+          <div class="dash-tl-body">
+            <div class="dash-tl-title"><?= e($n['title']) ?></div>
+            <?php if ($n['body']): ?><div class="dash-tl-text"><?= e(mb_substr($n['body'], 0, 90)) ?></div><?php endif; ?>
+          </div>
+          <span class="dash-tl-time"><?= date_human($n['created_at']) ?></span>
         </div>
-        <div class="activity-content">
-          <div class="activity-title"><?= e($n['title']) ?></div>
-          <?php if ($n['body']): ?>
-          <div class="activity-body"><?= e(mb_substr($n['body'], 0, 80)) ?></div>
-          <?php endif; ?>
-        </div>
-        <div class="activity-time"><?= date_human($n['created_at']) ?></div>
+        <?php endforeach; ?>
       </div>
-      <?php endforeach; ?>
     <?php endif; ?>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+    <?php
+      ui_pro_tip([
+        'tone' => 'info',
+        'title' => 'Complete your profile',
+        'body' => 'Investors with detailed preferences get <strong>3&times; more relevant matches</strong>. Add your sectors, ticket size and stage to sharpen recommendations.',
+      ]);
+      ui_pro_tip([
+        'tone' => 'success',
+        'title' => 'Stay responsive',
+        'body' => 'Replying to interest requests within 24 hours keeps conversations warm and improves your match quality over time.',
+      ]);
+    ?>
   </div>
 </div>
 

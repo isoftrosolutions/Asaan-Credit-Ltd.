@@ -52,19 +52,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $pageTitle = 'Verification Documents';
 require __DIR__ . '/../includes/layout-dashboard.php';
+
+ui_page_header('Verification Documents', 'Reviewed by our team within 48 hours. Never shown publicly.');
 ?>
-<div style="max-width:720px; margin:0 auto; padding:2rem 0 3rem;">
-  <h2>Verification Documents</h2>
-  <p style="color:var(--color-text-muted);">These documents are reviewed by our team within 48 hours. They are never shown publicly.</p>
+<div class="dash-form" style="max-width:720px;">
 
   <?php if (!empty($documents)): ?>
     <?php foreach ($documents as $doc): ?>
-    <div class="card" style="margin-top:1.5rem;">
-      <h4><?= e($docTypes[$doc['document_type']] ?? ucfirst($doc['document_type'])) ?></h4>
-      <div style="border:2px dashed var(--color-border); border-radius:1rem; padding:1.5rem; text-align:center; margin-top:1rem;">
+    <div class="dash-panel dash-panel-pad" style="margin-top:var(--space-4);">
+      <div class="dash-form-section-title"><?= e($docTypes[$doc['document_type']] ?? ucfirst($doc['document_type'])) ?></div>
+      <div style="border:2px dashed var(--dash-border); border-radius:var(--dash-radius-ctl); padding:1.5rem; text-align:center; margin-top:1rem;">
         <div style="font-size:1.5rem; margin-bottom:0.5rem;">📄</div>
         <strong><?= e(basename($doc['file_path'])) ?></strong><br>
-        <span style="font-size:0.8rem; color:var(--color-text-muted);">
+        <span style="font-size:0.8rem; color:var(--dash-ink-soft);">
           Uploaded <?= date_human($doc['created_at']) ?>
           <?php if ($doc['status'] === 'verified'): ?>
             • Status: <strong style="color:var(--color-success);">Verified</strong>
@@ -83,9 +83,9 @@ require __DIR__ . '/../includes/layout-dashboard.php';
   <form method="POST" enctype="multipart/form-data" style="margin-top:1.5rem;">
     <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
 
-    <div class="card">
-      <h4>Upload New Documents</h4>
-      <p style="font-size:0.85rem; color:var(--color-text-muted); margin-bottom:1rem;">Accepted: JPG, PNG, PDF (max 10MB per file)</p>
+    <div class="dash-panel dash-panel-pad">
+      <div class="dash-form-section-title">Upload New Documents</div>
+      <p style="font-size:0.85rem; color:var(--dash-ink-soft); margin-bottom:1rem;">Accepted: JPG, PNG, PDF (max 10MB per file)</p>
 
       <div id="upload-rows">
         <div class="upload-row" style="display:flex; gap:1rem; align-items:end; margin-bottom:1rem;">
@@ -105,13 +105,13 @@ require __DIR__ . '/../includes/layout-dashboard.php';
         </div>
       </div>
 
-      <button type="button" onclick="addUploadRow()" class="btn btn-secondary btn-sm" style="margin-bottom:1rem;">+ Add another file</button>
+      <button type="button" onclick="addUploadRow()" class="btn btn-outline btn-sm" style="margin-bottom:1rem;">+ Add another file</button>
     </div>
 
     <button type="submit" class="btn btn-primary" style="margin-top:1.5rem; width:100%;">Submit for Verification</button>
   </form>
 
-  <div style="margin-top:1rem; font-size:0.85rem; color:var(--color-text-muted); text-align:center;">
+  <div style="margin-top:1rem; font-size:0.85rem; color:var(--dash-ink-soft); text-align:center;">
     Verification Status:
     <strong style="<?= $userVerificationStatus === 'verified' ? 'color:var(--color-success);' : ($userVerificationStatus === 'rejected' ? 'color:var(--color-error);' : 'color:var(--color-warning);') ?>">
       <?= e(ucfirst($userVerificationStatus)) ?>

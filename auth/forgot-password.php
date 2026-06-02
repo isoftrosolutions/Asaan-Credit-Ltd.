@@ -18,15 +18,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $stmt->fetch();
 
         if ($user) {
-            $token = bin2hex(random_bytes(32));
-
-            $stmt = db()->prepare('DELETE FROM password_reset_tokens WHERE email = ? AND type = ?');
+            // Rate-limit: don't issue a new link if one was requested for this
+            // email in the last 60 seconds (silently, to keep the response
+            // identical whether or not the account exists).
+            $stmt = db()->prepare('SELECT created_at FROM password_reset_tokens WHERE email = ? AND type = ? ORDER BY created_at DESC LIMIT 1');
             $stmt->execute([$email, 'password']);
+            $last = $stmt->fetchColumn();
+            $throttled = $last && (time() - strtotime($last)) < 60;
 
-            $stmt = db()->prepare('INSERT INTO password_reset_tokens (email, token, type, created_at) VALUES (?, ?, ?, ?)');
-            $stmt->execute([$email, $token, 'password', date('Y-m-d H:i:s')]);
+            if (!$throttled) {
+                $token = bin2hex(random_bytes(32));
 
-            send_password_reset_email($email, $token);
+                $stmt = db()->prepare('DELETE FROM password_reset_tokens WHERE email = ? AND type = ?');
+                $stmt->execute([$email, 'password']);
+
+                $stmt = db()->prepare('INSERT INTO password_reset_tokens (email, token, type, created_at) VALUES (?, ?, ?, ?)');
+                $stmt->execute([$email, reset_token_hash($token), 'password', date('Y-m-d H:i:s')]);
+
+                send_password_reset_email($email, $token);
+            }
         }
     }
 

@@ -55,97 +55,94 @@ $topAskingPrice = !empty($askingPrices) ? max($askingPrices) : 0;
 
 $pageTitle = 'Business Owner Dashboard';
 require __DIR__ . '/../includes/layout-dashboard.php';
+
+ui_page_header(
+    'Business Dashboard',
+    'Manage your business listings and track performance.',
+    empty($businesses) ? '' : '<a href="' . APP_URL . '/business/create" class="btn btn-primary btn-sm">' . ui_icon_str('plus') . ' New business</a>'
+);
 ?>
-<h2 style="margin-bottom:0.25rem;">Business Dashboard</h2>
-<p style="color:var(--color-text-muted);">Manage your business listings and track performance.</p>
 
 <?php if (empty($businesses)): ?>
-<div class="card" style="text-align:center;padding:3rem 2rem;margin-top:1.5rem;">
-  <h3 style="margin-bottom:0.5rem;">No business listings yet</h3>
-  <p style="color:var(--color-text-muted);margin-bottom:1rem;">Create your first business listing to start connecting with investors and buyers.</p>
-  <a href="create.php" class="btn btn-primary">Create Business Listing</a>
-</div>
+  <div class="dash-panel">
+    <?php ui_empty_state(['icon' => 'briefcase', 'title' => 'No business listings yet', 'text' => 'Create your first business listing to start connecting with investors and buyers.', 'ctaHref' => APP_URL . '/business/create', 'ctaLabel' => 'Create business listing']); ?>
+  </div>
 <?php else: ?>
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
-  <div></div>
-  <a href="create.php" class="btn btn-primary">+ New Business</a>
+
+<div class="dash-stats">
+  <?php
+    ui_stat_card(['label' => 'Profile views', 'value' => number_format($totalViews), 'icon' => 'eye', 'tone' => 'info']);
+    ui_stat_card(['label' => 'Interest requests', 'value' => $interestCount, 'icon' => 'share', 'tone' => 'success']);
+    ui_stat_card(['label' => 'Accepted matches', 'value' => $matchCount, 'icon' => 'matches', 'tone' => 'warning']);
+    ui_stat_card(['label' => 'Top asking price', 'value' => $topAskingPrice ? money($topAskingPrice) : '—', 'icon' => 'tag', 'tone' => 'primary']);
+  ?>
 </div>
 
-<div class="stats-grid" style="margin-bottom:2rem;">
-  <div class="stat-card"><div class="stat-value"><?= $totalViews ?></div><div class="stat-label">Profile views</div></div>
-  <div class="stat-card"><div class="stat-value"><?= $interestCount ?></div><div class="stat-label">Interest requests</div></div>
-  <div class="stat-card"><div class="stat-value"><?= $matchCount ?></div><div class="stat-label">Accepted matches</div></div>
-  <div class="stat-card"><div class="stat-value"><?= $topAskingPrice ? money($topAskingPrice) : '—' ?></div><div class="stat-label">Asking price</div></div>
-</div>
-
-<h3>Your Listings</h3>
-<div class="card" style="padding:0;overflow-x:auto;">
-  <table style="width:100%;border-collapse:collapse;">
-    <tr style="border-bottom:1px solid var(--color-border);background:var(--color-bg-soft);">
-      <th style="text-align:left;padding:14px 18px;font-weight:600;">Business</th>
-      <th style="text-align:left;padding:14px 18px;font-weight:600;">Type</th>
-      <th style="text-align:left;padding:14px 18px;font-weight:600;">Asking Price</th>
-      <th style="text-align:center;padding:14px 18px;font-weight:600;">Status</th>
-      <th style="text-align:center;padding:14px 18px;font-weight:600;">Views</th>
-      <th style="text-align:right;padding:14px 18px;font-weight:600;"></th>
-    </tr>
-    <?php foreach ($businesses as $b): ?>
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <td style="padding:14px 18px;">
-        <strong><?= e($b['business_name']) ?></strong>
-        <?php if ($b['is_featured']): ?><span class="tx-badge tx-badge-sale" style="font-size:0.7rem;margin-left:0.5rem;">Featured</span><?php endif; ?>
-      </td>
-      <td style="padding:14px 18px;"><?= e(ucfirst(str_replace('_', ' ', $b['listing_type']))) ?></td>
-      <td style="padding:14px 18px;"><?= $b['asking_price'] ? money($b['asking_price']) : '—' ?></td>
-      <td style="padding:14px 18px;text-align:center;">
-        <?php if ($b['is_published']): ?><span style="color:var(--color-success);font-weight:600;">Published</span>
-        <?php else: ?><span style="color:var(--color-error);font-weight:600;">Draft</span>
-        <?php endif; ?>
-      </td>
-      <td style="padding:14px 18px;text-align:center;"><?= (int)$b['views'] ?></td>
-      <td style="padding:14px 18px;text-align:right;">
-        <a href="<?= APP_URL ?>/business/<?= $b['id'] ?>" class="btn btn-sm btn-secondary" style="text-decoration:none;">View</a>
-        <a href="edit.php?id=<?= $b['id'] ?>" class="btn btn-sm btn-accent" style="text-decoration:none;">Edit</a>
-      </td>
-    </tr>
-    <?php endforeach; ?>
-  </table>
+<?php ui_section_header('Your listings'); ?>
+<div class="dash-panel">
+  <div class="dash-table-wrap">
+    <table class="dash-table">
+      <thead><tr>
+        <th>Business</th><th>Type</th><th>Asking price</th>
+        <th class="ta-center">Status</th><th class="ta-center">Views</th><th class="ta-right">Actions</th>
+      </tr></thead>
+      <tbody>
+      <?php foreach ($businesses as $b): ?>
+        <tr>
+          <td>
+            <span class="t-strong"><?= e($b['business_name']) ?></span>
+            <?php if ($b['is_featured']): ?> <span class="dash-pill featured">Featured</span><?php endif; ?>
+          </td>
+          <td><?= e(ucfirst(str_replace('_', ' ', $b['listing_type']))) ?></td>
+          <td><?= $b['asking_price'] ? money($b['asking_price']) : '—' ?></td>
+          <td class="ta-center"><span class="dash-pill <?= $b['is_published'] ? 'published' : 'draft' ?>"><?= $b['is_published'] ? 'Published' : 'Draft' ?></span></td>
+          <td class="ta-center"><?= (int)$b['views'] ?></td>
+          <td class="ta-right">
+            <span class="dash-table-actions">
+              <a href="<?= APP_URL ?>/business/<?= $b['id'] ?>" class="btn btn-sm btn-outline">View</a>
+              <a href="<?= APP_URL ?>/business/edit?id=<?= $b['id'] ?>" class="btn btn-sm btn-primary">Edit</a>
+            </span>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <?php if (!empty($interestRequests)): ?>
-<h3 style="margin-top:2rem;">Interest Requests</h3>
-<div class="card" style="padding:0;overflow-x:auto;">
-  <table style="width:100%;border-collapse:collapse;">
-    <tr style="border-bottom:1px solid var(--color-border);background:var(--color-bg-soft);">
-      <th style="text-align:left;padding:14px 18px;font-weight:600;">Investor / Buyer</th>
-      <th style="text-align:left;padding:14px 18px;font-weight:600;">Business</th>
-      <th style="text-align:left;padding:14px 18px;font-weight:600;">Message</th>
-      <th style="padding:14px 18px;font-weight:600;">Date</th>
-      <th style="padding:14px 18px;font-weight:600;"></th>
-    </tr>
-    <?php foreach ($interestRequests as $ir): ?>
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <td style="padding:14px 18px;">
-        <strong><?= e($ir['sender_name']) ?></strong><br>
-        <span class="text-xs"><?= e(ucfirst(str_replace('_', ' ', $ir['sender_role'] ?? ''))) ?></span>
-      </td>
-      <td style="padding:14px 18px;font-size:0.9rem;"><?= e($ir['business_name']) ?></td>
-      <td style="padding:14px 18px;font-size:0.9rem;"><?= e($ir['message'] ?? '—') ?></td>
-      <td style="padding:14px 18px;font-size:0.85rem;color:var(--color-text-muted);"><?= date_human($ir['created_at']) ?></td>
-      <td style="padding:14px 18px;">
-        <form method="POST" action="<?= APP_URL ?>/connections/respond" style="display:flex;gap:0.5rem;">
-          <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
-          <input type="hidden" name="request_id" value="<?= $ir['id'] ?>">
-          <button type="submit" name="action" value="accept" class="btn btn-accent btn-sm">Accept & Connect</button>
-          <button type="submit" name="action" value="reject" class="btn btn-outline btn-sm" onclick="return confirm('Decline this interest request?')">Decline</button>
-        </form>
-      </td>
-    </tr>
-    <?php endforeach; ?>
-  </table>
-</div>
+  <?php ui_section_header('Pending interest requests'); ?>
+  <div class="dash-panel">
+    <div class="dash-table-wrap">
+      <table class="dash-table">
+        <thead><tr>
+          <th>Investor / Buyer</th><th>Business</th><th>Message</th><th>Date</th><th class="ta-right">Respond</th>
+        </tr></thead>
+        <tbody>
+        <?php foreach ($interestRequests as $ir): ?>
+          <tr>
+            <td>
+              <span class="t-strong"><?= e($ir['sender_name']) ?></span><br>
+              <span class="t-muted"><?= e(ucfirst(str_replace('_', ' ', $ir['sender_role'] ?? ''))) ?></span>
+            </td>
+            <td><?= e($ir['business_name']) ?></td>
+            <td class="t-muted"><?= e($ir['message'] ?? '—') ?></td>
+            <td class="t-muted"><?= date_human($ir['created_at']) ?></td>
+            <td class="ta-right">
+              <form method="POST" action="<?= APP_URL ?>/connections/respond" class="dash-table-actions">
+                <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
+                <input type="hidden" name="request_id" value="<?= $ir['id'] ?>">
+                <button type="submit" name="action" value="accept" class="btn btn-primary btn-sm">Accept</button>
+                <button type="submit" name="action" value="reject" class="btn btn-outline btn-sm" onclick="return confirm('Decline this interest request?')">Decline</button>
+              </form>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
 <?php endif; ?>
 <?php endif; ?>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
-</div></div>

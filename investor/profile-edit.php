@@ -58,15 +58,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $pageTitle = 'Edit Investor Profile';
 require __DIR__ . '/../includes/layout-dashboard.php';
-?>
-<div style="max-width:720px; margin:0 auto; padding:2rem 0 3rem;">
-  <h2 style="margin-bottom:1.5rem;">Edit Investor Profile</h2>
 
-  <form method="POST" class="card" style="padding:2rem;">
+ui_page_header('Edit Investor Profile', 'Keep your profile current to get sharper matches.');
+?>
+<div class="dash-panel dash-panel-pad dash-form">
+  <form method="POST">
     <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
 
-    <h4 style="margin-bottom:1rem;">Basic Information</h4>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+    <div class="dash-form-section">
+    <div class="dash-form-section-title">Basic information</div>
+    <div class="dash-form-grid">
       <div class="input-group">
         <label>Full Name</label>
         <input type="text" name="name" class="input" value="<?= e($user['name'] ?? '') ?>">
@@ -103,8 +104,10 @@ require __DIR__ . '/../includes/layout-dashboard.php';
       </div>
     </div>
 
-    <h4 style="margin:1.5rem 0 1rem;">Investment Details</h4>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+    </div>
+    <div class="dash-form-section">
+    <div class="dash-form-section-title">Investment details</div>
+    <div class="dash-form-grid">
       <div class="input-group">
         <label>Past Investments (count)</label>
         <input type="number" name="past_investments" class="input" value="<?= e($profile['past_investments'] ?? '0') ?>" min="0">
@@ -123,8 +126,10 @@ require __DIR__ . '/../includes/layout-dashboard.php';
       </div>
     </div>
 
-    <h4 style="margin:1.5rem 0 1rem;">Investment Preferences</h4>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+    </div>
+    <div class="dash-form-section">
+    <div class="dash-form-section-title">Investment preferences</div>
+    <div class="dash-form-grid">
       <div class="input-group" style="grid-column:1/-1;">
         <label>Preferred Sectors</label>
         <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:0.25rem;">
@@ -173,16 +178,17 @@ require __DIR__ . '/../includes/layout-dashboard.php';
       </div>
     </div>
 
-    <div style="margin-top:1.5rem; display:flex; gap:1rem;">
-      <a href="<?= APP_URL ?>/dashboard" class="btn btn-secondary">Cancel</a>
-      <button type="submit" class="btn btn-primary">Save Changes</button>
+    </div>
+    <div class="dash-form-actions">
+      <a href="<?= APP_URL ?>/dashboard" class="btn btn-outline">Cancel</a>
+      <button type="submit" class="btn btn-primary">Save changes</button>
     </div>
   </form>
+</div>
 
-  <div style="margin-top:1.25rem; font-size:0.85rem;">
-    <a href="<?= APP_URL ?>/investor/preferences-edit.php" style="color:var(--color-primary-vivid);">Edit Investment Preferences →</a><br>
-    <a href="<?= APP_URL ?>/investor/documents-edit.php" style="color:var(--color-primary-vivid);">Manage Verification Documents →</a>
-  </div>
+<div style="margin-top:var(--space-5);font-size:.88rem;display:flex;gap:var(--space-5);flex-wrap:wrap;">
+  <a href="<?= APP_URL ?>/investor/preferences-edit" class="dash-section-link">Edit investment preferences <?= ui_icon_str('arrowRight') ?></a>
+  <a href="<?= APP_URL ?>/investor/documents-edit" class="dash-section-link">Manage verification documents <?= ui_icon_str('arrowRight') ?></a>
 </div>
 
 <script>

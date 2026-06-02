@@ -2,9 +2,6 @@
 require __DIR__ . '/../config/bootstrap.php';
 require_admin();
 
-$pageTitle = 'Verification Queue';
-require __DIR__ . '/../includes/layout-admin.php';
-
 $user = current_user();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -53,70 +50,75 @@ $count = count($pendingDocs);
 
 $approvedStmt = db()->query('SELECT vd.*, u.name, u.email FROM verification_documents vd JOIN users u ON u.id = vd.user_id WHERE vd.status IN ("approved","rejected") ORDER BY vd.reviewed_at DESC LIMIT 20');
 $processedDocs = $approvedStmt->fetchAll();
+$pageTitle = 'Verification Queue';
+require __DIR__ . '/../includes/layout-admin.php';
+
+ui_page_header('Verification Queue', '<strong>' . $count . '</strong> document' . ($count !== 1 ? 's' : '') . ' pending review.');
 ?>
-<h2>Verification Queue — <?= $count ?> Pending</h2>
 <?php if ($count > 0): ?>
-<div class="card" style="margin-top:1rem;">
-  <table style="width:100%;">
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <th style="text-align:left;padding:8px;">User</th>
-      <th style="text-align:left;padding:8px;">Role</th>
-      <th style="padding:8px;">Document Type</th>
-      <th style="padding:8px;">File</th>
-      <th style="padding:8px;">Submitted</th>
-      <th style="padding:8px;">Actions</th>
-    </tr>
+<div class="dash-panel">
+  <div class="dash-table-wrap">
+    <table class="dash-table">
+      <thead><tr>
+        <th>User</th><th>Role</th><th>Document type</th><th>File</th><th>Submitted</th><th class="ta-right">Actions</th>
+      </tr></thead>
+      <tbody>
     <?php foreach ($pendingDocs as $doc): ?>
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <td style="padding:10px 8px;font-weight:600;"><?= e($doc['name']) ?><br><small style="color:var(--color-text-muted);"><?= e($doc['email']) ?></small></td>
-      <td style="padding:10px 8px;"><?= e($doc['role']) ?></td>
-      <td style="padding:10px 8px;"><?= e($doc['document_type']) ?></td>
-      <td style="padding:10px 8px;"><a href="<?= APP_URL ?>/public/uploads/<?= e($doc['file_path']) ?>" target="_blank" style="color:var(--color-primary-vivid);">View</a></td>
-      <td style="padding:10px 8px;font-size:0.85rem;"><?= date_human($doc['created_at']) ?></td>
-      <td style="padding:10px 8px;">
-        <form method="post" style="display:inline;">
-          <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
-          <input type="hidden" name="document_id" value="<?= $doc['id'] ?>">
-          <input type="hidden" name="action" value="approve">
-          <button type="submit" class="btn btn-sm" style="background:var(--color-success);color:var(--color-bg);" onclick="return confirm('Approve this verification?')">Approve</button>
-        </form>
-        <form method="post" style="display:inline;margin-left:0.25rem;" onsubmit="var r=prompt('Enter rejection reason:');if(!r||!r.trim()){alert('Reason required');return false;}this.reason.value=r;">
-          <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
-          <input type="hidden" name="document_id" value="<?= $doc['id'] ?>">
-          <input type="hidden" name="action" value="reject">
-          <input type="hidden" name="rejection_reason" value="">
-          <button type="submit" class="btn btn-sm" style="background:var(--color-error);color:var(--color-bg);">Reject</button>
-        </form>
+    <tr>
+      <td><span class="t-strong"><?= e($doc['name']) ?></span><br><span class="t-muted"><?= e($doc['email']) ?></span></td>
+      <td><span class="dash-pill open"><?= e(ucfirst(str_replace('_', ' ', $doc['role']))) ?></span></td>
+      <td><?= e($doc['document_type']) ?></td>
+      <td><a href="<?= APP_URL ?>/public/uploads/<?= e($doc['file_path']) ?>" target="_blank" class="dash-section-link">View file</a></td>
+      <td class="t-muted"><?= date_human($doc['created_at']) ?></td>
+      <td class="ta-right">
+        <span class="dash-table-actions">
+          <form method="post" style="display:inline;">
+            <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
+            <input type="hidden" name="document_id" value="<?= $doc['id'] ?>">
+            <input type="hidden" name="action" value="approve">
+            <button type="submit" class="btn btn-sm btn-primary" onclick="return confirm('Approve this verification?')">Approve</button>
+          </form>
+          <form method="post" style="display:inline;" onsubmit="var r=prompt('Enter rejection reason:');if(!r||!r.trim()){alert('Reason required');return false;}this.rejection_reason.value=r;">
+            <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
+            <input type="hidden" name="document_id" value="<?= $doc['id'] ?>">
+            <input type="hidden" name="action" value="reject">
+            <input type="hidden" name="rejection_reason" value="">
+            <button type="submit" class="btn btn-sm btn-outline">Reject</button>
+          </form>
+        </span>
       </td>
     </tr>
     <?php endforeach; ?>
-  </table>
+      </tbody>
+    </table>
+  </div>
 </div>
 <?php else: ?>
-<div class="card" style="margin-top:1rem;padding:2rem;text-align:center;color:var(--color-text-muted);">
-  No pending verification documents.
+<div class="dash-panel">
+  <?php ui_empty_state(['icon' => 'check', 'title' => 'Queue is clear', 'text' => 'No pending verification documents.']); ?>
 </div>
 <?php endif; ?>
 
 <?php if (!empty($processedDocs)): ?>
-<h3 style="margin-top:2rem;">Recently Processed</h3>
-<div class="card" style="margin-top:0.5rem;">
-  <table style="width:100%;">
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <th style="text-align:left;padding:8px;">User</th>
-      <th style="padding:8px;">Status</th>
-      <th style="padding:8px;">Reason</th>
-      <th style="padding:8px;">Reviewed</th>
-    </tr>
+<?php ui_section_header('Recently processed'); ?>
+<div class="dash-panel">
+  <div class="dash-table-wrap">
+    <table class="dash-table">
+      <thead><tr>
+        <th>User</th><th class="ta-center">Status</th><th>Reason</th><th>Reviewed</th>
+      </tr></thead>
+      <tbody>
     <?php foreach ($processedDocs as $doc): ?>
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <td style="padding:10px 8px;font-weight:600;"><?= e($doc['name']) ?></td>
-      <td style="padding:10px 8px;"><?php if ($doc['status'] === 'approved'): ?><span style="color:var(--color-success);font-weight:600;">Approved</span><?php else: ?><span style="color:var(--color-error);font-weight:600;">Rejected</span><?php endif; ?></td>
-      <td style="padding:10px 8px;font-size:0.85rem;"><?= e($doc['rejection_reason'] ?? '—') ?></td>
-      <td style="padding:10px 8px;font-size:0.85rem;"><?= date_human($doc['reviewed_at']) ?></td>
+    <tr>
+      <td class="t-strong"><?= e($doc['name']) ?></td>
+      <td class="ta-center"><span class="dash-pill <?= $doc['status'] === 'approved' ? 'published' : 'draft' ?>"><?= ucfirst($doc['status']) ?></span></td>
+      <td class="t-muted"><?= e($doc['rejection_reason'] ?? '—') ?></td>
+      <td class="t-muted"><?= date_human($doc['reviewed_at']) ?></td>
     </tr>
     <?php endforeach; ?>
-  </table>
+      </tbody>
+    </table>
+  </div>
 </div>
 <?php endif; ?>
 <?php require __DIR__ . '/../includes/footer.php'; ?>

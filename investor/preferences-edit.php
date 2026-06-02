@@ -40,19 +40,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $pageTitle = 'Edit Investment Preferences';
 require __DIR__ . '/../includes/layout-dashboard.php';
-?>
-<div style="max-width:780px; margin:0 auto; padding:2rem 0 4rem;">
-  <div style="margin-bottom:1.5rem;">
-    <h2 style="margin:0 0 0.25rem;">Edit Investment Preferences</h2>
-    <p style="color:var(--color-text-muted);">These preferences power your Smart Suggestions. Update anytime.</p>
-  </div>
 
+ui_page_header('Edit Investment Preferences', 'These preferences power your Smart Suggestions &mdash; update anytime.');
+?>
+<div class="dash-form" style="max-width:780px;">
   <form method="POST">
     <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
 
-    <div class="card">
-      <h4>Preferred Sectors</h4>
-      <p style="font-size:0.9rem; color:var(--color-text-muted); margin-bottom:0.75rem;">Select all that apply</p>
+    <div class="dash-panel dash-panel-pad">
+      <div class="dash-form-section-title">Preferred Sectors</div>
+      <p style="font-size:0.9rem; color:var(--dash-ink-soft); margin-bottom:0.75rem;">Select all that apply</p>
       <div style="display:flex; flex-wrap:wrap; gap:6px;">
         <?php $selectedSectors = json_decode($profile['preferred_sectors'] ?? '[]', true) ?: []; ?>
         <?php foreach ($sectors as $s): ?>
@@ -64,8 +61,8 @@ require __DIR__ . '/../includes/layout-dashboard.php';
       </div>
     </div>
 
-    <div class="card" style="margin-top:1.5rem;">
-      <h4>Preferred Startup Stages</h4>
+    <div class="dash-panel dash-panel-pad" style="margin-top:var(--space-4);">
+      <div class="dash-form-section-title">Preferred Startup Stages</div>
       <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:0.5rem;">
         <?php $stages = ['Idea', 'MVP', 'Early Revenue', 'Growth', 'Established'];
         $selectedStages = json_decode($profile['preferred_stages'] ?? '[]', true) ?: []; ?>
@@ -78,8 +75,8 @@ require __DIR__ . '/../includes/layout-dashboard.php';
       </div>
     </div>
 
-    <div class="card" style="margin-top:1.5rem;">
-      <h4>Ticket Size Range (NPR)</h4>
+    <div class="dash-panel dash-panel-pad" style="margin-top:var(--space-4);">
+      <div class="dash-form-section-title">Ticket Size Range (NPR)</div>
       <div style="display:flex; gap:1rem; align-items:center;">
         <div class="input-group" style="flex:1;">
           <label>Minimum</label>
@@ -93,8 +90,8 @@ require __DIR__ . '/../includes/layout-dashboard.php';
       <div style="font-size:0.8rem; color:var(--color-text-muted); margin-top:0.5rem;">Typical range: NPR 10M – 100M</div>
     </div>
 
-    <div class="card" style="margin-top:1.5rem;">
-      <h4>Preferred Geography</h4>
+    <div class="dash-panel dash-panel-pad" style="margin-top:var(--space-4);">
+      <div class="dash-form-section-title">Preferred Geography</div>
       <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:0.5rem;">
         <?php $geos = ['Bagmati', 'Gandaki', 'Lumbini', 'Koshi', 'Karnali', 'Sudurpashchim'];
         $selectedGeos = json_decode($profile['preferred_geography'] ?? '[]', true) ?: []; ?>
@@ -111,9 +108,9 @@ require __DIR__ . '/../includes/layout-dashboard.php';
       </label>
     </div>
 
-    <div style="margin-top:2rem; display:flex; gap:1rem;">
-      <a href="<?= APP_URL ?>/dashboard" class="btn btn-secondary">Cancel</a>
-      <button type="submit" class="btn btn-primary">Save Preferences</button>
+    <div class="dash-form-actions">
+      <a href="<?= APP_URL ?>/dashboard" class="btn btn-outline">Cancel</a>
+      <button type="submit" class="btn btn-primary">Save preferences</button>
     </div>
 
     <div style="margin-top:1.5rem; font-size:0.8rem; color:var(--color-text-muted);">

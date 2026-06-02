@@ -2,9 +2,6 @@
 require __DIR__ . '/../config/bootstrap.php';
 require_admin();
 
-$pageTitle = 'Interest Request Log';
-require __DIR__ . '/../includes/layout-admin.php';
-
 $statusFilter = $_GET['status'] ?? '';
 $dateFrom = $_GET['date_from'] ?? '';
 $dateTo = $_GET['date_to'] ?? '';
@@ -37,62 +34,61 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv') {
     fclose($out);
     exit;
 }
+$pageTitle = 'Interest Request Log';
+require __DIR__ . '/../includes/layout-admin.php';
+
+ui_page_header('Interest Request Log', 'Every interest request across the platform.');
 ?>
-<h2>Interest Request Log</h2>
-<div class="card" style="margin-bottom:1rem;">
-  <form method="get" style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:flex-end;">
-    <div class="input-group">
-      <label>Status</label>
-      <select name="status" class="select">
-        <option value="">All</option>
-        <option value="pending" <?= $statusFilter === 'pending' ? 'selected' : '' ?>>Pending</option>
-        <option value="accepted" <?= $statusFilter === 'accepted' ? 'selected' : '' ?>>Accepted</option>
-        <option value="rejected" <?= $statusFilter === 'rejected' ? 'selected' : '' ?>>Rejected</option>
-        <option value="withdrawn" <?= $statusFilter === 'withdrawn' ? 'selected' : '' ?>>Withdrawn</option>
-      </select>
-    </div>
-    <div class="input-group">
-      <label>From</label>
-      <input type="date" name="date_from" class="input" value="<?= e($dateFrom) ?>">
-    </div>
-    <div class="input-group">
-      <label>To</label>
-      <input type="date" name="date_to" class="input" value="<?= e($dateTo) ?>">
-    </div>
-    <button type="submit" class="btn btn-sm btn-primary">Filter</button>
-    <a href="<?= APP_URL ?>/admin/interest-log" class="btn btn-sm btn-secondary">Clear</a>
-    <a href="?export=csv&<?= http_build_query($_GET) ?>" class="btn btn-sm btn-outline">CSV Export</a>
-  </form>
-</div>
-<div class="card">
-  <table style="width:100%;">
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <th style="text-align:left;padding:8px;">ID</th>
-      <th style="text-align:left;padding:8px;">Sender</th>
-      <th style="text-align:left;padding:8px;">Receiver</th>
-      <th style="padding:8px;">Pitch</th>
-      <th style="padding:8px;">Status</th>
-      <th style="padding:8px;">Created</th>
-      <th style="padding:8px;">Responded</th>
-    </tr>
-    <?php foreach ($requests as $ir): ?>
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <td style="padding:10px 8px;"><?= $ir['id'] ?></td>
-      <td style="padding:10px 8px;font-weight:600;"><?= e($ir['sender_name']) ?><br><small style="color:var(--color-text-muted);"><?= e($ir['sender_email']) ?></small></td>
-      <td style="padding:10px 8px;font-weight:600;"><?= e($ir['receiver_name']) ?><br><small style="color:var(--color-text-muted);"><?= e($ir['receiver_email']) ?></small></td>
-      <td style="padding:10px 8px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?= e($ir['pitch_title'] ?? '—') ?></td>
-      <td style="padding:10px 8px;">
-        <?php $statusColors = ['pending' => 'var(--color-warning)', 'accepted' => 'var(--color-success)', 'rejected' => 'var(--color-error)', 'withdrawn' => 'var(--color-text-muted)']; ?>
-        <span style="color:<?= $statusColors[$ir['status']] ?? 'var(--color-text-muted)' ?>;font-weight:600;"><?= e($ir['status']) ?></span>
-      </td>
-      <td style="padding:10px 8px;font-size:0.85rem;"><?= date_human($ir['created_at']) ?></td>
-      <td style="padding:10px 8px;font-size:0.85rem;"><?= $ir['responded_at'] ? date_human($ir['responded_at']) : '—' ?></td>
-    </tr>
-    <?php endforeach; ?>
-    <?php if (empty($requests)): ?>
-    <tr><td colspan="7" style="padding:20px;text-align:center;color:var(--color-text-muted);">No interest requests found.</td></tr>
-    <?php endif; ?>
-  </table>
+<form method="get" class="dash-filterbar">
+  <div class="input-group">
+    <label>Status</label>
+    <select name="status" class="select">
+      <option value="">All</option>
+      <option value="pending" <?= $statusFilter === 'pending' ? 'selected' : '' ?>>Pending</option>
+      <option value="accepted" <?= $statusFilter === 'accepted' ? 'selected' : '' ?>>Accepted</option>
+      <option value="rejected" <?= $statusFilter === 'rejected' ? 'selected' : '' ?>>Rejected</option>
+      <option value="withdrawn" <?= $statusFilter === 'withdrawn' ? 'selected' : '' ?>>Withdrawn</option>
+    </select>
+  </div>
+  <div class="input-group">
+    <label>From</label>
+    <input type="date" name="date_from" class="input" value="<?= e($dateFrom) ?>">
+  </div>
+  <div class="input-group">
+    <label>To</label>
+    <input type="date" name="date_to" class="input" value="<?= e($dateTo) ?>">
+  </div>
+  <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+  <a href="<?= APP_URL ?>/admin/interest-log" class="btn btn-sm btn-outline">Clear</a>
+  <a href="?export=csv&<?= e(http_build_query($_GET)) ?>" class="btn btn-sm btn-outline">CSV export</a>
+</form>
+
+<div class="dash-panel">
+  <div class="dash-table-wrap">
+    <table class="dash-table">
+      <thead><tr>
+        <th>ID</th><th>Sender</th><th>Receiver</th><th>Pitch</th>
+        <th class="ta-center">Status</th><th>Created</th><th>Responded</th>
+      </tr></thead>
+      <tbody>
+      <?php $statusPill = ['pending' => 'open', 'accepted' => 'published', 'rejected' => 'draft', 'withdrawn' => 'draft']; ?>
+      <?php foreach ($requests as $ir): ?>
+        <tr>
+          <td class="t-muted"><?= $ir['id'] ?></td>
+          <td><span class="t-strong"><?= e($ir['sender_name']) ?></span><br><span class="t-muted"><?= e($ir['sender_email']) ?></span></td>
+          <td><span class="t-strong"><?= e($ir['receiver_name']) ?></span><br><span class="t-muted"><?= e($ir['receiver_email']) ?></span></td>
+          <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?= e($ir['pitch_title'] ?? '—') ?></td>
+          <td class="ta-center"><span class="dash-pill <?= $statusPill[$ir['status']] ?? 'draft' ?>"><?= e($ir['status']) ?></span></td>
+          <td class="t-muted"><?= date_human($ir['created_at']) ?></td>
+          <td class="t-muted"><?= $ir['responded_at'] ? date_human($ir['responded_at']) : '—' ?></td>
+        </tr>
+      <?php endforeach; ?>
+      <?php if (empty($requests)): ?>
+        <tr><td colspan="7"><?php ui_empty_state(['icon' => 'share', 'title' => 'No interest requests found', 'text' => 'Try adjusting your filters.']); ?></td></tr>
+      <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
 </div>
 <?= render_pagination($pagi['page'], $pagi['lastPage'], '/admin/interest-log?' . http_build_query(array_filter(['status' => $statusFilter, 'date_from' => $dateFrom, 'date_to' => $dateTo]))) ?>
 <?php require __DIR__ . '/../includes/footer.php'; ?>

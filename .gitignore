@@ -1,0 +1,8 @@
+# Local dev scratch
+/1.png
+
+# Design source bundles
+*.zip
+
+# Locally generated mail logs (MAIL_DRIVER=log writes here)
+/storage/mail/

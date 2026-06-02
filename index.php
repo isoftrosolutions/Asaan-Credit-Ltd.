@@ -12,6 +12,7 @@ $routes = [
     '/verify-email'                 => 'auth/verify-email.php',
     '/forgot-password'              => 'auth/forgot-password.php',
     '/reset-password'               => 'auth/reset-password.php',
+    '/change-password'              => 'auth/change-password.php',
     '/about'                        => 'pages/about.php',
     '/contact'                      => 'pages/contact.php',
     '/careers'                      => 'pages/careers.php',

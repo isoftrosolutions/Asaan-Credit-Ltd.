@@ -15,7 +15,7 @@ $stmt = db()->prepare('
     WHERE prt.token = ? AND prt.type = ?
     LIMIT 1
 ');
-$stmt->execute([$token, 'email']);
+$stmt->execute([reset_token_hash($token), 'email']);
 $row = $stmt->fetch();
 
 if (!$row) {
@@ -29,7 +29,7 @@ $stmt = db()->prepare('UPDATE users SET email_verified_at = NOW(), verification_
 $stmt->execute(['verified', $row['id']]);
 
 $stmt = db()->prepare('DELETE FROM password_reset_tokens WHERE token = ? AND type = ?');
-$stmt->execute([$token, 'email']);
+$stmt->execute([reset_token_hash($token), 'email']);
 
 db()->commit();
 

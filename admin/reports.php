@@ -2,9 +2,6 @@
 require __DIR__ . '/../config/bootstrap.php';
 require_admin();
 
-$pageTitle = 'Reports';
-require __DIR__ . '/../includes/layout-admin.php';
-
 $user = current_user();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -59,27 +56,27 @@ $openReports = $stmt->fetchAll();
 
 $closedStmt = db()->query("SELECT r.*, u.name AS reporter_name FROM reports r JOIN users u ON u.id = r.reporter_id WHERE r.status IN ('resolved','dismissed') ORDER BY r.resolved_at DESC LIMIT 20");
 $closedReports = $closedStmt->fetchAll();
+$pageTitle = 'Reports';
+require __DIR__ . '/../includes/layout-admin.php';
+
+ui_page_header('Reports', '<strong>' . count($openReports) . '</strong> open report' . (count($openReports) !== 1 ? 's' : '') . ' awaiting action.');
 ?>
-<h2>Reports — <?= count($openReports) ?> Open</h2>
 <?php if (!empty($openReports)): ?>
-<div class="card" style="margin-top:1rem;">
-  <table style="width:100%;">
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <th style="text-align:left;padding:8px;">Reporter</th>
-      <th style="text-align:left;padding:8px;">Target</th>
-      <th style="padding:8px;">Reason</th>
-      <th style="padding:8px;">Details</th>
-      <th style="padding:8px;">Date</th>
-      <th style="padding:8px;">Actions</th>
-    </tr>
+<div class="dash-panel">
+  <div class="dash-table-wrap">
+    <table class="dash-table">
+      <thead><tr>
+        <th>Reporter</th><th>Target</th><th>Reason</th><th>Details</th><th>Date</th><th class="ta-right">Actions</th>
+      </tr></thead>
+      <tbody>
     <?php foreach ($openReports as $r): ?>
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <td style="padding:10px 8px;font-weight:600;"><?= e($r['reporter_name']) ?></td>
-      <td style="padding:10px 8px;"><?= e($r['target_type']) ?> #<?= $r['target_id'] ?></td>
-      <td style="padding:10px 8px;"><?= e($r['reason']) ?></td>
-      <td style="padding:10px 8px;max-width:200px;font-size:0.85rem;color:var(--color-text-muted);"><?= e($r['details'] ?? '—') ?></td>
-      <td style="padding:10px 8px;font-size:0.85rem;"><?= date_human($r['created_at']) ?></td>
-      <td style="padding:10px 8px;white-space:nowrap;">
+    <tr>
+      <td class="t-strong"><?= e($r['reporter_name']) ?></td>
+      <td><span class="dash-pill open"><?= e($r['target_type']) ?> #<?= $r['target_id'] ?></span></td>
+      <td><?= e($r['reason']) ?></td>
+      <td class="t-muted" style="max-width:200px;"><?= e($r['details'] ?? '—') ?></td>
+      <td class="t-muted"><?= date_human($r['created_at']) ?></td>
+      <td class="ta-right" style="white-space:nowrap;">
         <form method="post" style="display:inline;">
           <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
           <input type="hidden" name="report_id" value="<?= $r['id'] ?>">
@@ -111,31 +108,36 @@ $closedReports = $closedStmt->fetchAll();
       </td>
     </tr>
     <?php endforeach; ?>
-  </table>
+      </tbody>
+    </table>
+  </div>
 </div>
 <?php else: ?>
-<div class="card" style="margin-top:1rem;padding:2rem;text-align:center;color:var(--color-text-muted);">No open reports.</div>
+<div class="dash-panel">
+  <?php ui_empty_state(['icon' => 'check', 'title' => 'No open reports', 'text' => 'Everything is clear right now.']); ?>
+</div>
 <?php endif; ?>
 
 <?php if (!empty($closedReports)): ?>
-<h3 style="margin-top:2rem;">Recently Processed</h3>
-<div class="card" style="margin-top:0.5rem;">
-  <table style="width:100%;">
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <th style="text-align:left;padding:8px;">Reporter</th>
-      <th style="padding:8px;">Status</th>
-      <th style="padding:8px;">Action Taken</th>
-      <th style="padding:8px;">Resolved</th>
-    </tr>
+<?php ui_section_header('Recently processed'); ?>
+<div class="dash-panel">
+  <div class="dash-table-wrap">
+    <table class="dash-table">
+      <thead><tr>
+        <th>Reporter</th><th class="ta-center">Status</th><th>Action taken</th><th>Resolved</th>
+      </tr></thead>
+      <tbody>
     <?php foreach ($closedReports as $r): ?>
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <td style="padding:10px 8px;"><?= e($r['reporter_name']) ?></td>
-      <td style="padding:10px 8px;"><span style="color:var(--color-success);"><?= e($r['status']) ?></span></td>
-      <td style="padding:10px 8px;font-size:0.85rem;"><?= e($r['action_taken'] ?? '—') ?></td>
-      <td style="padding:10px 8px;font-size:0.85rem;"><?= date_human($r['resolved_at']) ?></td>
+    <tr>
+      <td><?= e($r['reporter_name']) ?></td>
+      <td class="ta-center"><span class="dash-pill <?= $r['status'] === 'resolved' ? 'published' : 'draft' ?>"><?= e($r['status']) ?></span></td>
+      <td class="t-muted"><?= e($r['action_taken'] ?? '—') ?></td>
+      <td class="t-muted"><?= date_human($r['resolved_at']) ?></td>
     </tr>
     <?php endforeach; ?>
-  </table>
+      </tbody>
+    </table>
+  </div>
 </div>
 <?php endif; ?>
 <?php require __DIR__ . '/../includes/footer.php'; ?>

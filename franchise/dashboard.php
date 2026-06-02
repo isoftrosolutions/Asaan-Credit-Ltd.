@@ -25,63 +25,60 @@ $avgRating = count($ratings) ? round(array_sum($ratings) / count($ratings), 1) :
 
 $pageTitle = 'Franchisor Dashboard';
 require __DIR__ . '/../includes/layout-dashboard.php';
+
+ui_page_header(
+    'Franchise Dashboard',
+    'Manage your franchise listings and track performance.',
+    empty($listings) ? '' : '<a href="' . APP_URL . '/franchise/create" class="btn btn-primary btn-sm">' . ui_icon_str('plus') . ' New franchise</a>'
+);
 ?>
-<h2 style="margin-bottom:0.25rem;">Franchise Dashboard</h2>
-<p style="color:var(--color-text-muted);">Manage your franchise listings and track performance.</p>
 
 <?php if (empty($listings)): ?>
-<div class="card" style="text-align:center;padding:3rem 2rem;margin-top:1.5rem;">
-  <h3 style="margin-bottom:0.5rem;">No franchise listings yet</h3>
-  <p style="color:var(--color-text-muted);margin-bottom:1rem;">Create your first franchise profile to start connecting with franchisees.</p>
-  <a href="create.php" class="btn btn-primary">Create Franchise Profile</a>
-</div>
+  <div class="dash-panel">
+    <?php ui_empty_state(['icon' => 'briefcase', 'title' => 'No franchise listings yet', 'text' => 'Create your first franchise profile to start connecting with franchisees.', 'ctaHref' => APP_URL . '/franchise/create', 'ctaLabel' => 'Create franchise profile']); ?>
+  </div>
 <?php else: ?>
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
-  <div></div>
-  <a href="create.php" class="btn btn-primary">+ New Franchise</a>
+
+<div class="dash-stats">
+  <?php
+    ui_stat_card(['label' => 'Total listings', 'value' => $totalListings, 'icon' => 'briefcase', 'tone' => 'primary']);
+    ui_stat_card(['label' => 'Published', 'value' => $published, 'icon' => 'check', 'tone' => 'success']);
+    ui_stat_card(['label' => 'Total views', 'value' => number_format($totalViews), 'icon' => 'eye', 'tone' => 'info']);
+    ui_stat_card(['label' => 'Avg rating', 'value' => $avgRating, 'icon' => 'chart', 'tone' => 'warning']);
+  ?>
 </div>
 
-<div class="stats-grid" style="margin-bottom:2rem;">
-  <div class="stat-card"><div class="stat-value"><?= $totalListings ?></div><div class="stat-label">Total listings</div></div>
-  <div class="stat-card"><div class="stat-value"><?= $published ?></div><div class="stat-label">Published</div></div>
-  <div class="stat-card"><div class="stat-value"><?= $totalViews ?></div><div class="stat-label">Total views</div></div>
-  <div class="stat-card"><div class="stat-value"><?= $avgRating ?></div><div class="stat-label">Avg Rating</div></div>
-</div>
-
-<h3>Your Franchise Listings</h3>
-<div class="card" style="padding:0;overflow-x:auto;">
-  <table style="width:100%;border-collapse:collapse;">
-    <tr style="border-bottom:1px solid var(--color-border);background:var(--color-bg-soft);">
-      <th style="text-align:left;padding:14px 18px;font-weight:600;">Brand</th>
-      <th style="text-align:left;padding:14px 18px;font-weight:600;">Franchise Fee</th>
-      <th style="text-align:left;padding:14px 18px;font-weight:600;">Investment</th>
-      <th style="text-align:center;padding:14px 18px;font-weight:600;">Status</th>
-      <th style="text-align:center;padding:14px 18px;font-weight:600;">Views</th>
-      <th style="text-align:right;padding:14px 18px;font-weight:600;"></th>
-    </tr>
-    <?php foreach ($listings as $f): ?>
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <td style="padding:14px 18px;">
-        <strong><?= e($f['brand_name']) ?></strong>
-        <?php if ($f['is_featured']): ?><span class="tx-badge tx-badge-franchise" style="font-size:0.7rem;margin-left:0.5rem;">Featured</span><?php endif; ?>
-      </td>
-      <td style="padding:14px 18px;"><?= $f['franchise_fee'] ? money($f['franchise_fee']) : '—' ?></td>
-      <td style="padding:14px 18px;"><?= $f['total_investment_min'] ? money($f['total_investment_min']) . ' – ' . money($f['total_investment_max']) : '—' ?></td>
-      <td style="padding:14px 18px;text-align:center;">
-        <?php if ($f['is_published']): ?><span style="color:var(--color-success);font-weight:600;">Published</span>
-        <?php else: ?><span style="color:var(--color-error);font-weight:600;">Draft</span>
-        <?php endif; ?>
-      </td>
-      <td style="padding:14px 18px;text-align:center;"><?= (int)$f['views'] ?></td>
-      <td style="padding:14px 18px;text-align:right;">
-        <a href="<?= APP_URL ?>/franchise/<?= $f['id'] ?>" class="btn btn-sm btn-secondary" style="text-decoration:none;">View</a>
-        <a href="edit.php?id=<?= $f['id'] ?>" class="btn btn-sm btn-accent" style="text-decoration:none;">Edit</a>
-      </td>
-    </tr>
-    <?php endforeach; ?>
-  </table>
+<?php ui_section_header('Your franchise listings'); ?>
+<div class="dash-panel">
+  <div class="dash-table-wrap">
+    <table class="dash-table">
+      <thead><tr>
+        <th>Brand</th><th>Franchise fee</th><th>Investment</th>
+        <th class="ta-center">Status</th><th class="ta-center">Views</th><th class="ta-right">Actions</th>
+      </tr></thead>
+      <tbody>
+      <?php foreach ($listings as $f): ?>
+        <tr>
+          <td>
+            <span class="t-strong"><?= e($f['brand_name']) ?></span>
+            <?php if ($f['is_featured']): ?> <span class="dash-pill featured">Featured</span><?php endif; ?>
+          </td>
+          <td><?= $f['franchise_fee'] ? money($f['franchise_fee']) : '—' ?></td>
+          <td><?= $f['total_investment_min'] ? money($f['total_investment_min']) . ' – ' . money($f['total_investment_max']) : '—' ?></td>
+          <td class="ta-center"><span class="dash-pill <?= $f['is_published'] ? 'published' : 'draft' ?>"><?= $f['is_published'] ? 'Published' : 'Draft' ?></span></td>
+          <td class="ta-center"><?= (int)$f['views'] ?></td>
+          <td class="ta-right">
+            <span class="dash-table-actions">
+              <a href="<?= APP_URL ?>/franchise/<?= $f['id'] ?>" class="btn btn-sm btn-outline">View</a>
+              <a href="<?= APP_URL ?>/franchise/edit?id=<?= $f['id'] ?>" class="btn btn-sm btn-primary">Edit</a>
+            </span>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
 </div>
 <?php endif; ?>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
-</div></div>
