@@ -10,8 +10,13 @@ $sectors = db()->query('SELECT id, name FROM sectors WHERE is_active = 1 ORDER B
 
 $stages = ['idea', 'seed', 'early', 'growth', 'expansion', 'pre_ipo'];
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    unset($_SESSION['_old']);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();
+    $_SESSION['_old'] = $_POST;
 
     $tagline = trim(mb_substr($_POST['tagline'] ?? '', 0, 140));
     $shortSummary = trim(mb_substr($_POST['short_summary'] ?? '', 0, 300));
@@ -27,8 +32,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pitchVideoUrl = trim($_POST['pitch_video_url'] ?? '');
     $isPublished = !empty($_POST['is_published']) ? 1 : 0;
 
+    $errors = [];
+
     if ($tagline === '') {
-        flash_set('error', 'Tagline is required.');
+        $errors[] = 'Tagline is required.';
+    }
+    if (!$sectorId) {
+        $errors[] = 'Please select a sector.';
+    }
+    if ($stage === '') {
+        $errors[] = 'Please select a stage.';
+    }
+    if (!$fundingAmount || $fundingAmount <= 0) {
+        $errors[] = 'Funding amount is required and must be greater than 0.';
+    }
+
+    if (!empty($errors)) {
+        flash_set('error', implode('<br>', $errors));
         redirect_back();
     }
 
@@ -49,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $db->prepare('INSERT INTO pitches (user_id, tagline, short_summary, problem_statement, solution, market_size, business_model, funding_amount, equity_offered, valuation, sector_id, stage, pitch_deck, pitch_video_url, is_published, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())');
         $stmt->execute([$userId, $tagline, $shortSummary, $problemStatement, $solution, $marketSize, $businessModel, $fundingAmount, $equityOffered, $valuation, $sectorId, $stage, $pitchDeck, $pitchVideoUrl, $isPublished]);
 
+        unset($_SESSION['_old']);
         flash_set('success', 'Pitch created successfully.');
         redirect('/entrepreneur/pitch-edit.php?id=' . $db->lastInsertId());
     } catch (\Throwable $e) {
@@ -97,7 +118,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 
     <div class="card" style="margin-bottom:1.5rem;">
         <h4>Funding & Details</h4>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div class="r-2">
             <div class="input-group">
                 <label>Sector / Industry</label>
                 <select name="sector_id" class="input">

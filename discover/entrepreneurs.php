@@ -77,7 +77,7 @@ if ($user) {
 
 $sectors = db()->query("SELECT id, name FROM sectors WHERE is_active = 1 ORDER BY name")->fetchAll();
 
-$stages = ['Idea', 'MVP', 'Early Revenue', 'Growth', 'Seed', 'Series A', 'Series B'];
+$stages = ['idea', 'seed', 'early', 'growth', 'expansion', 'pre_ipo'];
 
 $activeFilters = 0;
 if ($sectorId !== '') $activeFilters++;
@@ -126,7 +126,7 @@ if ($queryParams) {
         <select name="stage" onchange="this.form.submit()">
           <option value="">Any Stage</option>
           <?php foreach ($stages as $st): ?>
-            <option value="<?= e($st) ?>" <?= $stage === $st ? 'selected' : '' ?>><?= e($st) ?></option>
+            <option value="<?= e($st) ?>" <?= $stage === $st ? 'selected' : '' ?>><?= e(ucfirst(str_replace('_', ' ', $st))) ?></option>
           <?php endforeach; ?>
         </select>
       </div>
@@ -211,7 +211,7 @@ if ($queryParams) {
                     <span class="pitch-equity"> for <?= e($pitch['equity_offered']) ?>%</span>
                   <?php endif; ?>
                 </div>
-                <span class="pitch-stage"><?= e($pitch['stage'] ?? '') ?></span>
+                <span class="pitch-stage"><?= e(ucfirst(str_replace('_', ' ', $pitch['stage'] ?? ''))) ?></span>
               </div>
             </div>
           <?php endforeach; ?>

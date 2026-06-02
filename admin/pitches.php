@@ -66,7 +66,7 @@ ui_page_header('Pitch Moderation', 'Review and moderate entrepreneur pitches.');
         <tr>
           <td><span class="t-strong"><?= e($p['name']) ?></span><br><span class="t-muted"><?= e($p['email']) ?></span></td>
           <td style="max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?= e($p['tagline']) ?></td>
-          <td><span class="dash-pill open"><?= e($p['stage']) ?></span></td>
+          <td><span class="dash-pill open"><?= e(ucfirst(str_replace('_', ' ', $p['stage']))) ?></span></td>
           <td><?= $p['funding_amount'] ? money($p['funding_amount']) : '—' ?></td>
           <td class="ta-center">
             <span class="dash-pill <?= $p['is_hidden'] ? 'draft' : 'published' ?>"><?= $p['is_hidden'] ? 'Hidden' : 'Visible' ?></span>

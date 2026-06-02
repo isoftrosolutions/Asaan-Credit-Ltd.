@@ -30,8 +30,13 @@ if (!$pitch) {
 $sectors = db()->query('SELECT id, name FROM sectors WHERE is_active = 1 ORDER BY name')->fetchAll();
 $stages = ['idea', 'seed', 'early', 'growth', 'expansion', 'pre_ipo'];
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    unset($_SESSION['_old']);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();
+    $_SESSION['_old'] = $_POST;
 
     $tagline = trim(mb_substr($_POST['tagline'] ?? '', 0, 140));
     $shortSummary = trim(mb_substr($_POST['short_summary'] ?? '', 0, 300));
@@ -47,8 +52,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pitchVideoUrl = trim($_POST['pitch_video_url'] ?? '');
     $isPublished = !empty($_POST['is_published']) ? 1 : 0;
 
+    $errors = [];
+
     if ($tagline === '') {
-        flash_set('error', 'Tagline is required.');
+        $errors[] = 'Tagline is required.';
+    }
+    if (!$sectorId) {
+        $errors[] = 'Please select a sector.';
+    }
+    if ($stage === '') {
+        $errors[] = 'Please select a stage.';
+    }
+    if (!$fundingAmount || $fundingAmount <= 0) {
+        $errors[] = 'Funding amount is required and must be greater than 0.';
+    }
+
+    if (!empty($errors)) {
+        flash_set('error', implode('<br>', $errors));
         redirect_back();
     }
 
@@ -74,6 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $db->prepare('UPDATE pitches SET tagline = ?, short_summary = ?, problem_statement = ?, solution = ?, market_size = ?, business_model = ?, funding_amount = ?, equity_offered = ?, valuation = ?, sector_id = ?, stage = ?, pitch_deck = ?, pitch_video_url = ?, is_published = ?, updated_at = NOW() WHERE id = ? AND user_id = ?');
         $stmt->execute([$tagline, $shortSummary, $problemStatement, $solution, $marketSize, $businessModel, $fundingAmount, $equityOffered, $valuation, $sectorId, $stage, $pitchDeck, $pitchVideoUrl, $isPublished, $pitchId, $userId]);
 
+        unset($_SESSION['_old']);
         flash_set('success', 'Pitch updated successfully.');
         redirect('/entrepreneur/pitch-edit.php?id=' . $pitchId);
     } catch (\Throwable $e) {
@@ -97,39 +118,39 @@ require __DIR__ . '/../includes/layout-dashboard.php';
         <h4>Pitch Content</h4>
         <div class="input-group">
             <label>One-line Tagline <span class="required">*</span></label>
-            <input type="text" name="tagline" class="input" maxlength="140" value="<?= e($pitch['tagline']) ?>" required>
+            <input type="text" name="tagline" class="input" maxlength="140" value="<?= e(old('tagline', $pitch['tagline'])) ?>" required>
         </div>
         <div class="input-group">
             <label>Short Summary (max 300 characters)</label>
-            <textarea name="short_summary" class="input" maxlength="300" style="min-height:60px;"><?= e($pitch['short_summary']) ?></textarea>
+            <textarea name="short_summary" class="input" maxlength="300" style="min-height:60px;"><?= e(old('short_summary', $pitch['short_summary'])) ?></textarea>
         </div>
         <div class="input-group">
             <label>Problem Statement</label>
-            <textarea name="problem_statement" class="input" style="min-height:120px;"><?= e($pitch['problem_statement']) ?></textarea>
+            <textarea name="problem_statement" class="input" style="min-height:120px;"><?= e(old('problem_statement', $pitch['problem_statement'])) ?></textarea>
         </div>
         <div class="input-group">
             <label>Solution</label>
-            <textarea name="solution" class="input" style="min-height:120px;"><?= e($pitch['solution']) ?></textarea>
+            <textarea name="solution" class="input" style="min-height:120px;"><?= e(old('solution', $pitch['solution'])) ?></textarea>
         </div>
         <div class="input-group">
             <label>Market Size</label>
-            <textarea name="market_size" class="input" style="min-height:80px;"><?= e($pitch['market_size']) ?></textarea>
+            <textarea name="market_size" class="input" style="min-height:80px;"><?= e(old('market_size', $pitch['market_size'])) ?></textarea>
         </div>
         <div class="input-group">
             <label>Business Model</label>
-            <textarea name="business_model" class="input" style="min-height:80px;"><?= e($pitch['business_model']) ?></textarea>
+            <textarea name="business_model" class="input" style="min-height:80px;"><?= e(old('business_model', $pitch['business_model'])) ?></textarea>
         </div>
     </div>
 
     <div class="card" style="margin-bottom:1.5rem;">
         <h4>Funding & Details</h4>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div class="r-2">
             <div class="input-group">
                 <label>Sector / Industry</label>
                 <select name="sector_id" class="input">
                     <option value="">Select sector...</option>
                     <?php foreach ($sectors as $s): ?>
-                    <option value="<?= $s['id'] ?>" <?= (int)$pitch['sector_id'] === (int)$s['id'] ? 'selected' : '' ?>><?= e($s['name']) ?></option>
+                    <option value="<?= $s['id'] ?>" <?= (string)(old('sector_id', $pitch['sector_id'])) === (string)$s['id'] ? 'selected' : '' ?>><?= e($s['name']) ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -138,21 +159,21 @@ require __DIR__ . '/../includes/layout-dashboard.php';
                 <select name="stage" class="input">
                     <option value="">Select stage...</option>
                     <?php foreach ($stages as $s): ?>
-                    <option value="<?= $s ?>" <?= $pitch['stage'] === $s ? 'selected' : '' ?>><?= e(ucfirst($s)) ?></option>
+                    <option value="<?= $s ?>" <?= old('stage', $pitch['stage']) === $s ? 'selected' : '' ?>><?= e(ucfirst($s)) ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
             <div class="input-group">
                 <label>Amount Sought (NPR)</label>
-                <input type="number" name="funding_amount" class="input" min="0" step="0.01" value="<?= e($pitch['funding_amount']) ?>">
+                <input type="number" name="funding_amount" class="input" min="0" step="0.01" value="<?= e(old('funding_amount', $pitch['funding_amount'])) ?>">
             </div>
             <div class="input-group">
                 <label>Equity Offered (%)</label>
-                <input type="number" name="equity_offered" class="input" min="0" max="100" step="0.01" value="<?= e($pitch['equity_offered']) ?>">
+                <input type="number" name="equity_offered" class="input" min="0" max="100" step="0.01" value="<?= e(old('equity_offered', $pitch['equity_offered'])) ?>">
             </div>
             <div class="input-group">
                 <label>Valuation (NPR)</label>
-                <input type="number" name="valuation" class="input" min="0" step="0.01" value="<?= e($pitch['valuation']) ?>">
+                <input type="number" name="valuation" class="input" min="0" step="0.01" value="<?= e(old('valuation', $pitch['valuation'])) ?>">
             </div>
         </div>
     </div>
@@ -168,7 +189,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
         </div>
         <div class="input-group">
             <label>Pitch Video (YouTube / Vimeo URL)</label>
-            <input type="url" name="pitch_video_url" class="input" value="<?= e($pitch['pitch_video_url']) ?>" placeholder="https://youtube.com/watch?v=...">
+            <input type="url" name="pitch_video_url" class="input" value="<?= e(old('pitch_video_url', $pitch['pitch_video_url'])) ?>" placeholder="https://youtube.com/watch?v=...">
         </div>
     </div>
 
