@@ -179,19 +179,19 @@ class EmailService {
             return true;
         }
 
-        $success = $this->sendMailSmtp($to, $subject, $body, $cfg);
-        $this->logEmail($to, $subject, $templateKey, $success ? 'sent' : 'failed', $success ? null : 'SMTP error', $sentBy);
-        return $success;
+        $result = $this->sendMailSmtp($to, $subject, $body, $cfg);
+        $this->logEmail($to, $subject, $templateKey, $result['success'] ? 'sent' : 'failed', $result['success'] ? null : $result['error'], $sentBy);
+        return $result['success'];
     }
 
     public function sendMailSmtpWithConfig(string $to, string $subject, string $body, array $cfg): bool {
         if (!self::validateEmail($to)) return false;
-        $success = $this->sendMailSmtp($to, $subject, $body, $cfg);
-        $this->logEmail($to, $subject, null, $success ? 'sent' : 'failed', $success ? null : 'SMTP error', null);
-        return $success;
+        $result = $this->sendMailSmtp($to, $subject, $body, $cfg);
+        $this->logEmail($to, $subject, null, $result['success'] ? 'sent' : 'failed', $result['success'] ? null : $result['error'], null);
+        return $result['success'];
     }
 
-    private function sendMailSmtp(string $to, string $subject, string $body, array $cfg): bool {
+    private function sendMailSmtp(string $to, string $subject, string $body, array $cfg): array {
         require_once __DIR__ . '/../lib/PHPMailer/Exception.php';
         require_once __DIR__ . '/../lib/PHPMailer/PHPMailer.php';
         require_once __DIR__ . '/../lib/PHPMailer/SMTP.php';
@@ -217,10 +217,11 @@ class EmailService {
             $mail->AltBody = self::htmlToText($body);
 
             $mail->send();
-            return true;
+            return ['success' => true, 'error' => null];
         } catch (PHPMailerException $e) {
-            error_log('SMTP send failed to ' . $to . ': ' . $mail->ErrorInfo);
-            return false;
+            $err = $mail->ErrorInfo;
+            error_log('SMTP send failed to ' . $to . ': ' . $err);
+            return ['success' => false, 'error' => $err];
         }
     }
 
