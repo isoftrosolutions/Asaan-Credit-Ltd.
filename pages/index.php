@@ -66,76 +66,72 @@ require __DIR__ . '/../includes/header.php';
 .hp-animate-in { opacity:0; transform:translateY(16px); transition:opacity 0.7s ease, transform 0.7s ease; }
 .hp-animate-in.visible { opacity:1; transform:translateY(0); }
 </style>
-<main>
+<main class="pub-page">
 <!-- Hero Section -->
 <section class="hp-hero" style="position:relative;overflow:hidden;display:flex;align-items:center;">
   <div style="position:absolute;inset:0;z-index:0;background-image:url('/assets/hero.jpeg');background-size:cover;background-position:center;"></div>
   <div style="position:absolute;inset:0;z-index:1;background:linear-gradient(135deg, #00263f 0%, rgba(0,38,63,0.85) 50%, rgba(0,38,63,0.3) 100%);"></div>
-  <div class="hp-hero-inner" style="max-width:1200px;margin:0 auto;padding-left:24px;padding-right:24px;width:100%;position:relative;z-index:10;">
+  <div class="hp-hero-inner pub-wrap" style="width:100%;position:relative;z-index:10;">
     <div style="max-width:580px;">
-      <div style="margin-bottom:24px;">
-        <h1 class="hp-hero-title" style="font-weight:800;letter-spacing:-0.02em;color:white;font-family:Montserrat,sans-serif;line-height:1.2;">
-          <?= $hero_title ?>
-        </h1>
-      </div>
-      <p style="font-size:18px;line-height:28px;color:white;opacity:0.9;font-family:Inter,sans-serif;margin-bottom:24px;">
+      <h1 class="hp-hero-title pub-h1" style="color:#fff;margin-bottom:20px;">
+        <?= $hero_title ?>
+      </h1>
+      <p class="pub-lead" style="color:#fff;opacity:0.92;max-width:560px;">
         <?= e($hero_subtitle) ?>
       </p>
-      <div class="hp-hero-actions" style="display:flex;gap:16px;padding-top:16px;">
-        <a href="<?= APP_URL ?>/signup" style="display:inline-block;background:#98202A;color:white;padding:12px 32px;border-radius:8px;font-weight:600;font-size:16px;line-height:24px;font-family:Inter,sans-serif;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);transition:all 0.2s;text-decoration:none;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'" onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform='scale(1)'">
-          I'm an Investor
-        </a>
-        <a href="<?= APP_URL ?>/signup" style="display:inline-block;border:1.5px solid rgba(255,255,255,0.4);color:white;padding:12px 32px;border-radius:8px;font-weight:600;font-size:16px;line-height:24px;font-family:Inter,sans-serif;transition:all 0.2s;text-decoration:none;backdrop-filter:blur(4px);" onmouseover="this.style.background='rgba(255,255,255,0.1)';this.style.borderColor='rgba(255,255,255,0.7)'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(255,255,255,0.4)'" onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform='scale(1)'">
-          I'm an Entrepreneur
-        </a>
+      <div class="hp-hero-actions pub-cta-actions" style="justify-content:flex-start;margin-top:28px;">
+        <a href="<?= APP_URL ?>/signup" class="btn btn-primary">I'm an Investor</a>
+        <a href="<?= APP_URL ?>/signup" class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);color:#fff;background:transparent;">I'm an Entrepreneur</a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Stats Bar -->
-<section style="padding:16px 0;border-bottom:1px solid #dbc0bf;background:#f6f3f2;">
-  <div class="hp-stats-row" style="max-width:1200px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;text-align:center;gap:16px;">
-    <div style="display:flex;align-items:center;gap:8px;">
-      <span style="color:#3b6281;font-family:'Material Symbols Outlined';font-size:24px;font-variation-settings:'FILL' 1;">verified_user</span>
-      <p style="font-size:20px;line-height:28px;font-weight:600;color:#3b6281;font-family:Montserrat,sans-serif;margin:0;"><?= e($stats_investors) ?> <span style="font-size:16px;line-height:24px;font-weight:400;color:#554242;font-family:Inter,sans-serif;">Verified Investors</span></p>
-    </div>
-    <div class="hp-stats-divider" style="height:32px;width:1px;background:#dbc0bf;"></div>
-    <div style="display:flex;align-items:center;gap:8px;">
-      <span style="color:#3b6281;font-family:'Material Symbols Outlined';font-size:24px;font-variation-settings:'FILL' 1;">rocket_launch</span>
-      <p style="font-size:20px;line-height:28px;font-weight:600;color:#3b6281;font-family:Montserrat,sans-serif;margin:0;"><?= e($stats_businesses) ?> <span style="font-size:16px;line-height:24px;font-weight:400;color:#554242;font-family:Inter,sans-serif;">Active Pitches</span></p>
-    </div>
-    <div class="hp-stats-divider" style="height:32px;width:1px;background:#dbc0bf;"></div>
-    <div style="display:flex;align-items:center;gap:8px;">
-      <span style="color:#3b6281;font-family:'Material Symbols Outlined';font-size:24px;font-variation-settings:'FILL' 1;">handshake</span>
-      <p style="font-size:20px;line-height:28px;font-weight:600;color:#3b6281;font-family:Montserrat,sans-serif;margin:0;"><?= e($stats_matches) ?> <span style="font-size:16px;line-height:24px;font-weight:400;color:#554242;font-family:Inter,sans-serif;">Successful Matches</span></p>
+<section class="pub-section surface tight" style="border-bottom:1px solid var(--dash-border);">
+  <div class="pub-wrap">
+    <div class="hp-stats-row pub-statstrip">
+      <div class="pub-statstrip-item" style="display:flex;align-items:center;gap:10px;">
+        <span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';color:var(--color-secondary);font-size:28px;font-variation-settings:'FILL' 1;">verified_user</span>
+        <p style="margin:0;"><span class="pub-statstrip-num" style="display:inline;font-size:1.4rem;color:var(--color-secondary);"><?= e($stats_investors) ?></span> <span class="pub-statstrip-label" style="display:inline;">Verified Investors</span></p>
+      </div>
+      <div class="hp-stats-divider" style="height:32px;width:1px;background:var(--dash-border);"></div>
+      <div class="pub-statstrip-item" style="display:flex;align-items:center;gap:10px;">
+        <span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';color:var(--dash-primary);font-size:28px;font-variation-settings:'FILL' 1;">rocket_launch</span>
+        <p style="margin:0;"><span class="pub-statstrip-num" style="display:inline;font-size:1.4rem;"><?= e($stats_businesses) ?></span> <span class="pub-statstrip-label" style="display:inline;">Active Pitches</span></p>
+      </div>
+      <div class="hp-stats-divider" style="height:32px;width:1px;background:var(--dash-border);"></div>
+      <div class="pub-statstrip-item" style="display:flex;align-items:center;gap:10px;">
+        <span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';color:var(--color-secondary);font-size:28px;font-variation-settings:'FILL' 1;">handshake</span>
+        <p style="margin:0;"><span class="pub-statstrip-num" style="display:inline;font-size:1.4rem;color:var(--color-secondary);"><?= e($stats_matches) ?></span> <span class="pub-statstrip-label" style="display:inline;">Successful Matches</span></p>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- Trust Pillars -->
-<section style="padding:48px 0;background:#ffffff;border-bottom:1px solid #dbc0bf4d;">
-  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
-    <div class="hp-grid-4 hp-gap-48" style="display:grid;">
-      <div style="text-align:center;">
-        <span style="color:#6B1D22;font-family:'Material Symbols Outlined';font-size:36px;font-variation-settings:'FILL' 1;">verified</span>
-        <h3 style="font-size:18px;line-height:24px;font-weight:700;margin:12px 0 8px;color:#1c1b1b;font-family:Montserrat,sans-serif;">Pre-approved</h3>
-        <p style="font-size:14px;line-height:20px;color:#554242;font-family:Inter,sans-serif;margin:0;">Every business, investor and advisor profile is pre-screened by our analysts.</p>
+<section class="pub-section surface">
+  <div class="pub-wrap">
+    <div class="pub-grid cols-4">
+      <div class="pub-feature">
+        <span class="pub-feature-ico"><span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;">verified</span></span>
+        <h3 class="pub-feature-title">Pre-approved</h3>
+        <p class="pub-feature-text">Every business, investor and advisor profile is pre-screened by our analysts.</p>
       </div>
-      <div style="text-align:center;">
-        <span style="color:#3b6281;font-family:'Material Symbols Outlined';font-size:36px;font-variation-settings:'FILL' 1;">lock</span>
-        <h3 style="font-size:18px;line-height:24px;font-weight:700;margin:12px 0 8px;color:#1c1b1b;font-family:Montserrat,sans-serif;">Confidential</h3>
-        <p style="font-size:14px;line-height:20px;color:#554242;font-family:Inter,sans-serif;margin:0;">Your contact details stay private until there is a mutual match.</p>
+      <div class="pub-feature">
+        <span class="pub-feature-ico"><span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;">lock</span></span>
+        <h3 class="pub-feature-title">Confidential</h3>
+        <p class="pub-feature-text">Your contact details stay private until there is a mutual match.</p>
       </div>
-      <div style="text-align:center;">
-        <span style="color:#6B1D22;font-family:'Material Symbols Outlined';font-size:36px;font-variation-settings:'FILL' 1;">insights</span>
-        <h3 style="font-size:18px;line-height:24px;font-weight:700;margin:12px 0 8px;color:#1c1b1b;font-family:Montserrat,sans-serif;">Fair Valuation</h3>
-        <p style="font-size:14px;line-height:20px;color:#554242;font-family:Inter,sans-serif;margin:0;">Benchmark your business against comparable private companies in Nepal.</p>
+      <div class="pub-feature">
+        <span class="pub-feature-ico"><span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;">insights</span></span>
+        <h3 class="pub-feature-title">Fair Valuation</h3>
+        <p class="pub-feature-text">Benchmark your business against comparable private companies in Nepal.</p>
       </div>
-      <div style="text-align:center;">
-        <span style="color:#3b6281;font-family:'Material Symbols Outlined';font-size:36px;font-variation-settings:'FILL' 1;">public</span>
-        <h3 style="font-size:18px;line-height:24px;font-weight:700;margin:12px 0 8px;color:#1c1b1b;font-family:Montserrat,sans-serif;">Global Network</h3>
-        <p style="font-size:14px;line-height:20px;color:#554242;font-family:Inter,sans-serif;margin:0;">Connect with investors, buyers and partners across Nepal and beyond.</p>
+      <div class="pub-feature">
+        <span class="pub-feature-ico"><span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;">public</span></span>
+        <h3 class="pub-feature-title">Global Network</h3>
+        <p class="pub-feature-text">Connect with investors, buyers and partners across Nepal and beyond.</p>
       </div>
     </div>
   </div>
