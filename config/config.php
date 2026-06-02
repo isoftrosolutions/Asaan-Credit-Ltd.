@@ -47,8 +47,8 @@ define('MAIL_FROM_NAME', 'Asaan Capital Ltd');
 define('SMTP_HOST', 'smtp.gmail.com');
 define('SMTP_PORT', 587);
 define('SMTP_ENCRYPTION', 'tls');   // 'tls' (port 587) or 'ssl' (port 465)
-define('SMTP_USER', '');            // TODO: fill in
-define('SMTP_PASS', '');            // TODO: fill in (Gmail App Password)
+define('SMTP_USER', 'asaancapital@gmail.com');
+define('SMTP_PASS', 'zqspcahdsawpndzk');
 
 define('STORAGE_PATH', __DIR__ . '/../storage');
 define('PUBLIC_UPLOADS_PATH', __DIR__ . '/../public/uploads');
