@@ -17,15 +17,15 @@ define('DEBUG_MODE', false);
 define('DB_HOST', '127.0.0.1');
 define('DB_PORT', '3306');
 
-// --- Local dev DB ---
-define('DB_NAME', 'invest_match');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+// --- Local dev DB (uncomment for local dev) ---
+// define('DB_NAME', 'invest_match');
+// define('DB_USER', 'root');
+// define('DB_PASS', '');
 
-// --- Production DB (uncomment for production) ---
-// define('DB_NAME', 'asaancapital_assan_capital');
-// define('DB_USER', 'asaancapital_asaancapital');
-// define('DB_PASS', 'J3ssEl.*}@OrYzmy');
+// --- Production DB ---
+define('DB_NAME', 'asaancapital_assan_capital');
+define('DB_USER', 'asaancapital_asaancapital');
+define('DB_PASS', 'J3ssEl.*}@OrYzmy');
 define('DB_CHARSET', 'utf8mb4');
 
 define('SESSION_LIFETIME', 1800);
