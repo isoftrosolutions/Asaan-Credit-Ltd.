@@ -29,7 +29,7 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv') {
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename="email-log-' . date('Y-m-d') . '.csv"');
     $out = fopen('php://output', 'w');
-    fputcsv($out, ['ID', 'Recipient', 'Subject', 'Template', 'Status', 'Sent By', 'Sent At']);
+    fputcsv($out, ['ID', 'Recipient', 'Subject', 'Template', 'Status', 'Error', 'Sent By', 'Sent At']);
     foreach ($logs as $l) {
         fputcsv($out, [$l['id'], $l['recipient'], $l['subject'], $l['template_key'] ?? '—', $l['status'], $l['admin_name'] ?? '—', $l['sent_at']]);
     }
@@ -73,7 +73,7 @@ ui_page_header('Email Log', 'History of all emails sent from the platform.');
     <table class="dash-table">
       <thead><tr>
         <th>Recipient</th><th>Subject</th><th>Template</th>
-        <th class="ta-center">Status</th><th>Sent By</th><th>Date</th>
+        <th class="ta-center">Status</th><th>Error</th><th>Sent By</th><th>Date</th>
       </tr></thead>
       <tbody>
       <?php foreach ($logs as $l): ?>
@@ -84,12 +84,13 @@ ui_page_header('Email Log', 'History of all emails sent from the platform.');
           <td class="ta-center">
             <span class="dash-pill <?= $l['status'] === 'sent' ? 'published' : 'draft' ?>"><?= e($l['status']) ?></span>
           </td>
+          <td class="t-muted" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="<?= e($l['error'] ?? '') ?>"><?= e($l['error'] ?? '—') ?></td>
           <td class="t-muted"><?= e($l['admin_name'] ?? '—') ?></td>
           <td class="t-muted"><?= date_human($l['sent_at']) ?></td>
         </tr>
       <?php endforeach; ?>
       <?php if (empty($logs)): ?>
-        <tr><td colspan="6"><?php ui_empty_state(['icon' => 'mail', 'title' => 'No emails sent yet', 'text' => 'Emails will appear here once they are sent from the platform.']); ?></td></tr>
+        <tr><td colspan="7"><?php ui_empty_state(['icon' => 'mail', 'title' => 'No emails sent yet', 'text' => 'Emails will appear here once they are sent from the platform.']); ?></td></tr>
       <?php endif; ?>
       </tbody>
     </table>
