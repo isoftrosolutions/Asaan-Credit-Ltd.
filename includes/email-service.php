@@ -207,6 +207,13 @@ class EmailService {
             $mail->SMTPSecure = $cfg['encryption'] === 'ssl'
                 ? PHPMailer::ENCRYPTION_SMTPS
                 : PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->SMTPOptions = [
+                'ssl' => [
+                    'verify_peer'      => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true,
+                ],
+            ];
             $mail->CharSet    = 'UTF-8';
 
             $mail->setFrom($cfg['from_email'], $cfg['from_name']);
