@@ -15,7 +15,7 @@ $stats_matches = $homepage['stats_matches'] ?? '12,800+';
 $stats_deal_value = $homepage['stats_deal_value'] ?? 'NPR 850 Cr+';
 
 $featured_biz = db()->query("SELECT * FROM businesses WHERE is_published=1 AND is_featured=1 ORDER BY rating DESC LIMIT 6")->fetchAll();
-$featured_pitches = db()->query("SELECT p.*, s.name as sector_name FROM pitches p LEFT JOIN sectors s ON p.sector_id = s.id WHERE p.is_published=1 AND p.is_featured=1 ORDER BY p.id DESC LIMIT 6")->fetchAll();
+$featured_pitches = db()->query("SELECT p.*, s.name as sector_name FROM pitches p LEFT JOIN sectors s ON p.sector_id = s.id WHERE p.is_published=1 ORDER BY p.id DESC LIMIT 6")->fetchAll();
 $faqs = db()->query("SELECT * FROM faqs WHERE is_active=1 ORDER BY sort_order LIMIT 4")->fetchAll();
 
 $pageTitle = APP_NAME;
