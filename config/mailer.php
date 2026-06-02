@@ -21,8 +21,8 @@ function send_verification_email(string $to, string $token): bool {
     return email_service()->sendVerificationEmail($to, $token);
 }
 
-function send_password_reset_email(string $to, string $token): bool {
-    return email_service()->sendPasswordResetEmail($to, $token);
+function send_password_reset_email(string $to, string $otpCode): bool {
+    return email_service()->sendPasswordResetEmail($to, $otpCode);
 }
 
 function send_welcome_email(string $to, string $userName, string $role): bool {

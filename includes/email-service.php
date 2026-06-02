@@ -40,7 +40,7 @@ class EmailService {
         ]);
     }
 
-    public function sendPasswordResetEmail(string $to, string $token): bool {
+    public function sendPasswordResetEmail(string $to, string $otpCode): bool {
         if (!self::validateEmail($to)) return false;
         try {
             $stmt = db()->prepare("SELECT name FROM users WHERE email = ?");
@@ -50,10 +50,9 @@ class EmailService {
         } catch (\Throwable $e) {
         }
 
-        $link = public_base_url() . '/reset-password?token=' . urlencode($token);
         return $this->processAndSend('password_reset', $to, [
             'user_name' => $userName,
-            'reset_link' => $link,
+            'otp_code'  => $otpCode,
         ]);
     }
 
