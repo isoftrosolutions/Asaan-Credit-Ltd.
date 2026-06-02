@@ -59,6 +59,7 @@ $routes = [
     '/admin/homepage'               => 'admin/content/homepage.php',
     '/admin/email-settings'         => 'admin/email-settings.php',
     '/admin/email-templates'        => 'admin/email-templates.php',
+    '/admin/email-log'              => 'admin/email-log.php',
     '/api/notifications-unread'     => 'api/notifications-unread.php',
     '/api/mark-notification-read'   => 'api/mark-notification-read.php',
     '/api/smart-suggestions'        => 'api/smart-suggestions.php',
