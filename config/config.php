@@ -14,17 +14,17 @@ unset($__host);
 
 define('DEBUG_MODE', false);
 
-// --- Local dev DB (uncomment for local development) ---
-// define('DB_NAME', 'invest_match');
-// define('DB_USER', 'root');
-// define('DB_PASS', '');
+// --- Local dev DB ---
+define('DB_NAME', 'invest_match');
+define('DB_USER', 'root');
+define('DB_PASS', '');
 
 // --- Production DB ---
-define('DB_HOST', '127.0.0.1');
-define('DB_PORT', '3306');
-define('DB_NAME', 'asaancapital_assan_capital');
-define('DB_USER', 'asaancapital_asaancapital');
-define('DB_PASS', 'J3ssEl.*}@OrYzmy');
+// define('DB_HOST', '127.0.0.1');
+// define('DB_PORT', '3306');
+// define('DB_NAME', 'asaancapital_assan_capital');
+// define('DB_USER', 'asaancapital_asaancapital');
+// define('DB_PASS', 'J3ssEl.*}@OrYzmy');
 define('DB_CHARSET', 'utf8mb4');
 
 define('SESSION_LIFETIME', 1800);
@@ -47,8 +47,8 @@ define('MAIL_FROM_NAME', 'Asaan Capital Ltd');
 define('SMTP_HOST', 'smtp.gmail.com');
 define('SMTP_PORT', 587);
 define('SMTP_ENCRYPTION', 'tls');   // 'tls' (port 587) or 'ssl' (port 465)
-define('SMTP_USER', 'asaancapital@gmail.com');
-define('SMTP_PASS', 'zqspcahdsawpndzk');
+define('SMTP_USER', '');
+define('SMTP_PASS', '');
 
 define('STORAGE_PATH', __DIR__ . '/../storage');
 define('PUBLIC_UPLOADS_PATH', __DIR__ . '/../public/uploads');

@@ -48,8 +48,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
 
     if ($deliverEmail) {
+        $tpl = get_email_template('broadcast');
         foreach ($targetUsers as $t) {
-            send_mail($t['email'], $title, '<p>' . e($body) . '</p>');
+            $subj = replace_placeholders($tpl['subject'] ?? $title, ['subject' => $title]);
+            $html = replace_placeholders($tpl['body'] ?? '<p>' . e($body) . '</p>', [
+                'user_name' => $t['name'],
+                'subject'   => $title,
+                'message'   => nl2br(e($body)),
+                'login_url' => APP_URL,
+            ]);
+            send_mail($t['email'], $subj, $html);
         }
     }
 

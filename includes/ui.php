@@ -104,6 +104,8 @@ if (!defined('UI_PHP_LOADED')) {
             ['Reports', '/admin/reports', 'lock'],
             ['Broadcast', '/admin/broadcast', 'share'],
             ['Sectors', '/admin/sectors', 'tag'],
+            ['Email Settings', '/admin/email-settings', 'settings'],
+            ['Email Templates', '/admin/email-templates', 'document'],
             ['FAQs', '/admin/faqs', 'bell'],
             ['Blog', '/admin/blog', 'document'],
             ['Homepage', '/admin/homepage', 'settings'],
