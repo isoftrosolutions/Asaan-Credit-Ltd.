@@ -52,7 +52,7 @@ $routes = [
     '/admin/reports'                => 'admin/reports.php',
     '/admin/interest-log'           => 'admin/interest-log.php',
     '/admin/broadcast'              => 'admin/broadcast.php',
-    '/admin/analytics'              => 'admin/analytics.php',
+
     '/admin/sectors'                => 'admin/content/sectors.php',
     '/admin/faqs'                   => 'admin/content/faqs.php',
     '/admin/blog'                   => 'admin/content/blog.php',

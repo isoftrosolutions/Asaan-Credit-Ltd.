@@ -97,7 +97,6 @@ if (!defined('UI_PHP_LOADED')) {
 
     function ui_admin_links(): array {
         return [
-            ['Analytics', '/admin/analytics', 'chart'],
             ['Verification Queue', '/admin/verification', 'document'],
             ['Users', '/admin/users', 'users'],
             ['Pitches', '/admin/pitches', 'tag'],
