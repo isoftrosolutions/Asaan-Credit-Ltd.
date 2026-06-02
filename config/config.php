@@ -14,17 +14,17 @@ unset($__host);
 
 define('DEBUG_MODE', false);
 
-// --- Production DB (commented out for local dev — DO NOT deploy local creds) ---
-// define('DB_NAME', 'asaancapital_assan_capital');
-// define('DB_USER', 'asaancapital_asaancapital');
-// define('DB_PASS', 'J3ssEl.*}@OrYzmy');
+// --- Local dev DB (uncomment for local development) ---
+// define('DB_NAME', 'invest_match');
+// define('DB_USER', 'root');
+// define('DB_PASS', '');
 
-// --- Local dev DB ---
+// --- Production DB ---
 define('DB_HOST', '127.0.0.1');
 define('DB_PORT', '3306');
-define('DB_NAME', 'invest_match');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_NAME', 'asaancapital_assan_capital');
+define('DB_USER', 'asaancapital_asaancapital');
+define('DB_PASS', 'J3ssEl.*}@OrYzmy');
 define('DB_CHARSET', 'utf8mb4');
 
 define('SESSION_LIFETIME', 1800);
