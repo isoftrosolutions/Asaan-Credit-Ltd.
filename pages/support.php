@@ -140,7 +140,7 @@ require __DIR__ . '/../includes/header.php';
       </div>
     </form>
     <div style="margin-top:1rem;" class="pub-text">
-      Or email us at <a href="mailto:hello@asaancapital.com" style="color:var(--dash-primary);">hello@asaancapital.com</a>
+      Or email us at <a href="mailto:info@asaancapital.com" style="color:var(--dash-primary);">info@asaancapital.com</a>
     </div>
   </div>
 </div>

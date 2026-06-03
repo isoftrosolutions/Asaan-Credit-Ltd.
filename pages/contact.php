@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $body .= '<p><strong>Email:</strong> ' . e($email) . '</p>';
         $body .= '<p><strong>Subject:</strong> ' . e($subject !== '' ? $subject : '(none)') . '</p>';
         $body .= '<hr><p>' . nl2br(e($message)) . '</p>';
-        send_mail('hello@asaancapital.com', 'Contact form: ' . ($subject !== '' ? $subject : 'New message'), $body);
+        send_mail('info@asaancapital.com', 'Contact form: ' . ($subject !== '' ? $subject : 'New message'), $body);
         flash_set('success', "Thanks! Your message has been sent — we'll get back to you soon.");
         redirect('/contact');
     }
@@ -110,7 +110,7 @@ require __DIR__ . '/../includes/header.php';
           <span style="color:#6B1D22;font-family:'Material Symbols Outlined';font-size:26px;font-variation-settings:'FILL' 1;">support_agent</span>
           <h3 style="font-size:16px;font-weight:700;margin:8px 0 4px;color:#1c1b1b;font-family:Montserrat,sans-serif;">General &amp; Support</h3>
           <p style="font-size:14px;line-height:20px;color:#554242;font-family:Inter,sans-serif;margin:0 0 6px;">Help with your account, listings, or connections.</p>
-          <a href="mailto:hello@asaancapital.com" style="font-size:14px;font-weight:600;color:#6B1D22;text-decoration:none;">hello@asaancapital.com</a>
+          <a href="mailto:info@asaancapital.com" style="font-size:14px;font-weight:600;color:#6B1D22;text-decoration:none;">info@asaancapital.com</a>
         </div>
         <div style="background:#fcf9f8;border-radius:12px;border:1px solid #dbc0bf4d;padding:20px;">
           <span style="color:#3b6281;font-family:'Material Symbols Outlined';font-size:26px;font-variation-settings:'FILL' 1;">handshake</span>
@@ -121,7 +121,15 @@ require __DIR__ . '/../includes/header.php';
         <div style="background:#fcf9f8;border-radius:12px;border:1px solid #dbc0bf4d;padding:20px;">
           <span style="color:#6B1D22;font-family:'Material Symbols Outlined';font-size:26px;font-variation-settings:'FILL' 1;">location_on</span>
           <h3 style="font-size:16px;font-weight:700;margin:8px 0 4px;color:#1c1b1b;font-family:Montserrat,sans-serif;">Office</h3>
-          <p style="font-size:14px;line-height:20px;color:#554242;font-family:Inter,sans-serif;margin:0;">Asaan Credit Ltd<br>Kathmandu, Nepal</p>
+          <p style="font-size:14px;line-height:20px;color:#554242;font-family:Inter,sans-serif;margin:0;">Asaan Capital Ltd<br>Madhyapur Thimi Municipality-9,<br>Bhaktapur, Nepal</p>
+        </div>
+        <div style="background:#fcf9f8;border-radius:12px;border:1px solid #dbc0bf4d;padding:20px;">
+          <span style="color:#3b6281;font-family:'Material Symbols Outlined';font-size:26px;font-variation-settings:'FILL' 1;">call</span>
+          <h3 style="font-size:16px;font-weight:700;margin:8px 0 4px;color:#1c1b1b;font-family:Montserrat,sans-serif;">Call Us</h3>
+          <p style="font-size:14px;line-height:20px;color:#554242;font-family:Inter,sans-serif;margin:0;">
+            <a href="tel:+9779848714990" style="font-weight:600;color:#6B1D22;text-decoration:none;">+977-9848714990</a><br>
+            <a href="tel:+977982000470" style="font-weight:600;color:#6B1D22;text-decoration:none;">+977-982000470</a>
+          </p>
         </div>
       </div>
     </div>

@@ -38,11 +38,27 @@ if ($user) {
     "description": "Financial & Investment Services",
     "url": "https://asaancapital.com",
     "logo": "https://asaancapital.com/logo.png",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Madhyapur Thimi Municipality-9",
+      "addressLocality": "Bhaktapur",
+      "addressCountry": "NP"
+    },
     "contactPoint": {
       "@type": "ContactPoint",
-      "email": "hello@asaancapital.com",
+      "email": "info@asaancapital.com",
+      "telephone": "+977-9848714990",
       "contactType": "customer service"
-    }
+    },
+    "sameAs": [
+      "https://facebook.com/asaancapital",
+      "https://instagram.com/asaancapital",
+      "https://x.com/asaancapital",
+      "https://youtube.com/@asaancapital",
+      "https://tiktok.com/@asaancapital",
+      "https://linkedin.com/company/asaancapital",
+      "https://threads.net/@asaancapital"
+    ]
   }
   </script>
   <link rel="icon" type="image/png" href="<?= APP_URL ?>/favicon.png">

@@ -63,7 +63,7 @@ require __DIR__ . '/../includes/header.php';
     <strong>Contact:</strong><br>
     Asaan Credit Ltd<br>
     Kathmandu, Nepal<br>
-    Email: <a href="mailto:hello@asaancapital.com" style="color:var(--dash-primary);">hello@asaancapital.com</a>
+    Email: <a href="mailto:info@asaancapital.com" style="color:var(--dash-primary);">info@asaancapital.com</a>
   </div>
 </div>
 
