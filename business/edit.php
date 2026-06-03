@@ -135,138 +135,170 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 <h2 style="margin-bottom:0.25rem;">Edit Business Listing</h2>
 <p style="color:var(--color-text-muted);">Update your business information and photos.</p>
 
-<form method="POST" enctype="multipart/form-data" style="margin-top:1.5rem;">
+<form method="POST" enctype="multipart/form-data" class="form-steps">
     <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
     <input type="hidden" name="id" value="<?= $businessId ?>">
 
-    <div class="card" style="margin-bottom:1.5rem;">
-        <h4>Basic Information</h4>
-        <div class="r-2">
-            <div class="input-group">
-                <label>Business Name <span class="required">*</span></label>
-                <input type="text" name="business_name" class="input" value="<?= e($business['business_name']) ?>" required>
+    <div class="form-step-progress dash-version" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3">
+        <div class="step-indicator">
+            <div class="step-segment active" data-step="1">
+                <div class="step-number"><span class="step-check">&#10003;</span><span class="step-num">1</span></div>
+                <span class="step-label">Basic Info</span>
             </div>
-            <div class="input-group">
-                <label>Listing Type <span class="required">*</span></label>
-                <select name="listing_type" class="input" required>
-                    <option value="">Select type...</option>
-                    <?php foreach ($listingTypes as $val => $label): ?>
-                    <option value="<?= $val ?>" <?= $business['listing_type'] === $val ? 'selected' : '' ?>><?= e($label) ?></option>
-                    <?php endforeach; ?>
-                </select>
+            <div class="step-line"><div class="step-line-fill" style="width:0%"></div></div>
+            <div class="step-segment" data-step="2">
+                <div class="step-number">2</div>
+                <span class="step-label">Financial</span>
             </div>
-            <div class="input-group">
-                <label>Sector / Industry</label>
-                <select name="sector_id" class="input">
-                    <option value="">Select sector...</option>
-                    <?php foreach ($sectors as $s): ?>
-                    <option value="<?= $s['id'] ?>" <?= (int)$business['sector_id'] === (int)$s['id'] ? 'selected' : '' ?>><?= e($s['name']) ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="input-group">
-                <label>Province</label>
-                <select name="province" class="input">
-                    <option value="">Select province...</option>
-                    <?php foreach ($provinces as $p): ?>
-                    <option value="<?= $p ?>" <?= $business['province'] === $p ? 'selected' : '' ?>><?= $p ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="input-group">
-                <label>District</label>
-                <input type="text" name="district" class="input" value="<?= e($business['district']) ?>">
-            </div>
-            <div class="input-group">
-                <label>Established Year</label>
-                <input type="number" name="established_year" class="input" min="1900" max="<?= date('Y') ?>" value="<?= e($business['established_year']) ?>">
-            </div>
-            <div class="input-group">
-                <label>Employee Count</label>
-                <input type="number" name="employee_count" class="input" min="0" value="<?= e($business['employee_count']) ?>">
+            <div class="step-line"><div class="step-line-fill" style="width:0%"></div></div>
+            <div class="step-segment" data-step="3">
+                <div class="step-number">3</div>
+                <span class="step-label">Photos &amp; Details</span>
             </div>
         </div>
     </div>
 
-    <div class="card" style="margin-bottom:1.5rem;">
-        <h4>Financial Details</h4>
-        <div class="r-2">
-            <div class="input-group">
-                <label>Annual Revenue (NPR)</label>
-                <input type="number" name="annual_revenue" class="input" min="0" step="0.01" value="<?= e($business['annual_revenue']) ?>">
-            </div>
-            <div class="input-group">
-                <label>EBITDA Margin (%)</label>
-                <input type="number" name="ebitda_pct" class="input" min="0" max="100" step="0.01" value="<?= e($business['ebitda_pct']) ?>">
-            </div>
-            <div class="input-group">
-                <label>Asking Price (NPR)</label>
-                <input type="number" name="asking_price" class="input" min="0" step="0.01" value="<?= e($business['asking_price']) ?>">
-            </div>
-            <div class="input-group">
-                <label>Stake Offered (%)</label>
-                <input type="number" name="stake_offered_pct" class="input" min="0" max="100" step="0.01" value="<?= e($business['stake_offered_pct']) ?>">
-            </div>
-            <div class="input-group">
-                <label>Loan Amount (NPR)</label>
-                <input type="number" name="loan_amount" class="input" min="0" step="0.01" value="<?= e($business['loan_amount']) ?>">
-            </div>
-            <div class="input-group">
-                <label>Loan Interest Rate (%)</label>
-                <input type="number" name="loan_interest_pct" class="input" min="0" max="100" step="0.01" value="<?= e($business['loan_interest_pct']) ?>">
+    <div class="step-panel" data-step="1">
+        <div class="card" style="margin-bottom:1.5rem;">
+            <h4>Basic Information</h4>
+            <div class="r-2">
+                <div class="input-group">
+                    <label>Business Name <span class="required">*</span></label>
+                    <input type="text" name="business_name" class="input" value="<?= e($business['business_name']) ?>" required>
+                </div>
+                <div class="input-group">
+                    <label>Listing Type <span class="required">*</span></label>
+                    <select name="listing_type" class="input" required>
+                        <option value="">Select type...</option>
+                        <?php foreach ($listingTypes as $val => $label): ?>
+                        <option value="<?= $val ?>" <?= $business['listing_type'] === $val ? 'selected' : '' ?>><?= e($label) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Sector / Industry</label>
+                    <select name="sector_id" class="input">
+                        <option value="">Select sector...</option>
+                        <?php foreach ($sectors as $s): ?>
+                        <option value="<?= $s['id'] ?>" <?= (int)$business['sector_id'] === (int)$s['id'] ? 'selected' : '' ?>><?= e($s['name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Province</label>
+                    <select name="province" class="input">
+                        <option value="">Select province...</option>
+                        <?php foreach ($provinces as $p): ?>
+                        <option value="<?= $p ?>" <?= $business['province'] === $p ? 'selected' : '' ?>><?= $p ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>District</label>
+                    <input type="text" name="district" class="input" value="<?= e($business['district']) ?>">
+                </div>
+                <div class="input-group">
+                    <label>Established Year</label>
+                    <input type="number" name="established_year" class="input" min="1900" max="<?= date('Y') ?>" value="<?= e($business['established_year']) ?>">
+                </div>
+                <div class="input-group">
+                    <label>Employee Count</label>
+                    <input type="number" name="employee_count" class="input" min="0" value="<?= e($business['employee_count']) ?>">
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="card" style="margin-bottom:1.5rem;">
-        <h4>Description & Details</h4>
-        <div class="input-group">
-            <label>Description</label>
-            <textarea name="description" class="input" style="min-height:120px;"><?= e($business['description']) ?></textarea>
-        </div>
-        <div class="input-group">
-            <label>Reason for Sale</label>
-            <textarea name="reason_for_sale" class="input" style="min-height:80px;"><?= e($business['reason_for_sale']) ?></textarea>
-        </div>
-        <div class="input-group">
-            <label>Assets Included</label>
-            <textarea name="assets_included" class="input" style="min-height:80px;"><?= e($business['assets_included']) ?></textarea>
-        </div>
-    </div>
-
-    <div class="card" style="margin-bottom:1.5rem;">
-        <h4>Photos</h4>
-        <?php if (!empty($photos)): ?>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:1rem;margin-bottom:1rem;">
-            <?php foreach ($photos as $photo): ?>
-            <div style="position:relative;">
-                <img src="<?= APP_URL ?>/public/uploads/business-photos/<?= e($photo['file_path']) ?>" alt="Business photo" style="width:100%;height:100px;object-fit:cover;border-radius:0.5rem;">
-                <label style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.6);color:var(--color-text-inverse);padding:2px 6px;border-radius:4px;font-size:0.75rem;cursor:pointer;">
-                    <input type="checkbox" name="delete_photos[]" value="<?= $photo['id'] ?>"> Delete
-                </label>
+    <div class="step-panel" data-step="2" style="display:none">
+        <div class="card" style="margin-bottom:1.5rem;">
+            <h4>Financial Details</h4>
+            <div class="r-2">
+                <div class="input-group">
+                    <label>Annual Revenue (NPR)</label>
+                    <input type="number" name="annual_revenue" class="input" min="0" step="0.01" value="<?= e($business['annual_revenue']) ?>">
+                </div>
+                <div class="input-group">
+                    <label>EBITDA Margin (%)</label>
+                    <input type="number" name="ebitda_pct" class="input" min="0" max="100" step="0.01" value="<?= e($business['ebitda_pct']) ?>">
+                </div>
+                <div class="input-group">
+                    <label>Asking Price (NPR)</label>
+                    <input type="number" name="asking_price" class="input" min="0" step="0.01" value="<?= e($business['asking_price']) ?>">
+                </div>
+                <div class="input-group">
+                    <label>Stake Offered (%)</label>
+                    <input type="number" name="stake_offered_pct" class="input" min="0" max="100" step="0.01" value="<?= e($business['stake_offered_pct']) ?>">
+                </div>
+                <div class="input-group">
+                    <label>Loan Amount (NPR)</label>
+                    <input type="number" name="loan_amount" class="input" min="0" step="0.01" value="<?= e($business['loan_amount']) ?>">
+                </div>
+                <div class="input-group">
+                    <label>Loan Interest Rate (%)</label>
+                    <input type="number" name="loan_interest_pct" class="input" min="0" max="100" step="0.01" value="<?= e($business['loan_interest_pct']) ?>">
+                </div>
             </div>
-            <?php endforeach; ?>
-        </div>
-        <?php endif; ?>
-        <div class="input-group">
-            <label>Add New Photos</label>
-            <input type="file" name="photos[]" class="input" multiple accept="image/jpeg,image/png,image/webp">
-            <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Max 2MB per photo. JPEG, PNG, WebP accepted.</p>
         </div>
     </div>
 
-    <div class="card" style="margin-bottom:1.5rem;">
-        <label style="display:flex;align-items:center;gap:0.5rem;">
-            <input type="checkbox" name="is_published" value="1" <?= $business['is_published'] ? 'checked' : '' ?>>
-            Published
-        </label>
+    <div class="step-panel" data-step="3" style="display:none">
+        <div class="card" style="margin-bottom:1.5rem;">
+            <h4>Description &amp; Details</h4>
+            <div class="input-group">
+                <label>Description</label>
+                <textarea name="description" class="input" style="min-height:120px;"><?= e($business['description']) ?></textarea>
+            </div>
+            <div class="input-group">
+                <label>Reason for Sale</label>
+                <textarea name="reason_for_sale" class="input" style="min-height:80px;"><?= e($business['reason_for_sale']) ?></textarea>
+            </div>
+            <div class="input-group">
+                <label>Assets Included</label>
+                <textarea name="assets_included" class="input" style="min-height:80px;"><?= e($business['assets_included']) ?></textarea>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom:1.5rem;">
+            <h4>Photos</h4>
+            <?php if (!empty($photos)): ?>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:1rem;margin-bottom:1rem;">
+                <?php foreach ($photos as $photo): ?>
+                <div style="position:relative;">
+                    <img src="<?= APP_URL ?>/public/uploads/business-photos/<?= e($photo['file_path']) ?>" alt="Business photo" style="width:100%;height:100px;object-fit:cover;border-radius:0.5rem;">
+                    <label style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.6);color:var(--color-text-inverse);padding:2px 6px;border-radius:4px;font-size:0.75rem;cursor:pointer;">
+                        <input type="checkbox" name="delete_photos[]" value="<?= $photo['id'] ?>"> Delete
+                    </label>
+                </div>
+                <?php endforeach; ?>
+            </div>
+            <?php endif; ?>
+            <div class="input-group">
+                <label>Add New Photos</label>
+                <input type="file" name="photos[]" class="input" multiple accept="image/jpeg,image/png,image/webp">
+                <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Max 2MB per photo. JPEG, PNG, WebP accepted.</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom:1.5rem;">
+            <label style="display:flex;align-items:center;gap:0.5rem;">
+                <input type="checkbox" name="is_published" value="1" <?= $business['is_published'] ? 'checked' : '' ?>>
+                Published
+            </label>
+        </div>
     </div>
 
-    <div style="display:flex;gap:1rem;">
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-        <a href="dashboard.php" class="btn btn-outline">Cancel</a>
+    <div class="step-nav">
+        <button type="button" class="btn btn-outline btn-step-back" style="display:none">Back</button>
+        <div class="step-nav-right">
+            <button type="button" class="btn btn-primary btn-step-next">Next</button>
+            <button type="submit" class="btn btn-primary btn-step-submit" style="display:none">Save Changes</button>
+            <a href="dashboard.php" class="btn btn-outline" style="margin-left:8px;">Cancel</a>
+        </div>
     </div>
 </form>
+
+<script src="/assets/form-steps.js"></script>
+<script>initFormSteps();</script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
 </div></div>
