@@ -53,83 +53,132 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 <h2 style="margin-bottom:0.25rem;">Franchise / Brand Profile</h2>
 <p style="color:var(--color-text-muted);margin-bottom:1.5rem;">Expand your brand by connecting with qualified franchisees.</p>
 
-<form method="post" enctype="multipart/form-data" style="max-width:640px;">
+<form method="post" enctype="multipart/form-data" class="form-steps" style="max-width:640px;">
   <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
 
-  <div class="r-2">
-    <div class="input-group">
-      <label>Brand Name <span style="color:var(--color-error);">*</span></label>
-      <input type="text" name="brand_name" class="input" value="<?= e(old('brand_name')) ?>" placeholder="e.g., Foodie's Point" required>
-    </div>
-    <div class="input-group">
-      <label>Industry</label>
-      <select name="sector_id" class="input">
-        <option value="">Select industry</option>
-        <?php foreach ($sectors as $s): ?>
-        <option value="<?= $s['id'] ?>"><?= e($s['name']) ?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-    <div class="input-group">
-      <label>Year Established</label>
-      <input type="number" name="established_year" class="input" value="<?= e(old('established_year')) ?>" placeholder="e.g., 2016" min="1900" max="<?= date('Y') ?>">
-    </div>
-    <div class="input-group">
-      <label>Number of Franchisees</label>
-      <input type="number" name="existing_units" class="input" value="<?= e(old('existing_units')) ?>" placeholder="e.g., 48" min="0">
-    </div>
-    <div class="input-group">
-      <label>Expanding In</label>
-      <input type="text" name="countries_present" class="input" value="<?= e(old('countries_present')) ?>" placeholder="e.g., Nepal, North India">
-    </div>
-    <div class="input-group">
-      <label>Franchise Fee (NPR)</label>
-      <input type="number" name="franchise_fee" class="input" value="<?= e(old('franchise_fee')) ?>" placeholder="e.g., 500000" step="0.01" min="0">
-    </div>
-    <div class="input-group">
-      <label>Royalty (%)</label>
-      <input type="number" name="royalty_pct" class="input" value="<?= e(old('royalty_pct')) ?>" placeholder="e.g., 5" step="0.01" min="0" max="100">
-    </div>
-    <div class="input-group">
-      <label>Marketing Fee (%)</label>
-      <input type="number" name="marketing_fee_pct" class="input" value="<?= e(old('marketing_fee_pct')) ?>" placeholder="e.g., 2" step="0.01" min="0" max="100">
-    </div>
-    <div class="input-group">
-      <label>Total Investment Min (NPR)</label>
-      <input type="number" name="total_investment_min" class="input" value="<?= e(old('total_investment_min')) ?>" placeholder="e.g., 1500000" step="0.01" min="0">
-    </div>
-    <div class="input-group">
-      <label>Total Investment Max (NPR)</label>
-      <input type="number" name="total_investment_max" class="input" value="<?= e(old('total_investment_max')) ?>" placeholder="e.g., 2500000" step="0.01" min="0">
-    </div>
-    <div class="input-group">
-      <label>Expected Payback (months)</label>
-      <input type="number" name="expected_payback_months" class="input" value="<?= e(old('expected_payback_months')) ?>" placeholder="e.g., 24" min="0">
-    </div>
-    <div class="input-group" style="display:flex;align-items:center;gap:1rem;padding-top:1.5rem;">
-      <label style="display:flex;align-items:center;gap:0.5rem;">
-        <input type="checkbox" name="training_provided" value="1" checked> Training Provided
-      </label>
-      <label style="display:flex;align-items:center;gap:0.5rem;">
-        <input type="checkbox" name="territory_protection" value="1"> Territory Protection
-      </label>
-    </div>
-    <div class="input-group">
-      <label>Brand Logo</label>
-      <input type="file" name="logo" class="input" accept="image/jpeg,image/png,image/webp">
-    </div>
-    <div class="input-group" style="grid-column:1/-1;">
-      <label>Brand Description</label>
-      <textarea name="description" class="input" placeholder="Describe your brand, support system, and franchise opportunity..." style="min-height:100px;"><?= e(old('description')) ?></textarea>
-    </div>
-    <div class="input-group" style="grid-column:1/-1;">
-      <label>Ideal Partner Profile</label>
-      <textarea name="ideal_partner_profile" class="input" placeholder="Describe your ideal franchise partner..." style="min-height:80px;"><?= e(old('ideal_partner_profile')) ?></textarea>
+  <div class="form-step-progress" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3">
+    <div class="step-indicator">
+      <div class="step-segment active" data-step="1">
+        <div class="step-number"><span class="step-check">&#10003;</span><span class="step-num">1</span></div>
+        <span class="step-label">Basic Info</span>
+      </div>
+      <div class="step-line"><div class="step-line-fill" style="width:0%"></div></div>
+      <div class="step-segment" data-step="2">
+        <div class="step-number">2</div>
+        <span class="step-label">Financial</span>
+      </div>
+      <div class="step-line"><div class="step-line-fill" style="width:0%"></div></div>
+      <div class="step-segment" data-step="3">
+        <div class="step-number">3</div>
+        <span class="step-label">Media &amp; Desc</span>
+      </div>
     </div>
   </div>
 
-  <button type="submit" class="btn btn-primary" style="width:100%;margin-top:1.5rem;">Submit for Review</button>
+  <div class="step-panel" data-step="1">
+    <div class="card" style="margin-bottom:1.5rem;">
+      <h4>Basic Information</h4>
+      <div class="r-2">
+        <div class="input-group">
+          <label>Brand Name <span style="color:var(--color-error);">*</span></label>
+          <input type="text" name="brand_name" class="input" value="<?= e(old('brand_name')) ?>" placeholder="e.g., Foodie's Point" required>
+        </div>
+        <div class="input-group">
+          <label>Industry</label>
+          <select name="sector_id" class="input">
+            <option value="">Select industry</option>
+            <?php foreach ($sectors as $s): ?>
+            <option value="<?= $s['id'] ?>"><?= e($s['name']) ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="input-group">
+          <label>Year Established</label>
+          <input type="number" name="established_year" class="input" value="<?= e(old('established_year')) ?>" placeholder="e.g., 2016" min="1900" max="<?= date('Y') ?>">
+        </div>
+        <div class="input-group">
+          <label>Number of Franchisees</label>
+          <input type="number" name="existing_units" class="input" value="<?= e(old('existing_units')) ?>" placeholder="e.g., 48" min="0">
+        </div>
+        <div class="input-group">
+          <label>Expanding In</label>
+          <input type="text" name="countries_present" class="input" value="<?= e(old('countries_present')) ?>" placeholder="e.g., Nepal, North India">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-panel" data-step="2" style="display:none">
+    <div class="card" style="margin-bottom:1.5rem;">
+      <h4>Financial Terms</h4>
+      <div class="r-2">
+        <div class="input-group">
+          <label>Franchise Fee (NPR)</label>
+          <input type="number" name="franchise_fee" class="input" value="<?= e(old('franchise_fee')) ?>" placeholder="e.g., 500000" step="0.01" min="0">
+        </div>
+        <div class="input-group">
+          <label>Royalty (%)</label>
+          <input type="number" name="royalty_pct" class="input" value="<?= e(old('royalty_pct')) ?>" placeholder="e.g., 5" step="0.01" min="0" max="100">
+        </div>
+        <div class="input-group">
+          <label>Marketing Fee (%)</label>
+          <input type="number" name="marketing_fee_pct" class="input" value="<?= e(old('marketing_fee_pct')) ?>" placeholder="e.g., 2" step="0.01" min="0" max="100">
+        </div>
+        <div class="input-group">
+          <label>Total Investment Min (NPR)</label>
+          <input type="number" name="total_investment_min" class="input" value="<?= e(old('total_investment_min')) ?>" placeholder="e.g., 1500000" step="0.01" min="0">
+        </div>
+        <div class="input-group">
+          <label>Total Investment Max (NPR)</label>
+          <input type="number" name="total_investment_max" class="input" value="<?= e(old('total_investment_max')) ?>" placeholder="e.g., 2500000" step="0.01" min="0">
+        </div>
+        <div class="input-group">
+          <label>Expected Payback (months)</label>
+          <input type="number" name="expected_payback_months" class="input" value="<?= e(old('expected_payback_months')) ?>" placeholder="e.g., 24" min="0">
+        </div>
+        <div class="input-group" style="display:flex;align-items:center;gap:1rem;padding-top:1.5rem;">
+          <label style="display:flex;align-items:center;gap:0.5rem;">
+            <input type="checkbox" name="training_provided" value="1" checked> Training Provided
+          </label>
+          <label style="display:flex;align-items:center;gap:0.5rem;">
+            <input type="checkbox" name="territory_protection" value="1"> Territory Protection
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-panel" data-step="3" style="display:none">
+    <div class="card" style="margin-bottom:1.5rem;">
+      <h4>Media &amp; Description</h4>
+      <div class="r-2">
+        <div class="input-group">
+          <label>Brand Logo</label>
+          <input type="file" name="logo" class="input" accept="image/jpeg,image/png,image/webp">
+        </div>
+        <div class="input-group" style="grid-column:1/-1;">
+          <label>Brand Description</label>
+          <textarea name="description" class="input" placeholder="Describe your brand, support system, and franchise opportunity..." style="min-height:100px;"><?= e(old('description')) ?></textarea>
+        </div>
+        <div class="input-group" style="grid-column:1/-1;">
+          <label>Ideal Partner Profile</label>
+          <textarea name="ideal_partner_profile" class="input" placeholder="Describe your ideal franchise partner..." style="min-height:80px;"><?= e(old('ideal_partner_profile')) ?></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-nav">
+    <button type="button" class="btn btn-outline btn-step-back" style="display:none">Back</button>
+    <div class="step-nav-right">
+      <button type="button" class="btn btn-primary btn-step-next">Next</button>
+      <button type="submit" class="btn btn-primary btn-step-submit" style="display:none">Submit for Review</button>
+    </div>
+  </div>
 </form>
+
+<script src="/assets/form-steps.js"></script>
+<script>initFormSteps({});</script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
 </div></div>

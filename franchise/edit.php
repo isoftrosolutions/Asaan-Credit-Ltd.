@@ -83,86 +83,135 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 <h2 style="margin-bottom:0.25rem;">Edit Franchise Profile</h2>
 <p style="color:var(--color-text-muted);margin-bottom:1.5rem;">Update your franchise listing for <strong><?= e($franchise['brand_name']) ?></strong>.</p>
 
-<form method="post" enctype="multipart/form-data" style="max-width:640px;">
+<form method="post" enctype="multipart/form-data" class="form-steps" style="max-width:640px;">
   <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
 
-  <div class="r-2">
-    <div class="input-group">
-      <label>Brand Name <span style="color:var(--color-error);">*</span></label>
-      <input type="text" name="brand_name" class="input" value="<?= e($franchise['brand_name']) ?>" required>
-    </div>
-    <div class="input-group">
-      <label>Industry</label>
-      <select name="sector_id" class="input">
-        <option value="">Select industry</option>
-        <?php foreach ($sectors as $s): ?>
-        <option value="<?= $s['id'] ?>" <?= (int)$s['id'] === (int)$franchise['sector_id'] ? 'selected' : '' ?>><?= e($s['name']) ?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-    <div class="input-group">
-      <label>Year Established</label>
-      <input type="number" name="established_year" class="input" value="<?= e($franchise['established_year']) ?>" min="1900" max="<?= date('Y') ?>">
-    </div>
-    <div class="input-group">
-      <label>Number of Franchisees</label>
-      <input type="number" name="existing_units" class="input" value="<?= e($franchise['existing_units']) ?>" min="0">
-    </div>
-    <div class="input-group">
-      <label>Expanding In</label>
-      <input type="text" name="countries_present" class="input" value="<?= e($franchise['countries_present']) ?>" placeholder="e.g., Nepal, North India">
-    </div>
-    <div class="input-group">
-      <label>Franchise Fee (NPR)</label>
-      <input type="number" name="franchise_fee" class="input" value="<?= e($franchise['franchise_fee']) ?>" step="0.01" min="0">
-    </div>
-    <div class="input-group">
-      <label>Royalty (%)</label>
-      <input type="number" name="royalty_pct" class="input" value="<?= e($franchise['royalty_pct']) ?>" step="0.01" min="0" max="100">
-    </div>
-    <div class="input-group">
-      <label>Marketing Fee (%)</label>
-      <input type="number" name="marketing_fee_pct" class="input" value="<?= e($franchise['marketing_fee_pct']) ?>" step="0.01" min="0" max="100">
-    </div>
-    <div class="input-group">
-      <label>Total Investment Min (NPR)</label>
-      <input type="number" name="total_investment_min" class="input" value="<?= e($franchise['total_investment_min']) ?>" step="0.01" min="0">
-    </div>
-    <div class="input-group">
-      <label>Total Investment Max (NPR)</label>
-      <input type="number" name="total_investment_max" class="input" value="<?= e($franchise['total_investment_max']) ?>" step="0.01" min="0">
-    </div>
-    <div class="input-group">
-      <label>Expected Payback (months)</label>
-      <input type="number" name="expected_payback_months" class="input" value="<?= e($franchise['expected_payback_months']) ?>" min="0">
-    </div>
-    <div class="input-group" style="display:flex;align-items:center;gap:1rem;padding-top:1.5rem;">
-      <label style="display:flex;align-items:center;gap:0.5rem;">
-        <input type="checkbox" name="training_provided" value="1" <?= $franchise['training_provided'] ? 'checked' : '' ?>> Training Provided
-      </label>
-      <label style="display:flex;align-items:center;gap:0.5rem;">
-        <input type="checkbox" name="territory_protection" value="1" <?= $franchise['territory_protection'] ? 'checked' : '' ?>> Territory Protection
-      </label>
-    </div>
-    <div class="input-group">
-      <label>Brand Logo</label>
-      <input type="file" name="logo" class="input" accept="image/jpeg,image/png,image/webp">
-      <?php if ($franchise['logo_path']): ?>
-      <div style="margin-top:0.5rem;"><img src="<?= APP_URL ?>/public/uploads/franchise-logos/<?= e($franchise['logo_path']) ?>" style="max-height:60px;border-radius:8px;" alt="Current logo"></div>
-      <?php endif; ?>
-    </div>
-    <div class="input-group" style="grid-column:1/-1;">
-      <label>Brand Description</label>
-      <textarea name="description" class="input" style="min-height:100px;"><?= e($franchise['description']) ?></textarea>
-    </div>
-    <div class="input-group" style="grid-column:1/-1;">
-      <label>Ideal Partner Profile</label>
-      <textarea name="ideal_partner_profile" class="input" style="min-height:80px;"><?= e($franchise['ideal_partner_profile']) ?></textarea>
+  <div class="form-step-progress" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3">
+    <div class="step-indicator">
+      <div class="step-segment active" data-step="1">
+        <div class="step-number"><span class="step-check">&#10003;</span><span class="step-num">1</span></div>
+        <span class="step-label">Basic Info</span>
+      </div>
+      <div class="step-line"><div class="step-line-fill" style="width:0%"></div></div>
+      <div class="step-segment" data-step="2">
+        <div class="step-number">2</div>
+        <span class="step-label">Financial</span>
+      </div>
+      <div class="step-line"><div class="step-line-fill" style="width:0%"></div></div>
+      <div class="step-segment" data-step="3">
+        <div class="step-number">3</div>
+        <span class="step-label">Media &amp; Desc</span>
+      </div>
     </div>
   </div>
 
-  <button type="submit" class="btn btn-primary" style="width:100%;margin-top:1.5rem;">Update Profile</button>
+  <div class="step-panel" data-step="1">
+    <div class="card" style="margin-bottom:1.5rem;">
+      <h4>Basic Information</h4>
+      <div class="r-2">
+        <div class="input-group">
+          <label>Brand Name <span style="color:var(--color-error);">*</span></label>
+          <input type="text" name="brand_name" class="input" value="<?= e($franchise['brand_name']) ?>" required>
+        </div>
+        <div class="input-group">
+          <label>Industry</label>
+          <select name="sector_id" class="input">
+            <option value="">Select industry</option>
+            <?php foreach ($sectors as $s): ?>
+            <option value="<?= $s['id'] ?>" <?= (int)$s['id'] === (int)$franchise['sector_id'] ? 'selected' : '' ?>><?= e($s['name']) ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="input-group">
+          <label>Year Established</label>
+          <input type="number" name="established_year" class="input" value="<?= e($franchise['established_year']) ?>" min="1900" max="<?= date('Y') ?>">
+        </div>
+        <div class="input-group">
+          <label>Number of Franchisees</label>
+          <input type="number" name="existing_units" class="input" value="<?= e($franchise['existing_units']) ?>" min="0">
+        </div>
+        <div class="input-group">
+          <label>Expanding In</label>
+          <input type="text" name="countries_present" class="input" value="<?= e($franchise['countries_present']) ?>" placeholder="e.g., Nepal, North India">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-panel" data-step="2" style="display:none">
+    <div class="card" style="margin-bottom:1.5rem;">
+      <h4>Financial Terms</h4>
+      <div class="r-2">
+        <div class="input-group">
+          <label>Franchise Fee (NPR)</label>
+          <input type="number" name="franchise_fee" class="input" value="<?= e($franchise['franchise_fee']) ?>" step="0.01" min="0">
+        </div>
+        <div class="input-group">
+          <label>Royalty (%)</label>
+          <input type="number" name="royalty_pct" class="input" value="<?= e($franchise['royalty_pct']) ?>" step="0.01" min="0" max="100">
+        </div>
+        <div class="input-group">
+          <label>Marketing Fee (%)</label>
+          <input type="number" name="marketing_fee_pct" class="input" value="<?= e($franchise['marketing_fee_pct']) ?>" step="0.01" min="0" max="100">
+        </div>
+        <div class="input-group">
+          <label>Total Investment Min (NPR)</label>
+          <input type="number" name="total_investment_min" class="input" value="<?= e($franchise['total_investment_min']) ?>" step="0.01" min="0">
+        </div>
+        <div class="input-group">
+          <label>Total Investment Max (NPR)</label>
+          <input type="number" name="total_investment_max" class="input" value="<?= e($franchise['total_investment_max']) ?>" step="0.01" min="0">
+        </div>
+        <div class="input-group">
+          <label>Expected Payback (months)</label>
+          <input type="number" name="expected_payback_months" class="input" value="<?= e($franchise['expected_payback_months']) ?>" min="0">
+        </div>
+        <div class="input-group" style="display:flex;align-items:center;gap:1rem;padding-top:1.5rem;">
+          <label style="display:flex;align-items:center;gap:0.5rem;">
+            <input type="checkbox" name="training_provided" value="1" <?= $franchise['training_provided'] ? 'checked' : '' ?>> Training Provided
+          </label>
+          <label style="display:flex;align-items:center;gap:0.5rem;">
+            <input type="checkbox" name="territory_protection" value="1" <?= $franchise['territory_protection'] ? 'checked' : '' ?>> Territory Protection
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-panel" data-step="3" style="display:none">
+    <div class="card" style="margin-bottom:1.5rem;">
+      <h4>Media &amp; Description</h4>
+      <div class="r-2">
+        <div class="input-group">
+          <label>Brand Logo</label>
+          <input type="file" name="logo" class="input" accept="image/jpeg,image/png,image/webp">
+          <?php if ($franchise['logo_path']): ?>
+          <div style="margin-top:0.5rem;"><img src="<?= APP_URL ?>/public/uploads/franchise-logos/<?= e($franchise['logo_path']) ?>" style="max-height:60px;border-radius:8px;" alt="Current logo"></div>
+          <?php endif; ?>
+        </div>
+        <div class="input-group" style="grid-column:1/-1;">
+          <label>Brand Description</label>
+          <textarea name="description" class="input" style="min-height:100px;"><?= e($franchise['description']) ?></textarea>
+        </div>
+        <div class="input-group" style="grid-column:1/-1;">
+          <label>Ideal Partner Profile</label>
+          <textarea name="ideal_partner_profile" class="input" style="min-height:80px;"><?= e($franchise['ideal_partner_profile']) ?></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-nav">
+    <button type="button" class="btn btn-outline btn-step-back" style="display:none">Back</button>
+    <div class="step-nav-right">
+      <button type="button" class="btn btn-primary btn-step-next">Next</button>
+      <button type="submit" class="btn btn-primary btn-step-submit" style="display:none">Update Profile</button>
+    </div>
+  </div>
 </form>
+
+<script src="/assets/form-steps.js"></script>
+<script>initFormSteps({});</script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
 </div></div>
