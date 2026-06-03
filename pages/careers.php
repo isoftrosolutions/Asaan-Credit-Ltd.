@@ -26,50 +26,64 @@ $perks = ['Flexible, outcome-driven work', 'Direct impact on a growing product',
 @media (min-width:768px){ .cr-values{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:767px){ .cr-values{ grid-template-columns:1fr; } }
 </style>
-<main>
-<section style="padding:48px 0 24px;background:#ffffff;">
-  <div style="max-width:900px;margin:0 auto;padding:0 24px;">
-    <div class="breadcrumbs" style="font-size:13px;color:#887271;font-family:Inter,sans-serif;margin-bottom:16px;">
-      <a href="<?= APP_URL ?>/" style="color:#887271;text-decoration:none;">Home</a> <span style="margin:0 6px;">/</span>
-      <span style="color:#554242;">Careers</span>
+<main class="pub-page">
+
+<!-- Hero -->
+<section class="pub-hero">
+  <div class="pub-wrap">
+    <div class="pub-breadcrumbs" style="font-size:0.82rem;color:var(--dash-ink-soft);margin-bottom:16px;">
+      <a href="<?= APP_URL ?>/" style="color:var(--dash-ink-soft);text-decoration:none;">Home</a> <span style="margin:0 6px;">/</span>
+      <span>Careers</span>
     </div>
-    <h1 style="font-size:36px;line-height:44px;font-weight:800;letter-spacing:-0.02em;color:#6B1D22;font-family:Montserrat,sans-serif;margin:0 0 14px;">Build the future of Nepali business with us</h1>
-    <p style="font-size:17px;line-height:27px;color:#554242;font-family:Inter,sans-serif;margin:0;">We're a small, ambitious team on a mission to give every Nepali business owner and investor a trusted place to connect. We hire for curiosity, ownership, and care.</p>
+    <div class="pub-section-head left" style="margin-bottom:0;">
+      <span class="pub-eyebrow">Join Us</span>
+      <h1 class="pub-h1">Build the future of Nepali business with us</h1>
+      <p class="pub-lead">We're a small, ambitious team on a mission to give every Nepali business owner and investor a trusted place to connect. We hire for curiosity, ownership, and care.</p>
+    </div>
   </div>
 </section>
 
-<section style="padding:24px 0;background:#fcf9f8;">
-  <div style="max-width:900px;margin:0 auto;padding:0 24px;">
-    <h2 style="font-size:24px;font-weight:700;color:#6B1D22;font-family:Montserrat,sans-serif;margin:0 0 20px;">What we value</h2>
-    <div class="cr-values" style="display:grid;gap:16px;">
+<!-- Values -->
+<section class="pub-section tint">
+  <div class="pub-wrap">
+    <div class="pub-section-head left">
+      <h2 class="pub-h2">What we value</h2>
+    </div>
+    <div class="cr-values" style="display:grid;gap:var(--space-4);">
       <?php foreach ($values as $v): ?>
-      <div style="background:#fff;border-radius:12px;border:1px solid #dbc0bf4d;padding:20px;">
-        <span style="color:#6B1D22;font-family:'Material Symbols Outlined';font-size:28px;font-variation-settings:'FILL' 1;"><?= $v[0] ?></span>
-        <h3 style="font-size:16px;font-weight:700;margin:10px 0 6px;color:#1c1b1b;font-family:Montserrat,sans-serif;"><?= e($v[1]) ?></h3>
-        <p style="font-size:14px;line-height:21px;color:#554242;font-family:Inter,sans-serif;margin:0;"><?= e($v[2]) ?></p>
+      <div class="pub-card">
+        <span style="color:var(--dash-primary);font-family:'Material Symbols Outlined';font-size:28px;font-variation-settings:'FILL' 1;"><?= $v[0] ?></span>
+        <div class="pub-card-title" style="margin:10px 0 6px;"><?= e($v[1]) ?></div>
+        <p class="pub-card-text"><?= e($v[2]) ?></p>
       </div>
       <?php endforeach; ?>
     </div>
   </div>
 </section>
 
-<section style="padding:40px 0;background:#ffffff;">
-  <div style="max-width:900px;margin:0 auto;padding:0 24px;">
-    <h2 style="font-size:24px;font-weight:700;color:#6B1D22;font-family:Montserrat,sans-serif;margin:0 0 16px;">Why join</h2>
-    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px;">
+<!-- Why join -->
+<section class="pub-section surface">
+  <div class="pub-wrap">
+    <div class="pub-section-head left">
+      <h2 class="pub-h2">Why join</h2>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:var(--space-8);">
       <?php foreach ($perks as $p): ?>
-      <span style="display:inline-flex;align-items:center;gap:6px;background:#fcf9f8;border:1px solid #dbc0bf4d;border-radius:999px;padding:8px 16px;font-size:14px;font-weight:500;color:#554242;font-family:Inter,sans-serif;">
-        <span style="color:#1E7A4D;font-family:'Material Symbols Outlined';font-size:16px;font-variation-settings:'FILL' 1;">check_circle</span><?= e($p) ?>
+      <span class="pub-badge" style="font-size:0.82rem;padding:8px 16px;">
+        <span style="color:var(--dash-success);font-family:'Material Symbols Outlined';font-size:16px;font-variation-settings:'FILL' 1;">check_circle</span><?= e($p) ?>
       </span>
       <?php endforeach; ?>
     </div>
 
-    <div style="padding:32px;background:linear-gradient(135deg,#6B1D22,#4A1317);border-radius:16px;text-align:center;">
-      <h3 style="font-size:22px;font-weight:700;color:#fff;font-family:Montserrat,sans-serif;margin:0 0 8px;">No open roles right now</h3>
-      <p style="font-size:15px;line-height:23px;color:rgba(255,255,255,0.85);font-family:Inter,sans-serif;margin:0 0 20px;">We're not actively hiring, but we're always glad to meet talented people. Send your CV and a note about how you'd like to contribute.</p>
-      <a href="mailto:careers@asaancapital.com" style="display:inline-block;padding:12px 32px;border-radius:8px;font-weight:600;font-size:16px;color:#6B1D22;background:#fff;font-family:Inter,sans-serif;text-decoration:none;">careers@asaancapital.com</a>
+    <div class="pub-cta">
+      <h2>No open roles right now</h2>
+      <p>We're not actively hiring, but we're always glad to meet talented people. Send your CV and a note about how you'd like to contribute.</p>
+      <div class="pub-cta-actions">
+        <a href="mailto:careers@asaancapital.com" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,0.5);">careers@asaancapital.com</a>
+      </div>
     </div>
   </div>
 </section>
+
 </main>
 <?php require __DIR__ . '/../includes/footer.php'; ?>

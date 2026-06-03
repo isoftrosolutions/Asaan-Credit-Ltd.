@@ -84,22 +84,21 @@ $baseUrl = '/discover/search.php?q=' . urlencode($q);
   </form>
 
   <?php if ($p['total'] === 0): ?>
-    <div style="text-align:center; max-width:620px; margin:0 auto;">
-      <h2 style="margin-bottom:0.5rem;">No results found for &ldquo;<?= e($q) ?>&rdquo;</h2>
-      <p style="color:var(--color-text-muted);">Try broadening your filters or searching by sector only.</p>
-      <div style="margin-top:2rem;">
-        <a href="<?= APP_URL ?>/discover/businesses.php" class="btn btn-primary">Browse Businesses</a>
-        <a href="<?= APP_URL ?>/discover/entrepreneurs.php" class="btn btn-secondary" style="margin-left:0.75rem;">Browse Pitches</a>
-        <a href="<?= APP_URL ?>/discover/investors.php" class="btn btn-secondary" style="margin-left:0.75rem;">Browse Investors</a>
+    <div class="empty-state-browse">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6"/><path d="M11 8v6"/></svg>
+      <h3>No results found for &ldquo;<?= e($q) ?>&rdquo;</h3>
+      <p>Try broadening your search or browse by category below.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;">
+        <a href="<?= APP_URL ?>/discover/businesses.php" class="btn btn-primary btn-sm">Browse Businesses</a>
+        <a href="<?= APP_URL ?>/discover/entrepreneurs.php" class="btn btn-ghost btn-sm">Browse Pitches</a>
+        <a href="<?= APP_URL ?>/discover/investors.php" class="btn btn-ghost btn-sm">Browse Investors</a>
       </div>
       <?php if (!$user): ?>
-        <div style="margin-top:3rem; font-size:0.85rem; color:var(--color-text-muted);">
-          Tip: Smart suggestions are only shown to verified users. Complete verification to unlock personalized matches.
-        </div>
+        <p style="margin-top:2rem;font-size:0.85rem;">Tip: Smart suggestions are only shown to verified users. Complete verification to unlock personalized matches.</p>
       <?php endif; ?>
     </div>
   <?php else: ?>
-    <p style="margin-bottom:1.5rem;color:var(--color-text-muted);"><?= $p['total'] ?> result<?= $p['total'] !== 1 ? 's' : '' ?> found for &ldquo;<?= e($q) ?>&rdquo;</p>
+    <p class="text-muted" style="margin-bottom:1.5rem;"><?= $p['total'] ?> result<?= $p['total'] !== 1 ? 's' : '' ?> found for &ldquo;<?= e($q) ?>&rdquo;</p>
 
     <div style="display:flex;flex-direction:column;gap:1rem;">
       <?php foreach ($results as $r): ?>

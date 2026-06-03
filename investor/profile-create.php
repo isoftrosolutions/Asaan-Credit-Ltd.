@@ -62,7 +62,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
   <form method="POST" class="card" style="padding:2rem;">
     <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
 
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+    <div class="r-2">
       <div class="input-group">
         <label>Full Name / Organization</label>
         <input type="text" name="name" class="input" value="<?= e(old('name', $user['name'] ?? '')) ?>" placeholder="e.g., Ramesh Thapa">

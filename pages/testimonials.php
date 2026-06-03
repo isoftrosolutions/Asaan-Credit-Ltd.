@@ -30,51 +30,52 @@ $testimonials = [
 @media (min-width:768px){ .tm-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:767px){ .tm-grid{ grid-template-columns:1fr; } }
 </style>
-<main>
-<section style="padding:48px 0 24px;background:#ffffff;">
-  <div style="max-width:980px;margin:0 auto;padding:0 24px;">
-    <div class="breadcrumbs" style="font-size:13px;color:#887271;font-family:Inter,sans-serif;margin-bottom:16px;">
-      <a href="<?= APP_URL ?>/" style="color:#887271;text-decoration:none;">Home</a> <span style="margin:0 6px;">/</span>
-      <span style="color:#554242;">Testimonials</span>
+<main class="pub-page">
+
+<section class="pub-section tight">
+  <div class="pub-wrap">
+    <div class="breadcrumbs pub-text" style="margin-bottom:var(--space-4);">
+      <a href="<?= APP_URL ?>/" style="color:var(--dash-ink-soft);text-decoration:none;">Home</a> <span style="margin:0 6px;">/</span>
+      <span>Testimonials</span>
     </div>
-    <h1 style="font-size:36px;line-height:44px;font-weight:800;letter-spacing:-0.02em;color:#6B1D22;font-family:Montserrat,sans-serif;margin:0 0 14px;">Trusted by business owners &amp; investors</h1>
-    <p style="font-size:17px;line-height:27px;color:#554242;font-family:Inter,sans-serif;margin:0;">Real stories from real users who found their perfect match.</p>
+    <h1 class="pub-h1">Trusted by business owners &amp; investors</h1>
+    <p class="pub-lead">Real stories from real users who found their perfect match.</p>
   </div>
 </section>
 
-<section style="padding:8px 0 16px;background:#ffffff;">
-  <div style="max-width:980px;margin:0 auto;padding:0 24px;">
-    <div style="display:flex;flex-wrap:wrap;gap:24px;padding:24px;background:#fcf9f8;border-radius:16px;border:1px solid #dbc0bf4d;">
+<section class="pub-section tight" style="padding-top:0;">
+  <div class="pub-wrap">
+    <div class="pub-statstrip" style="padding:var(--space-5);background:var(--dash-card);border-radius:var(--dash-radius-card);border:1px solid var(--dash-border);">
       <?php foreach ($stats as $s): ?>
-      <div style="flex:1;min-width:140px;text-align:center;">
-        <div style="font-size:28px;font-weight:800;color:#6B1D22;font-family:Montserrat,sans-serif;"><?= e($s[0]) ?></div>
-        <div style="font-size:13px;color:#554242;font-family:Inter,sans-serif;"><?= e($s[1]) ?></div>
+      <div class="pub-statstrip-item">
+        <div class="pub-statstrip-num"><?= e($s[0]) ?></div>
+        <div class="pub-statstrip-label"><?= e($s[1]) ?></div>
       </div>
       <?php endforeach; ?>
     </div>
   </div>
 </section>
 
-<section style="padding:24px 0 56px;background:#ffffff;">
-  <div style="max-width:980px;margin:0 auto;padding:0 24px;">
-    <div class="tm-grid" style="display:grid;gap:20px;">
+<section class="pub-section">
+  <div class="pub-wrap">
+    <div class="tm-grid" style="display:grid;gap:var(--space-5);">
       <?php foreach ($testimonials as $t): ?>
-      <div style="background:#fff;border:1px solid #dbc0bf4d;border-radius:16px;padding:24px;box-shadow:0 1px 2px rgba(0,0,0,0.04);">
-        <p style="font-size:16px;line-height:26px;color:#1c1b1b;font-family:Inter,sans-serif;margin:0 0 16px;">&ldquo;<?= e($t[4]) ?>&rdquo;</p>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div style="width:44px;height:44px;border-radius:50%;background:<?= $t[1] ?>;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;flex-shrink:0;font-family:Montserrat,sans-serif;"><?= e($t[0]) ?></div>
+      <div class="pub-card">
+        <p class="pub-text" style="margin:0 0 var(--space-4);">&ldquo;<?= e($t[4]) ?>&rdquo;</p>
+        <div style="display:flex;align-items:center;gap:var(--space-3);">
+          <div style="width:44px;height:44px;border-radius:50%;background:<?= $t[1] ?>;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;flex-shrink:0;font-family:var(--font-heading);"><?= e($t[0]) ?></div>
           <div style="flex:1;">
-            <div style="font-weight:700;font-size:15px;color:#1c1b1b;font-family:Montserrat,sans-serif;"><?= e($t[2]) ?></div>
-            <div style="font-size:13px;color:#554242;font-family:Inter,sans-serif;"><?= e($t[3]) ?></div>
+            <div class="pub-card-title" style="font-size:.95rem;"><?= e($t[2]) ?></div>
+            <div class="pub-text" style="font-size:.82rem;"><?= e($t[3]) ?></div>
           </div>
-          <span style="font-size:12px;font-weight:700;color:#1E7A4D;background:rgba(30,122,77,0.1);padding:4px 10px;border-radius:999px;font-family:Inter,sans-serif;white-space:nowrap;"><?= e($t[5]) ?></span>
+          <span class="pub-badge success" style="white-space:nowrap;"><?= e($t[5]) ?></span>
         </div>
       </div>
       <?php endforeach; ?>
     </div>
 
-    <div style="margin-top:32px;text-align:center;">
-      <a href="<?= APP_URL ?>/signup" style="display:inline-block;padding:12px 32px;border-radius:8px;font-weight:600;font-size:16px;color:#fff;background:#6B1D22;font-family:Inter,sans-serif;text-decoration:none;">Join them — get started free</a>
+    <div style="margin-top:var(--space-8);text-align:center;">
+      <a href="<?= APP_URL ?>/signup" class="btn btn-primary btn-lg">Join them — get started free</a>
     </div>
   </div>
 </section>

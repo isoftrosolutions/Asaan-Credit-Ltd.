@@ -139,36 +139,36 @@ require __DIR__ . '/../includes/header.php';
 
 <!-- Businesses for Sale -->
 <?php if (!empty($featured_biz)): ?>
-<section style="padding:48px 0;background:#fcf9f8;">
-  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+<section class="pub-section tint">
+  <div class="pub-wrap">
     <div class="hp-biz-split" style="display:grid;gap:32px;align-items:center;">
       <div class="hp-biz-cards" style="display:grid;gap:16px;">
         <?php foreach (array_slice($featured_biz, 0, 2) as $biz): ?>
-        <div style="background:white;border-radius:12px;border:1px solid #dbc0bf4d;border-left:4px solid #6B1D22;padding:16px;cursor:pointer;transition:box-shadow 0.3s;" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='0 1px 2px rgba(0,0,0,0.05)'">
+        <div class="pub-card card-accent-bar" style="cursor:pointer;" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'" onmouseover="this.style.boxShadow='var(--dash-shadow-hover)'" onmouseout="this.style.boxShadow=''">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
-            <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.02em;border-radius:999px;background:rgba(30,122,77,0.1);color:#1E7A4D;">Business for Sale</span>
+            <span class="pub-badge success">Business for Sale</span>
             <?php if (!empty($biz['rating'])): ?>
-            <span style="display:inline-flex;align-items:center;gap:3px;padding:3px 8px;font-size:12px;font-weight:700;border-radius:999px;background:rgba(199,122,18,0.12);color:#C77A12;"><?= e($biz['rating']) ?></span>
+            <span class="pub-badge warning"><?= e($biz['rating']) ?></span>
             <?php endif; ?>
           </div>
-          <h4 style="font-size:16px;font-weight:700;margin:0 0 6px;color:#1c1b1b;font-family:Montserrat,sans-serif;"><?= e($biz['business_name']) ?></h4>
-          <p style="font-size:13px;line-height:1.5;margin:0 0 12px;color:#554242;font-family:Inter,sans-serif;"><?= e(mb_substr($biz['description'] ?? '', 0, 120)) ?></p>
-          <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding-top:12px;border-top:1px solid #dbc0bf4d;">
-            <div><span style="font-size:11px;font-weight:600;color:#554242;display:block;">Run Rate</span><span style="font-size:14px;font-weight:700;color:#1c1b1b;"><?= money($biz['annual_revenue']) ?></span></div>
+          <h4 class="pub-card-title" style="margin:0 0 6px;"><?= e($biz['business_name']) ?></h4>
+          <p class="pub-text" style="margin:0 0 12px;"><?= e(mb_substr($biz['description'] ?? '', 0, 120)) ?></p>
+          <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--dash-border);">
+            <div><span class="pub-stat-label" style="display:block;">Run Rate</span><span class="pub-stat-value"><?= money($biz['annual_revenue']) ?></span></div>
             <?php if (!empty($biz['ebitda_pct'])): ?>
-            <div><span style="font-size:11px;font-weight:600;color:#554242;display:block;">EBITDA</span><span style="font-size:14px;font-weight:700;color:#1c1b1b;"><?= e($biz['ebitda_pct']) ?>%</span></div>
+            <div><span class="pub-stat-label" style="display:block;">EBITDA</span><span class="pub-stat-value"><?= e($biz['ebitda_pct']) ?>%</span></div>
             <?php endif; ?>
             <?php if (!empty($biz['asking_price'])): ?>
-            <div style="width:100%;padding-top:8px;"><strong style="font-size:16px;color:#7d2a2e;">Asking <?= money($biz['asking_price']) ?></strong></div>
+            <div style="width:100%;padding-top:8px;"><strong style="font-size:16px;color:var(--color-primary-vivid);">Asking <?= money($biz['asking_price']) ?></strong></div>
             <?php endif; ?>
           </div>
         </div>
         <?php endforeach; ?>
       </div>
       <div>
-        <h2 style="font-size:28px;line-height:36px;font-weight:700;letter-spacing:-0.01em;color:#6B1D22;font-family:Montserrat,sans-serif;margin:0 0 16px;">Businesses for Sale on <?= APP_NAME ?></h2>
-        <p style="font-size:16px;line-height:24px;color:#554242;font-family:Inter,sans-serif;margin:0 0 24px;">Explore pre-screened businesses for sale across diverse sectors in Nepal. Find ventures looking for a full sale, raising capital, or seeking a business loan. Register as an investor to connect and invest in them.</p>
-        <a href="<?= APP_URL ?>/browse/businesses" style="display:inline-block;padding:12px 32px;border-radius:8px;font-weight:600;font-size:16px;line-height:24px;color:white;background:#6B1D22;font-family:Inter,sans-serif;text-decoration:none;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);transition:filter 0.2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">View All Businesses</a>
+        <h2 class="pub-h2" style="color:var(--color-primary);margin:0 0 16px;">Businesses for Sale on <?= APP_NAME ?></h2>
+        <p class="pub-lead" style="margin:0 0 24px;">Explore pre-screened businesses for sale across diverse sectors in Nepal. Find ventures looking for a full sale, raising capital, or seeking a business loan. Register as an investor to connect and invest in them.</p>
+        <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-primary btn-lg">View All Businesses</a>
       </div>
     </div>
   </div>
@@ -176,29 +176,29 @@ require __DIR__ . '/../includes/header.php';
 <?php endif; ?>
 
 <!-- Dual Path Cards -->
-<section style="padding:48px 0;background:#ffffff;">
-  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+<section class="pub-section surface">
+  <div class="pub-wrap">
     <div class="hp-grid-2 hp-gap-48" style="display:grid;">
       <div style="position:relative;overflow:hidden;border-radius:12px;padding:24px;background:#ffdad933;border:1px solid #ffb3b2;">
         <div style="position:absolute;right:-40px;top:-40px;opacity:0.1;transition:transform 0.7s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
           <span style="font-size:160px;font-family:'Material Symbols Outlined';">finance_chip</span>
         </div>
         <div style="position:relative;z-index:10;">
-          <h3 style="font-size:32px;line-height:40px;font-weight:700;letter-spacing:-0.01em;margin-bottom:16px;color:#6B1D22;font-family:Montserrat,sans-serif;">For Investors</h3>
-          <p style="font-size:16px;line-height:24px;margin-bottom:24px;max-width:400px;color:#554242;font-family:Inter,sans-serif;">
+          <h3 class="pub-h2" style="margin-bottom:16px;color:var(--color-primary);">For Investors</h3>
+          <p class="pub-text" style="margin-bottom:24px;max-width:400px;">
             Access vetted startups from Nepal across diverse sectors including Agriculture, SaaS, and Energy. View pitch decks and financial reports instantly.
           </p>
           <ul style="list-style:none;padding:0;margin-bottom:24px;">
-            <li style="display:flex;align-items:center;gap:4px;font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.05em;color:#1c1b1b;font-family:Inter,sans-serif;margin-bottom:8px;">
-              <span style="color:#6B1D22;font-family:'Material Symbols Outlined';font-size:14px;font-variation-settings:'FILL' 1;">check_circle</span>
+            <li style="display:flex;align-items:center;gap:4px;font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.05em;color:var(--dash-ink);font-family:var(--font-body);margin-bottom:8px;">
+              <span style="color:var(--color-primary);font-family:'Material Symbols Outlined';font-size:14px;font-variation-settings:'FILL' 1;">check_circle</span>
               Pre-vetted Opportunities
             </li>
-            <li style="display:flex;align-items:center;gap:4px;font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.05em;color:#1c1b1b;font-family:Inter,sans-serif;">
-              <span style="color:#6B1D22;font-family:'Material Symbols Outlined';font-size:14px;font-variation-settings:'FILL' 1;">check_circle</span>
+            <li style="display:flex;align-items:center;gap:4px;font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.05em;color:var(--dash-ink);font-family:var(--font-body);">
+              <span style="color:var(--color-primary);font-family:'Material Symbols Outlined';font-size:14px;font-variation-settings:'FILL' 1;">check_circle</span>
               Direct Entrepreneur Access
             </li>
           </ul>
-          <a href="<?= APP_URL ?>/signup" style="display:inline-block;padding:12px 24px;border-radius:8px;font-weight:600;font-size:16px;line-height:24px;color:white;background:#6B1D22;font-family:Inter,sans-serif;text-decoration:none;transition:filter 0.2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">Start Investing</a>
+          <a href="<?= APP_URL ?>/signup" class="btn btn-primary">Start Investing</a>
         </div>
       </div>
       <div style="position:relative;overflow:hidden;border-radius:12px;padding:24px;background:#cce5ff4d;border:1px solid #a4cbef;">
@@ -206,21 +206,21 @@ require __DIR__ . '/../includes/header.php';
           <span style="font-size:160px;font-family:'Material Symbols Outlined';">rocket</span>
         </div>
         <div style="position:relative;z-index:10;">
-          <h3 style="font-size:32px;line-height:40px;font-weight:700;letter-spacing:-0.01em;margin-bottom:16px;color:#3b6281;font-family:Montserrat,sans-serif;">For Entrepreneurs</h3>
-          <p style="font-size:16px;line-height:24px;margin-bottom:24px;max-width:400px;color:#554242;font-family:Inter,sans-serif;">
+          <h3 class="pub-h2" style="margin-bottom:16px;color:var(--color-secondary);">For Entrepreneurs</h3>
+          <p class="pub-text" style="margin-bottom:24px;max-width:400px;">
             List your venture and get matched with professional investors who understand the Nepalese market. Secure funding to scale your vision.
           </p>
           <ul style="list-style:none;padding:0;margin-bottom:24px;">
-            <li style="display:flex;align-items:center;gap:4px;font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.05em;color:#1c1b1b;font-family:Inter,sans-serif;margin-bottom:8px;">
-              <span style="color:#3b6281;font-family:'Material Symbols Outlined';font-size:14px;font-variation-settings:'FILL' 1;">check_circle</span>
+            <li style="display:flex;align-items:center;gap:4px;font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.05em;color:var(--dash-ink);font-family:var(--font-body);margin-bottom:8px;">
+              <span style="color:var(--color-secondary);font-family:'Material Symbols Outlined';font-size:14px;font-variation-settings:'FILL' 1;">check_circle</span>
               Visibility to HNIs
             </li>
-            <li style="display:flex;align-items:center;gap:4px;font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.05em;color:#1c1b1b;font-family:Inter,sans-serif;">
-              <span style="color:#3b6281;font-family:'Material Symbols Outlined';font-size:14px;font-variation-settings:'FILL' 1;">check_circle</span>
+            <li style="display:flex;align-items:center;gap:4px;font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.05em;color:var(--dash-ink);font-family:var(--font-body);">
+              <span style="color:var(--color-secondary);font-family:'Material Symbols Outlined';font-size:14px;font-variation-settings:'FILL' 1;">check_circle</span>
               Fundraising Assistance
             </li>
           </ul>
-          <a href="<?= APP_URL ?>/signup" style="display:inline-block;padding:12px 24px;border-radius:8px;font-weight:600;font-size:16px;line-height:24px;color:white;background:#3b6281;font-family:Inter,sans-serif;text-decoration:none;transition:filter 0.2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">Pitch Your Idea</a>
+          <a href="<?= APP_URL ?>/signup" class="btn btn-accent">Pitch Your Idea</a>
         </div>
       </div>
     </div>
@@ -229,81 +229,81 @@ require __DIR__ . '/../includes/header.php';
 
 <!-- Featured Pitches -->
 <?php if (!empty($featured_pitches)): ?>
-<section style="padding:48px 0;background:#ffffff;">
-  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+<section class="pub-section tint">
+  <div class="pub-wrap">
     <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;gap:16px;flex-wrap:wrap;">
       <div>
-        <h2 style="font-size:32px;line-height:40px;font-weight:700;letter-spacing:-0.01em;color:#3b6281;font-family:Montserrat,sans-serif;margin:0 0 8px 0;">Featured Investment Opportunities</h2>
-        <p style="font-size:16px;line-height:24px;color:#554242;font-family:Inter,sans-serif;margin:0;">Pre-verified entrepreneurs seeking capital for growth.</p>
+        <h2 class="pub-h2" style="color:var(--color-secondary);margin:0 0 8px 0;">Featured Investment Opportunities</h2>
+        <p class="pub-text" style="margin:0;">Pre-verified entrepreneurs seeking capital for growth.</p>
       </div>
-      <a href="<?= APP_URL ?>/browse/entrepreneurs" class="hp-hide-mobile" style="display:inline-block;padding:8px 24px;border-radius:8px;font-weight:600;font-size:14px;border:1.5px solid #887271;color:#1c1b1b;font-family:Inter,sans-serif;text-decoration:none;transition:filter 0.2s;flex-shrink:0;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">View All</a>
+      <a href="<?= APP_URL ?>/browse/entrepreneurs" class="btn btn-ghost btn-sm hp-hide-mobile" style="flex-shrink:0;">View All</a>
     </div>
     <div style="display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;">
       <?php foreach ($featured_pitches as $p): ?>
-      <div style="flex-shrink:0;width:300px;background:white;border-radius:12px;border:1px solid #dbc0bf4d;border-left:4px solid #3b6281;padding:16px;cursor:pointer;transition:box-shadow 0.3s;" onclick="location.href='<?= APP_URL ?>/pitch/<?= (int)$p['id'] ?>'" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='0 1px 2px rgba(0,0,0,0.05)'">
+      <div class="pub-card card-accent-bar-navy" style="flex-shrink:0;width:300px;cursor:pointer;" onclick="location.href='<?= APP_URL ?>/pitch/<?= (int)$p['id'] ?>'" onmouseover="this.style.boxShadow='var(--dash-shadow-hover)'" onmouseout="this.style.boxShadow=''">
         <div style="margin-bottom:12px;">
-          <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.02em;border-radius:999px;background:rgba(30,72,102,0.1);color:#1E4866;">Seeking Investment</span>
+          <span class="pub-badge info">Seeking Investment</span>
         </div>
-        <h4 style="font-size:16px;font-weight:700;margin:0 0 6px;color:#1c1b1b;font-family:Montserrat,sans-serif;"><?= e($p['tagline']) ?></h4>
-        <p style="font-size:13px;line-height:1.5;margin:0 0 12px;color:#554242;font-family:Inter,sans-serif;"><?= e(mb_substr($p['short_summary'] ?? $p['problem_statement'] ?? '', 0, 120)) ?></p>
+        <h4 class="pub-card-title" style="margin:0 0 6px;"><?= e($p['tagline']) ?></h4>
+        <p class="pub-text" style="margin:0 0 12px;"><?= e(mb_substr($p['short_summary'] ?? $p['problem_statement'] ?? '', 0, 120)) ?></p>
         <div style="display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;">
           <?php if (!empty($p['sector_name'])): ?>
-          <span style="display:inline-flex;padding:2px 6px;font-size:11px;font-weight:600;border-radius:4px;background:#f0eded;color:#554242;"><?= e($p['sector_name']) ?></span>
+          <span class="pub-badge neutral"><?= e($p['sector_name']) ?></span>
           <?php endif; ?>
           <?php if (!empty($p['stage'])): ?>
-          <span style="display:inline-flex;padding:2px 6px;font-size:11px;font-weight:600;border-radius:4px;background:#f0eded;color:#554242;"><?= e(ucfirst($p['stage'])) ?></span>
+          <span class="pub-badge neutral"><?= e(ucfirst($p['stage'])) ?></span>
           <?php endif; ?>
         </div>
-        <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding-top:12px;border-top:1px solid #dbc0bf4d;">
-          <div><span style="font-size:11px;font-weight:600;color:#554242;display:block;">Funding</span><span style="font-size:14px;font-weight:700;color:#1c1b1b;"><?= money($p['funding_amount']) ?></span></div>
+        <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--dash-border);">
+          <div><span class="pub-stat-label" style="display:block;">Funding</span><span class="pub-stat-value"><?= money($p['funding_amount']) ?></span></div>
           <?php if (!empty($p['equity_offered'])): ?>
-          <div><span style="font-size:11px;font-weight:600;color:#554242;display:block;">Equity</span><span style="font-size:14px;font-weight:700;color:#1c1b1b;"><?= e($p['equity_offered']) ?>%</span></div>
+          <div><span class="pub-stat-label" style="display:block;">Equity</span><span class="pub-stat-value"><?= e($p['equity_offered']) ?>%</span></div>
           <?php endif; ?>
-          <div style="width:100%;padding-top:8px;"><strong style="font-size:16px;color:#7d2a2e;">Valued at <?= money($p['valuation'] ?? 0) ?></strong></div>
+          <div style="width:100%;padding-top:8px;"><strong style="font-size:16px;color:var(--color-primary-vivid);">Valued at <?= money($p['valuation'] ?? 0) ?></strong></div>
         </div>
       </div>
       <?php endforeach; ?>
     </div>
     <div class="hp-show-mobile" style="text-align:center;margin-top:16px;">
-      <a href="<?= APP_URL ?>/browse/entrepreneurs" style="display:inline-block;padding:8px 24px;border-radius:8px;font-weight:600;font-size:14px;border:1.5px solid #887271;color:#1c1b1b;font-family:Inter,sans-serif;text-decoration:none;">View All</a>
+      <a href="<?= APP_URL ?>/browse/entrepreneurs" class="btn btn-ghost btn-sm">View All</a>
     </div>
   </div>
 </section>
 <?php endif; ?>
 
 <!-- FAQ -->
-<section style="padding:48px 0;background:#fcf9f8;">
-  <div style="max-width:720px;margin:0 auto;padding:0 24px;">
-    <div style="text-align:center;margin-bottom:48px;">
-      <h2 style="font-size:32px;line-height:40px;font-weight:700;letter-spacing:-0.01em;margin-bottom:16px;color:#6B1D22;font-family:Montserrat,sans-serif;">Frequently Asked Questions</h2>
-      <p style="font-size:16px;line-height:24px;color:#554242;font-family:Inter,sans-serif;margin:0;">Everything you need to know about <?= APP_NAME ?>.</p>
+<section class="pub-section surface">
+  <div class="pub-wrap-narrow">
+    <div class="pub-section-head">
+      <h2 class="pub-h2" style="color:var(--color-primary);margin-bottom:16px;">Frequently Asked Questions</h2>
+      <p class="pub-text">Everything you need to know about <?= APP_NAME ?>.</p>
     </div>
     <?php $first = true; foreach ($faqs as $faq): ?>
-    <div class="faq-item" style="background:white;border-radius:12px;padding:16px;margin-bottom:8px;border:1px solid #dbc0bf4d;<?= $first ? 'border-left:4px solid #6B1D22;' : '' ?>">
-      <div class="faq-header" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:600;font-size:16px;line-height:24px;color:#1c1b1b;font-family:Inter,sans-serif;">
+    <div class="faq-item" style="background:white;border-radius:12px;padding:16px;margin-bottom:8px;border:1px solid var(--dash-border);<?= $first ? 'border-left:4px solid #6B1D22;' : '' ?>">
+      <div class="faq-header" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:600;font-size:16px;line-height:24px;color:var(--dash-ink);font-family:var(--font-body);">
         <span><?= e($faq['question']) ?></span>
-        <span class="faq-icon" style="font-size:20px;color:#554242;transition:transform 0.2s;">+</span>
+        <span class="faq-icon" style="font-size:20px;color:var(--dash-ink-soft);transition:transform 0.2s;">+</span>
       </div>
-      <div class="faq-answer" style="display:<?= $first ? 'block' : 'none' ?>;margin-top:12px;font-size:14px;line-height:1.7;color:#554242;font-family:Inter,sans-serif;">
+      <div class="faq-answer" style="display:<?= $first ? 'block' : 'none' ?>;margin-top:12px;font-size:14px;line-height:1.7;color:var(--dash-ink-soft);font-family:var(--font-body);">
         <?= e($faq['answer']) ?>
       </div>
     </div>
     <?php $first = false; endforeach; ?>
     <div style="text-align:center;margin-top:24px;">
-      <a href="<?= APP_URL ?>/support" style="display:inline-block;padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;border:1.5px solid #887271;color:#1c1b1b;font-family:Inter,sans-serif;text-decoration:none;transition:filter 0.2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">View all FAQs</a>
+      <a href="<?= APP_URL ?>/support" class="btn btn-ghost btn-sm">View all FAQs</a>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section style="padding:48px 0;background:#ffffff;">
-  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
-    <div style="border-radius:16px;padding:48px 24px;text-align:center;background:linear-gradient(135deg,#6B1D22,#4A1317);">
-      <h2 style="font-size:32px;line-height:40px;font-weight:700;letter-spacing:-0.01em;color:white;margin:0 0 16px;font-family:Montserrat,sans-serif;">Ready to grow your business?</h2>
-      <p style="font-size:16px;line-height:24px;color:white;opacity:0.8;margin:0 0 24px;font-family:Inter,sans-serif;">Join <?= e($stats_businesses) ?> business owners and <?= e($stats_investors) ?> investors already on the platform.</p>
-      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
-        <a href="<?= APP_URL ?>/signup" style="display:inline-block;padding:12px 32px;border-radius:8px;font-weight:600;font-size:16px;line-height:24px;color:white;background:#98202A;font-family:Inter,sans-serif;text-decoration:none;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);transition:filter 0.2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">Get Started Free</a>
-        <a href="<?= APP_URL ?>/browse/businesses" style="display:inline-block;padding:12px 32px;border-radius:8px;font-weight:600;font-size:16px;line-height:24px;font-family:Inter,sans-serif;text-decoration:none;border:1.5px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.9);transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">Browse Listings</a>
+<section class="pub-section surface">
+  <div class="pub-wrap">
+    <div class="pub-cta">
+      <h2>Ready to grow your business?</h2>
+      <p>Join <?= e($stats_businesses) ?> business owners and <?= e($stats_investors) ?> investors already on the platform.</p>
+      <div class="pub-cta-actions">
+        <a href="<?= APP_URL ?>/signup" class="btn btn-primary btn-lg">Get Started Free</a>
+        <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline btn-lg" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.9);">Browse Listings</a>
       </div>
     </div>
   </div>

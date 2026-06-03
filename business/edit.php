@@ -141,7 +141,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 
     <div class="card" style="margin-bottom:1.5rem;">
         <h4>Basic Information</h4>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div class="r-2">
             <div class="input-group">
                 <label>Business Name <span class="required">*</span></label>
                 <input type="text" name="business_name" class="input" value="<?= e($business['business_name']) ?>" required>
@@ -190,7 +190,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 
     <div class="card" style="margin-bottom:1.5rem;">
         <h4>Financial Details</h4>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div class="r-2">
             <div class="input-group">
                 <label>Annual Revenue (NPR)</label>
                 <input type="number" name="annual_revenue" class="input" min="0" step="0.01" value="<?= e($business['annual_revenue']) ?>">

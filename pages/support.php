@@ -78,18 +78,20 @@ $faqSchema = '<script type="application/ld+json">
 $forcePublicHeader = true;
 require __DIR__ . '/../includes/header.php';
 ?>
-<main class="main-content" style="padding-top:0;">
+<main class="pub-page" style="padding-top:0;">
 
 <?= $breadcrumbSchema ?>
-<div class="breadcrumbs container" style="padding-top:1rem;padding-bottom:1rem;font-size:0.85rem;color:var(--secondary-text);">
-  <a href="<?= APP_URL ?>">Home</a> <span style="margin:0 0.5rem;">/</span>
-  <span>Q &amp; A</span>
+<div class="pub-wrap" style="padding-top:var(--space-4);padding-bottom:var(--space-4);">
+  <div class="breadcrumbs pub-text">
+    <a href="<?= APP_URL ?>" style="color:var(--dash-ink-soft);text-decoration:none;">Home</a> <span style="margin:0 0.5rem;">/</span>
+    <span>Q &amp; A</span>
+  </div>
 </div>
 
-<div class="container" style="max-width:800px; padding-bottom:4rem;">
-  <div style="text-align:center;margin-bottom:2rem;">
-    <h1>Frequently Asked Questions</h1>
-    <p style="font-size:1.05rem;color:var(--secondary-text);">Find answers about using <?= APP_NAME ?> — whether you're a business owner, investor, franchisor, or advisor.</p>
+<div class="pub-wrap-narrow" style="padding-bottom:4rem;">
+  <div class="pub-section-head" style="margin-bottom:var(--space-6);">
+    <h1 class="pub-h1">Frequently Asked Questions</h1>
+    <p class="pub-lead">Find answers about using <?= APP_NAME ?> — whether you're a business owner, investor, franchisor, or advisor.</p>
   </div>
 
   <!-- Filter tabs -->
@@ -109,12 +111,12 @@ require __DIR__ . '/../includes/header.php';
     <?php else: ?>
     <?php $first = true; ?>
     <?php foreach ($faqs as $faq): ?>
-    <div class="faq-item<?= $first ? ' open' : '' ?>" data-category="all" style="background:var(--surface);border-radius:16px;padding:1rem 1.25rem;margin-bottom:0.5rem;border:1px solid var(--surface-container-high);">
-      <div class="faq-question" onclick="this.parentElement.classList.toggle('open')" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:600;">
+    <div class="pub-faq faq-item<?= $first ? ' open' : '' ?>" data-category="all">
+      <div class="pub-faq-q faq-question" onclick="this.parentElement.classList.toggle('open')">
         <span><?= e($faq['question']) ?></span>
-        <span style="font-size:1.2rem;transition:transform 0.2s;flex-shrink:0;margin-left:1rem;">+</span>
+        <span class="pub-faq-icon">+</span>
       </div>
-      <div class="faq-answer" style="display:<?= $first ? 'block' : 'none' ?>;margin-top:0.75rem;font-size:0.9rem;color:var(--secondary-text);line-height:1.7;">
+      <div class="pub-faq-a faq-answer" style="display:<?= $first ? 'block' : 'none' ?>;">
         <?= e($faq['answer']) ?>
       </div>
     </div>
@@ -124,9 +126,9 @@ require __DIR__ . '/../includes/header.php';
   </div>
 
   <!-- Contact section -->
-  <div style="margin-top:3rem; padding:2rem; background:var(--surface-container); border-radius:2rem; text-align:center;">
-    <h3>Still have questions?</h3>
-    <p style="color:var(--secondary-text);">Send your query and we'll get back to you within 2 business days.</p>
+  <div class="pub-card" style="margin-top:3rem;text-align:center;">
+    <h3 class="pub-h3" style="margin-bottom:var(--space-2);">Still have questions?</h3>
+    <p class="pub-text">Send your query and we'll get back to you within 2 business days.</p>
     <form method="post" action="<?= APP_URL ?>/support" style="max-width:480px; margin:1.5rem auto 0;">
       <input type="hidden" name="action" value="contact">
       <div class="input-group">
@@ -137,8 +139,8 @@ require __DIR__ . '/../includes/header.php';
         <button type="submit" class="btn btn-primary">Send</button>
       </div>
     </form>
-    <div style="margin-top:1rem; font-size:0.85rem; color:var(--secondary-text);">
-      Or email us at <a href="mailto:hello@asaancapital.com" style="color:var(--brand-red);">hello@asaancapital.com</a>
+    <div style="margin-top:1rem;" class="pub-text">
+      Or email us at <a href="mailto:hello@asaancapital.com" style="color:var(--dash-primary);">hello@asaancapital.com</a>
     </div>
   </div>
 </div>

@@ -14,7 +14,7 @@ $topSectors = db()->query("SELECT s.name, COUNT(*) AS total FROM businesses b JO
 $usersByRole = db()->query("SELECT role, COUNT(*) AS total FROM users GROUP BY role ORDER BY total DESC")->fetchAll();
 ui_page_header('Deep Analytics', 'Platform trends across users, deal flow and sectors.');
 ?>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+<div class="r-2" style="gap:var(--space-4);">
   <div class="dash-panel dash-panel-pad">
     <div class="dash-panel-title" style="margin-bottom:var(--space-3);">User growth (12 months)</div>
     <canvas id="userGrowthChart" height="200"></canvas>

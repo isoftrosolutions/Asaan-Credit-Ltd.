@@ -28,32 +28,35 @@ require __DIR__ . '/../includes/header.php';
   .bv-results-cards { grid-template-columns:1fr; }
   .bv-methods { grid-template-columns:1fr; }
 }
-.bv-input { width:100%; padding:10px 12px; border:1px solid #dbc0bf; border-radius:8px; font-size:15px; font-family:Inter,sans-serif; color:#1c1b1b; background:#fff; box-sizing:border-box; }
-.bv-input:focus { outline:none; border-color:#6B1D22; box-shadow:0 0 0 3px rgba(107,29,34,0.1); }
-.bv-label { display:block; font-size:13px; font-weight:600; color:#554242; margin-bottom:6px; font-family:Inter,sans-serif; }
+.bv-input { width:100%; padding:10px 12px; border:1px solid var(--dash-border); border-radius:8px; font-size:15px; font-family:var(--font-body); color:var(--dash-ink); background:#fff; box-sizing:border-box; }
+.bv-input:focus { outline:none; border-color:var(--dash-primary); box-shadow:0 0 0 3px var(--dash-primary-soft); }
+.bv-label { display:block; font-size:13px; font-weight:600; color:var(--dash-ink-soft); margin-bottom:6px; font-family:var(--font-body); }
 </style>
-<main>
+<main class="pub-page">
 
 <!-- Intro -->
-<section style="padding:48px 0 24px;background:#ffffff;">
-  <div style="max-width:860px;margin:0 auto;padding:0 24px;">
-    <div class="breadcrumbs" style="font-size:13px;color:#887271;font-family:Inter,sans-serif;margin-bottom:16px;">
-      <a href="<?= APP_URL ?>/" style="color:#887271;text-decoration:none;">Home</a> <span style="margin:0 6px;">/</span>
-      <a href="<?= APP_URL ?>/how-it-works" style="color:#887271;text-decoration:none;">How To</a> <span style="margin:0 6px;">/</span>
-      <span style="color:#554242;">Business Valuation Calculator</span>
+<section class="pub-section surface" style="padding-bottom:0;">
+  <div class="pub-wrap-narrow">
+    <div class="pub-breadcrumbs" style="font-size:0.82rem;color:var(--dash-ink-soft);margin-bottom:16px;">
+      <a href="<?= APP_URL ?>/" style="color:var(--dash-ink-soft);text-decoration:none;">Home</a> <span style="margin:0 6px;">/</span>
+      <a href="<?= APP_URL ?>/how-it-works" style="color:var(--dash-ink-soft);text-decoration:none;">How To</a> <span style="margin:0 6px;">/</span>
+      <span>Business Valuation Calculator</span>
     </div>
-    <h1 style="font-size:36px;line-height:44px;font-weight:800;letter-spacing:-0.02em;color:#6B1D22;font-family:Montserrat,sans-serif;margin:0 0 16px;">Business Valuation Calculator</h1>
-    <p style="font-size:16px;line-height:26px;color:#554242;font-family:Inter,sans-serif;margin:0;">
-      At <?= APP_NAME ?>, we define Business Valuation as a technique used to capture the true value of a business based on similar comparable companies. Our comparable data includes publicly traded companies across global stock exchanges and private transactions of thousands of small businesses, which makes our valuation estimate as precise as it can get. Curious to know the valuation of your business? Try our simple, yet one of the most effective, online valuation calculators out there &mdash; for free.
-    </p>
+    <div class="pub-section-head left" style="margin-bottom:var(--space-5);">
+      <span class="pub-eyebrow">Free Tool</span>
+      <h1 class="pub-h1">Business Valuation Calculator</h1>
+      <p class="pub-lead">
+        At <?= APP_NAME ?>, we define Business Valuation as a technique used to capture the true value of a business based on similar comparable companies. Our comparable data includes publicly traded companies across global stock exchanges and private transactions of thousands of small businesses, which makes our valuation estimate as precise as it can get. Curious to know the valuation of your business? Try our simple, yet one of the most effective, online valuation calculators out there &mdash; for free.
+      </p>
+    </div>
   </div>
 </section>
 
 <!-- Calculator -->
-<section style="padding:24px 0 48px;background:#ffffff;">
-  <div style="max-width:860px;margin:0 auto;padding:0 24px;">
-    <div style="background:#fff;border-radius:16px;border:1px solid #dbc0bf4d;border-top:4px solid #6B1D22;padding:28px;box-shadow:0 4px 16px rgba(0,0,0,0.04);">
-      <h2 style="font-size:20px;line-height:28px;font-weight:700;color:#1c1b1b;font-family:Montserrat,sans-serif;margin:0 0 20px;">Business Details</h2>
+<section class="pub-section surface" style="padding-top:var(--space-5);">
+  <div class="pub-wrap-narrow">
+    <div class="pub-card" style="border-top:4px solid var(--dash-primary);">
+      <h2 class="pub-h2" style="margin-bottom:var(--space-5);font-size:1.2rem;">Business Details</h2>
       <div class="bv-grid-2" style="display:grid;gap:20px;">
         <div>
           <label class="bv-label" for="bv-industry">Industry</label>
@@ -97,68 +100,70 @@ require __DIR__ . '/../includes/header.php';
           <input type="number" min="1900" class="bv-input" id="bv-year" placeholder="e.g., 2016" value="2016">
         </div>
       </div>
-      <button type="button" onclick="bvCalculate()" style="margin-top:24px;display:inline-flex;align-items:center;gap:8px;padding:12px 32px;border-radius:8px;font-weight:600;font-size:16px;line-height:24px;color:#fff;background:#6B1D22;font-family:Inter,sans-serif;border:none;cursor:pointer;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);transition:filter 0.2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">
+      <button type="button" onclick="bvCalculate()" class="btn btn-primary btn-lg" style="margin-top:var(--space-5);display:inline-flex;align-items:center;gap:8px;">
         <span style="font-family:'Material Symbols Outlined';font-size:20px;">calculate</span>
         Calculate Value
       </button>
-      <p id="bv-error" style="display:none;margin:16px 0 0;font-size:14px;color:#98202A;font-family:Inter,sans-serif;"></p>
+      <p id="bv-error" style="display:none;margin:16px 0 0;font-size:14px;color:var(--color-error);"></p>
     </div>
   </div>
 </section>
 
 <!-- Results -->
-<section id="bv-results" style="display:none;padding:0 0 48px;background:#ffffff;">
-  <div style="max-width:860px;margin:0 auto;padding:0 24px;">
-    <div style="background:linear-gradient(135deg,#6B1D22,#4A1317);border-radius:16px;padding:40px 24px;text-align:center;">
-      <div style="font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;margin-bottom:8px;">Estimated Valuation Range</div>
-      <div id="bv-range" style="font-size:40px;line-height:48px;font-weight:800;color:#fff;font-family:Montserrat,sans-serif;">&mdash;</div>
-      <div style="margin-top:8px;font-size:14px;color:rgba(255,255,255,0.8);font-family:Inter,sans-serif;">Midpoint estimate: <span id="bv-mid" style="font-weight:700;">&mdash;</span></div>
+<section id="bv-results" style="display:none;" class="pub-section surface" style="padding-top:0;">
+  <div class="pub-wrap-narrow">
+    <div style="background:linear-gradient(135deg,var(--dash-primary),#4A1317);border-radius:16px;padding:40px 24px;text-align:center;">
+      <div style="font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:8px;">Estimated Valuation Range</div>
+      <div id="bv-range" style="font-size:40px;line-height:48px;font-weight:800;color:#fff;font-family:var(--font-heading);">&mdash;</div>
+      <div style="margin-top:8px;font-size:14px;color:rgba(255,255,255,0.8);">Midpoint estimate: <span id="bv-mid" style="font-weight:700;">&mdash;</span></div>
     </div>
 
     <div class="bv-results-cards" style="display:grid;gap:16px;margin-top:16px;">
-      <div style="background:#fcf9f8;border-radius:12px;border:1px solid #dbc0bf4d;padding:20px;text-align:center;">
-        <div style="font-size:13px;font-weight:600;color:#554242;font-family:Inter,sans-serif;margin-bottom:6px;">Trading Comparables</div>
-        <div id="bv-trading" style="font-size:26px;font-weight:700;color:#3b6281;font-family:Montserrat,sans-serif;">&mdash;</div>
-        <div style="font-size:12px;color:#887271;font-family:Inter,sans-serif;margin-top:4px;">Public company EV/EBITDA multiples</div>
+      <div class="pub-card" style="text-align:center;">
+        <div style="font-size:13px;font-weight:600;color:var(--dash-ink-soft);margin-bottom:6px;">Trading Comparables</div>
+        <div id="bv-trading" style="font-size:26px;font-weight:700;color:var(--dash-info);font-family:var(--font-heading);">&mdash;</div>
+        <div style="font-size:12px;color:var(--dash-ink-soft);margin-top:4px;">Public company EV/EBITDA multiples</div>
       </div>
-      <div style="background:#fcf9f8;border-radius:12px;border:1px solid #dbc0bf4d;padding:20px;text-align:center;">
-        <div style="font-size:13px;font-weight:600;color:#554242;font-family:Inter,sans-serif;margin-bottom:6px;">Transaction Comparables</div>
-        <div id="bv-transaction" style="font-size:26px;font-weight:700;color:#6B1D22;font-family:Montserrat,sans-serif;">&mdash;</div>
-        <div style="font-size:12px;color:#887271;font-family:Inter,sans-serif;margin-top:4px;">Private M&amp;A deal multiples</div>
+      <div class="pub-card" style="text-align:center;">
+        <div style="font-size:13px;font-weight:600;color:var(--dash-ink-soft);margin-bottom:6px;">Transaction Comparables</div>
+        <div id="bv-transaction" style="font-size:26px;font-weight:700;color:var(--dash-primary);font-family:var(--font-heading);">&mdash;</div>
+        <div style="font-size:12px;color:var(--dash-ink-soft);margin-top:4px;">Private M&amp;A deal multiples</div>
       </div>
     </div>
 
-    <div style="margin-top:16px;padding:16px;background:rgba(199,122,18,0.08);border-radius:12px;font-size:13px;line-height:20px;color:#8a5a12;font-family:Inter,sans-serif;">
+    <div style="margin-top:16px;padding:16px;background:rgba(245,158,11,0.08);border-radius:12px;font-size:13px;line-height:20px;color:var(--dash-warning);">
       <strong>Disclaimer:</strong> This is an indicative estimate for informational purposes only and does not constitute a professional valuation. Actual value depends on many factors. Consult a qualified M&amp;A advisor for an accurate assessment.
     </div>
 
     <div style="margin-top:24px;text-align:center;">
-      <p style="font-size:15px;color:#554242;font-family:Inter,sans-serif;margin:0 0 12px;">Ready to take the next step with your business?</p>
-      <a href="<?= APP_URL ?>/signup" style="display:inline-block;padding:12px 32px;border-radius:8px;font-weight:600;font-size:16px;line-height:24px;color:#fff;background:#3b6281;font-family:Inter,sans-serif;text-decoration:none;transition:filter 0.2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">List Your Business</a>
+      <p class="pub-text" style="font-size:15px;color:var(--dash-ink-soft);margin:0 0 12px;">Ready to take the next step with your business?</p>
+      <a href="<?= APP_URL ?>/signup" class="btn btn-primary">List Your Business</a>
     </div>
   </div>
 </section>
 
 <!-- Methodology -->
-<section style="padding:48px 0;background:#fcf9f8;">
-  <div style="max-width:860px;margin:0 auto;padding:0 24px;">
-    <h2 style="font-size:28px;line-height:36px;font-weight:700;letter-spacing:-0.01em;color:#6B1D22;font-family:Montserrat,sans-serif;margin:0 0 8px;">How We Value a Business</h2>
-    <p style="font-size:16px;line-height:24px;color:#554242;font-family:Inter,sans-serif;margin:0 0 24px;">Three common approaches are used to value a business for sale or investment.</p>
-    <div class="bv-methods" style="display:grid;gap:16px;">
-      <div style="background:#fff;border-radius:12px;border:1px solid #dbc0bf4d;padding:20px;">
-        <span style="color:#6B1D22;font-family:'Material Symbols Outlined';font-size:28px;font-variation-settings:'FILL' 1;">trending_up</span>
-        <h3 style="font-size:16px;font-weight:700;margin:10px 0 6px;color:#1c1b1b;font-family:Montserrat,sans-serif;">DCF Method</h3>
-        <p style="font-size:13px;line-height:20px;margin:0;color:#554242;font-family:Inter,sans-serif;">Discounted Cash Flow projects future cash flows and discounts them to present value using a rate that reflects risk.</p>
+<section class="pub-section tint">
+  <div class="pub-wrap-narrow">
+    <div class="pub-section-head left">
+      <h2 class="pub-h2">How We Value a Business</h2>
+      <p class="pub-lead">Three common approaches are used to value a business for sale or investment.</p>
+    </div>
+    <div class="bv-methods" style="display:grid;gap:16px;margin-top:var(--space-5);">
+      <div class="pub-card">
+        <span style="color:var(--dash-primary);font-family:'Material Symbols Outlined';font-size:28px;font-variation-settings:'FILL' 1;">trending_up</span>
+        <h3 class="pub-card-title" style="margin:10px 0 6px;">DCF Method</h3>
+        <p class="pub-card-text">Discounted Cash Flow projects future cash flows and discounts them to present value using a rate that reflects risk.</p>
       </div>
-      <div style="background:#fff;border-radius:12px;border:1px solid #dbc0bf4d;padding:20px;">
-        <span style="color:#3b6281;font-family:'Material Symbols Outlined';font-size:28px;font-variation-settings:'FILL' 1;">show_chart</span>
-        <h3 style="font-size:16px;font-weight:700;margin:10px 0 6px;color:#1c1b1b;font-family:Montserrat,sans-serif;">Trading Comparables</h3>
-        <p style="font-size:13px;line-height:20px;margin:0;color:#554242;font-family:Inter,sans-serif;">Compares your business to publicly traded companies in similar industries using multiples like EV/EBITDA and P/E.</p>
+      <div class="pub-card">
+        <span style="color:var(--dash-info);font-family:'Material Symbols Outlined';font-size:28px;font-variation-settings:'FILL' 1;">show_chart</span>
+        <h3 class="pub-card-title" style="margin:10px 0 6px;">Trading Comparables</h3>
+        <p class="pub-card-text">Compares your business to publicly traded companies in similar industries using multiples like EV/EBITDA and P/E.</p>
       </div>
-      <div style="background:#fff;border-radius:12px;border:1px solid #dbc0bf4d;padding:20px;">
-        <span style="color:#6B1D22;font-family:'Material Symbols Outlined';font-size:28px;font-variation-settings:'FILL' 1;">handshake</span>
-        <h3 style="font-size:16px;font-weight:700;margin:10px 0 6px;color:#1c1b1b;font-family:Montserrat,sans-serif;">Transaction Comparables</h3>
-        <p style="font-size:13px;line-height:20px;margin:0;color:#554242;font-family:Inter,sans-serif;">Uses data from actual M&amp;A transactions of similar businesses to derive valuation multiples.</p>
+      <div class="pub-card">
+        <span style="color:var(--dash-primary);font-family:'Material Symbols Outlined';font-size:28px;font-variation-settings:'FILL' 1;">handshake</span>
+        <h3 class="pub-card-title" style="margin:10px 0 6px;">Transaction Comparables</h3>
+        <p class="pub-card-text">Uses data from actual M&amp;A transactions of similar businesses to derive valuation multiples.</p>
       </div>
     </div>
   </div>

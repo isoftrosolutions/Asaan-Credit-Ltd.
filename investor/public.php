@@ -109,7 +109,7 @@ require __DIR__ . '/../includes/layout-public.php';
   </div>
   <?php endif; ?>
 
-  <div class="detail-grid" style="display:grid; grid-template-columns: 1fr 320px; gap:2rem;">
+  <div class="detail-grid">
 
     <div>
 
@@ -172,7 +172,7 @@ require __DIR__ . '/../includes/layout-public.php';
 
       <div class="card" style="margin-bottom:1.5rem;">
         <h3 style="margin-top:0;">Investment Preferences</h3>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem;">
+        <div class="r-2" style="gap:1.25rem;">
           <div>
             <span class="meta-label">Preferred Sectors</span>
             <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:0.35rem;">
@@ -216,7 +216,7 @@ require __DIR__ . '/../includes/layout-public.php';
       <?php if ($profile['total_capital_deployed']): ?>
       <div class="card" style="margin-bottom:1.5rem;">
         <h3 style="margin-top:0;">Track Record</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+        <div class="r-2" style="gap:0.75rem;">
           <div>
             <span class="meta-label">Total Capital Deployed</span>
             <div style="font-weight:700;font-size:1.1rem;">NPR <?= e(number_format((float)$profile['total_capital_deployed'])) ?></div>

@@ -59,7 +59,7 @@ require __DIR__ . '/../includes/layout-public.php';
 </div>
 
 <div class="container" style="padding-bottom:3rem;">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:1.5rem;">
+  <div class="r-2" style="gap:2rem;margin-top:1.5rem;">
     <div>
       <?php if ($franchise['logo_path']): ?>
       <img src="<?= APP_URL ?>/public/uploads/franchise-logos/<?= e($franchise['logo_path']) ?>" alt="<?= e($franchise['brand_name']) ?> logo" style="max-width:100%;border-radius:1.5rem;max-height:300px;object-fit:contain;">
@@ -93,7 +93,7 @@ require __DIR__ . '/../includes/layout-public.php';
     <div>
       <div class="card" style="padding:1.5rem;">
         <h3 style="margin-bottom:1rem;">Financial Overview</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div class="r-2">
           <div><span class="meta-label">Franchise Fee</span><div class="meta-value"><?= $franchise['franchise_fee'] ? money($franchise['franchise_fee']) : '—' ?></div></div>
           <div><span class="meta-label">Royalty</span><div class="meta-value"><?= $franchise['royalty_pct'] ? e($franchise['royalty_pct']) . '%' : '—' ?></div></div>
           <div><span class="meta-label">Marketing Fee</span><div class="meta-value"><?= $franchise['marketing_fee_pct'] ? e($franchise['marketing_fee_pct']) . '%' : '—' ?></div></div>

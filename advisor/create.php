@@ -55,7 +55,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 <form method="post" style="max-width:640px;">
   <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+  <div class="r-2">
     <div class="input-group">
       <label>Full Name / Firm Name <span style="color:var(--color-error);">*</span></label>
       <input type="text" name="firm_name" class="input" value="<?= e(old('firm_name')) ?>" placeholder="e.g., Krishna & Associates" required>

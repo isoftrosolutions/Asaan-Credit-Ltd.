@@ -14,8 +14,7 @@ $breadcrumbSchema = '<script type="application/ld+json">{
 $forcePublicHeader = true;
 require __DIR__ . '/../includes/header.php';
 ?>
-<div class="pub-page">
-<main class="main-content" style="padding-top:0;">
+<main class="pub-page" style="padding-top:0;">
 
 <?= $breadcrumbSchema ?>
 
@@ -326,5 +325,4 @@ if (hash && personaSections.indexOf(hash) !== -1) {
 </script>
 
 </main>
-</div>
 <?php require __DIR__ . '/../includes/footer.php'; ?>

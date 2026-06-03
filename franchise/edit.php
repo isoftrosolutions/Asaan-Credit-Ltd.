@@ -86,7 +86,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 <form method="post" enctype="multipart/form-data" style="max-width:640px;">
   <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+  <div class="r-2">
     <div class="input-group">
       <label>Brand Name <span style="color:var(--color-error);">*</span></label>
       <input type="text" name="brand_name" class="input" value="<?= e($franchise['brand_name']) ?>" required>

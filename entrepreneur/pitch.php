@@ -86,7 +86,7 @@ require __DIR__ . '/../includes/layout-public.php';
         <div style="margin-top:1rem; font-size:1.15rem; max-width:680px;"><?= e($pitch['short_summary'] ?: $pitch['tagline']) ?></div>
     </div>
 
-    <div class="pitch-detail-grid" style="display:grid; grid-template-columns:2fr 1fr; gap:2rem;">
+    <div class="pitch-detail-grid">
         <div>
             <?php if ($pitch['problem_statement']): ?>
             <h3>The Problem</h3>
@@ -147,7 +147,7 @@ require __DIR__ . '/../includes/layout-public.php';
         <div class="card" style="height:fit-content;">
             <?php if ($pitch['funding_amount']): ?>
             <div style="margin-bottom:1rem;">
-                <div class="label-md">FUNDING ASK</div>
+                <div class="meta-label">FUNDING ASK</div>
                 <div style="font-size:2.25rem; font-weight:700; color:var(--ink);"><?= money($pitch['funding_amount']) ?></div>
                 <?php if ($pitch['equity_offered']): ?>
                 <div style="font-size:0.9rem; color:var(--color-text-muted);">for <?= e($pitch['equity_offered']) ?>% equity</div>

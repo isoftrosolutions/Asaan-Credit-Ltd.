@@ -79,7 +79,7 @@ require __DIR__ . '/../includes/header.php';
           <div style="position:absolute;left:-9999px;" aria-hidden="true">
             <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="r-2" style="gap:16px;">
             <div>
               <label class="ct-label" for="ct-name">Name</label>
               <input class="ct-input" id="ct-name" type="text" name="name" value="<?= e($old['name']) ?>" required>

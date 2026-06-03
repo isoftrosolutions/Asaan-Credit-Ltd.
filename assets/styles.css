@@ -2686,3 +2686,28 @@ a.pub-card { display: block; text-decoration: none; color: inherit; cursor: poin
 /* Page hero band (info/listing pages, not the home video hero) */
 .pub-hero { background: linear-gradient(180deg, var(--dash-card) 0%, var(--dash-bg) 100%); border-bottom: 1px solid var(--dash-border); padding: 56px 0; }
 .pub-hero .pub-h1 { margin-bottom: 10px; }
+
+/* ============================================================
+   RESPONSIVE LAYOUT UTILITIES + DETAIL PAGE GRIDS
+   Reusable two-column grids that collapse to a single column on
+   small screens. Used by detail pages (business/franchise/pitch/
+   investor) and inline forms that previously hard-coded a fixed
+   two-column grid with no mobile fallback.
+   ============================================================ */
+
+/* Detail page: main content + sticky sidebar */
+.detail-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; align-items: start; margin-top: 1.5rem; }
+.detail-sidebar-card { position: sticky; top: calc(64px + 1.5rem); }
+.pitch-detail-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; align-items: start; }
+
+/* Generic responsive grids (inline `gap` overrides the default) */
+.r-21 { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; align-items: start; }
+.r-2  { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+@media (max-width: 900px) {
+  .detail-grid, .pitch-detail-grid, .r-21 { grid-template-columns: 1fr; }
+  .detail-sidebar-card { position: static; }
+}
+@media (max-width: 768px) {
+  .r-2 { grid-template-columns: 1fr; }
+}
