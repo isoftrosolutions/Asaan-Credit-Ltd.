@@ -1,12 +1,19 @@
 (function () {
     'use strict';
 
+    var accountTypeLabels = {
+        individual: 'Individual',
+        company: 'Company'
+    };
+
     var roleLabels = {
         owner: 'Owner / Founder',
         ceo: 'CEO / Managing Director',
         cfo: 'CFO / Finance',
         investment_manager: 'Investment Manager',
+        individual_investor: 'Individual Investor',
         broker: 'Broker / Advisor',
+        advisor: 'Advisor / Consultant',
         other: 'Other'
     };
 
@@ -63,6 +70,10 @@
         });
     }
 
+    function isCompany() {
+        return getFieldValue('account_type') === 'company';
+    }
+
     function validateStep(step) {
         clearErrors(step);
         var valid = true;
@@ -79,14 +90,16 @@
             if (!pw) { showError('password', 'Password is required.'); valid = false; }
             else if (pw.length < 8) { showError('password', 'Password must be at least 8 characters.'); valid = false; }
         } else if (step === 2) {
-            var company = getFieldValue('company');
-            if (!company) { showError('company', 'Company name is required.'); valid = false; }
+            if (isCompany()) {
+                var company = getFieldValue('company');
+                if (!company) { showError('company', 'Company name is required.'); valid = false; }
+
+                var size = getFieldValue('size');
+                if (!size) { showError('size', 'Please select company size.'); valid = false; }
+            }
 
             var role = getFieldValue('role');
             if (!role) { showError('role', 'Please select a role.'); valid = false; }
-
-            var size = getFieldValue('size');
-            if (!size) { showError('size', 'Please select company size.'); valid = false; }
         } else if (step === 3) {
             var goal = getFieldValue('goal');
             if (!goal) { showError('goal', 'Please select a goal.'); valid = false; }
@@ -120,12 +133,16 @@
     }
 
     function populateReview() {
+        var accType = getFieldValue('account_type');
+        var isComp = accType === 'company';
+
         var data = {
             name: getFieldValue('name'),
             email: getFieldValue('email'),
-            company: getFieldValue('company'),
+            account_type: accountTypeLabels[accType] || accType,
+            company: isComp ? getFieldValue('company') : '—',
             role: roleLabels[getFieldValue('role')] || getFieldValue('role'),
-            size: sizeLabels[getFieldValue('size')] || getFieldValue('size'),
+            size: isComp ? (sizeLabels[getFieldValue('size')] || getFieldValue('size')) : '—',
             goal: goalLabels[getFieldValue('goal')] || getFieldValue('goal')
         };
 
@@ -138,6 +155,11 @@
             if (data.hasOwnProperty(field)) {
                 el.textContent = data[field];
             }
+        });
+
+        var companyReviews = form.querySelectorAll('.company-review');
+        companyReviews.forEach(function (el) {
+            el.style.display = isComp ? '' : 'none';
         });
     }
 
@@ -221,9 +243,9 @@
         } else if (field === 'password') {
             if (!value) msg = 'Password is required.';
             else if (value.length < 8) msg = 'Password must be at least 8 characters.';
-        } else if (field === 'company' && !value) msg = 'Company name is required.';
+        } else if (field === 'company' && isCompany() && !value) msg = 'Company name is required.';
         else if (field === 'role' && !value) msg = 'Please select a role.';
-        else if (field === 'size' && !value) msg = 'Please select company size.';
+        else if (field === 'size' && isCompany() && !value) msg = 'Please select company size.';
 
         if (msg) {
             showError(field, msg);
@@ -277,6 +299,37 @@
         });
     }
 
+    function initAccountTypeToggle() {
+        var radios = form.querySelectorAll('[name="account_type"]');
+        radios.forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                var isComp = this.value === 'company';
+
+                var typeOptions = form.querySelectorAll('.type-option');
+                typeOptions.forEach(function (o) { o.classList.remove('selected'); });
+                this.closest('.type-option').classList.add('selected');
+
+                var companyFields = form.querySelector('.company-fields');
+                if (companyFields) {
+                    companyFields.style.display = isComp ? '' : 'none';
+                }
+
+                var companyInput = form.querySelector('[name="company"]');
+                var sizeInput = form.querySelector('[name="size"]');
+                if (companyInput) companyInput.required = isComp;
+                if (sizeInput) sizeInput.required = isComp;
+
+                ['company', 'size'].forEach(function (f) {
+                    var inp = form.querySelector('[name="' + f + '"]');
+                    if (inp) {
+                        var g = inp.closest('.input-group');
+                        if (g) g.classList.remove('has-error');
+                    }
+                });
+            });
+        });
+    }
+
     function initBlurValidation() {
         var inputs = form.querySelectorAll('input, select');
         inputs.forEach(function (input) {
@@ -301,6 +354,7 @@
         updateNavButtons();
         initGoalCards();
         initPasswordToggle();
+        initAccountTypeToggle();
         initBlurValidation();
 
         document.getElementById('btn-next').addEventListener('click', function () {

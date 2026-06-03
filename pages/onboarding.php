@@ -11,15 +11,16 @@ $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();
 
-    $name       = trim($_POST['name'] ?? '');
-    $email      = trim($_POST['email'] ?? '');
-    $password   = $_POST['password'] ?? '';
-    $company    = trim($_POST['company'] ?? '');
-    $role       = $_POST['role'] ?? '';
-    $size       = $_POST['size'] ?? '';
-    $goal       = $_POST['goal'] ?? '';
-    $notify     = $_POST['notifications'] ?? '';
-    $agree      = $_POST['agree'] ?? '';
+    $name         = trim($_POST['name'] ?? '');
+    $email        = trim($_POST['email'] ?? '');
+    $password     = $_POST['password'] ?? '';
+    $accountType  = $_POST['account_type'] ?? 'individual';
+    $company      = trim($_POST['company'] ?? '');
+    $role         = $_POST['role'] ?? '';
+    $size         = $_POST['size'] ?? '';
+    $goal         = $_POST['goal'] ?? '';
+    $notify       = $_POST['notifications'] ?? '';
+    $agree        = $_POST['agree'] ?? '';
 
     if ($name === '') $errors['name'] = 'Full name is required.';
 
@@ -29,13 +30,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($password === '') $errors['password'] = 'Password is required.';
     elseif (strlen($password) < 8) $errors['password'] = 'Password must be at least 8 characters.';
 
-    if ($company === '') $errors['company'] = 'Company name is required.';
+    if ($accountType === 'company' && $company === '') $errors['company'] = 'Company name is required.';
 
-    $validRoles = ['owner', 'ceo', 'cfo', 'investment_manager', 'broker', 'other'];
+    $validRoles = ['owner', 'ceo', 'cfo', 'investment_manager', 'broker', 'advisor', 'individual_investor', 'other'];
     if (!in_array($role, $validRoles)) $errors['role'] = 'Please select a role.';
 
-    $validSizes = ['1-10', '11-50', '51-200', '201-1000', '1000+'];
-    if (!in_array($size, $validSizes)) $errors['size'] = 'Please select company size.';
+    if ($accountType === 'company') {
+        $validSizes = ['1-10', '11-50', '51-200', '201-1000', '1000+'];
+        if (!in_array($size, $validSizes)) $errors['size'] = 'Please select company size.';
+    }
 
     $validGoals = ['buy', 'sell', 'raise', 'invest', 'franchise', 'advisory'];
     if (!in_array($goal, $validGoals)) $errors['goal'] = 'Please select a goal.';
@@ -49,8 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $db = db();
             $db->beginTransaction();
 
-            $stmt = $db->prepare("INSERT INTO users (name, email, password, role, company_name, company_size, usage_goal, notifications, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
-            $stmt->execute([$name, $email, $hash, $role, $company, $size, $goal, $notify]);
+            $stmt = $db->prepare("INSERT INTO users (name, email, password, account_type, role, company_name, company_size, usage_goal, notifications, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+            $stmt->execute([$name, $email, $hash, $accountType, $role, $company ?: null, $size ?: null, $goal, $notify]);
 
             $db->commit();
 
@@ -83,7 +86,7 @@ require __DIR__ . '/../includes/header.php';
         <div class="step-line"><div class="step-line-fill" style="width:0%"></div></div>
         <div class="step-segment" data-step="2">
           <div class="step-number">2</div>
-          <span class="step-label">Company</span>
+          <span class="step-label">Profile</span>
         </div>
         <div class="step-line"><div class="step-line-fill" style="width:0%"></div></div>
         <div class="step-segment" data-step="3">
@@ -128,15 +131,46 @@ require __DIR__ . '/../includes/header.php';
         </div>
       </div>
 
-      <!-- Step 2: Company Details -->
+      <!-- Step 2: Profile Details -->
       <div class="step-panel" data-step="2" style="display:none">
-        <h2 class="step-title">Tell us about your company</h2>
-        <p class="step-subtitle">We'll tailor the experience to your business.</p>
+        <h2 class="step-title">Tell us about yourself</h2>
+        <p class="step-subtitle">Let us know how you'll be using the platform.</p>
 
-        <div class="input-group <?= isset($errors['company']) ? 'has-error' : '' ?>">
-          <label for="company">Company name</label>
-          <input type="text" id="company" name="company" value="<?= e($_POST['company'] ?? '') ?>" placeholder="Acme Inc." required>
-          <span class="field-error"><?= e($errors['company'] ?? '') ?></span>
+        <div class="input-group">
+          <label>Account type</label>
+          <div class="type-toggle">
+            <label class="type-option <?= ($_POST['account_type'] ?? 'individual') === 'individual' ? 'selected' : '' ?>">
+              <input type="radio" name="account_type" value="individual" <?= ($_POST['account_type'] ?? 'individual') === 'individual' ? 'checked' : '' ?>>
+              <span class="type-label">Individual</span>
+              <span class="type-desc">Investor, advisor, broker</span>
+            </label>
+            <label class="type-option <?= ($_POST['account_type'] ?? '') === 'company' ? 'selected' : '' ?>">
+              <input type="radio" name="account_type" value="company" <?= ($_POST['account_type'] ?? '') === 'company' ? 'checked' : '' ?>>
+              <span class="type-label">Company</span>
+              <span class="type-desc">Business, startup, franchise</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="company-fields" style="<?= ($_POST['account_type'] ?? 'individual') === 'company' ? '' : 'display:none' ?>">
+          <div class="input-group <?= isset($errors['company']) ? 'has-error' : '' ?>">
+            <label for="company">Company name</label>
+            <input type="text" id="company" name="company" value="<?= e($_POST['company'] ?? '') ?>" placeholder="Acme Inc.">
+            <span class="field-error"><?= e($errors['company'] ?? '') ?></span>
+          </div>
+
+          <div class="input-group <?= isset($errors['size']) ? 'has-error' : '' ?>">
+            <label for="size">Company size</label>
+            <select id="size" name="size">
+              <option value="">Select size</option>
+              <option value="1-10" <?= ($_POST['size'] ?? '') === '1-10' ? 'selected' : '' ?>>1-10 employees</option>
+              <option value="11-50" <?= ($_POST['size'] ?? '') === '11-50' ? 'selected' : '' ?>>11-50 employees</option>
+              <option value="51-200" <?= ($_POST['size'] ?? '') === '51-200' ? 'selected' : '' ?>>51-200 employees</option>
+              <option value="201-1000" <?= ($_POST['size'] ?? '') === '201-1000' ? 'selected' : '' ?>>201-1000 employees</option>
+              <option value="1000+" <?= ($_POST['size'] ?? '') === '1000+' ? 'selected' : '' ?>>1000+ employees</option>
+            </select>
+            <span class="field-error"><?= e($errors['size'] ?? '') ?></span>
+          </div>
         </div>
 
         <div class="input-group <?= isset($errors['role']) ? 'has-error' : '' ?>">
@@ -147,23 +181,12 @@ require __DIR__ . '/../includes/header.php';
             <option value="ceo" <?= ($_POST['role'] ?? '') === 'ceo' ? 'selected' : '' ?>>CEO / Managing Director</option>
             <option value="cfo" <?= ($_POST['role'] ?? '') === 'cfo' ? 'selected' : '' ?>>CFO / Finance</option>
             <option value="investment_manager" <?= ($_POST['role'] ?? '') === 'investment_manager' ? 'selected' : '' ?>>Investment Manager</option>
+            <option value="individual_investor" <?= ($_POST['role'] ?? '') === 'individual_investor' ? 'selected' : '' ?>>Individual Investor</option>
             <option value="broker" <?= ($_POST['role'] ?? '') === 'broker' ? 'selected' : '' ?>>Broker / Advisor</option>
+            <option value="advisor" <?= ($_POST['role'] ?? '') === 'advisor' ? 'selected' : '' ?>>Advisor / Consultant</option>
             <option value="other" <?= ($_POST['role'] ?? '') === 'other' ? 'selected' : '' ?>>Other</option>
           </select>
           <span class="field-error"><?= e($errors['role'] ?? '') ?></span>
-        </div>
-
-        <div class="input-group <?= isset($errors['size']) ? 'has-error' : '' ?>">
-          <label for="size">Company size</label>
-          <select id="size" name="size" required>
-            <option value="">Select size</option>
-            <option value="1-10" <?= ($_POST['size'] ?? '') === '1-10' ? 'selected' : '' ?>>1-10 employees</option>
-            <option value="11-50" <?= ($_POST['size'] ?? '') === '11-50' ? 'selected' : '' ?>>11-50 employees</option>
-            <option value="51-200" <?= ($_POST['size'] ?? '') === '51-200' ? 'selected' : '' ?>>51-200 employees</option>
-            <option value="201-1000" <?= ($_POST['size'] ?? '') === '201-1000' ? 'selected' : '' ?>>201-1000 employees</option>
-            <option value="1000+" <?= ($_POST['size'] ?? '') === '1000+' ? 'selected' : '' ?>>1000+ employees</option>
-          </select>
-          <span class="field-error"><?= e($errors['size'] ?? '') ?></span>
         </div>
       </div>
 
@@ -226,6 +249,10 @@ require __DIR__ . '/../includes/header.php';
             <span class="review-value" data-field="email"></span>
           </div>
           <div class="review-row">
+            <span class="review-label">Account type</span>
+            <span class="review-value" data-field="account_type"></span>
+          </div>
+          <div class="review-row company-review" style="display:none">
             <span class="review-label">Company</span>
             <span class="review-value" data-field="company"></span>
           </div>
@@ -233,7 +260,7 @@ require __DIR__ . '/../includes/header.php';
             <span class="review-label">Role</span>
             <span class="review-value" data-field="role"></span>
           </div>
-          <div class="review-row">
+          <div class="review-row company-review" style="display:none">
             <span class="review-label">Company size</span>
             <span class="review-value" data-field="size"></span>
           </div>
