@@ -3036,3 +3036,159 @@ a.pub-card { display: block; text-decoration: none; color: inherit; cursor: poin
 .step-panel {
   transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1), opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* =========================================================================
+ * Dashboard Multi-Step Form Styles (shared via form-steps.js)
+ * All forms using .form-steps compact progress bar + step panel
+ * ========================================================================= */
+
+.form-steps .form-step-progress {
+  margin-bottom: var(--space-6);
+}
+
+.form-steps .step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-steps .step-segment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: default;
+}
+
+.form-steps .step-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  background: var(--color-border);
+  color: var(--color-text-muted);
+  transition: background var(--motion-base) var(--ease-standard), color var(--motion-base) var(--ease-standard);
+}
+
+.form-steps .step-segment.active .step-number {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  box-shadow: 0 0 0 3px rgba(107, 29, 34, 0.15);
+}
+
+.form-steps .step-segment.completed .step-number {
+  background: var(--color-success);
+  color: var(--color-text-inverse);
+}
+
+.form-steps .step-segment.completed .step-num {
+  display: none;
+}
+
+.form-steps .step-check {
+  display: none;
+}
+
+.form-steps .step-segment.completed .step-check {
+  display: inline;
+}
+
+.form-steps .step-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color var(--motion-fast) var(--ease-standard);
+  white-space: nowrap;
+}
+
+.form-steps .step-segment.active .step-label {
+  color: var(--color-primary);
+}
+
+.form-steps .step-segment.completed .step-label {
+  color: var(--color-success);
+}
+
+.form-steps .step-line {
+  flex: 1;
+  height: 2px;
+  background: var(--color-border);
+  margin: 0 6px;
+  position: relative;
+  top: -11px;
+}
+
+.form-steps .step-line-fill {
+  height: 100%;
+  background: var(--color-success);
+  transition: width var(--motion-slow) var(--ease-emphasis);
+  width: 0%;
+}
+
+.form-steps .step-panel .card {
+  margin-bottom: 0;
+}
+
+.form-steps .step-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.form-steps .step-nav-right {
+  margin-left: auto;
+}
+
+.form-steps .field-error {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--color-error);
+  margin-top: 4px;
+  min-height: 1em;
+}
+
+.form-steps .input-group.has-error input,
+.form-steps .input-group.has-error select,
+.form-steps .input-group.has-error textarea {
+  border-color: var(--color-error) !important;
+  box-shadow: 0 0 0 3px rgba(152, 32, 42, 0.1) !important;
+}
+
+.form-steps .card.has-error {
+  border-color: var(--color-error) !important;
+}
+
+@media (max-width: 480px) {
+  .form-steps .step-label {
+    display: none;
+  }
+  .form-steps .step-line {
+    top: -8px;
+  }
+  .form-steps .step-number {
+    width: 26px;
+    height: 26px;
+    font-size: var(--text-xs);
+  }
+  .form-steps .step-nav {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .form-steps .step-nav-right {
+    margin-left: 0;
+    width: 100%;
+  }
+  .form-steps .step-nav .btn {
+    width: 100%;
+  }
+}
