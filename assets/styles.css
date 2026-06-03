@@ -2711,3 +2711,328 @@ a.pub-card { display: block; text-decoration: none; color: inherit; cursor: poin
 @media (max-width: 768px) {
   .r-2 { grid-template-columns: 1fr; }
 }
+
+/* =========================================================================
+ * Onboarding Multi-Step Form
+ * ========================================================================= */
+
+.onboarding-page {
+  min-height: 80vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--space-8) 1.5rem;
+  background: var(--color-bg-soft);
+}
+
+.onboarding-container {
+  width: 100%;
+  max-width: 600px;
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-8);
+}
+
+/* Progress Indicator */
+.onboarding-progress {
+  margin-bottom: var(--space-8);
+}
+
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.step-segment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  cursor: default;
+}
+
+.step-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  background: var(--color-border);
+  color: var(--color-text-muted);
+  transition: background var(--motion-base) var(--ease-standard), color var(--motion-base) var(--ease-standard);
+}
+
+.step-segment.active .step-number {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  box-shadow: 0 0 0 4px rgba(107, 29, 34, 0.15);
+}
+
+.step-segment.completed .step-number {
+  background: var(--color-success);
+  color: var(--color-text-inverse);
+}
+
+.step-segment.completed .step-num {
+  display: none;
+}
+
+.step-check {
+  display: none;
+}
+
+.step-segment.completed .step-check {
+  display: inline;
+}
+
+.step-label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color var(--motion-fast) var(--ease-standard);
+}
+
+.step-segment.active .step-label {
+  color: var(--color-primary);
+}
+
+.step-segment.completed .step-label {
+  color: var(--color-success);
+}
+
+.step-line {
+  flex: 1;
+  height: 2px;
+  background: var(--color-border);
+  margin: 0 8px;
+  position: relative;
+  top: -14px;
+}
+
+.step-line-fill {
+  height: 100%;
+  background: var(--color-success);
+  transition: width var(--motion-slow) var(--ease-emphasis);
+  width: 0%;
+}
+
+/* Step Panels */
+.step-panel {
+  animation: none;
+}
+
+.step-title {
+  font-size: var(--text-h3);
+  font-weight: 800;
+  margin-bottom: var(--space-1);
+  text-transform: none;
+  letter-spacing: -0.3px;
+}
+
+.step-subtitle {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-6);
+}
+
+/* Input Groups */
+.onboarding-page .input-group {
+  margin-bottom: var(--space-5);
+}
+
+.onboarding-page .input-group label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-heading);
+  margin-bottom: var(--space-1);
+}
+
+.onboarding-page .input-group input[type="text"],
+.onboarding-page .input-group input[type="email"],
+.onboarding-page .input-group input[type="password"],
+.onboarding-page .input-group select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  transition: border-color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard);
+  outline: none;
+}
+
+.onboarding-page .input-group input:focus,
+.onboarding-page .input-group select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(107, 29, 34, 0.1);
+}
+
+.onboarding-page .input-group.has-error input,
+.onboarding-page .input-group.has-error select {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px rgba(152, 32, 42, 0.1);
+}
+
+.field-error {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--color-error);
+  margin-top: 4px;
+  min-height: 1em;
+}
+
+/* Goal Grid */
+.goal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.goal-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4) var(--space-3);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color var(--motion-fast) var(--ease-standard), background var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard);
+  text-align: center;
+  min-height: 60px;
+}
+
+.goal-card:hover {
+  border-color: var(--color-primary);
+  background: rgba(107, 29, 34, 0.03);
+}
+
+.goal-card.selected {
+  border-color: var(--color-primary);
+  background: rgba(107, 29, 34, 0.06);
+  box-shadow: 0 0 0 3px rgba(107, 29, 34, 0.1);
+}
+
+.goal-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.goal-label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-heading);
+}
+
+/* Checkbox */
+.checkbox-label {
+  display: flex !important;
+  align-items: flex-start;
+  gap: var(--space-2);
+  cursor: pointer;
+  font-weight: 400 !important;
+  font-size: var(--text-sm) !important;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+/* Review Summary */
+.review-summary {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: var(--space-5);
+}
+
+.review-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+}
+
+.review-row:last-child {
+  border-bottom: none;
+}
+
+.review-label {
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.review-value {
+  font-weight: 600;
+  color: var(--color-text-heading);
+  text-align: right;
+  max-width: 60%;
+  word-break: break-word;
+}
+
+/* Step Navigation */
+.step-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
+.step-nav-right {
+  margin-left: auto;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .onboarding-container {
+    padding: var(--space-5);
+    border-radius: var(--radius-md);
+  }
+
+  .step-label {
+    display: none;
+  }
+
+  .step-line {
+    top: -10px;
+  }
+
+  .step-number {
+    width: 28px;
+    height: 28px;
+    font-size: var(--text-xs);
+  }
+
+  .goal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .step-title {
+    font-size: var(--text-h4);
+  }
+}
+
+/* Transitions for step animation */
+.step-panel {
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1), opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
