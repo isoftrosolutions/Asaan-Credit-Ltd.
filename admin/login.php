@@ -1,14 +1,16 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 
-if (current_user()) {
-    redirect('/dashboard');
+$__adminUser = current_user();
+if ($__adminUser) {
+    redirect(!empty($__adminUser['is_admin']) ? '/admin' : '/dashboard');
 }
 
 $error = '';
 $email = $_POST['email'] ?? '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_check();
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
@@ -56,6 +58,7 @@ require __DIR__ . '/../includes/header.php';
       <div class="flash flash-error"><?= e($error) ?></div>
     <?php endif; ?>
     <form method="post">
+      <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
       <div class="input-group">
         <label>Email</label>
         <input type="email" name="email" class="input" value="<?= e($email) ?>" required autocomplete="email">

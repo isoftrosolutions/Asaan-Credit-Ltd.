@@ -138,7 +138,6 @@ if (!defined('UI_PHP_LOADED')) {
 
     function ui_sidebar(array $user, int $unreadCount, bool $isAdmin): void {
         $links = $isAdmin ? ui_admin_links() : ui_dashboard_links($user['role'] ?? 'investor');
-        $initial = mb_strtoupper(mb_substr($user['name'] ?? 'U', 0, 1));
         ?>
         <aside class="dash-sidebar" id="dashSidebar" aria-label="Dashboard navigation">
           <div class="dash-sidebar-brand">
@@ -147,14 +146,6 @@ if (!defined('UI_PHP_LOADED')) {
               <span class="dash-brand-word">Asaan<span>Capital</span></span>
             </a>
             <button class="dash-sidebar-close" type="button" onclick="dashCloseSidebar()" aria-label="Close menu"><?php ui_icon('close'); ?></button>
-          </div>
-
-          <div class="dash-sidebar-user">
-            <div class="dash-avatar"><?= e($initial) ?></div>
-            <div class="dash-sidebar-user-meta">
-              <div class="dash-sidebar-user-name"><?= e($user['name'] ?? 'User') ?></div>
-              <div class="dash-sidebar-user-role"><?= e($isAdmin ? 'Administrator' : ui_role_label($user['role'] ?? '')) ?></div>
-            </div>
           </div>
 
           <nav class="dash-nav">

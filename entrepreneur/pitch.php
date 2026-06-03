@@ -108,9 +108,21 @@ require __DIR__ . '/../includes/layout-public.php';
             <p><?= nl2br(e($pitch['business_model'])) ?></p>
             <?php endif; ?>
 
-            <?php if ($pitch['pitch_video_url']): ?>
+            <?php if ($pitch['pitch_video_url']):
+                $videoUrl = $pitch['pitch_video_url'];
+                $embedHtml = '';
+                if (preg_match('/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $videoUrl, $m)) {
+                    $embedHtml = '<iframe width="100%" height="390" src="https://www.youtube-nocookie.com/embed/' . e($m[1]) . '?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:var(--radius-md);"></iframe>';
+                } elseif (preg_match('/vimeo\.com\/(\d+)/', $videoUrl, $m)) {
+                    $embedHtml = '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/' . e($m[1]) . '?badge=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:var(--radius-md);"></iframe></div>';
+                }
+                ?>
             <h3>Pitch Video</h3>
-            <p><a href="<?= e($pitch['pitch_video_url']) ?>" target="_blank" rel="noopener"><?= e($pitch['pitch_video_url']) ?></a></p>
+            <?php if ($embedHtml): ?>
+            <div style="max-width:640px;margin-bottom:1.5rem;"><?= $embedHtml ?></div>
+            <?php else: ?>
+            <p><a href="<?= e($videoUrl) ?>" target="_blank" rel="noopener"><?= e($videoUrl) ?></a></p>
+            <?php endif; ?>
             <?php endif; ?>
 
             <?php if (!empty($teamMembers)): ?>

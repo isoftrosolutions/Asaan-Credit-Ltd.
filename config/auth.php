@@ -32,6 +32,6 @@ function require_verified(): void {
     $user = current_user();
     if (!$user || $user['verification_status'] !== 'verified') {
         $_SESSION['_flash_error'] = 'Your account must be verified to perform this action.';
-        redirect('/');
+        redirect('/dashboard');
     }
 }

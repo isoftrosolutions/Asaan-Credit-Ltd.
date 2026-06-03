@@ -1,8 +1,9 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 
-if (current_user()) {
-    redirect('/dashboard');
+$__loginUser = current_user();
+if ($__loginUser) {
+    redirect(!empty($__loginUser['is_admin']) ? '/admin' : '/dashboard');
 }
 
 $error = '';
@@ -59,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 setcookie('remember', $user['id'] . ':' . $token, time() + 86400 * 30, '/', '', !empty($_SERVER['HTTPS']), true);
             }
 
-            redirect('/dashboard');
+            redirect(!empty($user['is_admin']) ? '/admin' : '/dashboard');
         }
     }
 }

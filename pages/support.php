@@ -3,6 +3,7 @@ require __DIR__ . '/../config/bootstrap.php';
 
 // Handle contact form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'contact') {
+    csrf_check();
     $email = trim($_POST['email'] ?? '');
     $message = trim($_POST['message'] ?? '');
     if (filter_var($email, FILTER_VALIDATE_EMAIL) && $message !== '') {
@@ -130,6 +131,7 @@ require __DIR__ . '/../includes/header.php';
     <h3 class="pub-h3" style="margin-bottom:var(--space-2);">Still have questions?</h3>
     <p class="pub-text">Send your query and we'll get back to you within 2 business days.</p>
     <form method="post" action="<?= APP_URL ?>/support" style="max-width:480px; margin:1.5rem auto 0;">
+      <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
       <input type="hidden" name="action" value="contact">
       <div class="input-group">
         <textarea name="message" class="input" placeholder="Type your question..." style="min-height:80px;" required></textarea>
