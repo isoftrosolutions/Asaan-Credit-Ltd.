@@ -75,7 +75,7 @@ $testimonials = [
     </div>
 
     <div style="margin-top:var(--space-8);text-align:center;">
-      <a href="<?= APP_URL ?>/signup" class="btn btn-primary btn-lg">Join them — get started free</a>
+      <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary btn-lg">Join them — get started free</a>
     </div>
   </div>
 </section>

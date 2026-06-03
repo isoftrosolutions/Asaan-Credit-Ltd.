@@ -103,7 +103,7 @@ if ($user) {
     $headerActions = '<a href="/login" class="btn btn-sm btn-outline">Log in</a>';
 } else {
     $headerActions = '<a href="/login" class="btn btn-sm btn-outline">Log in</a>'
-        . '<a href="/signup" class="btn btn-sm btn-primary">Sign up</a>';
+        . '<a href="/onboarding" class="btn btn-sm btn-primary">Sign up</a>';
 }
 ?>
 <?php if (!empty($dashChrome)): ?>

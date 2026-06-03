@@ -95,7 +95,7 @@ function injectHeader(mode, actionsHtml) {
   if (!actionsHtml) {
     actionsHtml = window.CURRENT_USER
       ? '<a href="/dashboard" class="header-user" aria-label="User — go to dashboard"><div class="avatar avatar-sm">U</div><span class="header-user-name">User</span></a>'
-      : '<a href="/login" class="btn btn-sm btn-outline">Log in</a><a href="/signup" class="btn btn-sm btn-primary">Sign up</a>';
+      : '<a href="/login" class="btn btn-sm btn-outline">Log in</a><a href="/onboarding" class="btn btn-sm btn-primary">Sign up</a>';
   }
 
   const user = window.CURRENT_USER;
@@ -130,7 +130,7 @@ function injectHeader(mode, actionsHtml) {
       navHtml += `<div class="mobile-nav-divider"></div>`;
       navHtml += `<div class="mobile-nav-actions">`;
       navHtml += `<a href="/login" class="btn btn-outline" onclick="closeMobileMenu()">Log in</a>`;
-      navHtml += `<a href="/signup" class="btn btn-primary" onclick="closeMobileMenu()">Sign up</a>`;
+      navHtml += `<a href="/onboarding" class="btn btn-primary" onclick="closeMobileMenu()">Sign up</a>`;
       navHtml += `</div>`;
     } else {
       const initials = (user.name || 'U').charAt(0).toUpperCase();
@@ -241,7 +241,7 @@ function renderPublicHeader(root, user, isLoggedIn, unread) {
     right = `
       <a href="/login" class="btn btn-sm btn-outline pub-auth-btn">Log in</a>` +
       (window.location.pathname === '/onboarding' ? '' : `
-      <a href="/signup" class="btn btn-sm btn-primary pub-auth-btn">Sign up</a>`);
+      <a href="/onboarding" class="btn btn-sm btn-primary pub-auth-btn">Sign up</a>`);
   }
 
   const searchForm = `
@@ -269,7 +269,7 @@ function renderPublicHeader(root, user, isLoggedIn, unread) {
     drawer += `<a href="/notifications/settings" onclick="closeMobileMenu()">${ICONS.settings} Settings</a>`;
     drawer += `<a href="/logout" onclick="closeMobileMenu()">${ICONS.logout} Log out</a>`;
   } else {
-    drawer += `<div class="mobile-nav-actions"><a href="/login" class="btn btn-outline" onclick="closeMobileMenu()">Log in</a>${window.location.pathname === '/onboarding' ? '' : `<a href="/signup" class="btn btn-primary" onclick="closeMobileMenu()">Sign up</a>`}</div>`;
+    drawer += `<div class="mobile-nav-actions"><a href="/login" class="btn btn-outline" onclick="closeMobileMenu()">Log in</a>${window.location.pathname === '/onboarding' ? '' : `<a href="/onboarding" class="btn btn-primary" onclick="closeMobileMenu()">Sign up</a>`}</div>`;
   }
 
   root.innerHTML = `

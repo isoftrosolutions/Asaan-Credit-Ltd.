@@ -79,7 +79,7 @@ require __DIR__ . '/../includes/header.php';
       </div>
     </div>
     <div class="pub-cta-actions" style="margin-top:var(--space-6);justify-content:flex-start;">
-      <a href="<?= APP_URL ?>/signup" class="btn btn-primary">Create Business Profile</a>
+      <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">Create Business Profile</a>
       <a href="<?= APP_URL ?>/business-valuation" class="btn btn-outline">Value My Business First</a>
     </div>
   </div>
@@ -122,7 +122,7 @@ require __DIR__ . '/../includes/header.php';
     </div>
     <div class="pub-cta-actions" style="margin-top:var(--space-6);justify-content:flex-start;">
       <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-primary">Browse Businesses for Sale</a>
-      <a href="<?= APP_URL ?>/signup" class="btn btn-outline">Create Investor Profile</a>
+      <a href="<?= APP_URL ?>/onboarding" class="btn btn-outline">Create Investor Profile</a>
     </div>
   </div>
 </section>
@@ -158,7 +158,7 @@ require __DIR__ . '/../includes/header.php';
       </div>
     </div>
     <div class="pub-cta-actions" style="margin-top:var(--space-6);justify-content:flex-start;">
-      <a href="<?= APP_URL ?>/signup" class="btn btn-primary">Register as Investor</a>
+      <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">Register as Investor</a>
       <a href="<?= APP_URL ?>/browse/businesses?type=investment" class="btn btn-outline">View Investment Opportunities</a>
     </div>
   </div>
@@ -195,7 +195,7 @@ require __DIR__ . '/../includes/header.php';
       </div>
     </div>
     <div class="pub-cta-actions" style="margin-top:var(--space-6);justify-content:flex-start;">
-      <a href="<?= APP_URL ?>/signup" class="btn btn-primary">Create Franchise Profile</a>
+      <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">Create Franchise Profile</a>
       <a href="<?= APP_URL ?>/browse/franchises" class="btn btn-outline">View Franchise Opportunities</a>
     </div>
   </div>
@@ -232,7 +232,7 @@ require __DIR__ . '/../includes/header.php';
       </div>
     </div>
     <div class="pub-cta-actions" style="margin-top:var(--space-6);justify-content:flex-start;">
-      <a href="<?= APP_URL ?>/signup" class="btn btn-primary">Register as Advisor</a>
+      <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">Register as Advisor</a>
     </div>
   </div>
 </section>
@@ -285,7 +285,7 @@ require __DIR__ . '/../includes/header.php';
       <h2>Ready to Get Started?</h2>
       <p>Join thousands of business owners, investors, and advisors on <?= APP_NAME ?>.</p>
       <div class="pub-cta-actions">
-        <a href="<?= APP_URL ?>/signup" class="btn btn-primary">Create Free Account</a>
+        <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">Create Free Account</a>
         <a href="<?= APP_URL ?>/contact" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,0.5);">Talk to Us</a>
       </div>
     </div>

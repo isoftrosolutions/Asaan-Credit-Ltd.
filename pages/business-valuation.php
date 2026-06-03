@@ -137,7 +137,7 @@ require __DIR__ . '/../includes/header.php';
 
     <div style="margin-top:24px;text-align:center;">
       <p class="pub-text" style="font-size:15px;color:var(--dash-ink-soft);margin:0 0 12px;">Ready to take the next step with your business?</p>
-      <a href="<?= APP_URL ?>/signup" class="btn btn-primary">List Your Business</a>
+      <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">List Your Business</a>
     </div>
   </div>
 </section>

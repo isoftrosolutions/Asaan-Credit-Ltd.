@@ -8,7 +8,6 @@ $routes = [
     '/'                             => 'pages/index.php',
     '/login'                        => 'auth/login.php',
     '/logout'                       => 'auth/logout.php',
-    '/signup'                       => 'auth/signup.php',
     '/verify-email'                 => 'auth/verify-email.php',
     '/forgot-password'              => 'auth/forgot-password.php',
     '/reset-password'               => 'auth/reset-password.php',

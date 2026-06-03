@@ -80,8 +80,8 @@ require __DIR__ . '/../includes/header.php';
         <?= e($hero_subtitle) ?>
       </p>
       <div class="hp-hero-actions pub-cta-actions" style="justify-content:flex-start;margin-top:28px;">
-        <a href="<?= APP_URL ?>/signup" class="btn btn-primary">I'm an Investor</a>
-        <a href="<?= APP_URL ?>/signup" class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);color:#fff;background:transparent;">I'm an Entrepreneur</a>
+        <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">I'm an Investor</a>
+        <a href="<?= APP_URL ?>/onboarding" class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);color:#fff;background:transparent;">I'm an Entrepreneur</a>
       </div>
     </div>
   </div>
@@ -198,7 +198,7 @@ require __DIR__ . '/../includes/header.php';
               Direct Entrepreneur Access
             </li>
           </ul>
-          <a href="<?= APP_URL ?>/signup" class="btn btn-primary">Start Investing</a>
+          <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">Start Investing</a>
         </div>
       </div>
       <div style="position:relative;overflow:hidden;border-radius:12px;padding:24px;background:#cce5ff4d;border:1px solid #a4cbef;">
@@ -220,7 +220,7 @@ require __DIR__ . '/../includes/header.php';
               Fundraising Assistance
             </li>
           </ul>
-          <a href="<?= APP_URL ?>/signup" class="btn btn-accent">Pitch Your Idea</a>
+          <a href="<?= APP_URL ?>/onboarding" class="btn btn-accent">Pitch Your Idea</a>
         </div>
       </div>
     </div>
@@ -302,7 +302,7 @@ require __DIR__ . '/../includes/header.php';
       <h2>Ready to grow your business?</h2>
       <p>Join <?= e($stats_businesses) ?> business owners and <?= e($stats_investors) ?> investors already on the platform.</p>
       <div class="pub-cta-actions">
-        <a href="<?= APP_URL ?>/signup" class="btn btn-primary btn-lg">Get Started Free</a>
+        <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary btn-lg">Get Started Free</a>
         <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline btn-lg" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.9);">Browse Listings</a>
       </div>
     </div>

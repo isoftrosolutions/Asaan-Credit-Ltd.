@@ -106,7 +106,7 @@ $pageDescription = 'Log in to your Asaan Capital Ltd account. Access your dashbo
     </form>
 
     <div style="margin-top:1.5rem;text-align:center;font-size:0.9rem;">
-        Don't have an account? <a href="/signup" style="color:var(--color-primary-vivid);font-weight:600;">Sign up free</a>
+        Don't have an account? <a href="/onboarding" style="color:var(--color-primary-vivid);font-weight:600;">Sign up free</a>
     </div>
 </div>
 
