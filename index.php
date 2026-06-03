@@ -44,6 +44,7 @@ $routes = [
     '/notifications/mark-read'      => 'notifications/mark-read.php',
     '/notifications/settings'       => 'notifications/settings.php',
     '/my-saved'                     => 'notifications/saved-listings.php',
+    '/onboarding'                   => 'pages/onboarding.php',
     '/admin'                        => 'admin/dashboard.php',
     '/admin/login'                  => 'admin/login.php',
     '/admin/users'                  => 'admin/users.php',
