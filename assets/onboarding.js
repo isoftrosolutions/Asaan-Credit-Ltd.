@@ -1,0 +1,323 @@
+(function () {
+    'use strict';
+
+    var roleLabels = {
+        owner: 'Owner / Founder',
+        ceo: 'CEO / Managing Director',
+        cfo: 'CFO / Finance',
+        investment_manager: 'Investment Manager',
+        broker: 'Broker / Advisor',
+        other: 'Other'
+    };
+
+    var sizeLabels = {
+        '1-10': '1-10 employees',
+        '11-50': '11-50 employees',
+        '51-200': '51-200 employees',
+        '201-1000': '201-1000 employees',
+        '1000+': '1000+ employees'
+    };
+
+    var goalLabels = {
+        buy: 'Buy a Business',
+        sell: 'Sell a Business',
+        raise: 'Raise Investment',
+        invest: 'Invest in Startups',
+        franchise: 'Franchise',
+        advisory: 'Advisory Services'
+    };
+
+    var form, currentStep, totalSteps, isTransitioning;
+
+    function getFieldValue(name) {
+        var input = form.querySelector('[name="' + name + '"]');
+        if (!input) return '';
+        if (input.type === 'radio') {
+            var checked = form.querySelector('[name="' + name + '"]:checked');
+            return checked ? checked.value : '';
+        }
+        if (input.type === 'checkbox') {
+            return input.checked ? input.value : '';
+        }
+        return input.value;
+    }
+
+    function showError(field, msg) {
+        var input = form.querySelector('[name="' + field + '"]');
+        if (!input) return;
+        var group = input.closest('.input-group');
+        if (!group) return;
+        group.classList.add('has-error');
+        var errEl = group.querySelector('.field-error');
+        if (errEl) errEl.textContent = msg;
+    }
+
+    function clearErrors(step) {
+        var panel = form.querySelector('.step-panel[data-step="' + step + '"]');
+        if (!panel) return;
+        panel.querySelectorAll('.input-group').forEach(function (g) {
+            g.classList.remove('has-error');
+        });
+        panel.querySelectorAll('.field-error').forEach(function (e) {
+            e.textContent = '';
+        });
+    }
+
+    function validateStep(step) {
+        clearErrors(step);
+        var valid = true;
+
+        if (step === 1) {
+            var name = getFieldValue('name');
+            if (!name) { showError('name', 'Full name is required.'); valid = false; }
+
+            var email = getFieldValue('email');
+            if (!email) { showError('email', 'Email is required.'); valid = false; }
+            else if (email.indexOf('@') === -1 || email.indexOf('.') === -1) { showError('email', 'Please enter a valid email.'); valid = false; }
+
+            var pw = getFieldValue('password');
+            if (!pw) { showError('password', 'Password is required.'); valid = false; }
+            else if (pw.length < 8) { showError('password', 'Password must be at least 8 characters.'); valid = false; }
+        } else if (step === 2) {
+            var company = getFieldValue('company');
+            if (!company) { showError('company', 'Company name is required.'); valid = false; }
+
+            var role = getFieldValue('role');
+            if (!role) { showError('role', 'Please select a role.'); valid = false; }
+
+            var size = getFieldValue('size');
+            if (!size) { showError('size', 'Please select company size.'); valid = false; }
+        } else if (step === 3) {
+            var goal = getFieldValue('goal');
+            if (!goal) { showError('goal', 'Please select a goal.'); valid = false; }
+        } else if (step === 4) {
+            var agree = form.querySelector('[name="agree"]');
+            if (!agree || !agree.checked) { showError('agree', 'You must agree to the terms.'); valid = false; }
+        }
+
+        return valid;
+    }
+
+    function updateProgress(step) {
+        var segments = document.querySelectorAll('.step-segment');
+        segments.forEach(function (seg) {
+            var s = parseInt(seg.getAttribute('data-step'), 10);
+            seg.classList.remove('active', 'completed');
+            if (s < step) seg.classList.add('completed');
+            if (s === step) seg.classList.add('active');
+        });
+
+        var fills = document.querySelectorAll('.step-line-fill');
+        fills.forEach(function (fill, i) {
+            var lineIndex = i + 1;
+            fill.style.width = lineIndex < step ? '100%' : '0%';
+        });
+
+        var progressBar = document.querySelector('.onboarding-progress[role="progressbar"]');
+        if (progressBar) {
+            progressBar.setAttribute('aria-valuenow', step);
+        }
+    }
+
+    function populateReview() {
+        var data = {
+            name: getFieldValue('name'),
+            email: getFieldValue('email'),
+            company: getFieldValue('company'),
+            role: roleLabels[getFieldValue('role')] || getFieldValue('role'),
+            size: sizeLabels[getFieldValue('size')] || getFieldValue('size'),
+            goal: goalLabels[getFieldValue('goal')] || getFieldValue('goal')
+        };
+
+        var notifyInput = form.querySelector('[name="notifications"]');
+        data.notifications = notifyInput && notifyInput.checked ? 'Yes' : 'No';
+
+        var reviewEls = form.querySelectorAll('.review-value');
+        reviewEls.forEach(function (el) {
+            var field = el.getAttribute('data-field');
+            if (data.hasOwnProperty(field)) {
+                el.textContent = data[field];
+            }
+        });
+    }
+
+    function updateNavButtons() {
+        var btnBack = document.getElementById('btn-back');
+        var btnNext = document.getElementById('btn-next');
+        var btnSubmit = document.getElementById('btn-submit');
+
+        btnBack.style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+
+        if (currentStep === totalSteps) {
+            btnNext.style.display = 'none';
+            btnSubmit.style.display = 'inline-flex';
+        } else {
+            btnNext.style.display = 'inline-flex';
+            btnSubmit.style.display = 'none';
+        }
+    }
+
+    function transitionTo(newStep) {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
+        var currentPanel = form.querySelector('.step-panel[data-step="' + currentStep + '"]');
+        var nextPanel = form.querySelector('.step-panel[data-step="' + newStep + '"]');
+        if (!currentPanel || !nextPanel) { isTransitioning = false; return; }
+
+        var forward = newStep > currentStep;
+        var exitX = forward ? '-30px' : '30px';
+        var entryStart = forward ? '30px' : '-30px';
+
+        nextPanel.style.display = 'block';
+        nextPanel.style.transform = 'translateX(' + entryStart + ')';
+        nextPanel.style.opacity = '0';
+
+        void nextPanel.offsetWidth;
+
+        currentPanel.style.transition = 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1), opacity 250ms cubic-bezier(0.4, 0, 0.2, 1)';
+        currentPanel.style.transform = 'translateX(' + exitX + ')';
+        currentPanel.style.opacity = '0';
+
+        nextPanel.style.transition = 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1), opacity 250ms cubic-bezier(0.4, 0, 0.2, 1)';
+        nextPanel.style.transform = 'translateX(0)';
+        nextPanel.style.opacity = '1';
+
+        currentStep = newStep;
+        updateProgress(currentStep);
+        updateNavButtons();
+
+        if (currentStep === 4) {
+            populateReview();
+        }
+
+        setTimeout(function () {
+            if (currentPanel.style.display !== 'none') {
+                currentPanel.style.display = 'none';
+            }
+            currentPanel.style.transition = '';
+            currentPanel.style.transform = '';
+            currentPanel.style.opacity = '';
+            nextPanel.style.transition = '';
+            nextPanel.style.transform = '';
+            nextPanel.style.opacity = '';
+            isTransitioning = false;
+        }, 300);
+    }
+
+    function goToStep(step) {
+        if (step < 1 || step > totalSteps) return;
+        transitionTo(step);
+    }
+
+    function validateField(field) {
+        var value = getFieldValue(field);
+        var msg = '';
+
+        if (field === 'name' && !value) msg = 'Full name is required.';
+        else if (field === 'email') {
+            if (!value) msg = 'Email is required.';
+            else if (value.indexOf('@') === -1 || value.indexOf('.') === -1) msg = 'Please enter a valid email.';
+        } else if (field === 'password') {
+            if (!value) msg = 'Password is required.';
+            else if (value.length < 8) msg = 'Password must be at least 8 characters.';
+        } else if (field === 'company' && !value) msg = 'Company name is required.';
+        else if (field === 'role' && !value) msg = 'Please select a role.';
+        else if (field === 'size' && !value) msg = 'Please select company size.';
+
+        if (msg) {
+            showError(field, msg);
+        } else {
+            var input = form.querySelector('[name="' + field + '"]');
+            if (input) {
+                var group = input.closest('.input-group');
+                if (group) group.classList.remove('has-error');
+            }
+        }
+    }
+
+    function initGoalCards() {
+        var cards = form.querySelectorAll('.goal-card');
+        cards.forEach(function (card) {
+            card.addEventListener('click', function () {
+                var radio = this.querySelector('input[type="radio"]');
+                if (!radio) return;
+                radio.checked = true;
+                cards.forEach(function (c) { c.classList.remove('selected'); });
+                this.classList.add('selected');
+            });
+        });
+    }
+
+    function initPasswordToggle() {
+        var pwInput = form.querySelector('.pw-wrap input[type="password"]');
+        if (!pwInput) return;
+        if (pwInput.dataset.pwToggle) return;
+        pwInput.dataset.pwToggle = '1';
+
+        var wrap = pwInput.closest('.pw-wrap');
+        if (!wrap) return;
+
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'pw-toggle';
+        btn.setAttribute('aria-label', 'Show password');
+
+        var eyeOff = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+        var eyeOpen = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>';
+
+        btn.innerHTML = eyeOff;
+        wrap.appendChild(btn);
+
+        btn.addEventListener('click', function () {
+            var show = pwInput.type === 'password';
+            pwInput.type = show ? 'text' : 'password';
+            btn.innerHTML = show ? eyeOpen : eyeOff;
+            btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+        });
+    }
+
+    function initBlurValidation() {
+        var inputs = form.querySelectorAll('input, select');
+        inputs.forEach(function (input) {
+            input.addEventListener('blur', function () {
+                var field = this.getAttribute('name');
+                if (!field) return;
+                if (field === 'goal' || field === 'agree' || field === 'notifications' || field === 'updates') return;
+                validateField(field);
+            });
+        });
+    }
+
+    function init() {
+        form = document.getElementById('onboarding-form');
+        if (!form) return;
+
+        currentStep = 1;
+        totalSteps = 4;
+        isTransitioning = false;
+
+        updateProgress(currentStep);
+        updateNavButtons();
+        initGoalCards();
+        initPasswordToggle();
+        initBlurValidation();
+
+        document.getElementById('btn-next').addEventListener('click', function () {
+            if (validateStep(currentStep)) {
+                goToStep(currentStep + 1);
+            }
+        });
+
+        document.getElementById('btn-back').addEventListener('click', function () {
+            goToStep(currentStep - 1);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+})();
