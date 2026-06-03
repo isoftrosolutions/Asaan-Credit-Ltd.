@@ -69,8 +69,8 @@ require __DIR__ . '/../includes/header.php';
 <main class="pub-page">
 <!-- Hero Section -->
 <section class="hp-hero" style="position:relative;overflow:hidden;display:flex;align-items:center;">
-  <div style="position:absolute;inset:0;z-index:0;background-image:url('/assets/hero.jpeg');background-size:cover;background-position:center;"></div>
-  <div style="position:absolute;inset:0;z-index:1;background:linear-gradient(135deg, #00263f 0%, rgba(0,38,63,0.85) 50%, rgba(0,38,63,0.3) 100%);"></div>
+  <div style="position:absolute;inset:0;z-index:0;background:linear-gradient(135deg, #00263f 0%, #013a5e 55%, #00263f 100%);"></div>
+  <div style="position:absolute;inset:0;z-index:1;background:radial-gradient(120% 90% at 85% 15%, rgba(152,32,42,0.22) 0%, rgba(152,32,42,0) 55%);"></div>
   <div class="hp-hero-inner pub-wrap" style="width:100%;position:relative;z-index:10;">
     <div style="max-width:580px;">
       <h1 class="hp-hero-title pub-h1" style="color:#fff;margin-bottom:20px;">
