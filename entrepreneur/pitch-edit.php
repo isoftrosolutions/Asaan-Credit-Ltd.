@@ -110,101 +110,133 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 <h2 style="margin-bottom:0.25rem;">Edit Your Pitch</h2>
 <p style="color:var(--color-text-muted);">Update your pitch to attract the right investors.</p>
 
-<form method="POST" enctype="multipart/form-data" style="margin-top:1.5rem;">
+<form method="POST" enctype="multipart/form-data" class="form-steps" style="margin-top:1.5rem;">
     <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
     <input type="hidden" name="id" value="<?= $pitchId ?>">
 
-    <div class="card" style="margin-bottom:1.5rem;">
-        <h4>Pitch Content</h4>
-        <div class="input-group">
-            <label>One-line Tagline <span class="required">*</span></label>
-            <input type="text" name="tagline" class="input" maxlength="140" value="<?= e(old('tagline', $pitch['tagline'])) ?>" required>
-        </div>
-        <div class="input-group">
-            <label>Short Summary (max 300 characters)</label>
-            <textarea name="short_summary" class="input" maxlength="300" style="min-height:60px;"><?= e(old('short_summary', $pitch['short_summary'])) ?></textarea>
-        </div>
-        <div class="input-group">
-            <label>Problem Statement</label>
-            <textarea name="problem_statement" class="input" style="min-height:120px;"><?= e(old('problem_statement', $pitch['problem_statement'])) ?></textarea>
-        </div>
-        <div class="input-group">
-            <label>Solution</label>
-            <textarea name="solution" class="input" style="min-height:120px;"><?= e(old('solution', $pitch['solution'])) ?></textarea>
-        </div>
-        <div class="input-group">
-            <label>Market Size</label>
-            <textarea name="market_size" class="input" style="min-height:80px;"><?= e(old('market_size', $pitch['market_size'])) ?></textarea>
-        </div>
-        <div class="input-group">
-            <label>Business Model</label>
-            <textarea name="business_model" class="input" style="min-height:80px;"><?= e(old('business_model', $pitch['business_model'])) ?></textarea>
-        </div>
-    </div>
-
-    <div class="card" style="margin-bottom:1.5rem;">
-        <h4>Funding & Details</h4>
-        <div class="r-2">
-            <div class="input-group">
-                <label>Sector / Industry</label>
-                <select name="sector_id" class="input">
-                    <option value="">Select sector...</option>
-                    <?php foreach ($sectors as $s): ?>
-                    <option value="<?= $s['id'] ?>" <?= (string)(old('sector_id', $pitch['sector_id'])) === (string)$s['id'] ? 'selected' : '' ?>><?= e($s['name']) ?></option>
-                    <?php endforeach; ?>
-                </select>
+    <div class="form-step-progress" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3">
+        <div class="step-indicator">
+            <div class="step-segment active" data-step="1">
+                <div class="step-number"><span class="step-check">&#10003;</span><span class="step-num">1</span></div>
+                <span class="step-label">Pitch</span>
             </div>
-            <div class="input-group">
-                <label>Stage</label>
-                <select name="stage" class="input">
-                    <option value="">Select stage...</option>
-                    <?php foreach ($stages as $s): ?>
-                    <option value="<?= $s ?>" <?= old('stage', $pitch['stage']) === $s ? 'selected' : '' ?>><?= e(ucfirst($s)) ?></option>
-                    <?php endforeach; ?>
-                </select>
+            <div class="step-line"><div class="step-line-fill" style="width:0%"></div></div>
+            <div class="step-segment" data-step="2">
+                <div class="step-number">2</div>
+                <span class="step-label">Funding</span>
             </div>
-            <div class="input-group">
-                <label>Amount Sought (NPR)</label>
-                <input type="number" name="funding_amount" class="input" min="0" step="0.01" value="<?= e(old('funding_amount', $pitch['funding_amount'])) ?>">
-            </div>
-            <div class="input-group">
-                <label>Equity Offered (%)</label>
-                <input type="number" name="equity_offered" class="input" min="0" max="100" step="0.01" value="<?= e(old('equity_offered', $pitch['equity_offered'])) ?>">
-            </div>
-            <div class="input-group">
-                <label>Valuation (NPR)</label>
-                <input type="number" name="valuation" class="input" min="0" step="0.01" value="<?= e(old('valuation', $pitch['valuation'])) ?>">
+            <div class="step-line"><div class="step-line-fill" style="width:0%"></div></div>
+            <div class="step-segment" data-step="3">
+                <div class="step-number">3</div>
+                <span class="step-label">Media</span>
             </div>
         </div>
     </div>
 
-    <div class="card" style="margin-bottom:1.5rem;">
-        <h4>Media</h4>
-        <div class="input-group">
-            <label>Pitch Deck (PDF, max 10MB)</label>
-            <input type="file" name="pitch_deck" class="input" accept="application/pdf">
-            <?php if ($pitch['pitch_deck']): ?>
-            <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Current: <?= e($pitch['pitch_deck']) ?></p>
-            <?php endif; ?>
-        </div>
-        <div class="input-group">
-            <label>Pitch Video (YouTube / Vimeo URL)</label>
-            <input type="url" name="pitch_video_url" class="input" value="<?= e(old('pitch_video_url', $pitch['pitch_video_url'])) ?>" placeholder="https://youtube.com/watch?v=...">
+    <div class="step-panel" data-step="1">
+        <div class="card" style="margin-bottom:1.5rem;">
+            <h4>Pitch Content</h4>
+            <div class="input-group">
+                <label>One-line Tagline <span class="required">*</span></label>
+                <input type="text" name="tagline" class="input" maxlength="140" value="<?= e(old('tagline', $pitch['tagline'])) ?>" required>
+            </div>
+            <div class="input-group">
+                <label>Short Summary (max 300 characters)</label>
+                <textarea name="short_summary" class="input" maxlength="300" style="min-height:60px;"><?= e(old('short_summary', $pitch['short_summary'])) ?></textarea>
+            </div>
+            <div class="input-group">
+                <label>Problem Statement</label>
+                <textarea name="problem_statement" class="input" style="min-height:120px;"><?= e(old('problem_statement', $pitch['problem_statement'])) ?></textarea>
+            </div>
+            <div class="input-group">
+                <label>Solution</label>
+                <textarea name="solution" class="input" style="min-height:120px;"><?= e(old('solution', $pitch['solution'])) ?></textarea>
+            </div>
+            <div class="input-group">
+                <label>Market Size</label>
+                <textarea name="market_size" class="input" style="min-height:80px;"><?= e(old('market_size', $pitch['market_size'])) ?></textarea>
+            </div>
+            <div class="input-group">
+                <label>Business Model</label>
+                <textarea name="business_model" class="input" style="min-height:80px;"><?= e(old('business_model', $pitch['business_model'])) ?></textarea>
+            </div>
         </div>
     </div>
 
-    <div class="card" style="margin-bottom:1.5rem;">
-        <label style="display:flex;align-items:center;gap:0.5rem;">
-            <input type="checkbox" name="is_published" value="1" <?= $pitch['is_published'] ? 'checked' : '' ?>>
-            Published
-        </label>
+    <div class="step-panel" data-step="2" style="display:none">
+        <div class="card" style="margin-bottom:1.5rem;">
+            <h4>Funding & Details</h4>
+            <div class="r-2">
+                <div class="input-group">
+                    <label>Sector / Industry</label>
+                    <select name="sector_id" class="input">
+                        <option value="">Select sector...</option>
+                        <?php foreach ($sectors as $s): ?>
+                        <option value="<?= $s['id'] ?>" <?= (string)(old('sector_id', $pitch['sector_id'])) === (string)$s['id'] ? 'selected' : '' ?>><?= e($s['name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Stage</label>
+                    <select name="stage" class="input">
+                        <option value="">Select stage...</option>
+                        <?php foreach ($stages as $s): ?>
+                        <option value="<?= $s ?>" <?= old('stage', $pitch['stage']) === $s ? 'selected' : '' ?>><?= e(ucfirst($s)) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Amount Sought (NPR)</label>
+                    <input type="number" name="funding_amount" class="input" min="0" step="0.01" value="<?= e(old('funding_amount', $pitch['funding_amount'])) ?>">
+                </div>
+                <div class="input-group">
+                    <label>Equity Offered (%)</label>
+                    <input type="number" name="equity_offered" class="input" min="0" max="100" step="0.01" value="<?= e(old('equity_offered', $pitch['equity_offered'])) ?>">
+                </div>
+                <div class="input-group">
+                    <label>Valuation (NPR)</label>
+                    <input type="number" name="valuation" class="input" min="0" step="0.01" value="<?= e(old('valuation', $pitch['valuation'])) ?>">
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div style="display:flex;gap:1rem;">
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-        <a href="dashboard.php" class="btn btn-outline">Cancel</a>
+    <div class="step-panel" data-step="3" style="display:none">
+        <div class="card" style="margin-bottom:1.5rem;">
+            <h4>Media</h4>
+            <div class="input-group">
+                <label>Pitch Deck (PDF, max 10MB)</label>
+                <input type="file" name="pitch_deck" class="input" accept="application/pdf">
+                <?php if ($pitch['pitch_deck']): ?>
+                <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Current: <?= e($pitch['pitch_deck']) ?></p>
+                <?php endif; ?>
+            </div>
+            <div class="input-group">
+                <label>Pitch Video (YouTube / Vimeo URL)</label>
+                <input type="url" name="pitch_video_url" class="input" value="<?= e(old('pitch_video_url', $pitch['pitch_video_url'])) ?>" placeholder="https://youtube.com/watch?v=...">
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom:1.5rem;">
+            <label style="display:flex;align-items:center;gap:0.5rem;">
+                <input type="checkbox" name="is_published" value="1" <?= $pitch['is_published'] ? 'checked' : '' ?>>
+                Published
+            </label>
+        </div>
+    </div>
+
+    <div class="step-nav">
+        <button type="button" class="btn btn-outline btn-step-back" style="display:none">Back</button>
+        <div class="step-nav-right">
+            <button type="button" class="btn btn-primary btn-step-next">Next</button>
+            <button type="submit" class="btn btn-primary btn-step-submit" style="display:none">Save Changes</button>
+            <a href="dashboard.php" class="btn btn-outline" style="margin-left:8px;">Cancel</a>
+        </div>
     </div>
 </form>
+
+<script src="/assets/form-steps.js"></script>
+<script>initFormSteps({});</script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
 </div></div>
