@@ -239,8 +239,9 @@ function renderPublicHeader(root, user, isLoggedIn, unread) {
       </div>`;
   } else {
     right = `
-      <a href="/login" class="btn btn-sm btn-outline pub-auth-btn">Log in</a>
-      <a href="/signup" class="btn btn-sm btn-primary pub-auth-btn">Sign up</a>`;
+      <a href="/login" class="btn btn-sm btn-outline pub-auth-btn">Log in</a>` +
+      (window.location.pathname === '/onboarding' ? '' : `
+      <a href="/signup" class="btn btn-sm btn-primary pub-auth-btn">Sign up</a>`);
   }
 
   const searchForm = `
@@ -268,7 +269,7 @@ function renderPublicHeader(root, user, isLoggedIn, unread) {
     drawer += `<a href="/notifications/settings" onclick="closeMobileMenu()">${ICONS.settings} Settings</a>`;
     drawer += `<a href="/logout" onclick="closeMobileMenu()">${ICONS.logout} Log out</a>`;
   } else {
-    drawer += `<div class="mobile-nav-actions"><a href="/login" class="btn btn-outline" onclick="closeMobileMenu()">Log in</a><a href="/signup" class="btn btn-primary" onclick="closeMobileMenu()">Sign up</a></div>`;
+    drawer += `<div class="mobile-nav-actions"><a href="/login" class="btn btn-outline" onclick="closeMobileMenu()">Log in</a>${window.location.pathname === '/onboarding' ? '' : `<a href="/signup" class="btn btn-primary" onclick="closeMobileMenu()">Sign up</a>`}</div>`;
   }
 
   root.innerHTML = `

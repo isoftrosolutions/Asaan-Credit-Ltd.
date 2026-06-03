@@ -1,19 +1,10 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 
-// Schema migration: ensure columns exist (idempotent)
-try {
-    $db = db();
-    $db->exec("ALTER TABLE users ADD COLUMN company_size varchar(255) DEFAULT NULL");
-    $db->exec("ALTER TABLE users ADD COLUMN usage_goal varchar(255) DEFAULT NULL");
-    $db->exec("ALTER TABLE users ADD COLUMN notifications varchar(255) DEFAULT NULL");
-} catch (PDOException $e) {
-    // Columns likely already exist — ignore
-}
-
 $pageTitle = 'Get Started — Asaan Capital Ltd';
 $pageDescription = 'Complete your onboarding to start connecting with businesses and investors.';
 $forcePublicHeader = true;
+$onboardingPage = true;
 
 $errors = [];
 

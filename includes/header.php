@@ -99,6 +99,8 @@ if ($user) {
         . '<a href="/dashboard" class="header-user" aria-label="' . e($userName) . ' — go to dashboard">'
         . '<div class="avatar avatar-sm" aria-hidden="true">' . e($initial) . '</div>'
         . '<span class="header-user-name">' . e($userName) . '</span></a>';
+} elseif (!empty($onboardingPage)) {
+    $headerActions = '<a href="/login" class="btn btn-sm btn-outline">Log in</a>';
 } else {
     $headerActions = '<a href="/login" class="btn btn-sm btn-outline">Log in</a>'
         . '<a href="/signup" class="btn btn-sm btn-primary">Sign up</a>';
