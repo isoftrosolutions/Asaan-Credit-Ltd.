@@ -14,7 +14,7 @@
   </footer>
 </noscript>
 <div id="footer-root"></div>
-<script>injectFooter();</script>
+<script>document.addEventListener('DOMContentLoaded', injectFooter);</script>
 <?php endif; ?>
 </body>
 </html>

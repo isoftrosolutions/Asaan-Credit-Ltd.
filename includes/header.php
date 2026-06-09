@@ -122,6 +122,7 @@ if ($user) {
 const UNREAD_COUNT = <?= $unreadCount ?>;
 const CURRENT_USER = <?= json_encode($user, JSON_INVALID_UTF8_SUBSTITUTE) ?: 'null' ?>;
 const CSRF_TOKEN = '<?= csrf_token() ?>';
+document.addEventListener('DOMContentLoaded', function () {
 <?php
 $headerActions = '';
 if ($user) {
@@ -150,5 +151,6 @@ injectHeader('<?= $isAdmin ? 'admin' : 'dashboard' ?>', <?= json_encode($headerA
 <?php else: ?>
 injectHeader('public', <?= json_encode($headerActions) ?>);
 <?php endif; ?>
+});
 </script>
 <?php flash_render(); ?>
