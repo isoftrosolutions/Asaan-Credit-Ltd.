@@ -657,6 +657,16 @@ body.has-dashboard-sidebar .sidebar-mobile-toggle { display: none; }
 }
 .pub-avatar-toggle:hover { background: var(--color-bg-soft); }
 
+/* ── Public nav spacing ───────────────────────────────────────── */
+.pub-nav {
+  gap: 8px;
+}
+
+.pub-nav-link {
+  padding: 8px 22px;
+  font-size: 0.88rem;
+}
+
 /* ── Company dropdown in nav ──────────────────────────────────── */
 .pub-dd-company .pub-nav-link {
   cursor: pointer;
@@ -666,6 +676,7 @@ body.has-dashboard-sidebar .sidebar-mobile-toggle { display: none; }
   border: none;
   white-space: nowrap;
   position: relative;
+  padding: 8px 22px;
 }
 .pub-dd-company .pub-nav-link::after {
   content: '';

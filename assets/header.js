@@ -10,6 +10,8 @@ const COMPANY_LINKS = [
 const PUBLIC_LINKS = [
   { label: 'Home', url: '/', icon: 'home' },
   { label: 'Investment & Opportunity', url: '/browse/businesses', icon: 'chart' },
+  { label: 'About Us', url: '/about', icon: 'tag' },
+  { label: 'Blog', url: '/blog', icon: 'document' },
 ];
 
 const INVESTMENT_LINKS = [
@@ -22,6 +24,8 @@ const INVESTMENT_LINKS = [
 const PUBLIC_NAV = [
   { label: 'Home', url: '/' },
   { label: 'Investment & Opportunity', url: '/browse/businesses' },
+  { label: 'About Us', url: '/about' },
+  { label: 'Blog', url: '/blog' },
 ];
 
 const ADD_PROFILE_LINKS = [
