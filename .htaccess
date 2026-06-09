@@ -3,6 +3,13 @@ Options -Indexes
 RewriteEngine On
 RewriteRule ^favicon\.ico$ /favicon.png [L,R=301]
 
+# Canonical redirect: /discover/businesses.php -> /browse/businesses
+RewriteRule ^discover/businesses\.php$ /browse/businesses [R=301,L,NC]
+
+# Canonical redirect: old PHP detail URLs -> clean URLs
+RewriteCond %{QUERY_STRING} ^id=(\d+)$
+RewriteRule ^business/detail\.php$ /business/%1 [R=301,L,NC]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ index.php?_path=$1 [QSA,L]
 

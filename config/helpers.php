@@ -39,7 +39,7 @@ function redirect_back(): void {
 }
 
 function money($amount): string {
-    return 'NPR ' . number_format((float)$amount, 0);
+    return 'रू ' . number_format((float)$amount, 0);
 }
 
 function date_human(?string $datetime): string {

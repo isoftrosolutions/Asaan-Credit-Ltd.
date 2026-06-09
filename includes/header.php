@@ -21,8 +21,8 @@ if ($user) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= e($pageTitle ?? APP_NAME) ?></title>
-  <link rel="canonical" href="<?= APP_URL ?><?= parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?>">
+  <title><?= e($pageTitle ?? 'Asaan Capital Ltd') ?></title>
+  <link rel="canonical" href="<?= e($canonicalUrl ?? (APP_URL . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))) ?>">
   <meta name="description" content="<?= e($pageDescription ?? 'Asaan Capital Ltd - Financial & Investment Services. The premium marketplace for buying, selling, franchising, and funding SMEs.') ?>">
   <meta property="og:title" content="<?= e($pageTitle ?? APP_NAME) ?>">
   <meta property="og:description" content="<?= e($pageDescription ?? 'Asaan Capital Ltd - Financial & Investment Services. The premium marketplace for buying, selling, franchising, and funding SMEs.') ?>">
@@ -61,6 +61,25 @@ if ($user) {
     ]
   }
   </script>
+  <?php if (parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/' && !isset($extraSchema)): ?>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Asaan Capital Ltd",
+    "url": "https://asaancapital.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://asaancapital.com/search?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  <?php endif; ?>
+  <?= $extraSchema ?? '' ?>
   <link rel="icon" type="image/png" href="<?= APP_URL ?>/favicon.png">
   <link rel="shortcut icon" href="<?= APP_URL ?>/favicon.png">
   <style>html.scroll-smooth { scroll-behavior: smooth; }</style>
@@ -74,13 +93,31 @@ if ($user) {
     }
   </style>
   <link rel="stylesheet" href="<?= APP_URL ?>/assets/styles.css">
+  <link rel="stylesheet" href="<?= APP_URL ?>/assets/listings.css">
   <link rel="stylesheet" href="<?= APP_URL ?>/assets/header.css">
 </head>
 <body>
+<noscript>
+  <header class="site-header pub-header" style="border-bottom:1px solid var(--dash-border);background:var(--color-bg);">
+    <div class="pub-header-inner" style="max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;height:64px;gap:32px;">
+      <a href="/" class="header-logo"><img src="/logo.png" width="140" height="35" alt="Asaan Capital Ltd" style="display:block;"></a>
+      <nav style="display:flex;gap:24px;">
+        <a href="/" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Home</a>
+        <a href="/browse/businesses" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Opportunities</a>
+        <a href="/about" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">About</a>
+        <a href="/blog" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Blog</a>
+      </nav>
+      <div style="margin-left:auto;display:flex;gap:8px;">
+        <a href="/login" style="padding:8px 16px;border:1px solid var(--dash-border);border-radius:8px;text-decoration:none;color:var(--dash-ink);font-weight:500;">Log in</a>
+        <a href="/onboarding" style="padding:8px 16px;background:var(--color-primary-vivid);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;">Sign up</a>
+      </div>
+    </div>
+  </header>
+</noscript>
 <div id="header-root"></div>
 <script src="<?= APP_URL ?>/assets/icons.js?v=<?= filemtime(__DIR__ . '/../assets/icons.js') ?>"></script>
-<script src="<?= APP_URL ?>/assets/header.js?v=<?= filemtime(__DIR__ . '/../assets/header.js') ?>"></script>
-<script src="<?= APP_URL ?>/assets/components.js?v=<?= filemtime(__DIR__ . '/../assets/components.js') ?>"></script>
+<script src="<?= APP_URL ?>/assets/header.js?v=<?= filemtime(__DIR__ . '/../assets/header.js') ?>" defer></script>
+<script src="<?= APP_URL ?>/assets/components.js?v=<?= filemtime(__DIR__ . '/../assets/components.js') ?>" defer></script>
 <script>
 const UNREAD_COUNT = <?= $unreadCount ?>;
 const CURRENT_USER = <?= json_encode($user, JSON_INVALID_UTF8_SUBSTITUTE) ?: 'null' ?>;

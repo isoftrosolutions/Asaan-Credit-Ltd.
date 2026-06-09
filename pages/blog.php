@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 $pageTitle = 'Blog — ' . APP_NAME;
-$pageDescription = 'Insights on buying, selling, valuing, and funding businesses in Nepal from the ' . APP_NAME . ' team.';
+$pageDescription = 'Insights on buying, selling, valuing, and funding businesses in Nepal from the ' . APP_NAME_LONG . ' team.';
 $forcePublicHeader = true;
 
 $posts = [];

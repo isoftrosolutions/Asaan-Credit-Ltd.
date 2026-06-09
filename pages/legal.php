@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
-$pageTitle = 'Terms & Privacy — ' . APP_NAME;
+$pageTitle = 'Terms & Privacy — ' . APP_NAME_LONG;
 $pageDescription = 'Terms of Service and Privacy Policy for Asaan Capital Ltd - Financial & Investment Services.';
 
 $breadcrumbSchema = '<script type="application/ld+json">{
@@ -29,7 +29,7 @@ require __DIR__ . '/../includes/header.php';
     <p class="pub-text">Last updated: May 26, 2026</p>
 
     <h3>1. Platform Role</h3>
-    <p><?= APP_NAME ?> is a discovery and matching platform. We connect business owners, investors, buyers, lenders, franchisors, and advisors. We do not facilitate payments, execute transactions, or provide investment advice. All deals are conducted directly between parties.</p>
+    <p><?= APP_NAME_LONG ?> is a discovery and matching platform. We connect business owners, investors, buyers, lenders, franchisors, and advisors. We do not facilitate payments, execute transactions, or provide investment advice. All deals are conducted directly between parties.</p>
 
     <h3>2. Eligibility</h3>
     <p>Users must be at least 18 years old. Businesses must be legally registered entities. All users must pass manual verification before their profiles go live. We reserve the right to reject any registration.</p>
@@ -56,7 +56,7 @@ require __DIR__ . '/../includes/header.php';
     <p>These terms are governed by the laws of Nepal. Disputes shall be subject to the exclusive jurisdiction of courts in Kathmandu, Nepal.</p>
 
     <h3>10. Indemnification</h3>
-    <p>Users agree to indemnify and hold <?= APP_NAME ?> harmless from any claims arising from their use of the platform, including but not limited to transaction disputes, misrepresentation, or breach of terms.</p>
+    <p>Users agree to indemnify and hold <?= APP_NAME_LONG ?> harmless from any claims arising from their use of the platform, including but not limited to transaction disputes, misrepresentation, or breach of terms.</p>
   </div>
 
   <div class="pub-card" style="margin-top:var(--space-8);font-size:0.9rem;">

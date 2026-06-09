@@ -28,7 +28,7 @@ require __DIR__ . '/../includes/header.php';
         <span>How To Guides</span>
       </div>
       <span class="pub-eyebrow">Step-by-Step Guides</span>
-      <h1 class="pub-h1" style="margin-top:8px;">How <?= APP_NAME ?> Works</h1>
+      <h1 class="pub-h1" style="margin-top:8px;">How <?= APP_NAME_LONG ?> Works</h1>
       <p class="pub-lead">Select your path below to get started. Every journey follows the same trusted process — tailored to your goal.</p>
     </div>
 
@@ -283,7 +283,7 @@ require __DIR__ . '/../includes/header.php';
   <div class="pub-wrap">
     <div class="pub-cta">
       <h2>Ready to Get Started?</h2>
-      <p>Join thousands of business owners, investors, and advisors on <?= APP_NAME ?>.</p>
+      <p>Join thousands of business owners, investors, and advisors on <?= APP_NAME_LONG ?>.</p>
       <div class="pub-cta-actions">
         <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">Create Free Account</a>
         <a href="<?= APP_URL ?>/contact" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,0.5);">Talk to Us</a>

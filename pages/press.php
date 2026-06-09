@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 $pageTitle = 'Press — ' . APP_NAME;
-$pageDescription = 'Press and media resources for ' . APP_NAME . '. Coverage, brand assets, and media contact.';
+$pageDescription = 'Press and media resources for ' . APP_NAME_LONG . '. Coverage, brand assets, and media contact.';
 $forcePublicHeader = true;
 $breadcrumbSchema = '<script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -15,7 +15,7 @@ require __DIR__ . '/../includes/header.php';
 
 $coverage = [
   ['Nepali Times', 'Apr 2026', 'New online marketplace connects Nepali businesses with local investors'],
-  ['TechKhabar', 'Mar 2026', APP_NAME . ' aims to digitize Nepal\'s SME investment landscape'],
+  ['TechKhabar', 'Mar 2026', APP_NAME_LONG . ' aims to digitize Nepal\'s SME investment landscape'],
   ['Business 360', 'Feb 2026', 'How a Kathmandu startup is bringing M&A infrastructure to Nepal'],
 ];
 $facts = [

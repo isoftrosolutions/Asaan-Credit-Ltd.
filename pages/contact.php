@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $pageTitle = 'Contact Us — ' . APP_NAME;
-$pageDescription = 'Get in touch with ' . APP_NAME . '. Reach our team for support, partnerships, and media enquiries.';
+$pageDescription = 'Get in touch with ' . APP_NAME_LONG . '. Reach our team for support, partnerships, and media enquiries.';
 $forcePublicHeader = true;
 $breadcrumbSchema = '<script type="application/ld+json">{
   "@context": "https://schema.org",

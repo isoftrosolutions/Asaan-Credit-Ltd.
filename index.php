@@ -26,6 +26,8 @@ $routes = [
     '/advisor/edit'                 => 'advisor/edit.php',
     '/business/create'              => 'business/create.php',
     '/business/edit'                => 'business/edit.php',
+    '/pricing'                      => 'pages/how-it-works.php',
+    '/valuation'                    => 'pages/business-valuation.php',
     '/business-valuation'           => 'pages/business-valuation.php',
     '/dashboard'                    => 'pages/dashboard.php',
     '/entrepreneur/pitch-create'    => 'entrepreneur/pitch-create.php',
@@ -51,6 +53,10 @@ $routes = [
     '/admin/pitches'                => 'admin/pitches.php',
     '/admin/reports'                => 'admin/reports.php',
     '/admin/interest-log'           => 'admin/interest-log.php',
+    '/admin/inquiries'              => 'admin/inquiries.php',
+    '/admin/inquiry-action'         => 'admin/inquiry-action.php',
+    '/admin/nda-requests'           => 'admin/nda-requests.php',
+    '/admin/business-verifications' => 'admin/business-verifications.php',
     '/admin/broadcast'              => 'admin/broadcast.php',
 
     '/admin/sectors'                => 'admin/content/sectors.php',
@@ -65,6 +71,8 @@ $routes = [
     '/api/smart-suggestions'        => 'api/smart-suggestions.php',
     '/api/toggle-save'              => 'api/toggle-save.php',
     '/api/upload'                   => 'api/upload.php',
+    '/api/send-inquiry'             => 'api/send-inquiry.php',
+    '/api/sign-nda'                 => 'api/sign-nda.php',
 ];
 
 if (preg_match('#^/browse/(businesses|investors|entrepreneurs|franchises)$#', $path, $m)) {
@@ -92,8 +100,12 @@ if (preg_match('#^/investor/(\d+)$#', $path, $m)) {
     exit;
 }
 
-if (preg_match('#^/business/(\d+)$#', $path, $m)) {
-    $_GET['id'] = $m[1];
+if (preg_match('#^/business/([a-z0-9-]+)$#', $path, $m)) {
+    if (ctype_digit($m[1])) {
+        $_GET['id'] = $m[1];
+    } else {
+        $_GET['slug'] = $m[1];
+    }
     require __DIR__ . '/business/detail.php';
     exit;
 }

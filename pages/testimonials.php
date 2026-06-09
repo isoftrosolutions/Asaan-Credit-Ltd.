@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 $pageTitle = 'Testimonials — ' . APP_NAME;
-$pageDescription = 'Real stories from business owners and investors who found their match on ' . APP_NAME . '.';
+$pageDescription = 'Real stories from business owners and investors who found their match on ' . APP_NAME_LONG . '.';
 $forcePublicHeader = true;
 $breadcrumbSchema = '<script type="application/ld+json">{
   "@context": "https://schema.org",

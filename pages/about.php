@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
-$pageTitle = 'Our Story — ' . APP_NAME;
-$pageDescription = 'Learn the story behind Asaan Capital Ltd - Financial & Investment Services. Nepal\'s trusted marketplace for business matching, M&A, and fundraising.';
+$pageTitle = 'Our Story — ' . APP_NAME_LONG;
+$pageDescription = 'Learn the story behind ' . APP_NAME_LONG . '. Nepal\'s trusted marketplace for business matching, M&A, and fundraising.';
 
 $breadcrumbSchema = '<script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -37,7 +37,7 @@ require __DIR__ . '/../includes/header.php';
   <div class="pub-wrap-narrow">
     <img src="/assets/about-team.jpg" alt="The Asaan Capital team at our Kathmandu office" loading="lazy" style="width:100%;height:auto;border-radius:1.25rem;margin-bottom:var(--space-6);box-shadow:0 8px 28px rgba(0,0,0,0.10);object-fit:cover;">
     <div class="pub-prose">
-      <p>For too long, Nepali business owners and investors have relied on fragmented networks, Facebook groups, and word-of-mouth to find the right opportunities. <?= APP_NAME ?> changes that — a single, trusted platform where verified business owners, investors, franchise brands, and advisors connect and close deals with confidence.</p>
+      <p>For too long, Nepali business owners and investors have relied on fragmented networks, Facebook groups, and word-of-mouth to find the right opportunities. <?= APP_NAME_LONG ?> changes that — a single, trusted platform where verified business owners, investors, franchise brands, and advisors connect and close deals with confidence.</p>
     </div>
   </div>
 </section>
@@ -48,7 +48,7 @@ require __DIR__ . '/../includes/header.php';
     <div class="pub-grid cols-3">
       <div class="pub-card">
         <div class="pub-card-title">Why we exist</div>
-        <p class="pub-card-text">Nepal's SME sector is full of potential — but fragmented. There is no centralized infrastructure for business matching, M&amp;A, or fundraising. <?= APP_NAME ?> fills that gap with a secure, verified marketplace designed for Nepal.</p>
+        <p class="pub-card-text">Nepal's SME sector is full of potential — but fragmented. There is no centralized infrastructure for business matching, M&amp;A, or fundraising. <?= APP_NAME_LONG ?> fills that gap with a secure, verified marketplace designed for Nepal.</p>
       </div>
       <div class="pub-card">
         <div class="pub-card-title">Our promise</div>
@@ -66,7 +66,7 @@ require __DIR__ . '/../includes/header.php';
 <section class="pub-section surface tight">
   <div class="pub-wrap-narrow">
     <div class="pub-section-head left">
-      <h2 class="pub-h2">Who Uses <?= APP_NAME ?></h2>
+      <h2 class="pub-h2">Who Uses <?= APP_NAME_LONG ?></h2>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
       <?php $personas = ['Businesses For Sale', 'Companies Seeking Capital', 'Franchise Brands', 'M&amp;A Advisors', 'Business Brokers', 'Private Investors', 'Corporate Acquirers', 'Lenders', 'PE / VC Firms', 'Family Offices', 'Deal Professionals']; ?>
@@ -127,7 +127,7 @@ require __DIR__ . '/../includes/header.php';
       <h2 class="pub-h2">The Team</h2>
     </div>
     <div class="pub-prose">
-      <p><?= APP_NAME ?> is developed and operated by <strong>Asaan Credit Ltd</strong>, built in partnership with <strong>iSoftro Solutions</strong>, in close collaboration with Nepal's startup ecosystem leaders, legal experts, and active investors.</p>
+      <p><?= APP_NAME_LONG ?> is developed and operated by <strong>Asaan Credit Ltd</strong>, built in partnership with <strong>iSoftro Solutions</strong>, in close collaboration with Nepal's startup ecosystem leaders, legal experts, and active investors.</p>
     </div>
     <div class="pub-card" style="margin-top:var(--space-5);">
       <strong>Contact</strong><br>

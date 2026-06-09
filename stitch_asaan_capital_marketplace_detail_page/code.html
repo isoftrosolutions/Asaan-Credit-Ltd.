@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Enterprise Software Co. | Asaan Capital Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#2d1600",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#dae2fd",
+                        "tertiary": "#371c00",
+                        "on-background": "#131b2e",
+                        "background": "#F8FAFC",
+                        "primary": "#00243f",
+                        "outline": "#73777f",
+                        "on-secondary-fixed": "#02006d",
+                        "primary-container": "#0b3a5e",
+                        "warning": "#F59E0B",
+                        "danger": "#DC2626",
+                        "surface-container-high": "#e2e7ff",
+                        "on-surface-variant": "#42474e",
+                        "secondary-fixed": "#e0e0ff",
+                        "tertiary-container": "#552e00",
+                        "inverse-on-surface": "#eef0ff",
+                        "surface-bright": "#faf8ff",
+                        "surface-container": "#eaedff",
+                        "surface-container-low": "#f2f3ff",
+                        "on-tertiary-container": "#cf955e",
+                        "secondary": "#1816e9",
+                        "on-secondary-fixed-variant": "#120ee7",
+                        "primary-fixed-dim": "#a4caf5",
+                        "on-tertiary": "#ffffff",
+                        "accent-soft": "#E9F0FE",
+                        "outline-variant": "#c2c7cf",
+                        "border": "#E2E8F0",
+                        "surface": "#FFFFFF",
+                        "on-primary-fixed": "#001d34",
+                        "on-primary-container": "#7fa4ce",
+                        "secondary-container": "#3b41ff",
+                        "on-primary-fixed-variant": "#20496e",
+                        "secondary-fixed-dim": "#bfc2ff",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#d0e4ff",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d2d9f4",
+                        "text-secondary": "#475569",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#d9d9ff",
+                        "inverse-surface": "#283044",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#3b6187",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#dae2fd",
+                        "on-tertiary-fixed-variant": "#673d0d",
+                        "tertiary-fixed-dim": "#f9ba80",
+                        "inverse-primary": "#a4caf5",
+                        "on-surface": "#131b2e",
+                        "success": "#16A34A",
+                        "tertiary-fixed": "#ffdcbf",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap": "64px",
+                        "inline-padding": "24px",
+                        "gutter": "24px",
+                        "stack-md": "16px",
+                        "stack-sm": "8px",
+                        "stack-lg": "24px",
+                        "container-max": "1440px",
+                        "card-padding": "32px"
+                    },
+                    "fontFamily": {
+                        "label": ["Plus Jakarta Sans"],
+                        "hero-title-mobile": ["Plus Jakarta Sans"],
+                        "section-title": ["Plus Jakarta Sans"],
+                        "card-title": ["Plus Jakarta Sans"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "metric-value": ["Plus Jakarta Sans"],
+                        "hero-title": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "hero-title-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "section-title": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "card-title": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "metric-value": ["28px", {"lineHeight": "1.1", "fontWeight": "700"}],
+                        "hero-title": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .metric-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .metric-card:hover {
+            border-bottom-color: #3b41ff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #00243f 0%, #0b3a5e 100%);
+        }
+    </style>
+</head>
+<body class="bg-background font-body-lg text-on-surface">
+<!-- Top Navigation -->
+<header class="sticky top-0 w-full z-50 bg-surface flex flex-col items-center px-inline-padding py-stack-sm max-w-container-max mx-auto shadow-sm border-b border-border">
+<div class="w-full flex justify-between items-center">
+<div class="flex items-center gap-stack-lg">
+<span class="text-metric-value font-hero-title text-primary">Asaan Capital</span>
+<nav class="hidden md:flex items-center gap-stack-md ml-stack-lg">
+<a class="text-label font-label text-text-secondary hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-label font-label text-primary font-bold border-b-2 border-primary pb-1" href="#">Businesses for Sale</a>
+<a class="text-label font-label text-text-secondary hover:text-primary transition-colors" href="#">Franchises</a>
+<a class="text-label font-label text-text-secondary hover:text-primary transition-colors" href="#">Investors &amp; Buyers</a>
+<a class="text-label font-label text-text-secondary hover:text-primary transition-colors" href="#">Invest in Startups</a>
+</nav>
+</div>
+<div class="flex items-center gap-stack-md">
+<button class="px-4 py-2 bg-primary-container text-white text-label font-label rounded-lg scale-98 active:opacity-80 transition-all">Add Listing</button>
+<button class="px-4 py-2 border border-border text-primary text-label font-label rounded-lg hover:bg-surface-variant transition-colors">Sign up</button>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">notifications</span>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-inline-padding py-stack-lg">
+<!-- Breadcrumb -->
+<nav class="flex items-center gap-2 mb-stack-lg text-label text-text-secondary">
+<span>Home</span> <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span>Businesses for Sale</span> <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-bold">Enterprise Software Co.</span>
+</nav>
+<!-- Hero Section -->
+<section class="hero-gradient rounded-xl overflow-hidden mb-section-gap text-white p-card-padding h-auto lg:h-[420px] flex flex-col lg:flex-row gap-gutter relative">
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<div class="flex flex-wrap gap-2 mb-stack-md">
+<span class="bg-success text-[10px] font-bold px-2 py-0.5 rounded tracking-wider uppercase">FOR SALE</span>
+<span class="bg-warning text-[10px] font-bold px-2 py-0.5 rounded tracking-wider uppercase text-black">PREMIUM</span>
+<span class="bg-primary-container text-[10px] font-bold px-2 py-0.5 rounded tracking-wider uppercase">FINTECH</span>
+<span class="bg-white/20 flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded tracking-wider uppercase">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span> VERIFIED
+                        </span>
+</div>
+<h1 class="font-hero-title text-hero-title mb-2">Enterprise Software Co.</h1>
+<div class="flex items-center gap-2 text-white/70 mb-4">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span class="text-body-lg">Kathmandu, Bagmati, Nepal</span>
+</div>
+<p class="text-body-lg text-white/80 max-w-2xl">Cloud B2B SaaS platform serving 200+ clients across 12 countries with 92% retention rate.</p>
+</div>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-gutter mt-stack-lg">
+<div class="metric-card p-3 rounded-lg border border-white/10">
+<p class="text-[10px] font-bold text-white/50 uppercase mb-1">Asking Price</p>
+<p class="text-card-title font-metric-value">NPR 120M</p>
+</div>
+<div class="metric-card p-3 rounded-lg border border-white/10">
+<p class="text-[10px] font-bold text-white/50 uppercase mb-1">Annual Revenue</p>
+<p class="text-card-title font-metric-value">NPR 120M</p>
+</div>
+<div class="metric-card p-3 rounded-lg border border-white/10">
+<p class="text-[10px] font-bold text-white/50 uppercase mb-1">EBITDA Margin</p>
+<p class="text-card-title font-metric-value">18.00%</p>
+</div>
+<div class="metric-card p-3 rounded-lg border border-white/10">
+<p class="text-[10px] font-bold text-white/50 uppercase mb-1">Growth (3Y)</p>
+<p class="text-card-title font-metric-value">42% CAGR</p>
+</div>
+</div>
+</div>
+<div class="lg:w-[480px] h-full flex flex-col gap-stack-md">
+<div class="flex-1 rounded-xl overflow-hidden relative group">
+<img class="w-full h-full object-cover" data-alt="A sophisticated, sunlit modern office interior featuring sleek ergonomic furniture and large windows looking over a city. The space is professional with a tech-company vibe, utilizing premium materials like glass and steel, with soft ambient lighting creating a high-trust institutional atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZ_aReFxAotlREu1h6w2GWJ2mGjA_NIlcTX0t7PgwJmzOAGdC8Sr1l6YM6OFwDWtDSDInoT52QBjymbnmVuyIDbKzQ9jJ66Q-aGfUeb6pm1whpdn3IisDo8sMn4yJZurNwSF1KRMwHDqN7eN9tKiMGLNFtfaVC2oO9lxagwhxx7x9LcJBMpMSkjJ-LcAfqrjWCVvIBFPsIK40sKJhl-zC0PcMHdFdDEocbnQL13x73HlWTwyWm_KWtA0po466TDJe7bP6AMoj0Zw"/>
+<button class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-2 text-label hover:bg-black/80 transition-all">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span>
+                        View all photos (12)
+                    </button>
+</div>
+<div class="flex gap-stack-md h-24">
+<div class="flex-1 rounded-lg overflow-hidden border border-white/20">
+<img class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity cursor-pointer" data-alt="Close up of a modern workspace with dual monitors displaying business analytics and code, soft warm lighting, professional environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXVe-pQF0aaa1TMswFyhUl5llvPSYCGQEl5Ix910BNWt-LLbIg5ZVk6qIN6CuA7gSNDaV7Tc4wgeE81ukFCUzQAi0YJDo7EQUzgH2X1lozpWzfFP0nl5j4pwT7FSgXb_PqhvxXlk0vaGN0rXDBNzwzUFf-NqIv1qKOxCiAG6OisfETLno2bt8wsx4-YbhrI4QqncaYCTFa4OJdu68Msdjtoa4L-W75txVzbA_8_bj7xbMLXTN_C_2uHiNaxmrJNHczIukf128Sew"/>
+</div>
+<div class="flex-1 rounded-lg overflow-hidden border border-white/20">
+<img class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity cursor-pointer" data-alt="Team of diverse professionals collaborating in a high-end glass-walled meeting room, late afternoon natural light casting soft shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYsBgZH2z05ghQMcg7yNDF__N-ORV_zGtORxcOREFJm10BGhB_tIAZTJQ1KSQM1jJMCJtKF2A__ravgHstvMRDG4wEinlf0gM8VFYC8ghhC-PKe2nhXSLWpGDBwSBIjGwfGOPV69xD1XMbMY2SScBUwLszIZFEbZRMoPs9CI2vXFU-IsKsCTrFxkGux-02nPu7JRYpS_kJAwDJM8-hAQvHSvyVxb84sW-6SJqfEaSiHdrQTKalVsno2h5TnmmmKd7yTGxzAylU7w"/>
+</div>
+<div class="flex-1 rounded-lg overflow-hidden border border-white/20 relative">
+<img class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity cursor-pointer" data-alt="Financial dashboard on a digital tablet with clear charts and growth metrics, clean professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDskPGjTNnWuehN5NDcLeqELsgYyb9kWQwl9OCs3QJpGRWHR7rRtuPUGPsgbW2mBVl2j2LgwVyQWKuRONHtpA8CGryKVImXiXx3jCWWwEXbLBR5jlAz090gd6HPb2NvYQZjdD0kPC0QB3h0co-hiq9NCMomp3ZCXgay_4U5CHJgDh7GW8w8AJL_GjVnyceV-cSI3sItlC6CPMT2KTRtGAVM68DzS-vakDMkm5yQrnswqoy6Vyavfg309Qn0GqweFyThXp6BJiCc2w"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Content Area -->
+<div class="flex flex-col lg:flex-row gap-gutter">
+<!-- Content Left (8 cols) -->
+<div class="flex-1 space-y-section-gap">
+<!-- Investment Snapshot -->
+<section>
+<h2 class="font-section-title text-section-title mb-stack-lg text-primary">Investment Snapshot</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter bg-white p-card-padding rounded-xl border border-border shadow-sm">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span class="text-label">Asking Price</span>
+</div>
+<span class="text-card-title font-metric-value text-primary-container">NPR 120M</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-[20px]">trending_up</span>
+<span class="text-label">Annual Revenue</span>
+</div>
+<span class="text-card-title font-metric-value">NPR 120M</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-[20px]">percent</span>
+<span class="text-label">EBITDA Margin</span>
+</div>
+<span class="text-card-title font-metric-value">18.00%</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+<span class="text-label">Employees</span>
+</div>
+<span class="text-card-title font-metric-value">45</span>
+</div>
+<div class="col-span-full h-px bg-border my-2"></div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-text-secondary">
+<span class="material-symbols-outlined text-[20px]">event_available</span>
+<span class="text-label">Established</span>
+</div>
+<span class="text-body-lg font-bold">2018</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-text-secondary">
+<span class="material-symbols-outlined text-[20px]">gavel</span>
+<span class="text-label">Legal Entity</span>
+</div>
+<span class="text-body-lg font-bold">Private Limited</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-text-secondary">
+<span class="material-symbols-outlined text-[20px]">domain</span>
+<span class="text-label">Industry</span>
+</div>
+<span class="text-body-lg font-bold">Software / SaaS</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-text-secondary">
+<span class="material-symbols-outlined text-[20px]">schema</span>
+<span class="text-label">Business Model</span>
+</div>
+<span class="text-body-lg font-bold">Subscription</span>
+</div>
+<div class="col-span-full h-px bg-border my-2"></div>
+<div class="bg-background/50 p-4 rounded-lg flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-container bg-primary-container/10 p-2 rounded-full">security_update</span>
+<div>
+<p class="text-label text-text-secondary">Monthly Revenue</p>
+<p class="font-bold">NPR 10,000,000</p>
+</div>
+</div>
+<div class="bg-background/50 p-4 rounded-lg flex items-center gap-4">
+<span class="material-symbols-outlined text-success bg-success/10 p-2 rounded-full">show_chart</span>
+<div>
+<p class="text-label text-text-secondary">Gross Margin</p>
+<p class="font-bold">74%</p>
+</div>
+</div>
+<div class="bg-background/50 p-4 rounded-lg flex items-center gap-4">
+<span class="material-symbols-outlined text-warning bg-warning/10 p-2 rounded-full">person_pin_circle</span>
+<div>
+<p class="text-label text-text-secondary">Retention Rate</p>
+<p class="font-bold">92%</p>
+</div>
+</div>
+<div class="bg-background/50 p-4 rounded-lg flex items-center gap-4">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-full">public</span>
+<div>
+<p class="text-label text-text-secondary">Countries</p>
+<p class="font-bold">12</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Business Overview -->
+<section>
+<h2 class="font-section-title text-section-title mb-stack-lg text-primary">Business Overview</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-section-gap">
+<div class="space-y-stack-lg">
+<p class="text-body-lg leading-relaxed text-on-surface/80">
+                                Leading B2B SaaS platform providing cloud-based workflow management solutions for enterprises. The company has a proven track record of strong recurring revenue, high customer retention, and significant growth potential in global markets.
+                            </p>
+<p class="text-body-lg leading-relaxed text-on-surface/80">
+                                Our platform streamlines complex operations for mid-market and enterprise clients, offering specialized modules for resource planning and real-time collaboration.
+                            </p>
+<button class="text-primary font-bold flex items-center gap-1 hover:underline">
+                                Read more <span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+<div class="bg-surface-container-low p-card-padding rounded-xl space-y-stack-md">
+<div class="flex justify-between items-center pb-2 border-b border-border">
+<span class="text-text-secondary text-label">Website</span>
+<a class="text-primary font-bold flex items-center gap-1" href="#">www.enterprisesoftware.com <span class="material-symbols-outlined text-[16px]">open_in_new</span></a>
+</div>
+<div class="flex justify-between items-center pb-2 border-b border-border">
+<span class="text-text-secondary text-label">Industry</span>
+<span class="font-bold">Fintech / SaaS</span>
+</div>
+<div class="flex justify-between items-center pb-2 border-b border-border">
+<span class="text-text-secondary text-label">Location</span>
+<span class="font-bold">Kathmandu, Nepal</span>
+</div>
+<div class="flex justify-between items-center pb-2 border-b border-border">
+<span class="text-text-secondary text-label">Year Founded</span>
+<span class="font-bold">2018</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-text-secondary text-label">Team Size</span>
+<span class="font-bold">45 Full-time</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Financial Performance -->
+<section>
+<h2 class="font-section-title text-section-title mb-stack-lg text-primary">Financial Performance</h2>
+<div class="bg-white p-card-padding rounded-xl border border-border shadow-sm">
+<div class="flex items-center gap-6 mb-8">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-primary-container rounded-full"></span>
+<span class="text-label">Revenue (NPR)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-success rounded-full"></span>
+<span class="text-label">Profit (NPR)</span>
+</div>
+</div>
+<div class="h-64 flex items-end justify-between gap-4 mb-stack-lg border-b border-border pb-4">
+<!-- Chart Mock -->
+<div class="flex-1 flex flex-col items-center gap-2 group">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-8 bg-primary-container/20 h-[30%] rounded-t-sm transition-all group-hover:bg-primary-container/40"></div>
+<div class="w-8 bg-success/20 h-[10%] rounded-t-sm transition-all group-hover:bg-success/40"></div>
+</div>
+<span class="text-label text-text-secondary">2021</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-8 bg-primary-container/40 h-[50%] rounded-t-sm transition-all group-hover:bg-primary-container/60"></div>
+<div class="w-8 bg-success/40 h-[20%] rounded-t-sm transition-all group-hover:bg-success/60"></div>
+</div>
+<span class="text-label text-text-secondary">2022</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-8 bg-primary-container/70 h-[75%] rounded-t-sm transition-all group-hover:bg-primary-container"></div>
+<div class="w-8 bg-success/70 h-[35%] rounded-t-sm transition-all group-hover:bg-success"></div>
+</div>
+<span class="text-label text-text-secondary">2023</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-8 bg-primary-container h-full rounded-t-sm shadow-lg"></div>
+<div class="w-8 bg-success h-[45%] rounded-t-sm shadow-lg"></div>
+</div>
+<span class="text-label text-text-secondary font-bold text-primary">2024 (YTD)</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-background">
+<tr>
+<th class="p-3 text-label text-text-secondary">Metric</th>
+<th class="p-3 text-label text-text-secondary">2021</th>
+<th class="p-3 text-label text-text-secondary">2022</th>
+<th class="p-3 text-label text-text-secondary">2023</th>
+<th class="p-3 text-label text-text-secondary">2024 YTD</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border">
+<tr>
+<td class="p-3 font-bold">Revenue</td>
+<td class="p-3">45M</td>
+<td class="p-3">75M</td>
+<td class="p-3">110M</td>
+<td class="p-3 text-primary font-bold">120M</td>
+</tr>
+<tr>
+<td class="p-3 font-bold">Gross Profit</td>
+<td class="p-3">28M</td>
+<td class="p-3">46M</td>
+<td class="p-3">81M</td>
+<td class="p-3">89M</td>
+</tr>
+<tr>
+<td class="p-3 font-bold">EBITDA</td>
+<td class="p-3">8M</td>
+<td class="p-3">15M</td>
+<td class="p-3">20M</td>
+<td class="p-3 text-success font-bold">21.6M</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Key Highlights -->
+<section>
+<h2 class="font-section-title text-section-title mb-stack-lg text-primary">Key Highlights</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="bg-white p-4 rounded-xl border border-border shadow-sm flex flex-col gap-3">
+<span class="material-symbols-outlined text-success bg-success/10 w-10 h-10 flex items-center justify-center rounded-lg">verified_user</span>
+<p class="font-bold text-body-sm">Strong Recurring Revenue</p>
+<p class="text-label text-text-secondary leading-relaxed">92% customer retention with long-term contracts.</p>
+</div>
+<div class="bg-white p-4 rounded-xl border border-border shadow-sm flex flex-col gap-3">
+<span class="material-symbols-outlined text-primary bg-primary/10 w-10 h-10 flex items-center justify-center rounded-lg">language</span>
+<p class="font-bold text-body-sm">Global Presence</p>
+<p class="text-label text-text-secondary leading-relaxed">Clients in 12 countries across 3 continents.</p>
+</div>
+<div class="bg-white p-4 rounded-xl border border-border shadow-sm flex flex-col gap-3">
+<span class="material-symbols-outlined text-secondary bg-secondary/10 w-10 h-10 flex items-center justify-center rounded-lg">rocket_launch</span>
+<p class="font-bold text-body-sm">Scalable Business</p>
+<p class="text-label text-text-secondary leading-relaxed">Proven SaaS model with automated operations.</p>
+</div>
+<div class="bg-white p-4 rounded-xl border border-border shadow-sm flex flex-col gap-3">
+<span class="material-symbols-outlined text-warning bg-warning/10 w-10 h-10 flex items-center justify-center rounded-lg">groups_3</span>
+<p class="font-bold text-body-sm">Experienced Team</p>
+<p class="text-label text-text-secondary leading-relaxed">Strong leadership with deep industry expertise.</p>
+</div>
+</div>
+</section>
+<!-- Documents & NDA -->
+<section>
+<h2 class="font-section-title text-section-title mb-stack-lg text-primary">Documents &amp; NDA</h2>
+<div class="bg-white p-card-padding rounded-xl border border-border shadow-sm">
+<div class="flex flex-col md:flex-row justify-between items-center gap-gutter">
+<div class="flex-1 space-y-4">
+<p class="text-body-lg text-text-secondary">Sign NDA to access detailed documents and financial information.</p>
+<div class="flex flex-wrap gap-4">
+<div class="flex items-center gap-2 text-text-secondary opacity-60">
+<span class="material-symbols-outlined">description</span>
+<span class="text-label">Financial Statements</span>
+</div>
+<div class="flex items-center gap-2 text-text-secondary opacity-60">
+<span class="material-symbols-outlined">contract</span>
+<span class="text-label">Customer Contracts</span>
+</div>
+<div class="flex items-center gap-2 text-text-secondary opacity-60">
+<span class="material-symbols-outlined">strategy</span>
+<span class="text-label">Business Plan</span>
+</div>
+</div>
+</div>
+<button class="bg-[#4d1111] hover:bg-[#3a0d0d] text-white px-8 py-3 rounded-lg font-bold transition-all shadow-lg flex items-center gap-2">
+<span class="material-symbols-outlined">lock_open</span>
+                                Sign NDA to Unlock
+                            </button>
+</div>
+</div>
+</section>
+<!-- Reason for Sale -->
+<section>
+<h2 class="font-section-title text-section-title mb-stack-lg text-primary">Reason for Sale</h2>
+<div class="bg-white p-card-padding rounded-xl border border-border">
+<p class="text-body-lg text-on-surface/80 italic">"The founder is pursuing a new venture in the EdTech space and is looking for a strategic acquirer who can take the platform to the next stage of global expansion."</p>
+</div>
+</section>
+<!-- Seller Verification -->
+<section>
+<h2 class="font-section-title text-section-title mb-stack-lg text-primary">Seller Verification</h2>
+<div class="bg-surface-container-low p-6 rounded-xl flex flex-wrap gap-6 items-center">
+<div class="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-border">
+<span class="material-symbols-outlined text-success" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-label font-bold">Email Verified</span>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-border">
+<span class="material-symbols-outlined text-success" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-label font-bold">Phone Verified</span>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-border">
+<span class="material-symbols-outlined text-success" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-label font-bold">Identity Verified</span>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-border">
+<span class="material-symbols-outlined text-success" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-label font-bold">Company Verified</span>
+</div>
+<div class="ml-auto">
+<span class="text-success font-bold text-label bg-success/10 px-3 py-1 rounded">All verifications completed</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Sidebar (4 cols) -->
+<aside class="w-full lg:w-[360px] space-y-gutter">
+<div class="sticky top-[100px] space-y-gutter">
+<!-- Main Action Card -->
+<div class="bg-white p-6 rounded-xl border border-border shadow-lg">
+<div class="mb-4">
+<p class="text-label text-text-secondary uppercase mb-1">Asking Price</p>
+<h3 class="text-hero-title-mobile font-hero-title text-primary">NPR 120,000,000</h3>
+<p class="text-success font-bold text-label">Negotiable</p>
+</div>
+<button class="w-full bg-success hover:bg-success/90 text-white py-4 rounded-lg font-bold text-body-lg mb-4 flex items-center justify-center gap-2 transition-all">
+<span class="material-symbols-outlined">chat_bubble</span>
+                            Contact Seller
+                        </button>
+<div class="flex items-center justify-center gap-2 text-label text-text-secondary mb-6">
+<span class="material-symbols-outlined text-primary text-[18px]">group</span>
+                            12 investors interested this month
+                        </div>
+<div class="space-y-3">
+<button class="w-full border border-border py-3 rounded-lg flex items-center justify-center gap-3 hover:bg-background transition-colors">
+<img class="w-4 h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB5T3wor3BTIm4oF5atLQrLHENGBUldSVa6OiLIQMe57RKBzt_0ief214qrAA7hG0HLJbNWi8qQExUWKZAwhRmFwZfM_IXKLynHNp1CCLZliibGu6GP7Ui2AtQusUluhJ9SJpx0f6g-0GBs2_M9JyEVjdDZ5cejgQ-fNA1LMe0Jz_3E0zWSMh_40SANiZsT8Q5wsLEbNP2z465AC-mqJMUZuwinOFogeZ6pQ7QUPvaWJf1TSvwzYez1YdKIzlK1sbWUdzE5gjc1g"/>
+<span class="text-label font-bold">Continue with Google</span>
+</button>
+<button class="w-full border border-border py-3 rounded-lg flex items-center justify-center gap-3 hover:bg-background transition-colors">
+<img class="w-4 h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwYPKRWCzNU465fMGQfCSJlg65MDrKHZcqKopQRV1PP3Ro4y_vJi8T1ZbYDwuKgS5uJUnSU9yX2o0nhcK3dn5DzL-isx0057pU3SE_1YUkblfdp9oUWmOOI3jUPI8m1pqnDpxaw7wakxp0cMQosFnJdD-5xLDUBtI_ojPhUqqVoZUt1yiYct7qOHpSv1EiUfpXMoe7Aal6dbWgFOGW-YBKUHY5hXb0jK4PcePwpTK5FvHT0R-8M19lm48t2Umd0DOQzl04WCAVFw"/>
+<span class="text-label font-bold">Continue with LinkedIn</span>
+</button>
+</div>
+<div class="mt-8 pt-6 border-t border-border grid grid-cols-2 gap-y-3">
+<span class="text-label text-text-secondary">Listing ID:</span>
+<span class="text-label font-bold text-right">#AC-2024-029</span>
+<span class="text-label text-text-secondary">Listed:</span>
+<span class="text-label font-bold text-right">May 29, 2024</span>
+<span class="text-label text-text-secondary">Views:</span>
+<span class="text-label font-bold text-right">1,424</span>
+<span class="text-label text-text-secondary">Inquiries:</span>
+<span class="text-label font-bold text-right">12</span>
+</div>
+<div class="mt-6 bg-warning/10 p-4 rounded-lg">
+<p class="text-body-sm text-warning font-semibold leading-relaxed">Asaan Capital Ltd is a discovery platform. We verify data independently.</p>
+</div>
+<button class="w-full mt-4 text-center text-label text-text-secondary hover:text-error flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]">report</span>
+                            Report this listing
+                        </button>
+</div>
+<!-- Trust & Activity Card -->
+<div class="bg-white rounded-xl border border-border overflow-hidden shadow-sm">
+<div class="p-6 border-b border-border bg-background/30">
+<div class="flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined">verified</span>
+<span class="text-label">Trust &amp; Verification</span>
+</div>
+</div>
+<div class="p-6 space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-text-secondary">mail</span>
+<span class="text-label">Email Verified</span>
+</div>
+<span class="material-symbols-outlined text-success">check</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-text-secondary">call</span>
+<span class="text-label">Phone Verified</span>
+</div>
+<span class="material-symbols-outlined text-success">check</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-text-secondary">person_check</span>
+<span class="text-label">Identity Verified</span>
+</div>
+<span class="material-symbols-outlined text-success">check</span>
+</div>
+</div>
+<div class="p-4 bg-success/5 border-t border-border flex items-center gap-2">
+<span class="material-symbols-outlined text-success text-[18px]">verified_user</span>
+<span class="text-label font-bold text-success">Verified Business</span>
+</div>
+</div>
+<!-- Recent Activity -->
+<div class="bg-white p-6 rounded-xl border border-border shadow-sm">
+<h4 class="font-bold text-label text-primary mb-4">Recent Activity</h4>
+<div class="space-y-4">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-[20px] mt-1">history</span>
+<div>
+<p class="text-label font-bold">New inquiry received</p>
+<p class="text-[10px] text-text-secondary">2 hours ago</p>
+</div>
+</div>
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-[20px] mt-1">visibility</span>
+<div>
+<p class="text-label font-bold">Business profile viewed</p>
+<p class="text-[10px] text-text-secondary">3 hours ago</p>
+</div>
+</div>
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-[20px] mt-1">download</span>
+<div>
+<p class="text-label font-bold">NDA downloaded</p>
+<p class="text-[10px] text-text-secondary">5 hours ago</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-4 text-center text-label text-primary font-bold hover:underline">View all activity</button>
+</div>
+<!-- Security Card -->
+<div class="bg-primary p-6 rounded-xl text-white shadow-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-[80px]">lock</span>
+</div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">security</span>
+<h4 class="font-bold text-label">Secure &amp; Confidential</h4>
+</div>
+<p class="text-label text-white/70 mb-4">All communications are secure and confidential.</p>
+<ul class="space-y-2">
+<li class="flex items-center gap-2 text-label">
+<span class="material-symbols-outlined text-success text-[18px]">check_circle</span> NDA protection
+                            </li>
+<li class="flex items-center gap-2 text-label">
+<span class="material-symbols-outlined text-success text-[18px]">check_circle</span> Secure data room
+                            </li>
+<li class="flex items-center gap-2 text-label">
+<span class="material-symbols-outlined text-success text-[18px]">check_circle</span> Confidential inquiries
+                            </li>
+</ul>
+</div>
+</div>
+</aside>
+</div>
+<!-- Related Opportunities -->
+<section class="mt-section-gap">
+<div class="flex justify-between items-end mb-stack-lg">
+<h2 class="font-section-title text-section-title text-primary">Related Opportunities</h2>
+<a class="text-primary font-bold text-label hover:underline" href="#">View all</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="bg-white rounded-xl border border-border shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
+<div class="h-40 relative">
+<img class="w-full h-full object-cover" data-alt="Corporate analytics dashboard shown on a sleek laptop, emphasizing financial growth and data-driven success, high-end professional lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjlknxH_du5c710xcePY81UzWapX5DlywJB7TwhHV0HQVHwEZQUEdBid_KzOQgLkwm4Yrse7An6r5noTC74DAZRmjEQrBT1VVIdsFrn7v3fBsH6CYIYE4chgEfFtZ1ojVzmbCvZONVw-7egpnpPjOSB5F0V_euCs8__hUFgwCuJWV-hR2BJfPlgRhkKaKY6fVSn2nT46PLrww7isDTvJA9J5aNNf8fhBkyhLHfEECDjsqPvGfesDCokpJ17X1TOP4ZS9LApZGDVA"/>
+<span class="absolute top-2 left-2 bg-warning text-[10px] font-bold px-2 py-0.5 rounded text-black">PREMIUM</span>
+</div>
+<div class="p-4">
+<h4 class="font-bold text-body-lg mb-1">SaaS Analytics Platform</h4>
+<p class="text-label text-text-secondary mb-4">Kathmandu, Nepal</p>
+<div class="grid grid-cols-2 gap-4 mb-4 bg-background p-3 rounded-lg">
+<div>
+<p class="text-[10px] text-text-secondary uppercase">Revenue</p>
+<p class="text-label font-bold">NPR 85,000,000</p>
+</div>
+<div>
+<p class="text-[10px] text-text-secondary uppercase">EBITDA</p>
+<p class="text-label font-bold">20%</p>
+</div>
+</div>
+<p class="text-primary font-bold">NPR 95,000,000</p>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-border shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
+<div class="h-40 relative">
+<img class="w-full h-full object-cover" data-alt="Modern retail environment with digital payment kiosks and high-tech checkout, bright contemporary business setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAi81O-0N2Fmw0kDCfF0KMY-Y_Ss57Qt91fxaK6668A_2QfehnOvaV2qIPpXAvO3sup-zYwraYoDk0OB0XaMyr9EtaPVRCJWDvxYyjFQk2D-81tjzxdy3-gKRBKTLQXhGbKfM9gZAgBL5Q13nvc2B0C7LS6XHs5IKk0pAk9EUEchfQZC4uL9nrjMSdh7mSpYz6LNu8gn1ElwnuJkqlCvl3UEOsWt25rFbUGlpWYsVaJGaRg-mWE2Pd4mYmP5hd70aWnaoQu44C9GA"/>
+</div>
+<div class="p-4">
+<h4 class="font-bold text-body-lg mb-1">E-commerce Business</h4>
+<p class="text-label text-text-secondary mb-4">Lalitpur, Nepal</p>
+<div class="grid grid-cols-2 gap-4 mb-4 bg-background p-3 rounded-lg">
+<div>
+<p class="text-[10px] text-text-secondary uppercase">Revenue</p>
+<p class="text-label font-bold">NPR 60,000,000</p>
+</div>
+<div>
+<p class="text-[10px] text-text-secondary uppercase">EBITDA</p>
+<p class="text-label font-bold">16%</p>
+</div>
+</div>
+<p class="text-primary font-bold">NPR 70,000,000</p>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-border shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
+<div class="h-40 relative">
+<img class="w-full h-full object-cover" data-alt="Futuristic financial technology center with data visualization walls, blue lighting, and high-performance feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmsBm0Ezb_Z4cH3OfbUCJYd5gpheDHdm5HJnYQ7eUfKkAOoadcRs8AqAS2XUZldE1wiY3W6xjWMK2THU-0sgezb3qPmPAuYzL_skcDE5MXjINlBP8J4mqUcNyhmawCZYEfKH9vTSrOPThd0dYEAMC5Zsvs63vjAIDIgiwTscWPKG_woay-hhC3v45JC5MfcoS_BekOe_JfsnSUa0d-h5qZaEf3ZafLe6DyvB_J5D_kgFIvlFP25ycM1l5zA5s8ggp-i60BFAcANg"/>
+</div>
+<div class="p-4">
+<h4 class="font-bold text-body-lg mb-1">Fintech Startup</h4>
+<p class="text-label text-text-secondary mb-4">Kathmandu, Nepal</p>
+<div class="grid grid-cols-2 gap-4 mb-4 bg-background p-3 rounded-lg">
+<div>
+<p class="text-[10px] text-text-secondary uppercase">Revenue</p>
+<p class="text-label font-bold">NPR 30,000,000</p>
+</div>
+<div>
+<p class="text-[10px] text-text-secondary uppercase">EBITDA</p>
+<p class="text-label font-bold">22%</p>
+</div>
+</div>
+<p class="text-primary font-bold">NPR 40,000,000</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-section-gap px-inline-padding max-w-container-max mx-auto flex flex-col md:flex-row justify-between border-t border-border mt-section-gap bg-surface">
+<div class="mb-stack-lg md:mb-0">
+<span class="text-card-title font-hero-title text-primary block mb-4">Asaan Capital</span>
+<p class="text-body-sm text-text-secondary max-w-sm">The leading institutional-grade business marketplace in South Asia, connecting serious entrepreneurs with global capital.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-stack-lg">
+<div class="space-y-2">
+<p class="text-label font-bold text-primary">Company</p>
+<a class="text-body-sm text-text-secondary block hover:underline" href="#">About Us</a>
+<a class="text-body-sm text-text-secondary block hover:underline" href="#">Contact</a>
+<a class="text-body-sm text-text-secondary block hover:underline" href="#">FAQ</a>
+</div>
+<div class="space-y-2">
+<p class="text-label font-bold text-primary">Resources</p>
+<a class="text-body-sm text-text-secondary block hover:underline" href="#">Privacy Policy</a>
+<a class="text-body-sm text-text-secondary block hover:underline" href="#">Terms of Service</a>
+<a class="text-body-sm text-text-secondary block hover:underline" href="#">Cookie Policy</a>
+</div>
+<div class="col-span-2 md:col-span-1 space-y-4">
+<p class="text-label font-bold text-primary">Connect</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-text-secondary cursor-pointer hover:text-primary transition-colors">hub</span>
+<span class="material-symbols-outlined text-text-secondary cursor-pointer hover:text-primary transition-colors">mail</span>
+<span class="material-symbols-outlined text-text-secondary cursor-pointer hover:text-primary transition-colors">call</span>
+</div>
+<p class="text-label text-text-secondary mt-4">© 2024 Asaan Capital Ltd. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<script>
+        // Simple interactive micro-interaction for the chart bars
+        document.querySelectorAll('.group').forEach(group => {
+            group.addEventListener('mouseenter', () => {
+                const year = group.querySelector('.text-label').innerText;
+                console.log('Hovering over year:', year);
+            });
+        });
+    </script>
+</body></html>

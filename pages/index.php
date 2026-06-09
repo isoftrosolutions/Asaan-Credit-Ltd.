@@ -14,11 +14,11 @@ $stats_investors = $homepage['stats_investors'] ?? '44,000+';
 $stats_matches = $homepage['stats_matches'] ?? '12,800+';
 $stats_deal_value = $homepage['stats_deal_value'] ?? 'NPR 850 Cr+';
 
-$featured_biz = db()->query("SELECT * FROM businesses WHERE is_published=1 AND is_featured=1 ORDER BY rating DESC LIMIT 6")->fetchAll();
+$featured_biz = db()->query("SELECT * FROM businesses WHERE status='approved' AND is_featured=1 ORDER BY rating DESC LIMIT 6")->fetchAll();
 $featured_pitches = db()->query("SELECT p.*, s.name as sector_name FROM pitches p LEFT JOIN sectors s ON p.sector_id = s.id WHERE p.is_published=1 ORDER BY p.id DESC LIMIT 6")->fetchAll();
 $faqs = db()->query("SELECT * FROM faqs WHERE is_active=1 ORDER BY sort_order LIMIT 4")->fetchAll();
 
-$pageTitle = APP_NAME;
+$pageTitle = APP_NAME_LONG;
 $forcePublicHeader = true; // home keeps the public marketing nav even when logged in
 require __DIR__ . '/../includes/header.php';
 ?>
@@ -166,7 +166,7 @@ require __DIR__ . '/../includes/header.php';
         <?php endforeach; ?>
       </div>
       <div>
-        <h2 class="pub-h2" style="color:var(--color-primary);margin:0 0 16px;">Businesses for Sale on <?= APP_NAME ?></h2>
+        <h2 class="pub-h2" style="color:var(--color-primary);margin:0 0 16px;">Businesses for Sale on <?= APP_NAME_LONG ?></h2>
         <p class="pub-lead" style="margin:0 0 24px;">Explore pre-screened businesses for sale across diverse sectors in Nepal. Find ventures looking for a full sale, raising capital, or seeking a business loan. Register as an investor to connect and invest in them.</p>
         <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-primary btn-lg">View All Businesses</a>
       </div>
@@ -276,7 +276,7 @@ require __DIR__ . '/../includes/header.php';
   <div class="pub-wrap-narrow">
     <div class="pub-section-head">
       <h2 class="pub-h2" style="color:var(--color-primary);margin-bottom:16px;">Frequently Asked Questions</h2>
-      <p class="pub-text">Everything you need to know about <?= APP_NAME ?>.</p>
+      <p class="pub-text">Everything you need to know about <?= APP_NAME_LONG ?>.</p>
     </div>
     <?php $first = true; foreach ($faqs as $faq): ?>
     <div class="faq-item" style="background:white;border-radius:12px;padding:16px;margin-bottom:8px;border:1px solid var(--dash-border);<?= $first ? 'border-left:4px solid #6B1D22;' : '' ?>">

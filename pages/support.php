@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 $faqs = db()->query("SELECT * FROM faqs WHERE is_active=1 ORDER BY sort_order")->fetchAll();
 
 $pageTitle = 'FAQ & Support — ' . APP_NAME;
-$pageDescription = 'Frequently asked questions about Asaan Capital Ltd - Financial & Investment Services. Learn how our platform works for business owners, investors, and advisors.';
+$pageDescription = 'Frequently asked questions about ' . APP_NAME_LONG . '. Learn how our platform works for business owners, investors, and advisors.';
 
 $breadcrumbSchema = '<script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -54,7 +54,7 @@ $faqSchema = '<script type="application/ld+json">
       "name": "What types of transactions are supported?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "InvestMatch supports a wide range of transaction types including business sale, stake acquisition, investment partnership, loan-based arrangements, and franchise opportunities. Each listing specifies the transaction type so you can filter and find opportunities that match your goals."
+        "text": "Asaan Capital supports a wide range of transaction types including business sale, stake acquisition, investment partnership, loan-based arrangements, and franchise opportunities. Each listing specifies the transaction type so you can filter and find opportunities that match your goals."
       }
     },
     {
@@ -62,7 +62,7 @@ $faqSchema = '<script type="application/ld+json">
       "name": "Is there a fee to use InvestMatch?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "InvestMatch offers a free basic plan that allows you to browse listings and create a profile. Premium plans with additional features such as advanced analytics, priority support, and enhanced visibility are available for a subscription fee. A finder\'s fee may apply for successfully facilitated transactions."
+        "text": "Asaan Capital offers a free basic plan that allows you to browse listings and create a profile. Premium plans with additional features such as advanced analytics, priority support, and enhanced visibility are available for a subscription fee. A finder\'s fee may apply for successfully facilitated transactions."
       }
     },
     {
@@ -92,7 +92,7 @@ require __DIR__ . '/../includes/header.php';
 <div class="pub-wrap-narrow" style="padding-bottom:4rem;">
   <div class="pub-section-head" style="margin-bottom:var(--space-6);">
     <h1 class="pub-h1">Frequently Asked Questions</h1>
-    <p class="pub-lead">Find answers about using <?= APP_NAME ?> — whether you're a business owner, investor, franchisor, or advisor.</p>
+    <p class="pub-lead">Find answers about using <?= APP_NAME_LONG ?> — whether you're a business owner, investor, franchisor, or advisor.</p>
   </div>
 
   <!-- Filter tabs -->

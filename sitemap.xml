@@ -16,6 +16,11 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://asaancapital.com/pricing</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://asaancapital.com/support</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
@@ -61,38 +66,53 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://asaancapital.com/business/detail.php?id=1</loc>
+    <loc>https://asaancapital.com/valuation</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://asaancapital.com/business/1</loc>
     <priority>0.5</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://asaancapital.com/business/detail.php?id=2</loc>
+    <loc>https://asaancapital.com/business/2</loc>
     <priority>0.5</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://asaancapital.com/business/detail.php?id=3</loc>
+    <loc>https://asaancapital.com/business/3</loc>
     <priority>0.5</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://asaancapital.com/business/detail.php?id=4</loc>
+    <loc>https://asaancapital.com/business/4</loc>
     <priority>0.5</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://asaancapital.com/business/detail.php?id=5</loc>
+    <loc>https://asaancapital.com/business/5</loc>
     <priority>0.5</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://asaancapital.com/entrepreneur/pitch-edit</loc>
-    <priority>0.5</priority>
+    <loc>https://asaancapital.com/blog</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://asaancapital.com/blog/selling-your-business-confidentially-a-short-guide</loc>
+    <priority>0.6</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://asaancapital.com/pages/404.php</loc>
-    <priority>0.1</priority>
-    <changefreq>never</changefreq>
+    <loc>https://asaancapital.com/blog/5-things-investors-look-for-before-they-fund-you</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://asaancapital.com/blog/how-to-value-a-small-business-in-nepal</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
   </url>
 </urlset>

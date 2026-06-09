@@ -9,7 +9,7 @@ $breadcrumbSchema = '<script type="application/ld+json">{
   "@type": "BreadcrumbList",
   "itemListElement": [
     {"@type": "ListItem","position":1,"name":"Home","item":"'.APP_URL.'/"},
-    {"@type": "ListItem","position":2,"name":"Businesses","item":"'.APP_URL.'/discover/businesses.php"}
+    {"@type": "ListItem","position":2,"name":"Businesses","item":"'.APP_URL.'/browse/businesses"}
   ]
 }</script>';
 
@@ -24,7 +24,7 @@ $priceMax = $_GET['price_max'] ?? '';
 $keyword = $_GET['keyword'] ?? '';
 $sort = $_GET['sort'] ?? 'newest';
 
-$where = ['b.is_published = 1', 'b.is_hidden = 0'];
+$where = ["b.status = 'approved'", 'b.is_hidden = 0'];
 $params = [];
 
 if ($sectorId !== '') {
@@ -103,22 +103,31 @@ if ($queryParams) {
 }
 
 $badgeMap = [
-    'sale' => 'Business for Sale',
+    'business_sale' => 'Business for Sale',
+    'investment' => 'Investment Opportunity',
     'partial_stake' => 'Partial Stake Sale',
     'loan' => 'Business Loan',
     'asset_sale' => 'Asset Sale',
+    'franchise' => 'Franchise Opportunity',
+    'partner' => 'Looking for Partner',
 ];
 $badgeClass = [
-    'sale' => 'tx-badge-sale',
+    'business_sale' => 'tx-badge-sale',
+    'investment' => 'tx-badge-partial',
     'partial_stake' => 'tx-badge-partial',
     'loan' => 'tx-badge-loan',
     'asset_sale' => 'tx-badge-asset',
+    'franchise' => 'tx-badge-sale',
+    'partner' => 'tx-badge-partial',
 ];
 $listingTypeLabels = [
-    'sale' => 'For Sale',
+    'business_sale' => 'For Sale',
+    'investment' => 'Investment',
     'partial_stake' => 'Partial Stake',
     'loan' => 'Loan',
     'asset_sale' => 'Asset Sale',
+    'franchise' => 'Franchise',
+    'partner' => 'Partner',
 ];
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
@@ -181,7 +190,7 @@ $listingTypeLabels = [
       </div>
 
       <button class="btn btn-primary btn-sm" style="width:100%;">Apply Filters</button>
-      <a href="<?= APP_URL ?>/discover/businesses.php" class="btn btn-ghost btn-sm" style="width:100%;display:block;text-align:center;">Reset</a>
+      <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-ghost btn-sm" style="width:100%;display:block;text-align:center;">Reset</a>
     </div>
 
     <div>
@@ -211,7 +220,7 @@ $listingTypeLabels = [
             <span class="filter-chip-remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
           </a>
         <?php endif; ?>
-        <a href="<?= APP_URL ?>/discover/businesses.php" class="filter-chip" style="background:transparent;color:var(--color-text-muted);font-weight:500;">Clear all</a>
+        <a href="<?= APP_URL ?>/browse/businesses" class="filter-chip" style="background:transparent;color:var(--color-text-muted);font-weight:500;">Clear all</a>
       </div>
       <?php endif; ?>
 
@@ -235,12 +244,12 @@ $listingTypeLabels = [
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6"/><path d="M11 8v6"/></svg>
           <h3>No businesses found</h3>
           <p>Try adjusting your filters or search criteria to find more results.</p>
-          <a href="<?= APP_URL ?>/discover/businesses.php" class="btn btn-primary btn-sm">Clear All Filters</a>
+          <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-primary btn-sm">Clear All Filters</a>
         </div>
       <?php else: ?>
         <div class="listing-grid">
           <?php foreach ($businesses as $b): ?>
-            <div class="browse-card" onclick="location.href='<?= APP_URL ?>/business/detail.php?id=<?= $b['id'] ?>'">
+            <div class="browse-card" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$b['id'] ?>'">
               <div class="card-header-row">
                 <span>
                   <span class="tx-badge <?= $badgeClass[$b['listing_type']] ?? '' ?>"><?= $badgeMap[$b['listing_type']] ?? e($b['listing_type']) ?></span>
@@ -248,24 +257,44 @@ $listingTypeLabels = [
                     <span class="premium-ribbon" style="margin-left:4px;">PREMIUM</span>
                   <?php endif; ?>
                 </span>
-                <span class="rating-badge"><?= e($b['rating']) ?></span>
-              </div>
-              <div class="card-title"><?= e($b['business_name']) ?></div>
-              <div class="card-meta">
-                <?php if (!empty($b['sector_name'])): ?><?= e($b['sector_name']) ?><?php endif; ?>
-                <?php if (!empty($b['province'])): ?>&bull; <?= e($b['province']) ?><?php endif; ?>
-              </div>
-              <div class="card-desc"><?= e(mb_substr($b['description'] ?? '', 0, 120)) ?><?= mb_strlen($b['description'] ?? '') > 120 ? '...' : '' ?></div>
-              <div class="card-footer">
-                <div class="card-price"><?= money($b['asking_price']) ?></div>
-                <div class="card-actions">
-                  <?php if ($user): ?>
-                    <button class="btn btn-sm <?= in_array($b['id'], $savedIds) ? 'btn-primary' : 'btn-ghost' ?>" onclick="event.stopPropagation();fetch('<?= APP_URL ?>/api/toggle-save.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'listing_type=business&listing_id=<?= $b['id'] ?>&_csrf=<?= csrf_token() ?>'}).then(r=>r.json()).then(d=>{if(d.saved){this.classList.remove('btn-ghost');this.classList.add('btn-primary')}else{this.classList.remove('btn-primary');this.classList.add('btn-ghost')}})">
-                      <?= in_array($b['id'], $savedIds) ? 'Saved' : 'Save' ?>
-                    </button>
-                  <?php endif; ?>
-                  <button class="btn btn-accent btn-sm" onclick="event.stopPropagation();location.href='<?= APP_URL ?>/business/detail.php?id=<?= $b['id'] ?>'">View Details</button>
+                <div class="card-rating">
+                  <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <span><?= e($b['rating']) ?></span>
                 </div>
+              </div>
+              <h3 class="card-title"><?= e($b['business_name']) ?></h3>
+              <div class="card-body">
+                <div class="card-body-left">
+                  <p class="card-desc"><?= e(mb_substr($b['description'] ?? '', 0, 150)) ?><?= mb_strlen($b['description'] ?? '') > 150 ? '...' : '' ?></p>
+                </div>
+                <?php if (!empty($b['thumbnail_url'])): ?>
+                  <img class="card-thumb" src="<?= e($b['thumbnail_url']) ?>" alt="<?= e($b['business_name']) ?>" loading="lazy">
+                <?php else: ?>
+                  <div class="card-thumb-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                  </div>
+                <?php endif; ?>
+              </div>
+              <div class="card-location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <?= e($b['district'] ? $b['district'] . ', ' : '') ?><?= e($b['province'] ?? 'Nepal') ?>
+              </div>
+              <div class="card-data-grid">
+                <div class="card-data-item">
+                  <span class="card-data-label">Run Rate Sales</span>
+                  <span class="card-data-value"><?= money($b['annual_revenue'] ?? 0) ?></span>
+                </div>
+                <div class="card-data-item">
+                  <span class="card-data-label">EBITDA Margin</span>
+                  <span class="card-data-value"><?= e($b['ebitda_pct'] ?? '—') ?>%</span>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="card-footer-left">
+                  <span class="card-footer-label"><?= $listingTypeLabels[$b['listing_type']] ?? e($b['listing_type']) ?></span>
+                  <span class="card-footer-price"><?= money($b['asking_price'] ?? 0) ?></span>
+                </div>
+                <button class="btn-view-details" onclick="event.stopPropagation();location.href='<?= APP_URL ?>/business/<?= (int)$b['id'] ?>'">View Details</button>
               </div>
             </div>
           <?php endforeach; ?>
@@ -277,4 +306,18 @@ $listingTypeLabels = [
   </form>
 </div>
 
+<?php if (!empty($businesses)): ?>
+<script type="application/ld+json"><?= json_encode([
+  '@context' => 'https://schema.org',
+  '@type' => 'ItemList',
+  'name' => 'Businesses for Sale in Nepal',
+  'itemListElement' => array_map(function($b, $i) {
+    return [
+      '@type' => 'ListItem',
+      'position' => $i + 1,
+      'url' => APP_URL . '/business/' . (int)$b['id'],
+    ];
+  }, $businesses, array_keys($businesses)),
+], JSON_UNESCAPED_SLASHES) ?></script>
+<?php endif; ?>
 <?php include __DIR__ . '/../includes/footer.php'; ?>

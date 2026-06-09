@@ -46,7 +46,7 @@ require __DIR__ . '/../includes/header.php';
       <span class="pub-eyebrow">Free Tool</span>
       <h1 class="pub-h1">Business Valuation Calculator</h1>
       <p class="pub-lead">
-        At <?= APP_NAME ?>, we define Business Valuation as a technique used to capture the true value of a business based on similar comparable companies. Our comparable data includes publicly traded companies across global stock exchanges and private transactions of thousands of small businesses, which makes our valuation estimate as precise as it can get. Curious to know the valuation of your business? Try our simple, yet one of the most effective, online valuation calculators out there &mdash; for free.
+        At <?= APP_NAME_LONG ?>, we define Business Valuation as a technique used to capture the true value of a business based on similar comparable companies. Our comparable data includes publicly traded companies across global stock exchanges and private transactions of thousands of small businesses, which makes our valuation estimate as precise as it can get. Curious to know the valuation of your business? Try our simple, yet one of the most effective, online valuation calculators out there &mdash; for free.
       </p>
     </div>
   </div>

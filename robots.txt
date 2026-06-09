@@ -1,3 +1,24 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /api/
+Disallow: /connections/
+Disallow: /entrepreneur/
+Disallow: /franchise/
+Disallow: /advisor/
+Disallow: /investor/profile-create
+Disallow: /investor/profile-edit
+Disallow: /investor/preferences-edit
+Disallow: /investor/documents-edit
+Disallow: /notifications/
+Disallow: /business/create
+Disallow: /business/edit
+Disallow: /my-saved
+Disallow: /storage/
+Disallow: /onboarding
+Disallow: /pages/404.php
+Disallow: /business/detail.php
+Disallow: /entrepreneur/pitch-edit
+
 Sitemap: https://asaancapital.com/sitemap.xml

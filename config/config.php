@@ -1,6 +1,7 @@
 <?php
 if (defined('APP_NAME')) return;
-define('APP_NAME', 'Asaan Capital Ltd - Financial & Investment Services');
+define('APP_NAME', 'Asaan Capital Ltd');
+define('APP_NAME_LONG', 'Asaan Capital Ltd - Financial & Investment Services');
 
 // Environment-aware base URL. On localhost the app lives under /assan, so assets
 // and APP_URL-prefixed links resolve to the dev server; everything else uses prod.
@@ -12,20 +13,20 @@ if ($__host === 'localhost' || $__host === '127.0.0.1' || str_starts_with($__hos
 }
 unset($__host);
 
-define('DEBUG_MODE', false);
+define('DEBUG_MODE', true);
 
 define('DB_HOST', '127.0.0.1');
 define('DB_PORT', '3306');
 
-// --- Local dev DB (uncomment for local dev) ---
-// define('DB_NAME', 'invest_match');
-// define('DB_USER', 'root');
-// define('DB_PASS', '');
+// --- Local dev DB ---
+define('DB_NAME', 'invest_match');
+define('DB_USER', 'root');
+define('DB_PASS', '');
 
-// --- Production DB ---
-define('DB_NAME', 'asaancapital_assan_capital');
-define('DB_USER', 'asaancapital_asaancapital');
-define('DB_PASS', 'J3ssEl.*}@OrYzmy');
+// --- Production DB (comment out for local dev) ---
+// define('DB_NAME', 'asaancapital_assan_capital');
+// define('DB_USER', 'asaancapital_asaancapital');
+// define('DB_PASS', 'J3ssEl.*}@OrYzmy');
 define('DB_CHARSET', 'utf8mb4');
 
 define('SESSION_LIFETIME', 1800);

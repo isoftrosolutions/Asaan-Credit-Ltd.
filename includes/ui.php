@@ -98,6 +98,10 @@ if (!defined('UI_PHP_LOADED')) {
     function ui_admin_links(): array {
         return [
             ['Verification Queue', '/admin/verification', 'document'],
+            ['Business Verifications', '/admin/business-verifications', 'check'],
+            ['Business Inquiries', '/admin/inquiries', 'mail'],
+            ['NDA Requests', '/admin/nda-requests', 'lock'],
+            ['Interest Log', '/admin/interest-log', 'share'],
             ['Users', '/admin/users', 'users'],
             ['Pitches', '/admin/pitches', 'tag'],
             ['Reports', '/admin/reports', 'lock'],

@@ -1,29 +1,22 @@
 const PUBLIC_LINKS = [
   { label: 'Home', url: '/', icon: 'home' },
-  { label: 'How It Works', url: '/how-it-works', icon: 'document' },
-  { label: 'Valuation', url: '/business-valuation', icon: 'chart' },
-  { label: 'Support', url: '/support', icon: 'message' },
+  { label: 'Investment & Opportunity', url: '/browse/businesses', icon: 'chart' },
+  { label: 'About Us', url: '/about', icon: 'tag' },
+  { label: 'Blog', url: '/blog', icon: 'document' },
 ];
 
-// SMERGERS-style public mega-menu (Phase 1)
-const PUBLIC_NAV = [
-  { label: 'Home', url: '/' },
+const INVESTMENT_LINKS = [
   { label: 'Businesses for Sale', url: '/browse/businesses' },
   { label: 'Franchises', url: '/browse/franchises' },
   { label: 'Investors & Buyers', url: '/browse/investors' },
   { label: 'Invest in Startups', url: '/browse/entrepreneurs' },
-  { label: 'How To', url: '/how-it-works' },
-  { label: 'Q & A', url: '/support' },
 ];
 
-const COMPANY_LINKS = [
-  { label: 'Our Story', url: '/about' },
-  { label: 'Contact Us', url: '/contact' },
-  { label: 'Careers', url: '/careers' },
-  { label: 'Press', url: '/press' },
-  { label: 'Testimonials', url: '/testimonials' },
+const PUBLIC_NAV = [
+  { label: 'Home', url: '/' },
+  { label: 'Investment & Opportunity', url: '/browse/businesses' },
+  { label: 'About Us', url: '/about' },
   { label: 'Blog', url: '/blog' },
-  { label: 'Industry Watch', url: '/industry-watch' },
 ];
 
 const ADD_PROFILE_LINKS = [
@@ -200,12 +193,6 @@ function renderPublicHeader(root, user, isLoggedIn, unread) {
     `<a href="${l.url}" class="pub-nav-link${isActive(l.url) ? ' active' : ''}"${isActive(l.url) ? ' aria-current="page"' : ''}>${l.label}</a>`
   ).join('');
 
-  const companyDD = `
-    <div class="pub-dd pub-dd-company">
-      <button type="button" class="pub-nav-link pub-dd-toggle" onclick="pubToggleDD(this)" aria-haspopup="true" aria-expanded="false">Company ${CARET}</button>
-      <div class="pub-dd-menu" role="menu">${COMPANY_LINKS.map(l => `<a href="${l.url}" role="menuitem">${l.label}</a>`).join('')}</div>
-    </div>`;
-
   const addProfileDD = `
     <div class="pub-dd pub-dd-add">
       <button type="button" class="pub-add-btn pub-dd-toggle" onclick="pubToggleDD(this)" aria-haspopup="true" aria-expanded="false">${ICONS.plus}<span>Add Profile</span>${CARET}</button>
@@ -257,8 +244,6 @@ function renderPublicHeader(root, user, isLoggedIn, unread) {
   // Mobile drawer
   let drawer = '';
   drawer += PUBLIC_NAV.map(l => `<a href="${l.url}" class="${isActive(l.url) ? 'active' : ''}" onclick="closeMobileMenu()">${l.label}</a>`).join('');
-  drawer += `<div class="mobile-nav-divider"></div><div class="pub-drawer-label">Company</div>`;
-  drawer += COMPANY_LINKS.map(l => `<a href="${l.url}" onclick="closeMobileMenu()">${l.label}</a>`).join('');
   drawer += `<div class="mobile-nav-divider"></div><div class="pub-drawer-label">Add a Profile</div>`;
   drawer += ADD_PROFILE_LINKS.map(l => `<a href="${l.url}" onclick="closeMobileMenu()">${ICONS.plus} ${l.label}</a>`).join('');
   drawer += `<div class="mobile-nav-divider"></div>`;
@@ -274,23 +259,15 @@ function renderPublicHeader(root, user, isLoggedIn, unread) {
 
   root.innerHTML = `
     <header class="site-header pub-header">
-      <div class="pub-topbar">
-        <div class="pub-topbar-inner">
-          <a href="/" class="header-logo"><img src="/logo.png" width="160" height="40" alt="Asaan Capital Ltd"></a>
-          ${searchForm}
-          <div class="pub-topbar-actions">
-            ${addProfileDD}
-            ${right}
-            <button class="header-mobile-toggle" id="header-mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle menu" aria-expanded="false" aria-controls="header-nav">${ICONS.menu}</button>
-          </div>
+      <div class="pub-header-inner">
+        <a href="/" class="header-logo"><img src="/logo.png" width="140" height="35" alt="Asaan Capital Ltd"></a>
+        <nav class="pub-nav">${mainNav}</nav>
+        <div class="pub-header-actions">
+          ${addProfileDD}
+          ${right}
+          <button class="header-mobile-toggle" id="header-mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle menu" aria-expanded="false" aria-controls="header-nav">${ICONS.menu}</button>
         </div>
       </div>
-      <nav class="pub-mainnav">
-        <div class="pub-mainnav-inner">
-          ${mainNav}
-          ${companyDD}
-        </div>
-      </nav>
       <nav class="header-nav" id="header-nav">
         <div class="header-nav-header">
           <a href="/" class="header-logo-mobile"><img src="/logo.png" width="120" height="28" alt="Asaan Capital Ltd" style="height:28px;width:auto;"></a>

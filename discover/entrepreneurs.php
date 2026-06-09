@@ -56,7 +56,7 @@ $countStmt->execute($params);
 
 $p = paginate($countStmt, $page, $perPage);
 
-$sql = "SELECT p.*, s.name as sector_name, u.name as user_name
+$sql = "SELECT p.*, s.name as sector_name, u.name as user_name, u.profile_photo
         FROM pitches p
         LEFT JOIN sectors s ON p.sector_id = s.id
         JOIN users u ON p.user_id = u.id
@@ -192,26 +192,52 @@ if ($queryParams) {
           <?php foreach ($pitches as $pitch): ?>
             <div class="pitch-card" onclick="location.href='<?= APP_URL ?>/pitch/<?= $pitch['id'] ?>'">
               <div class="pitch-header">
-                <div class="avatar avatar-sm"><?= e(mb_substr($pitch['user_name'] ?? '', 0, 2)) ?></div>
-                <div style="flex:1;min-width:0;">
-                  <strong style="font-size:0.95rem;"><?= e(mb_substr($pitch['tagline'] ?? $pitch['short_summary'] ?? '', 0, 60)) ?></strong>
-                  <div class="text-xs"><?= e($pitch['sector_name'] ?? '') ?> &bull; Verified</div>
-                </div>
-                <?php if ($user): ?>
-                  <button class="btn btn-sm <?= in_array($pitch['id'], $savedIds) ? 'btn-primary' : 'btn-ghost' ?>" onclick="event.stopPropagation();fetch('<?= APP_URL ?>/api/toggle-save.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'listing_type=pitch&listing_id=<?= $pitch['id'] ?>&_csrf=<?= csrf_token() ?>'}).then(r=>r.json()).then(d=>{if(d.saved){this.classList.remove('btn-ghost');this.classList.add('btn-primary')}else{this.classList.remove('btn-primary');this.classList.add('btn-ghost')}})">
-                    <?= in_array($pitch['id'], $savedIds) ? 'Saved' : 'Save' ?>
-                  </button>
+                <?php if (!empty($pitch['profile_photo'])): ?>
+                  <img class="pitch-avatar" src="<?= e($pitch['profile_photo']) ?>" alt="">
+                <?php else: ?>
+                  <div class="pitch-avatar-initials"><?= e(mb_substr($pitch['user_name'] ?? 'EN', 0, 2)) ?></div>
                 <?php endif; ?>
-              </div>
-              <div class="pitch-summary"><?= e(mb_substr($pitch['short_summary'] ?? $pitch['problem_statement'] ?? '', 0, 200)) ?></div>
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:0.75rem;border-top:1px solid var(--color-border);">
-                <div>
-                  <span class="pitch-amount"><?= money($pitch['funding_amount'] ?? 0) ?></span>
-                  <?php if ($pitch['equity_offered']): ?>
-                    <span class="pitch-equity"> for <?= e($pitch['equity_offered']) ?>%</span>
-                  <?php endif; ?>
+                <div style="flex:1;min-width:0;">
+                  <div class="pitch-name"><?= e($pitch['user_name'] ?? 'Entrepreneur') ?></div>
+                  <div class="pitch-role"><?= e(ucfirst(str_replace('_', ' ', $pitch['stage'] ?? ''))) ?> &middot; <?= e($pitch['sector_name'] ?? '') ?></div>
                 </div>
-                <span class="pitch-stage"><?= e(ucfirst(str_replace('_', ' ', $pitch['stage'] ?? ''))) ?></span>
+              </div>
+              <div class="pitch-contact-row">
+                <div class="pitch-contact-icon" title="Email">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <div class="pitch-contact-icon" title="Phone">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+                </div>
+              </div>
+              <div class="pitch-section">
+                <div class="pitch-section-label">Background</div>
+                <div class="pitch-section-text"><?= e(mb_substr($pitch['short_summary'] ?? $pitch['problem_statement'] ?? '', 0, 200)) ?></div>
+              </div>
+              <div class="pitch-location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Nepal
+              </div>
+              <div class="pitch-rating">
+                <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                <span>Verified</span>
+              </div>
+              <div class="pitch-data-grid">
+                <div class="pitch-data-item">
+                  <span class="pitch-data-label">Sector</span>
+                  <span class="pitch-data-value"><?= e($pitch['sector_name'] ?? '—') ?></span>
+                </div>
+                <div class="pitch-data-item">
+                  <span class="pitch-data-label">Stage</span>
+                  <span class="pitch-data-value"><?= e(ucfirst(str_replace('_', ' ', $pitch['stage'] ?? ''))) ?></span>
+                </div>
+              </div>
+              <div class="pitch-footer">
+                <div>
+                  <div class="pitch-funding-label">Funding Range</div>
+                  <div class="pitch-funding"><?= money($pitch['funding_amount'] ?? 0) ?><?= $pitch['equity_offered'] ? ' for ' . e($pitch['equity_offered']) . '%' : '' ?></div>
+                </div>
+                <button class="btn-send-proposal" onclick="event.stopPropagation();location.href='<?= APP_URL ?>/pitch/<?= $pitch['id'] ?>'">Send Proposal</button>
               </div>
             </div>
           <?php endforeach; ?>
