@@ -568,6 +568,181 @@ p { margin-bottom: 1rem; }
   align-items: center;
 }
 
+.browse-card .card-footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.browse-card .card-footer-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.browse-card .card-footer-price {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-primary-vivid);
+}
+
+.btn-view-details {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 18px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: inherit;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--motion-fast), box-shadow var(--motion-fast), transform var(--motion-fast);
+}
+
+.btn-view-details:hover {
+  background: #4A1317;
+  border-color: #4A1317;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(107, 29, 34, 0.25);
+}
+
+.btn-view-details:active {
+  transform: translateY(0);
+}
+
+.btn-view-details:focus-visible {
+  outline: 2px solid var(--color-primary-vivid);
+  outline-offset: 2px;
+}
+
+/* ── Card body layout ────────────────────────────────────────── */
+.browse-card .card-body {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.browse-card .card-body-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-thumb {
+  width: 100px;
+  height: 75px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.card-thumb-placeholder {
+  width: 100px;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-soft);
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.card-thumb-placeholder svg {
+  width: 28px;
+  height: 28px;
+  color: var(--color-text-muted);
+  opacity: 0.4;
+}
+
+/* ── Rating stars ────────────────────────────────────────────── */
+.card-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #C77A12;
+}
+
+.card-rating svg {
+  width: 14px;
+  height: 14px;
+  color: #C77A12;
+}
+
+/* ── Badges ──────────────────────────────────────────────────── */
+.tx-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: var(--radius-pill);
+  background: var(--color-bg-soft);
+  color: var(--color-text-muted);
+}
+
+.premium-ribbon {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, #C77A12, #E8A83A);
+  color: #fff;
+}
+
+/* ── Location ────────────────────────────────────────────────── */
+.card-location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  margin: 0.5rem 0;
+}
+
+.card-location svg {
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+/* ── Data grid (revenue / ebitda) ────────────────────────────── */
+.card-data-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 0.5rem 0;
+}
+
+.card-data-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.card-data-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+}
+
+.card-data-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-heading);
+}
+
 /* Pitch cards (entrepreneurs) */
 .pitch-card {
   cursor: pointer;
