@@ -657,6 +657,36 @@ body.has-dashboard-sidebar .sidebar-mobile-toggle { display: none; }
 }
 .pub-avatar-toggle:hover { background: var(--color-bg-soft); }
 
+/* ── Company dropdown in nav ──────────────────────────────────── */
+.pub-dd-company .pub-nav-link {
+  cursor: pointer;
+  background: none;
+  font-family: inherit;
+  line-height: 1;
+  border: none;
+  white-space: nowrap;
+  position: relative;
+}
+.pub-dd-company .pub-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--color-primary-vivid);
+  transition: width 0.2s ease, left 0.2s ease;
+  border-radius: 1px;
+}
+.pub-dd-company .pub-nav-link:hover::after,
+.pub-dd-company .pub-nav-link.active::after {
+  width: 60%;
+  left: 20%;
+}
+.pub-dd-company .pub-dd-menu {
+  min-width: 170px;
+}
+
 /* Hide mobile drawer on desktop */
 @media (min-width: 821px) {
   .pub-header .header-nav { display: none; }
