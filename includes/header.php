@@ -99,18 +99,24 @@ if ($user) {
 <body>
 <a href="#main-content" class="skip-link">Skip to main content</a>
 <noscript>
-  <header class="site-header pub-header" style="border-bottom:1px solid var(--dash-border);background:var(--color-bg);">
-    <div class="pub-header-inner" style="max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;height:64px;gap:32px;">
-      <a href="/" class="header-logo"><img src="/final_logo.png" width="140" height="35" alt="Asaan Capital Ltd" style="display:block;"></a>
-      <nav style="display:flex;gap:24px;">
-        <a href="/" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Home</a>
-        <a href="/browse/businesses" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Opportunities</a>
-        <a href="/about" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">About</a>
-        <a href="/blog" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Blog</a>
-      </nav>
-      <div style="margin-left:auto;display:flex;gap:8px;">
-        <a href="/login" style="padding:8px 16px;border:1px solid var(--dash-border);border-radius:8px;text-decoration:none;color:var(--dash-ink);font-weight:500;">Log in</a>
-        <a href="/onboarding" style="padding:8px 16px;background:var(--color-primary-vivid);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;">Sign up</a>
+  <header class="site-header pub-header v1-responsive-header-wrapper" style="border-bottom:1px solid var(--dash-border);background:var(--color-bg);">
+    <div class="responsive-header">
+      <div class="pub-header-inner" style="max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;height:64px;gap:32px;">
+        <div class="logo-section">
+          <div class="logo-wrapper">
+            <a href="/" class="logo" aria-label="Asaan Capital Ltd"></a>
+          </div>
+        </div>
+        <nav style="display:flex;gap:24px;">
+          <a href="/" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Home</a>
+          <a href="/browse/businesses" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Opportunities</a>
+          <a href="/about" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">About</a>
+          <a href="/blog" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Blog</a>
+        </nav>
+        <div style="margin-left:auto;display:flex;gap:8px;">
+          <a href="/login" style="padding:8px 16px;border:1px solid var(--dash-border);border-radius:8px;text-decoration:none;color:var(--dash-ink);font-weight:500;">Log in</a>
+          <a href="/onboarding" style="padding:8px 16px;background:var(--color-primary-vivid);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;">Sign up</a>
+        </div>
       </div>
     </div>
   </header>

@@ -164,16 +164,17 @@ function injectHeader(mode, actionsHtml) {
   // actionsHtml is pre-rendered by PHP and passed as a parameter
 
   root.innerHTML = `
-    <header class="site-header">
-      <div class="header-inner">
-        <a href="/" class="header-logo">
-          <img src="/final_logo.png" alt="Asaan Capital Ltd - Financial &amp; Investment Services" class="header-logo-img">
-        </a>
+    <header class="site-header v1-responsive-header-wrapper">
+      <div class="responsive-header">
+        <div class="header-inner">
+          <div class="logo-section">
+            <div class="logo-wrapper">
+              <a href="/" class="logo" aria-label="Asaan Capital Ltd - Financial &amp; Investment Services"></a>
+            </div>
+          </div>
         <nav class="header-nav" id="header-nav">
           <div class="header-nav-header">
-            <a href="/" class="header-logo-mobile">
-              <img src="/final_logo.png" alt="Asaan Capital Ltd" class="header-logo-img-mobile">
-            </a>
+            <a href="/" class="logo" aria-label="Asaan Capital Ltd"></a>
             <button class="header-nav-close" onclick="closeMobileMenu()" aria-label="Close menu">
               ${ICONS.close}
             </button>
@@ -190,6 +191,7 @@ function injectHeader(mode, actionsHtml) {
         </div>
       </div>
       <div class="header-backdrop" id="header-backdrop" onclick="closeMobileMenu()"></div>
+      </div>
     </header>
   `;
 }
@@ -267,9 +269,14 @@ function renderPublicHeader(root, user, isLoggedIn, unread) {
   }
 
   root.innerHTML = `
-    <header class="site-header pub-header">
-      <div class="pub-header-inner">
-        <a href="/" class="header-logo"><img src="/final_logo.png" alt="Asaan Capital Ltd" class="header-logo-img"></a>
+    <header class="site-header pub-header v1-responsive-header-wrapper">
+      <div class="responsive-header">
+        <div class="pub-header-inner">
+          <div class="logo-section">
+            <div class="logo-wrapper">
+              <a href="/" class="logo" aria-label="Asaan Capital Ltd"></a>
+            </div>
+          </div>
         <nav class="pub-nav">${mainNav}</nav>
         <div class="pub-header-actions">
           ${addProfileDD}
@@ -279,7 +286,7 @@ function renderPublicHeader(root, user, isLoggedIn, unread) {
       </div>
       <nav class="header-nav" id="header-nav">
         <div class="header-nav-header">
-          <a href="/" class="header-logo-mobile"><img src="/final_logo.png" alt="Asaan Capital Ltd" class="header-logo-img-mobile"></a>
+          <a href="/" class="logo" aria-label="Asaan Capital Ltd"></a>
           <button class="header-nav-close" onclick="closeMobileMenu()" aria-label="Close menu">${ICONS.close}</button>
         </div>
         <div class="header-nav-links">
@@ -288,6 +295,7 @@ function renderPublicHeader(root, user, isLoggedIn, unread) {
         </div>
       </nav>
       <div class="header-backdrop" id="header-backdrop" onclick="closeMobileMenu()"></div>
+      </div>
     </header>`;
 }
 
