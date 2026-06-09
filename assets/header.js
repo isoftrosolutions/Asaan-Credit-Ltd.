@@ -167,12 +167,12 @@ function injectHeader(mode, actionsHtml) {
     <header class="site-header">
       <div class="header-inner">
         <a href="/" class="header-logo">
-          <img src="/final_logo.png" width="160" height="40" alt="Asaan Capital Ltd - Financial &amp; Investment Services">
+          <img src="/final_logo.png" alt="Asaan Capital Ltd - Financial &amp; Investment Services" class="header-logo-img">
         </a>
         <nav class="header-nav" id="header-nav">
           <div class="header-nav-header">
             <a href="/" class="header-logo-mobile">
-              <img src="/final_logo.png" width="120" height="28" alt="Asaan Capital Ltd" style="height:28px;width:auto;">
+              <img src="/final_logo.png" alt="Asaan Capital Ltd" class="header-logo-img-mobile">
             </a>
             <button class="header-nav-close" onclick="closeMobileMenu()" aria-label="Close menu">
               ${ICONS.close}
@@ -269,7 +269,7 @@ function renderPublicHeader(root, user, isLoggedIn, unread) {
   root.innerHTML = `
     <header class="site-header pub-header">
       <div class="pub-header-inner">
-        <a href="/" class="header-logo"><img src="/final_logo.png" width="140" height="35" alt="Asaan Capital Ltd"></a>
+        <a href="/" class="header-logo"><img src="/final_logo.png" alt="Asaan Capital Ltd" class="header-logo-img"></a>
         <nav class="pub-nav">${mainNav}</nav>
         <div class="pub-header-actions">
           ${addProfileDD}
@@ -279,7 +279,7 @@ function renderPublicHeader(root, user, isLoggedIn, unread) {
       </div>
       <nav class="header-nav" id="header-nav">
         <div class="header-nav-header">
-          <a href="/" class="header-logo-mobile"><img src="/final_logo.png" width="120" height="28" alt="Asaan Capital Ltd" style="height:28px;width:auto;"></a>
+          <a href="/" class="header-logo-mobile"><img src="/final_logo.png" alt="Asaan Capital Ltd" class="header-logo-img-mobile"></a>
           <button class="header-nav-close" onclick="closeMobileMenu()" aria-label="Close menu">${ICONS.close}</button>
         </div>
         <div class="header-nav-links">
