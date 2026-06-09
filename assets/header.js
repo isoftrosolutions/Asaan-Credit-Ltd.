@@ -10,8 +10,6 @@ const COMPANY_LINKS = [
 const PUBLIC_LINKS = [
   { label: 'Home', url: '/', icon: 'home' },
   { label: 'Investment & Opportunity', url: '/browse/businesses', icon: 'chart' },
-  { label: 'About Us', url: '/about', icon: 'tag' },
-  { label: 'Blog', url: '/blog', icon: 'document' },
 ];
 
 const INVESTMENT_LINKS = [
@@ -24,8 +22,6 @@ const INVESTMENT_LINKS = [
 const PUBLIC_NAV = [
   { label: 'Home', url: '/' },
   { label: 'Investment & Opportunity', url: '/browse/businesses' },
-  { label: 'About Us', url: '/about' },
-  { label: 'Blog', url: '/blog' },
 ];
 
 const ADD_PROFILE_LINKS = [
@@ -127,6 +123,10 @@ function injectHeader(mode, actionsHtml) {
     PUBLIC_LINKS.forEach(link => {
       const active = isActive(link.url) ? ' active' : '';
       navHtml += `<a href="${link.url}" class="header-nav-link${active}"${active ? ' aria-current="page"' : ''} onclick="closeMobileMenu()">${ICONS[link.icon] || ''} ${link.label}</a>`;
+    });
+    navHtml += `<div class="mobile-nav-divider"></div><div class="pub-drawer-label">Company</div>`;
+    COMPANY_LINKS.forEach(link => {
+      navHtml += `<a href="${link.url}" onclick="closeMobileMenu()">${link.label}</a>`;
     });
     if (!isLoggedIn) {
       navHtml += `<div class="mobile-nav-divider"></div>`;
