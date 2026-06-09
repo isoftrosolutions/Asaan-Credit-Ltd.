@@ -101,7 +101,7 @@ if ($user) {
 <noscript>
   <header class="site-header pub-header" style="border-bottom:1px solid var(--dash-border);background:var(--color-bg);">
     <div class="pub-header-inner" style="max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;height:64px;gap:32px;">
-      <a href="/" class="header-logo"><img src="/logo.png" width="140" height="35" alt="Asaan Capital Ltd" style="display:block;"></a>
+      <a href="/" class="header-logo"><img src="/final_logo.png" width="140" height="35" alt="Asaan Capital Ltd" style="display:block;"></a>
       <nav style="display:flex;gap:24px;">
         <a href="/" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Home</a>
         <a href="/browse/businesses" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Opportunities</a>
