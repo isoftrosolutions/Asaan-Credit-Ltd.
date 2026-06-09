@@ -446,6 +446,23 @@ function closeMobileSidebar() {
   document.body.classList.remove('menu-open');
 }
 
+/* ── Scroll-aware header shadow ────────────────────────────────── */
+function initScrollHeader() {
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+  const checkScroll = () => {
+    header.classList.toggle('scrolled', window.scrollY > 20);
+  };
+  requestAnimationFrame(checkScroll);
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => { checkScroll(); ticking = false; });
+      ticking = true;
+    }
+  }, { passive: true });
+}
+
 function initNotificationPoller() {
   if (!window.CURRENT_USER) return;
   setInterval(() => {
@@ -469,4 +486,5 @@ function initNotificationPoller() {
 
 document.addEventListener('DOMContentLoaded', () => {
   initNotificationPoller();
+  initScrollHeader();
 });

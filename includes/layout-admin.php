@@ -19,4 +19,4 @@ $__dashUnread = $unreadCount ?? 0;
     ui_sidebar($__dashUser, $__dashUnread, true);
     ui_topbar($__dashUser, $__dashUnread);
   ?>
-  <main class="dash-main">
+  <main class="dash-main" id="main-content">

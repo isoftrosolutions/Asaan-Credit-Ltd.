@@ -1,21 +1,68 @@
-/* The header lives inside #header-root (a direct child of <body>). Sticky must
-   live on this wrapper — not the inner <header> — so its containing block is the
-   full-height <body> and it stays pinned through the whole scroll. */
+/* ── Skip to main content ─────────────────────────────────────── */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 16px;
+  z-index: 200;
+  padding: 10px 20px;
+  background: var(--color-primary, #6B1D22);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 0 0 8px 8px;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* ── Skeleton / placeholder while JS loads ────────────────────── */
+#header-root:empty {
+  display: block;
+  height: 64px;
+  background: rgba(255,255,255,0.5);
+  position: relative;
+  overflow: hidden;
+}
+#header-root:empty::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(200,200,200,0.15) 50%, transparent 100%);
+  animation: headerShimmer 1.5s ease-in-out infinite;
+}
+@keyframes headerShimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ── Sticky wrapper ────────────────────────────────────────────── */
 #header-root {
   position: sticky;
   top: 0;
   z-index: 100;
+  transition: box-shadow 0.3s ease;
 }
 
+/* ── Site header base ──────────────────────────────────────────── */
 .site-header {
   z-index: 100;
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
   border-bottom: 1px solid var(--color-border);
   height: 64px;
+  transition: box-shadow 0.3s ease, background 0.3s ease;
 }
 
+/* Scroll-aware shadow — toggled via JS `.scrolled` class */
+.site-header.scrolled {
+  box-shadow: 0 1px 8px rgba(26,26,26,0.08), 0 1px 2px rgba(26,26,26,0.04);
+  background: rgba(255,255,255,0.98);
+}
+
+/* ── Header inner ──────────────────────────────────────────────── */
 .header-inner {
   max-width: var(--container-xl);
   margin: 0 auto;
@@ -26,6 +73,7 @@
   height: 100%;
 }
 
+/* ── Logo ──────────────────────────────────────────────────────── */
 .header-logo {
   display: flex;
   align-items: center;
@@ -34,18 +82,13 @@
   font-weight: 800;
   color: var(--color-text-heading);
   text-decoration: none;
+  flex-shrink: 0;
 }
-
 .header-logo:hover {
   text-decoration: none;
   color: var(--color-primary);
 }
-
-.header-logo svg {
-  width: 28px;
-  height: 28px;
-}
-
+.header-logo svg { width: 28px; height: 28px; }
 .header-logo img {
   height: 40px;
   width: auto;
@@ -53,21 +96,14 @@
   object-fit: contain;
 }
 
+/* ── Desktop nav ───────────────────────────────────────────────── */
 .header-nav {
   display: flex;
   align-items: center;
   gap: 24px;
 }
-
-/* On desktop the drawer header is hidden and the link wrapper is transparent
-   so links become direct flex children of .header-nav (mobile overrides these). */
-.header-nav-header {
-  display: none;
-}
-
-.header-nav-links {
-  display: contents;
-}
+.header-nav-header { display: none; }
+.header-nav-links { display: contents; }
 
 .header-nav a {
   display: inline-flex;
@@ -80,7 +116,6 @@
   transition: color var(--motion-fast) var(--ease-standard);
   position: relative;
 }
-
 .header-nav a::after {
   content: '';
   position: absolute;
@@ -89,43 +124,32 @@
   width: 0;
   height: 2px;
   background: var(--color-primary-vivid);
-  transition: all var(--motion-base) var(--ease-standard);
-  transform: translateX(-50%);
+  transition: width 0.2s ease, left 0.2s ease;
+  transform: none;
   border-radius: 1px;
 }
-
-.header-nav a:hover {
-  color: var(--color-primary);
-}
-
-.header-nav a:hover::after {
+.header-nav a:hover { color: var(--color-primary); }
+.header-nav a:hover::after,
+.header-nav a.active::after {
   width: 60%;
+  left: 20%;
 }
-
 .header-nav a.active {
   color: var(--color-primary);
   font-weight: 600;
 }
-
-.header-nav a.active::after {
-  width: 60%;
-}
-
-.header-nav a svg {
-  display: none;
-}
+.header-nav a svg { display: none; }
 
 .mobile-nav-divider,
-.mobile-nav-actions {
-  display: none;
-}
+.mobile-nav-actions { display: none; }
 
+/* ── Header actions (right side) ───────────────────────────────── */
 .header-actions {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
 }
-
 .header-actions .btn-outline {
   padding: 6px 16px;
   font-size: 0.82rem;
@@ -136,13 +160,11 @@
   color: var(--color-text-muted);
   transition: all var(--motion-fast) var(--ease-standard);
 }
-
 .header-actions .btn-outline:hover {
   border-color: var(--color-primary-vivid);
   color: var(--color-primary-vivid);
   background: rgba(152, 32, 42, 0.04);
 }
-
 .header-actions .btn-primary {
   padding: 6px 20px;
   font-size: 0.82rem;
@@ -153,14 +175,14 @@
   border-color: var(--color-primary);
   transition: all var(--motion-fast) var(--ease-standard);
 }
-
 .header-actions .btn-primary:hover {
   background: #4A1317;
   border-color: #4A1317;
   transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 12px rgba(107, 29, 34, 0.25);
 }
 
+/* ── User avatar ───────────────────────────────────────────────── */
 .header-user {
   display: flex;
   align-items: center;
@@ -173,15 +195,7 @@
   text-decoration: none;
   transition: background var(--motion-fast);
 }
-
-.header-user:hover {
-  text-decoration: none;
-}
-
-.header-user:hover {
-  background: var(--color-bg-soft);
-}
-
+.header-user:hover { background: var(--color-bg-soft); }
 .header-user-name {
   font-size: 0.85rem;
   font-weight: 600;
@@ -191,6 +205,7 @@
   white-space: nowrap;
 }
 
+/* ── Notification bell ─────────────────────────────────────────── */
 .notification-bell {
   position: relative;
   cursor: pointer;
@@ -204,17 +219,12 @@
   text-decoration: none;
   transition: background var(--motion-fast);
 }
-
-.notification-bell:hover {
-  background: var(--color-bg-soft);
-}
-
+.notification-bell:hover { background: var(--color-bg-soft); }
 .notification-bell svg {
   width: 22px;
   height: 22px;
   color: var(--color-text-muted);
 }
-
 .notification-badge {
   position: absolute;
   top: 6px;
@@ -232,6 +242,7 @@
   border: 2px solid var(--color-bg);
 }
 
+/* ── Mobile backdrop ───────────────────────────────────────────── */
 .header-backdrop {
   display: none;
   position: fixed;
@@ -239,17 +250,19 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(26,26,26,0.4);
+  background: rgba(26,26,26,0.45);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   z-index: 98;
   opacity: 0;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.3s ease;
 }
-
 .header-backdrop.open {
   display: block;
   opacity: 1;
 }
 
+/* ── Mobile toggle ─────────────────────────────────────────────── */
 .header-mobile-toggle {
   display: none;
   background: none;
@@ -258,26 +271,29 @@
   min-width: 44px;
   min-height: 44px;
   border-radius: var(--radius-sm);
+  transition: background var(--motion-fast);
 }
-
+.header-mobile-toggle:hover { background: var(--color-bg-soft); }
 .header-mobile-toggle svg {
   width: 24px;
   height: 24px;
   color: var(--color-text-heading);
 }
 
-/* Keyboard focus indicators for all interactive header controls */
+/* ── Focus indicators ──────────────────────────────────────────── */
 .header-logo:focus-visible,
 .header-nav a:focus-visible,
 .notification-bell:focus-visible,
 .header-user:focus-visible,
 .header-mobile-toggle:focus-visible,
-.header-nav-close:focus-visible {
+.header-nav-close:focus-visible,
+.skip-link:focus-visible {
   outline: 2px solid var(--color-primary-vivid);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
 
+/* ── Sidebar mobile toggle (dashboard) ─────────────────────────── */
 .sidebar-mobile-toggle {
   display: none;
   background: var(--color-bg-soft);
@@ -292,46 +308,15 @@
   color: var(--color-text);
   margin-bottom: 1rem;
   width: 100%;
+  transition: background var(--motion-fast);
 }
+.sidebar-mobile-toggle svg { width: 18px; height: 18px; flex-shrink: 0; }
+.sidebar-mobile-toggle:hover { background: var(--color-grey-light); }
 
-.sidebar-mobile-toggle svg {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-}
-
-.sidebar-mobile-toggle:hover {
-  background: var(--color-grey-light);
-}
-
-.sidebar-header-mobile {
-  display: none;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 0.75rem;
-  margin-bottom: 0.5rem;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.sidebar-close-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-}
-
-.sidebar-close-btn:hover {
-  background: var(--color-bg-soft);
-}
-
-.sidebar-close-btn svg {
-  width: 20px;
-  height: 20px;
-  color: var(--color-text-muted);
-}
+.sidebar-header-mobile { display: none; }
+.sidebar-close-btn { background: none; border: none; cursor: pointer; padding: 4px; border-radius: var(--radius-sm); display: flex; align-items: center; }
+.sidebar-close-btn:hover { background: var(--color-bg-soft); }
+.sidebar-close-btn svg { width: 20px; height: 20px; color: var(--color-text-muted); }
 
 .sidebar-backdrop {
   display: none;
@@ -345,13 +330,12 @@
   opacity: 0;
   transition: opacity 0.25s ease;
 }
+.sidebar-backdrop.open { display: block; opacity: 1; }
 
-.sidebar-backdrop.open {
-  display: block;
-  opacity: 1;
-}
-
+/* ── Mobile (≤820px) ───────────────────────────────────────────── */
 @media (max-width: 820px) {
+  #header-root:empty { height: 60px; }
+
   .header-nav {
     display: flex;
     position: fixed;
@@ -369,10 +353,9 @@
     opacity: 0;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
     pointer-events: none;
-    box-shadow: -8px 0 32px rgba(26,26,26,0.15);
+    box-shadow: -4px 0 24px rgba(26,26,26,0.12);
     overflow-y: auto;
   }
-
   .header-nav.open {
     transform: translateX(0);
     opacity: 1;
@@ -386,11 +369,7 @@
     padding: 1rem 1.25rem;
     border-bottom: 1px solid var(--color-border);
   }
-
-  .header-nav-header .header-logo-mobile img {
-    height: 28px;
-    width: auto;
-  }
+  .header-nav-header .header-logo-mobile img { height: 28px; width: auto; }
 
   .header-nav-close {
     display: flex;
@@ -402,16 +381,10 @@
     padding: 4px;
     border-radius: var(--radius-sm);
     color: var(--color-text-muted);
+    transition: background var(--motion-fast);
   }
-
-  .header-nav-close:hover {
-    background: var(--color-bg-soft);
-  }
-
-  .header-nav-close svg {
-    width: 24px;
-    height: 24px;
-  }
+  .header-nav-close:hover { background: var(--color-bg-soft); }
+  .header-nav-close svg { width: 24px; height: 24px; }
 
   .header-nav-links {
     display: flex;
@@ -420,7 +393,6 @@
     gap: 2px;
     flex: 1;
   }
-
   .header-nav-links a {
     display: flex;
     align-items: center;
@@ -435,11 +407,9 @@
     opacity: 0;
     transform: translateX(12px);
   }
-
   .header-nav.open .header-nav-links a {
     animation: slideInLink 0.3s var(--ease-out) forwards;
   }
-
   .header-nav.open .header-nav-links a:nth-child(1) { animation-delay: 0.02s; }
   .header-nav.open .header-nav-links a:nth-child(2) { animation-delay: 0.05s; }
   .header-nav.open .header-nav-links a:nth-child(3) { animation-delay: 0.08s; }
@@ -462,17 +432,12 @@
     text-decoration: none;
     color: var(--color-primary);
   }
-
   .header-nav-links a.active {
     background: rgba(107, 29, 34, 0.08);
     color: var(--color-primary);
     font-weight: 600;
   }
-
-  .header-nav-links a.active svg {
-    color: var(--color-primary);
-  }
-
+  .header-nav-links a.active svg { color: var(--color-primary); }
   .header-nav-links a svg {
     display: inline-block;
     width: 20px;
@@ -480,20 +445,17 @@
     flex-shrink: 0;
     color: var(--color-text-muted);
   }
-
   .header-nav-links .mobile-nav-divider {
     display: block;
     border-top: 1px solid var(--color-border);
     margin: 8px 0;
   }
-
   .header-nav-links .mobile-nav-actions {
     display: flex;
     flex-direction: column;
     gap: 8px;
     padding: 12px 0;
   }
-
   .mobile-nav-actions .btn {
     width: 100%;
     justify-content: center;
@@ -501,16 +463,11 @@
     font-size: 0.95rem;
   }
 
-  .header-backdrop {
-    top: 0;
-  }
-
+  .header-backdrop { top: 0; }
   .header-mobile-toggle { display: flex; align-items: center; justify-content: center; }
 
   .header-actions .btn-outline,
-  .header-actions .btn-primary {
-    display: none;
-  }
+  .header-actions .btn-primary { display: none; }
 
   .header-user .avatar-sm { width: 30px; height: 30px; font-size: 0.65rem; }
   .header-user-name { max-width: 80px; font-size: 0.8rem; }
@@ -524,11 +481,7 @@
   .sidebar-mobile-toggle { display: flex; }
   .sidebar-header-mobile { display: flex; }
 
-  #sidebar-root {
-    position: relative;
-    z-index: 1;
-  }
-
+  #sidebar-root { position: relative; z-index: 1; }
   #sidebar-root .sidebar {
     display: none;
     position: fixed;
@@ -546,47 +499,35 @@
     transform: translateX(-100%);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
+  #sidebar-root .sidebar.open { display: flex; transform: translateX(0); }
 
-  #sidebar-root .sidebar.open {
-    display: flex;
-    transform: translateX(0);
-  }
-
-  body.menu-open {
-    overflow: hidden;
-  }
+  body.menu-open { overflow: hidden; }
 }
 
+/* ── Small mobile (≤480px) ─────────────────────────────────────── */
 @media (max-width: 480px) {
+  #header-root:empty { height: 56px; }
   .header-nav { width: 100%; max-width: 100%; }
   .header-logo img { max-width: 100px; height: 28px; }
   .pub-header .header-logo img { height: 28px; max-width: 110px; }
   .header-user-name { display: none; }
   .header-actions .btn-outline,
-  .header-actions .btn-primary {
-    display: none;
-  }
+  .header-actions .btn-primary { display: none; }
   .header-inner { padding: 0 0.75rem; }
   .header-links a { padding: 12px 14px; font-size: 0.9rem; }
 }
 
-/* ============================================================
-   DASHBOARD SHELL — avoid duplicate navigation
-   The left sidebar is the primary nav inside the dashboard, so the
-   top-bar nav links are redundant. Keep the header slim (logo + bell +
-   user) on desktop, and on mobile let the single header hamburger drawer
-   carry the nav while the duplicate sidebar "Menu" toggle is hidden.
-   ============================================================ */
+/* ── Dashboard shell — hide desktop nav, keep header slim ─────── */
 @media (min-width: 821px) {
   body.has-dashboard-sidebar .header-nav { display: none; }
 }
-
 body.has-dashboard-sidebar .sidebar-mobile-toggle { display: none; }
 
-/* ============================================================
-   PUBLIC HEADER — Single-row slim nav
-   ============================================================ */
+/* ═══════════════════════════════════════════════════════════════════
+   PUBLIC HEADER  (two-row-ish, search + add-profile + auth)
+   ═══════════════════════════════════════════════════════════════════ */
 .pub-header { height: auto; }
+.pub-header .site-header { height: auto; }
 
 .pub-header-inner {
   max-width: var(--container-xl);
@@ -597,7 +538,6 @@ body.has-dashboard-sidebar .sidebar-mobile-toggle { display: none; }
   gap: 24px;
   height: 64px;
 }
-
 .pub-header .header-logo img { height: 32px; max-width: 140px; }
 
 .pub-header-actions {
@@ -607,13 +547,12 @@ body.has-dashboard-sidebar .sidebar-mobile-toggle { display: none; }
   margin-left: auto;
 }
 
-/* Nav links inline in the header */
+/* Nav links inline */
 .pub-nav {
   display: flex;
   align-items: center;
   gap: 2px;
 }
-
 .pub-nav-link {
   display: inline-flex;
   align-items: center;
@@ -628,11 +567,10 @@ body.has-dashboard-sidebar .sidebar-mobile-toggle { display: none; }
   line-height: 1;
   white-space: nowrap;
 }
-
 .pub-nav-link:hover { background: var(--color-bg-soft); color: var(--color-primary); }
 .pub-nav-link.active { background: rgba(107, 29, 34, 0.08); color: var(--color-primary); font-weight: 600; }
 
-/* Keep existing notification bell, avatar, add-btn styles */
+/* Add Profile button */
 .pub-add-btn {
   display: inline-flex; align-items: center; gap: 6px;
   background: #C77A12; color: #fff;
@@ -641,14 +579,14 @@ body.has-dashboard-sidebar .sidebar-mobile-toggle { display: none; }
   border-radius: var(--radius-pill);
   font-size: 0.82rem; font-weight: 700;
   font-family: inherit;
-  transition: filter var(--motion-fast);
+  transition: filter var(--motion-fast), transform var(--motion-fast);
   white-space: nowrap;
 }
-
-.pub-add-btn:hover { filter: brightness(1.08); }
+.pub-add-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
 .pub-add-btn svg { width: 15px; height: 15px; }
 .pub-add-btn .pub-caret { width: 13px; height: 13px; }
 
+/* ── Public header mobile ──────────────────────────────────────── */
 @media (max-width: 820px) {
   .pub-search,
   .pub-nav,
@@ -667,11 +605,12 @@ body.has-dashboard-sidebar .sidebar-mobile-toggle { display: none; }
   }
 }
 
-/* Dropdowns for Add Profile + avatar (still needed) */
+/* ── Dropdowns (Add Profile + avatar) ──────────────────────────── */
 .pub-dd { position: relative; }
+
 .pub-dd-menu {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 6px);
   left: 0;
   min-width: 220px;
   background: var(--color-bg);
@@ -680,10 +619,18 @@ body.has-dashboard-sidebar .sidebar-mobile-toggle { display: none; }
   box-shadow: 0 12px 32px rgba(26,26,26,0.14);
   padding: 6px;
   z-index: 120;
-  display: none;
+  display: block;
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
 }
 .pub-dd-menu-right { left: auto; right: 0; }
-.pub-dd.open .pub-dd-menu { display: block; }
+.pub-dd.open .pub-dd-menu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
 .pub-dd-menu a {
   display: flex;
   align-items: center;
@@ -695,6 +642,7 @@ body.has-dashboard-sidebar .sidebar-mobile-toggle { display: none; }
   color: var(--color-text);
   text-decoration: none;
   white-space: nowrap;
+  transition: background var(--motion-fast), color var(--motion-fast);
 }
 .pub-dd-menu a:hover { background: var(--color-bg-soft); color: var(--color-primary); }
 .pub-dd-menu a svg { width: 16px; height: 16px; color: var(--color-text-muted); flex-shrink: 0; }
@@ -703,10 +651,13 @@ body.has-dashboard-sidebar .sidebar-mobile-toggle { display: none; }
 .pub-dd-useremail { font-size: 0.76rem; color: var(--color-text-muted); max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pub-caret { margin-left: 2px; transition: transform var(--motion-fast); flex-shrink: 0; }
 .pub-dd.open .pub-caret { transform: rotate(180deg); }
-.pub-avatar-toggle { background: none; border: none; cursor: pointer; padding: 2px; border-radius: 50%; display: flex; }
+.pub-avatar-toggle {
+  background: none; border: none; cursor: pointer; padding: 2px; border-radius: 50%; display: flex;
+  transition: background var(--motion-fast);
+}
 .pub-avatar-toggle:hover { background: var(--color-bg-soft); }
 
-/* Desktop: hide mobile drawer */
+/* Hide mobile drawer on desktop */
 @media (min-width: 821px) {
   .pub-header .header-nav { display: none; }
 }

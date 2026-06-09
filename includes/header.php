@@ -97,6 +97,7 @@ if ($user) {
   <link rel="stylesheet" href="<?= APP_URL ?>/assets/header.css">
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
 <noscript>
   <header class="site-header pub-header" style="border-bottom:1px solid var(--dash-border);background:var(--color-bg);">
     <div class="pub-header-inner" style="max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;height:64px;gap:32px;">

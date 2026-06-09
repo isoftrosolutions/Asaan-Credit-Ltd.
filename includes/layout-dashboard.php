@@ -22,4 +22,4 @@ $__dashIsAdmin = !empty($isAdmin);
     ui_sidebar($__dashUser, $__dashUnread, $__dashIsAdmin);
     ui_topbar($__dashUser, $__dashUnread);
   ?>
-  <main class="dash-main">
+  <main class="dash-main" id="main-content">
