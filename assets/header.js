@@ -1,15 +1,13 @@
-const COMPANY_LINKS = [
-  { label: 'About Us', url: '/about' },
-  { label: 'Blog', url: '/blog' },
-  { label: 'Careers', url: '/careers' },
-  { label: 'Press', url: '/press' },
-  { label: 'Testimonials', url: '/testimonials' },
-  { label: 'Contact', url: '/contact' },
-];
 
 const PUBLIC_LINKS = [
   { label: 'Home', url: '/', icon: 'home' },
   { label: 'Investment & Opportunity', url: '/browse/businesses', icon: 'chart' },
+  { label: 'About Us', url: '/about', icon: 'tag' },
+  { label: 'Blog', url: '/blog', icon: 'document' },
+  { label: 'Careers', url: '/careers', icon: 'briefcase' },
+  { label: 'Press', url: '/press', icon: 'share' },
+  { label: 'Testimonials', url: '/testimonials', icon: 'message' },
+  { label: 'Contact', url: '/contact', icon: 'message' },
 ];
 
 const INVESTMENT_LINKS = [
@@ -22,6 +20,12 @@ const INVESTMENT_LINKS = [
 const PUBLIC_NAV = [
   { label: 'Home', url: '/' },
   { label: 'Investment & Opportunity', url: '/browse/businesses' },
+  { label: 'About Us', url: '/about' },
+  { label: 'Blog', url: '/blog' },
+  { label: 'Careers', url: '/careers' },
+  { label: 'Press', url: '/press' },
+  { label: 'Testimonials', url: '/testimonials' },
+  { label: 'Contact', url: '/contact' },
 ];
 
 const ADD_PROFILE_LINKS = [
@@ -124,10 +128,6 @@ function injectHeader(mode, actionsHtml) {
       const active = isActive(link.url) ? ' active' : '';
       navHtml += `<a href="${link.url}" class="header-nav-link${active}"${active ? ' aria-current="page"' : ''} onclick="closeMobileMenu()">${ICONS[link.icon] || ''} ${link.label}</a>`;
     });
-    navHtml += `<div class="mobile-nav-divider"></div><div class="pub-drawer-label">Company</div>`;
-    COMPANY_LINKS.forEach(link => {
-      navHtml += `<a href="${link.url}" onclick="closeMobileMenu()">${link.label}</a>`;
-    });
     if (!isLoggedIn) {
       navHtml += `<div class="mobile-nav-divider"></div>`;
       navHtml += `<div class="mobile-nav-actions">`;
@@ -202,20 +202,6 @@ function renderPublicHeader(root, user, isLoggedIn, unread) {
     `<a href="${l.url}" class="pub-nav-link${isActive(l.url) ? ' active' : ''}"${isActive(l.url) ? ' aria-current="page"' : ''}>${l.label}</a>`
   ).join('');
 
-  const companyLinksHtml = COMPANY_LINKS.map(l =>
-    `<a href="${l.url}" role="menuitem">${l.label}</a>`
-  ).join('');
-
-  const companyActive = COMPANY_LINKS.some(l => isActive(l.url));
-
-  const companyDD = `
-    <div class="pub-dd pub-dd-company">
-      <button type="button" class="pub-nav-link pub-dd-toggle${companyActive ? ' active' : ''}" onclick="pubToggleDD(this)" aria-haspopup="true" aria-expanded="false">
-        Company${CARET}
-      </button>
-      <div class="pub-dd-menu" role="menu">${companyLinksHtml}</div>
-    </div>`;
-
   const addProfileDD = `
     <div class="pub-dd pub-dd-add">
       <button type="button" class="pub-add-btn pub-dd-toggle" onclick="pubToggleDD(this)" aria-haspopup="true" aria-expanded="false">${ICONS.plus}<span>Add Profile</span>${CARET}</button>
@@ -267,8 +253,6 @@ function renderPublicHeader(root, user, isLoggedIn, unread) {
   // Mobile drawer
   let drawer = '';
   drawer += PUBLIC_NAV.map(l => `<a href="${l.url}" class="${isActive(l.url) ? 'active' : ''}" onclick="closeMobileMenu()">${l.label}</a>`).join('');
-  drawer += `<div class="mobile-nav-divider"></div><div class="pub-drawer-label">Company</div>`;
-  drawer += COMPANY_LINKS.map(l => `<a href="${l.url}" onclick="closeMobileMenu()">${l.label}</a>`).join('');
   drawer += `<div class="mobile-nav-divider"></div><div class="pub-drawer-label">Add a Profile</div>`;
   drawer += ADD_PROFILE_LINKS.map(l => `<a href="${l.url}" onclick="closeMobileMenu()">${ICONS.plus} ${l.label}</a>`).join('');
   drawer += `<div class="mobile-nav-divider"></div>`;
@@ -286,7 +270,7 @@ function renderPublicHeader(root, user, isLoggedIn, unread) {
     <header class="site-header pub-header">
       <div class="pub-header-inner">
         <a href="/" class="header-logo"><img src="/logo.png" width="140" height="35" alt="Asaan Capital Ltd"></a>
-        <nav class="pub-nav">${mainNav}${companyDD}</nav>
+        <nav class="pub-nav">${mainNav}</nav>
         <div class="pub-header-actions">
           ${addProfileDD}
           ${right}
