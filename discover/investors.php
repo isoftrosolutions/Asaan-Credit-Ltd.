@@ -208,7 +208,7 @@ if ($queryParams) {
                 <span class="meta-label" style="font-weight:700;color:var(--color-text);"><?= money($inv['ticket_min'] ?? 0) ?> &ndash; <?= money($inv['ticket_max'] ?? 0) ?></span>
               </div>
               <div class="card-footer">
-                <button class="btn btn-accent btn-sm" onclick="event.stopPropagation();location.href='<?= APP_URL ?>/investor/public.php?id=<?= $inv['id'] ?>'" style="width:100%;">View Profile</button>
+                <button type="button" class="btn btn-accent btn-sm" onclick="event.stopPropagation();location.href='<?= APP_URL ?>/investor/public.php?id=<?= $inv['id'] ?>'" style="width:100%;">View Profile</button>
               </div>
             </div>
           <?php endforeach; ?>

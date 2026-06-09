@@ -621,6 +621,39 @@ p { margin-bottom: 1rem; }
   outline-offset: 2px;
 }
 
+.btn-send-proposal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 18px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: inherit;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--motion-fast), box-shadow var(--motion-fast), transform var(--motion-fast);
+}
+
+.btn-send-proposal:hover {
+  background: #4A1317;
+  border-color: #4A1317;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(107, 29, 34, 0.25);
+}
+
+.btn-send-proposal:active {
+  transform: translateY(0);
+}
+
+.btn-send-proposal:focus-visible {
+  outline: 2px solid var(--color-primary-vivid);
+  outline-offset: 2px;
+}
+
 /* ── Card body layout ────────────────────────────────────────── */
 .browse-card .card-body {
   display: flex;

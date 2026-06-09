@@ -237,7 +237,7 @@ if ($queryParams) {
                   <div class="pitch-funding-label">Funding Range</div>
                   <div class="pitch-funding"><?= money($pitch['funding_amount'] ?? 0) ?><?= $pitch['equity_offered'] ? ' for ' . e($pitch['equity_offered']) . '%' : '' ?></div>
                 </div>
-                <button class="btn-send-proposal" onclick="event.stopPropagation();location.href='<?= APP_URL ?>/pitch/<?= $pitch['id'] ?>'">Send Proposal</button>
+                <button type="button" class="btn-send-proposal" onclick="event.stopPropagation();location.href='<?= APP_URL ?>/pitch/<?= $pitch['id'] ?>'">Send Proposal</button>
               </div>
             </div>
           <?php endforeach; ?>

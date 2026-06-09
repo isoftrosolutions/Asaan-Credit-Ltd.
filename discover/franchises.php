@@ -188,7 +188,7 @@ if ($queryParams) {
               </div>
               <span class="tx-badge tx-badge-franchise">Franchise Opportunity</span>
               <div class="card-footer" style="margin-top:auto;">
-                <button class="btn btn-accent btn-sm" onclick="event.stopPropagation();location.href='<?= APP_URL ?>/franchise/<?= $f['id'] ?>'">View Details</button>
+                <button type="button" class="btn btn-accent btn-sm" onclick="event.stopPropagation();location.href='<?= APP_URL ?>/franchise/<?= $f['id'] ?>'">View Details</button>
               </div>
             </div>
           <?php endforeach; ?>

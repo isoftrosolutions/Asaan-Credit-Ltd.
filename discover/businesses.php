@@ -294,7 +294,7 @@ $listingTypeLabels = [
                   <span class="card-footer-label"><?= $listingTypeLabels[$b['listing_type']] ?? e($b['listing_type']) ?></span>
                   <span class="card-footer-price"><?= money($b['asking_price'] ?? 0) ?></span>
                 </div>
-                <button class="btn-view-details" onclick="event.stopPropagation();location.href='<?= APP_URL ?>/business/<?= (int)$b['id'] ?>'">View Details</button>
+                <button type="button" class="btn-view-details" onclick="event.stopPropagation();location.href='<?= APP_URL ?>/business/<?= (int)$b['id'] ?>'">View Details</button>
               </div>
             </div>
           <?php endforeach; ?>
