@@ -52,12 +52,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $db = db();
             $db->beginTransaction();
 
-            $stmt = $db->prepare("INSERT INTO users (name, email, password, account_type, role, company_name, company_size, usage_goal, notifications, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
-            $stmt->execute([$name, $email, $hash, $accountType, $role, $company ?: null, $size ?: null, $goal, $notify]);
+            $stmt = $db->prepare("INSERT INTO users (name, email, password, account_type, role, company_name, verification_status, email_verified_at, company_size, usage_goal, notifications, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 'unverified', NOW(), ?, ?, ?, NOW(), NOW())");
+            $stmt->execute([$name, $email, $hash, $accountType, $role, $company ?: null, $size ?: null, $goal, $notify ?: null]);
+            $userId = $db->lastInsertId();
 
             $db->commit();
 
-            flash_set('success', 'Welcome to Asaan Capital! Your account has been created.');
+            send_welcome_email($email, $name, $role);
+
+            $_SESSION['user'] = db()->query("SELECT * FROM users WHERE id = $userId")->fetch();
+
+            flash_set('success', 'Your account has been created! An admin will review and verify your account shortly.');
             redirect('/dashboard');
         } catch (PDOException $e) {
             $db->rollBack();

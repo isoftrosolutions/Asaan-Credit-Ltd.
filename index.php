@@ -61,11 +61,15 @@ $routes = [
 
     '/admin/sectors'                => 'admin/content/sectors.php',
     '/admin/faqs'                   => 'admin/content/faqs.php',
+    '/admin/pages'                  => 'admin/content/pages.php',
     '/admin/blog'                   => 'admin/content/blog.php',
     '/admin/homepage'               => 'admin/content/homepage.php',
     '/admin/email-settings'         => 'admin/email-settings.php',
     '/admin/email-templates'        => 'admin/email-templates.php',
     '/admin/email-log'              => 'admin/email-log.php',
+    '/terms'                        => 'pages/page-cms.php',
+    '/privacy'                      => 'pages/page-cms.php',
+    '/faq'                          => 'pages/page-cms.php',
     '/api/notifications-unread'     => 'api/notifications-unread.php',
     '/api/mark-notification-read'   => 'api/mark-notification-read.php',
     '/api/smart-suggestions'        => 'api/smart-suggestions.php',
@@ -125,6 +129,17 @@ if (preg_match('#^/franchise/(\d+)$#', $path, $m)) {
 if (isset($routes[$path])) {
     $file = __DIR__ . '/' . $routes[$path];
     if (file_exists($file)) {
+        $_GET['slug'] = ltrim($path, '/');
+        require $file;
+        exit;
+    }
+}
+
+$slug = ltrim($path, '/');
+if ($slug && preg_match('/^[a-z0-9-]+$/', $slug)) {
+    $file = __DIR__ . '/pages/page-cms.php';
+    if (file_exists($file)) {
+        $_GET['slug'] = $slug;
         require $file;
         exit;
     }
