@@ -77,7 +77,7 @@ function render_pagination(int $page, int $lastPage, string $baseUrl): string {
     $nextDisabled = $page >= $lastPage ? ' disabled' : '';
 
     $html .= '<a href="' . ($prevDisabled ? '#' : $prevUrl) . '" class="page-link page-link-nav' . $prevDisabled . '" ' . ($prevDisabled ? 'tabindex="-1" aria-disabled="true"' : '') . ' aria-label="Previous page">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      <i class="fas fa-chevron-left" style="font-size:14px;"></i>
     </a>';
 
     $startPage = max(1, min($page - 2, $lastPage - 4));
@@ -108,7 +108,7 @@ function render_pagination(int $page, int $lastPage, string $baseUrl): string {
     }
 
     $html .= '<a href="' . ($nextDisabled ? '#' : $nextUrl) . '" class="page-link page-link-nav' . $nextDisabled . '" ' . ($nextDisabled ? 'tabindex="-1" aria-disabled="true"' : '') . ' aria-label="Next page">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      <i class="fas fa-chevron-right" style="font-size:14px;"></i>
     </a>';
 
     $html .= '</nav>';

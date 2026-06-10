@@ -172,7 +172,7 @@ require __DIR__ . '/../includes/layout-public.php';
         <?php endif; ?>
         <?php if ($vC >= 2): ?>
         <span class="stitch-badge stitch-badge-verified">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5z"/><polyline points="9 12 11 14 15 10" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          <i class="fas fa-shield-alt" style="font-size:11px;"></i>
           Verified
         </span>
         <?php endif; ?>
@@ -182,7 +182,7 @@ require __DIR__ . '/../includes/layout-public.php';
       <h1 class="stitch-hero-title"><?= e($business['business_name']) ?></h1>
 
       <div class="stitch-hero-location">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <i class="fas fa-map-marker-alt" style="font-size:15px;"></i>
         <span><?= $location ?></span>
       </div>
 
@@ -209,15 +209,15 @@ require __DIR__ . '/../includes/layout-public.php';
 
       <div class="stitch-hero-actions">
         <button class="stitch-btn stitch-btn-primary" onclick="document.getElementById('interest-modal').classList.add('open')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <i class="fas fa-envelope" style="font-size:16px;"></i>
           Contact Seller
         </button>
         <button class="stitch-btn stitch-btn-secondary" id="saveBtn" data-id="<?= $businessId ?>" data-type="business">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <i class="far fa-star" style="font-size:15px;"></i>
           <span>Save</span>
         </button>
         <button class="stitch-btn stitch-btn-secondary" onclick="navigator.share? navigator.share({title:'<?= e($business['business_name']) ?>',url:window.location.href}) : navigator.clipboard.writeText(window.location.href)">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+          <i class="fas fa-external-link-alt" style="font-size:13px;"></i>
           Share
         </button>
       </div>
@@ -230,7 +230,7 @@ require __DIR__ . '/../includes/layout-public.php';
         <img src="<?= APP_URL . $firstImg['file_url'] ?>" alt="<?= e($business['business_name']) ?>" class="stitch-gallery-main" id="heroMainImage">
         <?php if (count($images) > 1): ?>
         <button class="stitch-gallery-btn" onclick="document.getElementById('gallery-modal').classList.add('open')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
+          <i class="fas fa-eye" style="font-size:15px;"></i>
           View all photos (<?= count($images) ?>)
         </button>
         <?php endif; ?>
@@ -248,7 +248,7 @@ require __DIR__ . '/../includes/layout-public.php';
       </div>
       <?php else: ?>
       <div class="stitch-gallery-fallback">
-        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="10" y="10" width="44" height="44" rx="4"/><circle cx="32" cy="28" r="8"/><path d="M22 46c0-6 4-10 10-10s10 4 10 10"/></svg>
+        <i class="fas fa-image" style="font-size:40px;opacity:0.4;"></i>
         <span>Gallery</span>
       </div>
       <?php endif; ?>
@@ -269,22 +269,22 @@ require __DIR__ . '/../includes/layout-public.php';
       <h2 class="stitch-section-title">Investment Snapshot</h2>
       <div class="stitch-snapshot-grid">
         <div class="stitch-snapshot-item">
-          <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+          <div class="icon-wrap"><i class="fas fa-dollar-sign" style="font-size:20px;"></i></div>
           <span class="stitch-snapshot-label">Asking Price</span>
           <span class="stitch-snapshot-value accent"><?= money($business['asking_price'] ?? 0) ?></span>
         </div>
         <div class="stitch-snapshot-item">
-          <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 16l4-8 4 4 4-6"/></svg></div>
+          <div class="icon-wrap"><i class="fas fa-chart-bar" style="font-size:20px;"></i></div>
           <span class="stitch-snapshot-label">Annual Revenue</span>
           <span class="stitch-snapshot-value"><?= money($business['annual_revenue'] ?? 0) ?></span>
         </div>
         <div class="stitch-snapshot-item">
-          <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M12 6v6l4 2"/></svg></div>
+          <div class="icon-wrap"><i class="fas fa-hourglass-half" style="font-size:20px;"></i></div>
           <span class="stitch-snapshot-label">EBITDA Margin</span>
           <span class="stitch-snapshot-value"><?= e($business['ebitda_pct'] ?? '—') ?>%</span>
         </div>
         <div class="stitch-snapshot-item">
-          <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <div class="icon-wrap"><i class="fas fa-users" style="font-size:20px;"></i></div>
           <span class="stitch-snapshot-label">Employees</span>
           <span class="stitch-snapshot-value"><?= (int)($business['employee_count'] ?? 0) ?></span>
         </div>
@@ -314,25 +314,25 @@ require __DIR__ . '/../includes/layout-public.php';
       <div class="stitch-snapshot-highlights">
         <?php if ($business['monthly_revenue']): ?>
         <div class="stitch-highlight-pill">
-          <span class="icon" style="background:rgba(11,58,94,.1);color:var(--color-secondary)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></span>
+          <span class="icon" style="background:rgba(11,58,94,.1);color:var(--color-secondary)"><i class="fas fa-dollar-sign" style="font-size:20px;"></i></span>
           <div><span class="l">Monthly Revenue</span><span class="v"><?= money($business['monthly_revenue']) ?></span></div>
         </div>
         <?php endif; ?>
         <?php if (!empty($business['gross_margin_pct'])): ?>
         <div class="stitch-highlight-pill">
-          <span class="icon" style="background:rgba(22,163,74,.1);color:var(--color-success)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+          <span class="icon" style="background:rgba(22,163,74,.1);color:var(--color-success)"><i class="fas fa-chart-line" style="font-size:20px;"></i></span>
           <div><span class="l">Gross Margin</span><span class="v"><?= (float)($business['gross_margin_pct'] ?? 0) ?>%</span></div>
         </div>
         <?php endif; ?>
         <?php if (!empty($business['retention_rate'])): ?>
         <div class="stitch-highlight-pill">
-          <span class="icon" style="background:rgba(245,158,11,.1);color:var(--color-warning)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span>
+          <span class="icon" style="background:rgba(245,158,11,.1);color:var(--color-warning)"><i class="fas fa-users" style="font-size:20px;"></i></span>
           <div><span class="l">Retention Rate</span><span class="v"><?= (float)($business['retention_rate'] ?? 0) ?>%</span></div>
         </div>
         <?php endif; ?>
         <?php if (!empty($business['customer_count'])): ?>
         <div class="stitch-highlight-pill">
-          <span class="icon" style="background:rgba(11,58,94,.1);color:var(--color-secondary)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 4.5v7c0 5.5-9 9.5-9 9.5s-9-4-9-9.5v-7z"/></svg></span>
+          <span class="icon" style="background:rgba(11,58,94,.1);color:var(--color-secondary)"><i class="fas fa-bullseye" style="font-size:20px;"></i></span>
           <div><span class="l">Countries</span><span class="v"><?= number_format((int)($business['customer_count'] ?? 0)) ?></span></div>
         </div>
         <?php endif; ?>
@@ -444,35 +444,35 @@ require __DIR__ . '/../includes/layout-public.php';
         <?php $hasHighlight = false; ?>
         <?php if (!empty($business['customer_count'])): $hasHighlight = true; ?>
         <div class="stitch-highlight-item">
-          <span class="icon" style="background:rgba(22,163,74,.1);color:var(--color-success)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+          <span class="icon" style="background:rgba(22,163,74,.1);color:var(--color-success)"><i class="fas fa-chart-line" style="font-size:20px;"></i></span>
           <strong>Strong Recurring Revenue</strong>
           <p><?= number_format((int)($business['customer_count'] ?? 0)) ?>+ active customers with long-term contracts.</p>
         </div>
         <?php endif; ?>
         <?php if (!empty($business['ebitda_pct']) && (float)$business['ebitda_pct'] > 15): $hasHighlight = true; ?>
         <div class="stitch-highlight-item">
-          <span class="icon" style="background:rgba(11,58,94,.1);color:var(--color-secondary)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
+          <span class="icon" style="background:rgba(11,58,94,.1);color:var(--color-secondary)"><i class="fas fa-hourglass-half" style="font-size:20px;"></i></span>
           <strong>Healthy Margins</strong>
           <p><?= e($business['ebitda_pct']) ?>% EBITDA margin with strong operational efficiency.</p>
         </div>
         <?php endif; ?>
         <?php if (!empty($business['employee_count'])): $hasHighlight = true; ?>
         <div class="stitch-highlight-item">
-          <span class="icon" style="background:rgba(24,22,233,.1);color:var(--color-secondary)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
+          <span class="icon" style="background:rgba(24,22,233,.1);color:var(--color-secondary)"><i class="fas fa-lightbulb" style="font-size:20px;"></i></span>
           <strong>Experienced Team</strong>
           <p><?= (int)$business['employee_count'] ?> skilled professionals with deep industry expertise.</p>
         </div>
         <?php endif; ?>
         <?php if (!empty($business['established_year'])): $age = date('Y') - (int)$business['established_year']; if ($age > 3): $hasHighlight = true; ?>
         <div class="stitch-highlight-item">
-          <span class="icon" style="background:rgba(245,158,11,.1);color:var(--color-warning)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+          <span class="icon" style="background:rgba(245,158,11,.1);color:var(--color-warning)"><i class="fas fa-thumbs-up" style="font-size:20px;"></i></span>
           <strong>Established Business</strong>
           <p>Operating successfully for <?= $age ?>+ years with proven track record.</p>
         </div>
         <?php endif; endif; ?>
         <?php if (!$hasHighlight): ?>
         <div class="stitch-highlight-item">
-          <span class="icon" style="background:rgba(90,90,90,.1);color:var(--color-grey-mid)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
+          <span class="icon" style="background:rgba(90,90,90,.1);color:var(--color-grey-mid)"><i class="fas fa-check-circle" style="font-size:20px;"></i></span>
           <strong>More Details Pending</strong>
           <p>Contact the seller for detailed highlights and performance metrics.</p>
         </div>
@@ -516,9 +516,9 @@ require __DIR__ . '/../includes/layout-public.php';
         <div class="stitch-nda-text">
           <p>Sign a Non-Disclosure Agreement to access detailed documents and financial information.</p>
           <div class="stitch-doc-list">
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Financial Statements</span>
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg> Customer Contracts</span>
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg> Business Plan</span>
+            <span><i class="fas fa-file-alt" style="font-size:15px;"></i> Financial Statements</span>
+            <span><i class="fas fa-file-alt" style="font-size:15px;"></i> Customer Contracts</span>
+            <span><i class="fas fa-file-alt" style="font-size:15px;"></i> Business Plan</span>
           </div>
         </div>
         <?php if ($userId): ?>
@@ -536,7 +536,7 @@ require __DIR__ . '/../includes/layout-public.php';
       <div class="stitch-doc-links">
         <?php foreach ($mediaItems as $m): if ($m['media_type'] !== 'document') continue; ?>
         <a href="<?= APP_URL . $m['file_url'] ?>" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <i class="fas fa-file-alt" style="font-size:15px;"></i>
           <?= e($m['original_name'] ?: 'Document') ?>
         </a>
         <?php endforeach; ?>
@@ -559,19 +559,19 @@ require __DIR__ . '/../includes/layout-public.php';
       <h2 class="stitch-section-title">Seller Verification</h2>
       <div class="stitch-verification-row">
         <div class="stitch-verif-item <?= ($verification['email_verified'] ?? false) ? 'done' : '' ?>">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <i class="fas fa-check" style="font-size:15px;"></i>
           Email <?= ($verification['email_verified'] ?? false) ? 'Verified' : 'Unverified' ?>
         </div>
         <div class="stitch-verif-item <?= ($verification['phone_verified'] ?? false) ? 'done' : '' ?>">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <i class="fas fa-check" style="font-size:15px;"></i>
           Phone <?= ($verification['phone_verified'] ?? false) ? 'Verified' : 'Unverified' ?>
         </div>
         <div class="stitch-verif-item <?= ($verification['identity_verified'] ?? false) ? 'done' : '' ?>">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <i class="fas fa-check" style="font-size:15px;"></i>
           Identity <?= ($verification['identity_verified'] ?? false) ? 'Verified' : 'Unverified' ?>
         </div>
         <div class="stitch-verif-item <?= ($verification['company_verified'] ?? false) ? 'done' : '' ?>">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <i class="fas fa-check" style="font-size:15px;"></i>
           Company <?= ($verification['company_verified'] ?? false) ? 'Verified' : 'Unverified' ?>
         </div>
         <?php if ($vC >= 4): ?>
@@ -598,7 +598,7 @@ require __DIR__ . '/../includes/layout-public.php';
             <?php if ($r['thumbnail_url']): ?>
             <img src="<?= e($r['thumbnail_url']) ?>" alt="" loading="lazy">
             <?php else: ?>
-            <div class="fallback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+            <div class="fallback"><i class="fas fa-image" style="font-size:40px;opacity:0.4;"></i></div>
             <?php endif; ?>
             <?php if (!empty($r['is_featured'])): ?>
             <span class="stitch-premium-badge">PREMIUM</span>
@@ -642,7 +642,7 @@ require __DIR__ . '/../includes/layout-public.php';
 
         <?php if ($inquiryCount > 0): ?>
         <div class="stitch-sidebar-interest">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          <i class="fas fa-users" style="font-size:20px;"></i>
           <strong><?= $inquiryCount ?> investor<?= $inquiryCount !== 1 ? 's' : '' ?></strong> interested this month
         </div>
         <?php endif; ?>
@@ -651,11 +651,11 @@ require __DIR__ . '/../includes/layout-public.php';
         <?php if (!$userId): ?>
         <div class="stitch-sidebar-auth">
           <button class="stitch-auth-btn" onclick="location.href='<?= APP_URL ?>/login'">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/></svg>
+            <i class="fab fa-google" style="font-size:22px;"></i>
             Continue with Google
           </button>
           <button class="stitch-auth-btn" onclick="location.href='<?= APP_URL ?>/login'">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.67z"/></svg>
+            <i class="fab fa-linkedin-in" style="font-size:15px;"></i>
             Continue with LinkedIn
           </button>
         </div>
@@ -681,37 +681,37 @@ require __DIR__ . '/../includes/layout-public.php';
       <?php if ($vC > 0): ?>
       <div class="stitch-sidebar-card">
         <div class="stitch-card-header">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <i class="fas fa-check-circle" style="font-size:15px;"></i>
           Trust &amp; Verification
         </div>
         <div class="stitch-card-body">
           <div class="stitch-verif-row <?= ($verification['email_verified'] ?? false) ? 'done' : '' ?>">
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Email</span>
+            <span><i class="fas fa-check" style="font-size:13px;"></i> Email</span>
             <?php if ($verification['email_verified'] ?? false): ?>
-            <span class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="check"><i class="fas fa-check" style="font-size:13px;"></i></span>
             <?php endif; ?>
           </div>
           <div class="stitch-verif-row <?= ($verification['phone_verified'] ?? false) ? 'done' : '' ?>">
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg> Phone</span>
+            <span><i class="fas fa-phone" style="font-size:13px;"></i> Phone</span>
             <?php if ($verification['phone_verified'] ?? false): ?>
-            <span class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="check"><i class="fas fa-check" style="font-size:13px;"></i></span>
             <?php endif; ?>
           </div>
           <div class="stitch-verif-row <?= ($verification['identity_verified'] ?? false) ? 'done' : '' ?>">
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Identity</span>
+            <span><i class="fas fa-user" style="font-size:13px;"></i> Identity</span>
             <?php if ($verification['identity_verified'] ?? false): ?>
-            <span class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="check"><i class="fas fa-check" style="font-size:13px;"></i></span>
             <?php endif; ?>
           </div>
           <div class="stitch-verif-row <?= ($verification['company_verified'] ?? false) ? 'done' : '' ?>">
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Company</span>
+            <span><i class="fas fa-building" style="font-size:13px;"></i> Company</span>
             <?php if ($verification['company_verified'] ?? false): ?>
-            <span class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="check"><i class="fas fa-check" style="font-size:13px;"></i></span>
             <?php endif; ?>
           </div>
         </div>
         <div class="stitch-card-footer verified">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <i class="fas fa-check-circle" style="font-size:15px;"></i>
           Verified Business
         </div>
       </div>
@@ -720,7 +720,7 @@ require __DIR__ . '/../includes/layout-public.php';
       <!-- Recent Activity -->
       <div class="stitch-sidebar-card">
         <div class="stitch-card-header">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <i class="fas fa-clock" style="font-size:15px;"></i>
           Recent Activity
         </div>
         <div class="stitch-card-body activity">
@@ -746,14 +746,14 @@ require __DIR__ . '/../includes/layout-public.php';
       <!-- Security & Confidential -->
       <div class="stitch-sidebar-card security">
         <div class="stitch-card-header">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          <i class="fas fa-lock" style="font-size:15px;"></i>
           Secure &amp; Confidential
         </div>
         <div class="stitch-card-body">
           <ul>
-            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> NDA protection</li>
-            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Secure data room</li>
-            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Confidential inquiries</li>
+            <li><i class="fas fa-check" style="font-size:13px;"></i> NDA protection</li>
+            <li><i class="fas fa-check" style="font-size:13px;"></i> Secure data room</li>
+            <li><i class="fas fa-check" style="font-size:13px;"></i> Confidential inquiries</li>
           </ul>
         </div>
       </div>
@@ -903,10 +903,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }).then(function(r) { return r.json(); }).then(function(d) {
         if (d.saved) {
           btn.querySelector('span').textContent = 'Saved';
-          btn.querySelector('svg').setAttribute('fill', 'currentColor');
+          btn.querySelector('i').className = 'fas fa-star';
         } else {
           btn.querySelector('span').textContent = 'Save';
-          btn.querySelector('svg').setAttribute('fill', 'none');
+          btn.querySelector('i').className = 'far fa-star';
         }
       }).catch(function() {});
     });

@@ -42,7 +42,7 @@ $specialtyNames = array_map(fn($s) => $specialtyLabels[$s] ?? $s, $specialties);
     <div class="dash-section-title" style="margin-bottom:6px;"><?= e($advisor['firm_name']) ?></div>
     <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:center;">
       <?php if ($advisor['is_published']): ?><span class="dash-pill published">Published</span><?php endif; ?>
-      <?php if ($advisor['rating']): ?><span class="t-muted" style="display:inline-flex;align-items:center;gap:4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="color:var(--dash-warning);"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>Rating <?= e($advisor['rating']) ?></span><?php endif; ?>
+      <?php if ($advisor['rating']): ?><span class="t-muted" style="display:inline-flex;align-items:center;gap:4px;"><i class="fas fa-star" style="font-size:13px;color:var(--dash-warning);"></i>Rating <?= e($advisor['rating']) ?></span><?php endif; ?>
       <?php if ($advisor['years_experience']): ?><span class="t-muted"><?= e($advisor['years_experience']) ?> yrs experience</span><?php endif; ?>
       <?php if ($advisor['past_deals_count']): ?><span class="t-muted"><?= e($advisor['past_deals_count']) ?> deals closed</span><?php endif; ?>
     </div>

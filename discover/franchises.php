@@ -89,7 +89,7 @@ if ($queryParams) {
   </div>
 
   <button type="button" class="filter-toggle-mobile" onclick="document.getElementById('filter-sidebar').classList.toggle('open')" aria-label="Toggle filters">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M2 14h4"/><path d="M10 8h4"/><path d="M18 16h4"/></svg>
+    <i class="fas fa-search"></i>
     Filters<?= $activeFilters > 0 ? ' (' . $activeFilters . ')' : '' ?>
   </button>
 
@@ -121,13 +121,13 @@ if ($queryParams) {
         <?php if ($sectorId !== ''): $selSector = current(array_filter($sectors, fn($s) => (string)$s['id'] === $sectorId)); ?>
           <a href="<?= remove_query_param($baseUrl, 'sector_id') ?>" class="filter-chip">
             <?= e($selSector['name'] ?? $sectorId) ?>
-            <span class="filter-chip-remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+            <span class="filter-chip-remove"><i class="fas fa-times"></i></span>
           </a>
         <?php endif; ?>
         <?php if ($invMin !== '' || $invMax !== ''): ?>
           <a href="<?= remove_query_param(remove_query_param($baseUrl, 'inv_min'), 'inv_max') ?>" class="filter-chip">
             NPR <?= $invMin !== '' ? number_format((float)$invMin) : '0' ?> &ndash; NPR <?= $invMax !== '' ? number_format((float)$invMax) : 'Any' ?>
-            <span class="filter-chip-remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+            <span class="filter-chip-remove"><i class="fas fa-times"></i></span>
           </a>
         <?php endif; ?>
         <a href="<?= APP_URL ?>/discover/franchises.php" class="filter-chip" style="background:transparent;color:var(--color-text-muted);font-weight:500;">Clear all</a>
@@ -151,7 +151,7 @@ if ($queryParams) {
 
       <?php if (empty($franchises)): ?>
         <div class="empty-state-browse">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6"/><path d="M11 8v6"/></svg>
+          <i class="fas fa-sliders-h" style="font-size:48px;color:var(--color-text-muted);margin-bottom:1rem;"></i>
           <h3>No franchise opportunities found</h3>
           <p>Try adjusting your filters to discover more franchise brands.</p>
           <a href="<?= APP_URL ?>/discover/franchises.php" class="btn btn-primary btn-sm">Clear All Filters</a>

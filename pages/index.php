@@ -87,17 +87,17 @@ require __DIR__ . '/../includes/header.php';
   <div class="pub-wrap">
     <div class="hp-stats-row pub-statstrip">
       <div class="pub-statstrip-item" style="display:flex;align-items:center;gap:10px;">
-        <span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';color:var(--color-primary-vivid);font-size:28px;font-variation-settings:'FILL' 1;">verified_user</span>
+        <i class="fas fa-user-check" style="color:var(--color-primary-vivid);font-size:24px;"></i>
         <p style="margin:0;"><span class="pub-statstrip-num" style="display:inline;font-size:1.4rem;color:var(--color-primary-vivid);"><?= e($stats_investors) ?></span> <span class="pub-statstrip-label" style="display:inline;">Verified Investors</span></p>
       </div>
       <div class="hp-stats-divider" style="height:32px;width:1px;background:var(--dash-border);"></div>
       <div class="pub-statstrip-item" style="display:flex;align-items:center;gap:10px;">
-        <span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';color:var(--dash-primary);font-size:28px;font-variation-settings:'FILL' 1;">rocket_launch</span>
+        <i class="fas fa-rocket" style="color:var(--dash-primary);font-size:24px;"></i>
         <p style="margin:0;"><span class="pub-statstrip-num" style="display:inline;font-size:1.4rem;"><?= e($stats_businesses) ?></span> <span class="pub-statstrip-label" style="display:inline;">Active Pitches</span></p>
       </div>
       <div class="hp-stats-divider" style="height:32px;width:1px;background:var(--dash-border);"></div>
       <div class="pub-statstrip-item" style="display:flex;align-items:center;gap:10px;">
-        <span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';color:var(--color-primary-vivid);font-size:28px;font-variation-settings:'FILL' 1;">handshake</span>
+        <i class="fas fa-handshake" style="color:var(--color-primary-vivid);font-size:24px;"></i>
         <p style="margin:0;"><span class="pub-statstrip-num" style="display:inline;font-size:1.4rem;color:var(--color-primary-vivid);"><?= e($stats_matches) ?></span> <span class="pub-statstrip-label" style="display:inline;">Successful Matches</span></p>
       </div>
     </div>
@@ -109,22 +109,22 @@ require __DIR__ . '/../includes/header.php';
   <div class="pub-wrap">
     <div class="pub-grid cols-4">
       <div class="pub-feature">
-        <span class="pub-feature-ico"><span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;">verified</span></span>
+        <span class="pub-feature-ico"><i class="fas fa-check-circle"></i></span>
         <h3 class="pub-feature-title">Pre-approved</h3>
         <p class="pub-feature-text">Every business, investor and advisor profile is pre-screened by our analysts.</p>
       </div>
       <div class="pub-feature">
-        <span class="pub-feature-ico"><span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;">lock</span></span>
+        <span class="pub-feature-ico"><i class="fas fa-lock"></i></span>
         <h3 class="pub-feature-title">Confidential</h3>
         <p class="pub-feature-text">Your contact details stay private until there is a mutual match.</p>
       </div>
       <div class="pub-feature">
-        <span class="pub-feature-ico"><span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;">insights</span></span>
+        <span class="pub-feature-ico"><i class="fas fa-chart-line"></i></span>
         <h3 class="pub-feature-title">Fair Valuation</h3>
         <p class="pub-feature-text">Benchmark your business against comparable private companies in Nepal.</p>
       </div>
       <div class="pub-feature">
-        <span class="pub-feature-ico"><span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;">public</span></span>
+        <span class="pub-feature-ico"><i class="fas fa-globe"></i></span>
         <h3 class="pub-feature-title">Global Network</h3>
         <p class="pub-feature-text">Connect with investors, buyers and partners across Nepal and beyond.</p>
       </div>

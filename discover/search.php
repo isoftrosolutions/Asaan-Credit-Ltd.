@@ -85,7 +85,7 @@ $baseUrl = '/discover/search.php?q=' . urlencode($q);
 
   <?php if ($p['total'] === 0): ?>
     <div class="empty-state-browse">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6"/><path d="M11 8v6"/></svg>
+      <i class="fas fa-search" style="font-size:48px;color:var(--color-text-muted);margin-bottom:1rem;"></i>
       <h3>No results found for &ldquo;<?= e($q) ?>&rdquo;</h3>
       <p>Try broadening your search or browse by category below.</p>
       <div style="display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;">

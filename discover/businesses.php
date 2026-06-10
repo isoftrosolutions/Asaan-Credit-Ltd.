@@ -144,7 +144,7 @@ $listingTypeLabels = [
   </div>
 
   <button type="button" class="filter-toggle-mobile" onclick="document.getElementById('filter-sidebar').classList.toggle('open')" aria-label="Toggle filters">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M2 14h4"/><path d="M10 8h4"/><path d="M18 16h4"/></svg>
+    <i class="fas fa-search"></i>
     Filters<?= $activeFilters > 0 ? ' (' . $activeFilters . ')' : '' ?>
   </button>
 
@@ -199,25 +199,25 @@ $listingTypeLabels = [
         <?php if ($listingType !== ''): ?>
           <a href="<?= remove_query_param($baseUrl, 'listing_type') ?>" class="filter-chip">
             <?= $listingTypeLabels[$listingType] ?? e($listingType) ?>
-            <span class="filter-chip-remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+            <span class="filter-chip-remove"><i class="fas fa-times"></i></span>
           </a>
         <?php endif; ?>
         <?php if ($sectorId !== ''): $selSector = current(array_filter($sectors, fn($s) => (string)$s['id'] === $sectorId)); ?>
           <a href="<?= remove_query_param($baseUrl, 'sector_id') ?>" class="filter-chip">
             <?= e($selSector['name'] ?? $sectorId) ?>
-            <span class="filter-chip-remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+            <span class="filter-chip-remove"><i class="fas fa-times"></i></span>
           </a>
         <?php endif; ?>
         <?php if ($province !== ''): ?>
           <a href="<?= remove_query_param($baseUrl, 'province') ?>" class="filter-chip">
             <?= e($province) ?>
-            <span class="filter-chip-remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+            <span class="filter-chip-remove"><i class="fas fa-times"></i></span>
           </a>
         <?php endif; ?>
         <?php if ($priceMin !== '' || $priceMax !== ''): ?>
           <a href="<?= remove_query_param(remove_query_param($baseUrl, 'price_min'), 'price_max') ?>" class="filter-chip">
             <?= $priceMin !== '' ? 'NPR ' . number_format((float)$priceMin) : 'NPR 0' ?> &ndash; <?= $priceMax !== '' ? 'NPR ' . number_format((float)$priceMax) : 'Any' ?>
-            <span class="filter-chip-remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+            <span class="filter-chip-remove"><i class="fas fa-times"></i></span>
           </a>
         <?php endif; ?>
         <a href="<?= APP_URL ?>/browse/businesses" class="filter-chip" style="background:transparent;color:var(--color-text-muted);font-weight:500;">Clear all</a>
@@ -241,7 +241,7 @@ $listingTypeLabels = [
 
       <?php if (empty($businesses)): ?>
         <div class="empty-state-browse">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6"/><path d="M11 8v6"/></svg>
+          <i class="fas fa-chart-bar" style="font-size:48px;color:var(--color-text-muted);margin-bottom:1rem;"></i>
           <h3>No businesses found</h3>
           <p>Try adjusting your filters or search criteria to find more results.</p>
           <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-primary btn-sm">Clear All Filters</a>
@@ -258,7 +258,7 @@ $listingTypeLabels = [
                   <?php endif; ?>
                 </span>
                 <div class="card-rating">
-                  <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <i class="fas fa-star"></i>
                   <span><?= e($b['rating']) ?></span>
                 </div>
               </div>
@@ -271,12 +271,12 @@ $listingTypeLabels = [
                   <img class="card-thumb" src="<?= e($b['thumbnail_url']) ?>" alt="<?= e($b['business_name']) ?>" loading="lazy">
                 <?php else: ?>
                   <div class="card-thumb-placeholder">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                    <i class="fas fa-building" style="font-size:22px;"></i>
                   </div>
                 <?php endif; ?>
               </div>
               <div class="card-location">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <i class="fas fa-map-marker-alt" style="font-size:15px;"></i>
                 <?= e($b['district'] ? $b['district'] . ', ' : '') ?><?= e($b['province'] ?? 'Nepal') ?>
               </div>
               <div class="card-data-grid">

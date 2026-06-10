@@ -116,7 +116,7 @@ ui_page_header('Email Templates', 'Manage transactional email templates sent to 
       </div>
       <div style="display:flex;align-items:center;gap:12px;">
         <span class="tpl-badge"><?= count($tplVars) ?> variables</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        <i class="fas fa-chevron-down" style="font-size:14px;"></i>
       </div>
     </div>
     <div class="tpl-card-body">

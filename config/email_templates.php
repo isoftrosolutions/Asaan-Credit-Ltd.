@@ -75,7 +75,7 @@ return [
             <p style="font-size:16px;margin-bottom:24px;line-height:1.6;">Hello <strong style="color:#1E4866;">{{user_name}}</strong>,</p>
             <p style="font-size:15px;margin-bottom:28px;line-height:1.6;color:#5A5A5A;">Your password was changed successfully. If you made this change, no further action is required.</p>
             <div style="background:#fff9f0;padding:20px;border-radius:12px;margin-bottom:24px;border:1px solid #fde68a;">
-                <p style="margin:0;font-size:14px;color:#92400e;line-height:1.5;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:6px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> <strong>Did not change your password?</strong> Please contact our support team immediately at <a href="mailto:support@asaancapital.com" style="color:#98202A;font-weight:600;">support@asaancapital.com</a>.</p>
+                <p style="margin:0;font-size:14px;color:#92400e;line-height:1.5;"><i class="fas fa-exclamation-triangle" style="font-size:16px;color:#d97706;vertical-align:middle;margin-right:6px;"></i> <strong>Did not change your password?</strong> Please contact our support team immediately at <a href="mailto:support@asaancapital.com" style="color:#98202A;font-weight:600;">support@asaancapital.com</a>.</p>
             </div>
             <div style="border-top:1px solid #ECECEC;padding-top:24px;text-align:center;">
                 <p style="margin:0;font-size:13px;color:#5A5A5A;">Asaan Capital Ltd — Kathmandu, Nepal</p>
@@ -105,9 +105,9 @@ return [
             <div style="background:linear-gradient(135deg, #1E4866 0%, #205880 100%);padding:28px;border-radius:16px;margin-bottom:32px;color:#ffffff;box-shadow:0 8px 20px rgba(30,72,102,0.2);">
                 <h3 style="font-size:14px;text-transform:uppercase;letter-spacing:1px;margin-top:0;margin-bottom:16px;opacity:0.9;">What you can do next</h3>
                 <div style="font-size:14px;line-height:1.8;">
-                    <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:8px;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> <strong>Discover</strong> — Browse vetted businesses and pitches</div>
-                    <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:8px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> <strong>Connect</strong> — Express interest and match with partners</div>
-                    <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:8px;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> <strong>Grow</strong> — Find the right capital or acquisition opportunity</div>
+                    <div><i class="fas fa-search" style="display:inline-block;vertical-align:middle;margin-right:8px;font-size:15px;"></i> <strong>Discover</strong> — Browse vetted businesses and pitches</div>
+                    <div><i class="fas fa-users" style="display:inline-block;vertical-align:middle;margin-right:8px;font-size:15px;"></i> <strong>Connect</strong> — Express interest and match with partners</div>
+                    <div><i class="fas fa-chart-line" style="display:inline-block;vertical-align:middle;margin-right:8px;font-size:15px;"></i> <strong>Grow</strong> — Find the right capital or acquisition opportunity</div>
                 </div>
             </div>
             <div style="text-align:center;margin:32px 0;">
@@ -156,7 +156,7 @@ return [
             </div>
             <div style="text-align:center;margin-bottom:32px;">
                 <div style="text-align:center;margin-bottom:16px;">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1E7A4D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <i class="fas fa-users" style="font-size:44px;color:#1E7A4D;"></i>
                 </div>
                 <h2 style="color:#1E7A4D;font-size:26px;font-weight:800;margin:0;letter-spacing:-0.5px;">It\'s a Match!</h2>
                 <p style="color:#5A5A5A;margin-top:8px;font-size:15px;">Both sides are interested — time to connect.</p>

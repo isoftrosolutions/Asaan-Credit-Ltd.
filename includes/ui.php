@@ -3,7 +3,7 @@
  * Dashboard UI kit — reusable, role-agnostic render helpers for the redesigned
  * dashboard (Phase 1). Pure presentation: no queries, no business logic. Every
  * helper echoes HTML. Used by includes/layout-dashboard.php and the per-role
- * dashboard pages. Inline SVGs keep this dependency-free (no JS ICONS needed).
+ * dashboard pages. UI icons use Font Awesome (fas) classes.
  */
 
 if (!defined('UI_PHP_LOADED')) {
@@ -40,16 +40,53 @@ if (!defined('UI_PHP_LOADED')) {
         'inbox'      => '<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/>',
     ];
 
-    /** Echo an inline SVG icon by name. */
+    /** Font Awesome icon name lookup. */
+    $GLOBALS['UI_ICONS_FA'] = [
+        'home'       => 'fa-home',
+        'search'     => 'fa-search',
+        'bell'       => 'fa-bell',
+        'user'       => 'fa-user',
+        'users'      => 'fa-users',
+        'settings'   => 'fa-cog',
+        'document'   => 'fa-file-alt',
+        'briefcase'  => 'fa-briefcase',
+        'matches'    => 'fa-handshake',
+        'plus'       => 'fa-plus',
+        'close'      => 'fa-times',
+        'menu'       => 'fa-bars',
+        'upload'     => 'fa-upload',
+        'filter'     => 'fa-filter',
+        'logout'     => 'fa-sign-out-alt',
+        'tag'        => 'fa-tag',
+        'share'      => 'fa-share-alt',
+        'clock'      => 'fa-clock',
+        'inbox'      => 'fa-inbox',
+        'eye'        => 'fa-eye',
+        'heart'      => 'fa-heart',
+        'chart'      => 'fa-chart-line',
+        'arrowRight' => 'fa-arrow-right',
+        'check'      => 'fa-check',
+        'star'       => 'fa-star',
+        'mapPin'     => 'fa-map-marker-alt',
+        'lock'       => 'fa-lock',
+        'trending'   => 'fa-chart-line',
+        'sparkles'   => 'fa-sparkles',
+        'bulb'       => 'fa-lightbulb',
+        'mail'       => 'fa-envelope',
+    ];
+
+    /** Echo a Font Awesome icon by name. */
     function ui_icon(string $name, string $class = 'ui-ico'): void {
-        $p = $GLOBALS['UI_ICONS'][$name] ?? '';
-        echo '<svg class="' . e($class) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $p . '</svg>';
+        $fa = $GLOBALS['UI_ICONS_FA'][$name] ?? 'fa-circle';
+        $cls = $class !== '' ? ' ' . e($class) : '';
+        echo '<i class="fas ' . $fa . $cls . '" aria-hidden="true"></i>';
     }
 
-    /** Return an inline SVG icon string (when you need it inline, not echoed). */
+    /** Return a Font Awesome icon string (when you need it inline, not echoed). */
     function ui_icon_str(string $name, string $class = 'ui-ico'): string {
-        $p = $GLOBALS['UI_ICONS'][$name] ?? '';
-        return '<svg class="' . e($class) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $p . '</svg>';
+        $fa = $GLOBALS['UI_ICONS_FA'][$name] ?? 'fa-circle';
+        $cls = $class !== '' ? ' ' . e($class) : '';
+        return '<i class="fas ' . $fa . $cls . '" aria-hidden="true"></i>';
     }
 
     /** Role → sidebar links. Mirrors DASHBOARD_LINKS in assets/header.js. */

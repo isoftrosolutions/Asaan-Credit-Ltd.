@@ -87,6 +87,7 @@ if ($user) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     .material-symbols-outlined {
       font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -140,7 +141,7 @@ if ($user) {
     $badgeText = $unreadCount > 9 ? '9+' : (string)$unreadCount;
     $userName = $user['name'] ?? 'User';
     $headerActions = '<a href="/notifications" class="notification-bell" aria-label="' . e($bellLabel) . '">'
-        . '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>'
+        . '<i class="fas fa-bell"></i>'
         . '<span class="notification-badge" aria-hidden="true"' . $badgeStyle . '>' . $badgeText . '</span></a>'
         . '<a href="/dashboard" class="header-user" aria-label="' . e($userName) . ' — go to dashboard">'
         . '<div class="avatar avatar-sm" aria-hidden="true">' . e($initial) . '</div>'
