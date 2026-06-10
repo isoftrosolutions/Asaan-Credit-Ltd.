@@ -184,19 +184,21 @@ function injectHeader(type, actionsHtml) {
     if (e.key === 'Escape') closeMenu();
   });
 
-  /* ---- Scroll shadow ---- */
+  /* ---- Scroll shadow (IntersectionObserver, no scroll listener) ---- */
   var header = document.getElementById('mainHeader');
   if (header) {
-    var ticking = false;
-    function updateShadow() {
-      header.classList.toggle('scrolled', window.scrollY > 10);
-      ticking = false;
-    }
-    window.addEventListener('scroll', function () {
-      if (!ticking) {
-        requestAnimationFrame(updateShadow);
-        ticking = true;
-      }
-    }, { passive: true });
+    var sentinel = document.createElement('div');
+    sentinel.style.position = 'absolute';
+    sentinel.style.top = '0';
+    sentinel.style.left = '0';
+    sentinel.style.width = '1px';
+    sentinel.style.height = '1px';
+    sentinel.style.pointerEvents = 'none';
+    document.body.prepend(sentinel);
+
+    var scrollObserver = new IntersectionObserver(function (entries) {
+      header.classList.toggle('scrolled', !entries[0].isIntersecting);
+    }, { threshold: [0], rootMargin: '-1px 0px 0px 0px' });
+    scrollObserver.observe(sentinel);
   }
 }

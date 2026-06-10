@@ -59,18 +59,13 @@ require __DIR__ . '/../includes/header.php';
   .hp-hero-actions { flex-direction:column; }
   .hp-hero-actions a { width:100%; text-align:center; }
 }
-@keyframes hpFadeUp {
-  from { opacity:0; transform:translateY(16px); }
-  to { opacity:1; transform:translateY(0); }
-}
-.hp-animate-in { opacity:0; transform:translateY(16px); transition:opacity 0.7s ease, transform 0.7s ease; }
-.hp-animate-in.visible { opacity:1; transform:translateY(0); }
 </style>
 <main class="pub-page">
 <!-- Hero Section -->
 <section class="hp-hero" style="position:relative;overflow:hidden;display:flex;align-items:center;">
   <div style="position:absolute;inset:0;z-index:0;background:linear-gradient(135deg, #00263f 0%, #013a5e 55%, #00263f 100%);"></div>
-  <div style="position:absolute;inset:0;z-index:1;background:radial-gradient(120% 90% at 85% 15%, rgba(152,32,42,0.22) 0%, rgba(152,32,42,0) 55%);"></div>
+  <img src="https://picsum.photos/seed/asaan-capital-nepal/1600/900" alt="" aria-hidden="true" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;mix-blend-mode:overlay;opacity:0.15;">
+  <div style="position:absolute;inset:0;z-index:2;background:radial-gradient(120% 90% at 85% 15%, rgba(152,32,42,0.22) 0%, rgba(152,32,42,0) 55%);"></div>
   <div class="hp-hero-inner pub-wrap" style="width:100%;position:relative;z-index:10;">
     <div style="max-width:580px;">
       <h1 class="hp-hero-title pub-h1" style="color:#fff;margin-bottom:20px;">
@@ -80,8 +75,8 @@ require __DIR__ . '/../includes/header.php';
         <?= e($hero_subtitle) ?>
       </p>
       <div class="hp-hero-actions pub-cta-actions" style="justify-content:flex-start;margin-top:28px;">
-        <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">I'm an Investor</a>
-        <a href="<?= APP_URL ?>/onboarding" class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);color:#fff;background:transparent;">I'm an Entrepreneur</a>
+        <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">Get Started</a>
+        <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);color:#fff;background:transparent;">Browse Businesses</a>
       </div>
     </div>
   </div>
@@ -92,8 +87,8 @@ require __DIR__ . '/../includes/header.php';
   <div class="pub-wrap">
     <div class="hp-stats-row pub-statstrip">
       <div class="pub-statstrip-item" style="display:flex;align-items:center;gap:10px;">
-        <span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';color:var(--color-secondary);font-size:28px;font-variation-settings:'FILL' 1;">verified_user</span>
-        <p style="margin:0;"><span class="pub-statstrip-num" style="display:inline;font-size:1.4rem;color:var(--color-secondary);"><?= e($stats_investors) ?></span> <span class="pub-statstrip-label" style="display:inline;">Verified Investors</span></p>
+        <span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';color:var(--color-primary-vivid);font-size:28px;font-variation-settings:'FILL' 1;">verified_user</span>
+        <p style="margin:0;"><span class="pub-statstrip-num" style="display:inline;font-size:1.4rem;color:var(--color-primary-vivid);"><?= e($stats_investors) ?></span> <span class="pub-statstrip-label" style="display:inline;">Verified Investors</span></p>
       </div>
       <div class="hp-stats-divider" style="height:32px;width:1px;background:var(--dash-border);"></div>
       <div class="pub-statstrip-item" style="display:flex;align-items:center;gap:10px;">
@@ -102,8 +97,8 @@ require __DIR__ . '/../includes/header.php';
       </div>
       <div class="hp-stats-divider" style="height:32px;width:1px;background:var(--dash-border);"></div>
       <div class="pub-statstrip-item" style="display:flex;align-items:center;gap:10px;">
-        <span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';color:var(--color-secondary);font-size:28px;font-variation-settings:'FILL' 1;">handshake</span>
-        <p style="margin:0;"><span class="pub-statstrip-num" style="display:inline;font-size:1.4rem;color:var(--color-secondary);"><?= e($stats_matches) ?></span> <span class="pub-statstrip-label" style="display:inline;">Successful Matches</span></p>
+        <span class="material-symbols-outlined" style="font-family:'Material Symbols Outlined';color:var(--color-primary-vivid);font-size:28px;font-variation-settings:'FILL' 1;">handshake</span>
+        <p style="margin:0;"><span class="pub-statstrip-num" style="display:inline;font-size:1.4rem;color:var(--color-primary-vivid);"><?= e($stats_matches) ?></span> <span class="pub-statstrip-label" style="display:inline;">Successful Matches</span></p>
       </div>
     </div>
   </div>
@@ -144,7 +139,7 @@ require __DIR__ . '/../includes/header.php';
     <div class="hp-biz-split" style="display:grid;gap:32px;align-items:center;">
       <div class="hp-biz-cards" style="display:grid;gap:16px;">
         <?php foreach (array_slice($featured_biz, 0, 2) as $biz): ?>
-        <div class="pub-card card-accent-bar" style="cursor:pointer;" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'" onmouseover="this.style.boxShadow='var(--dash-shadow-hover)'" onmouseout="this.style.boxShadow=''">
+        <div class="pub-card card-accent-bar" style="cursor:pointer;" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
             <span class="pub-badge success">Business for Sale</span>
             <?php if (!empty($biz['rating'])): ?>
@@ -167,8 +162,8 @@ require __DIR__ . '/../includes/header.php';
       </div>
       <div>
         <h2 class="pub-h2" style="color:var(--color-primary);margin:0 0 16px;">Businesses for Sale on <?= APP_NAME_LONG ?></h2>
-        <p class="pub-lead" style="margin:0 0 24px;">Explore pre-screened businesses for sale across diverse sectors in Nepal. Find ventures looking for a full sale, raising capital, or seeking a business loan. Register as an investor to connect and invest in them.</p>
-        <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-primary btn-lg">View All Businesses</a>
+        <p class="pub-lead" style="margin:0 0 24px;">Explore pre-screened businesses for sale across diverse sectors in Nepal. Find ventures looking for a full sale, raising capital, or seeking a business loan.</p>
+        <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-primary btn-lg">Browse Businesses</a>
       </div>
     </div>
   </div>
@@ -180,15 +175,12 @@ require __DIR__ . '/../includes/header.php';
   <div class="pub-wrap">
     <div class="hp-grid-2 hp-gap-48" style="display:grid;">
       <div style="position:relative;overflow:hidden;border-radius:12px;padding:24px;background:#ffdad933;border:1px solid #ffb3b2;">
-        <div style="position:absolute;right:-40px;top:-40px;opacity:0.1;transition:transform 0.7s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-          <span style="font-size:160px;font-family:'Material Symbols Outlined';">finance_chip</span>
-        </div>
         <div style="position:relative;z-index:10;">
           <h3 class="pub-h2" style="margin-bottom:16px;color:var(--color-primary);">For Investors</h3>
           <p class="pub-text" style="margin-bottom:24px;max-width:400px;">
             Access vetted startups from Nepal across diverse sectors including Agriculture, SaaS, and Energy. View pitch decks and financial reports instantly.
           </p>
-          <ul style="list-style:none;padding:0;margin-bottom:24px;">
+          <ul style="list-style:none;padding:0;">
             <li style="display:flex;align-items:center;gap:4px;font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.05em;color:var(--dash-ink);font-family:var(--font-body);margin-bottom:8px;">
               <span style="color:var(--color-primary);font-family:'Material Symbols Outlined';font-size:14px;font-variation-settings:'FILL' 1;">check_circle</span>
               Pre-vetted Opportunities
@@ -198,29 +190,24 @@ require __DIR__ . '/../includes/header.php';
               Direct Entrepreneur Access
             </li>
           </ul>
-          <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">Start Investing</a>
         </div>
       </div>
-      <div style="position:relative;overflow:hidden;border-radius:12px;padding:24px;background:#cce5ff4d;border:1px solid #a4cbef;">
-        <div style="position:absolute;right:-40px;top:-40px;opacity:0.1;transition:transform 0.7s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-          <span style="font-size:160px;font-family:'Material Symbols Outlined';">rocket</span>
-        </div>
+      <div style="position:relative;overflow:hidden;border-radius:12px;padding:24px;background:#f5e6e6;border:1px solid #e0c5c5;">
         <div style="position:relative;z-index:10;">
-          <h3 class="pub-h2" style="margin-bottom:16px;color:var(--color-secondary);">For Entrepreneurs</h3>
+          <h3 class="pub-h2" style="margin-bottom:16px;color:var(--color-primary);">For Entrepreneurs</h3>
           <p class="pub-text" style="margin-bottom:24px;max-width:400px;">
             List your venture and get matched with professional investors who understand the Nepalese market. Secure funding to scale your vision.
           </p>
-          <ul style="list-style:none;padding:0;margin-bottom:24px;">
+          <ul style="list-style:none;padding:0;">
             <li style="display:flex;align-items:center;gap:4px;font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.05em;color:var(--dash-ink);font-family:var(--font-body);margin-bottom:8px;">
-              <span style="color:var(--color-secondary);font-family:'Material Symbols Outlined';font-size:14px;font-variation-settings:'FILL' 1;">check_circle</span>
+              <span style="color:var(--color-primary);font-family:'Material Symbols Outlined';font-size:14px;font-variation-settings:'FILL' 1;">check_circle</span>
               Visibility to HNIs
             </li>
             <li style="display:flex;align-items:center;gap:4px;font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.05em;color:var(--dash-ink);font-family:var(--font-body);">
-              <span style="color:var(--color-secondary);font-family:'Material Symbols Outlined';font-size:14px;font-variation-settings:'FILL' 1;">check_circle</span>
+              <span style="color:var(--color-primary);font-family:'Material Symbols Outlined';font-size:14px;font-variation-settings:'FILL' 1;">check_circle</span>
               Fundraising Assistance
             </li>
           </ul>
-          <a href="<?= APP_URL ?>/onboarding" class="btn btn-accent">Pitch Your Idea</a>
         </div>
       </div>
     </div>
@@ -233,14 +220,14 @@ require __DIR__ . '/../includes/header.php';
   <div class="pub-wrap">
     <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;gap:16px;flex-wrap:wrap;">
       <div>
-        <h2 class="pub-h2" style="color:var(--color-secondary);margin:0 0 8px 0;">Featured Investment Opportunities</h2>
+        <h2 class="pub-h2" style="color:var(--color-primary);margin:0 0 8px 0;">Featured Investment Opportunities</h2>
         <p class="pub-text" style="margin:0;">Pre-verified entrepreneurs seeking capital for growth.</p>
       </div>
       <a href="<?= APP_URL ?>/browse/entrepreneurs" class="btn btn-ghost btn-sm hp-hide-mobile" style="flex-shrink:0;">View All</a>
     </div>
     <div style="display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;">
       <?php foreach ($featured_pitches as $p): ?>
-      <div class="pub-card card-accent-bar-navy" style="flex-shrink:0;width:300px;cursor:pointer;" onclick="location.href='<?= APP_URL ?>/pitch/<?= (int)$p['id'] ?>'" onmouseover="this.style.boxShadow='var(--dash-shadow-hover)'" onmouseout="this.style.boxShadow=''">
+      <div class="pub-card card-accent-bar-navy" style="flex-shrink:0;width:300px;cursor:pointer;" onclick="location.href='<?= APP_URL ?>/pitch/<?= (int)$p['id'] ?>'">
         <div style="margin-bottom:12px;">
           <span class="pub-badge info">Seeking Investment</span>
         </div>
@@ -275,16 +262,16 @@ require __DIR__ . '/../includes/header.php';
 <section class="pub-section surface">
   <div class="pub-wrap-narrow">
     <div class="pub-section-head">
-      <h2 class="pub-h2" style="color:var(--color-primary);margin-bottom:16px;">Frequently Asked Questions</h2>
+      <h2 class="pub-h2" style="margin-bottom:16px;">Frequently Asked Questions</h2>
       <p class="pub-text">Everything you need to know about <?= APP_NAME_LONG ?>.</p>
     </div>
     <?php $first = true; foreach ($faqs as $faq): ?>
-    <div class="faq-item" style="background:white;border-radius:12px;padding:16px;margin-bottom:8px;border:1px solid var(--dash-border);<?= $first ? 'border-left:4px solid #6B1D22;' : '' ?>">
+    <div class="faq-item <?= $first ? 'open' : '' ?>" style="background:var(--dash-card);border-radius:12px;padding:16px;margin-bottom:8px;border:1px solid var(--dash-border);<?= $first ? 'border-left:4px solid var(--color-primary-vivid);' : '' ?>">
       <div class="faq-header" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:600;font-size:16px;line-height:24px;color:var(--dash-ink);font-family:var(--font-body);">
         <span><?= e($faq['question']) ?></span>
-        <span class="faq-icon" style="font-size:20px;color:var(--dash-ink-soft);transition:transform 0.2s;">+</span>
+        <span class="faq-icon">+</span>
       </div>
-      <div class="faq-answer" style="display:<?= $first ? 'block' : 'none' ?>;margin-top:12px;font-size:14px;line-height:1.7;color:var(--dash-ink-soft);font-family:var(--font-body);">
+      <div class="faq-answer">
         <?= e($faq['answer']) ?>
       </div>
     </div>
@@ -302,8 +289,8 @@ require __DIR__ . '/../includes/header.php';
       <h2>Ready to grow your business?</h2>
       <p>Join <?= e($stats_businesses) ?> business owners and <?= e($stats_investors) ?> investors already on the platform.</p>
       <div class="pub-cta-actions">
-        <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary btn-lg">Get Started Free</a>
-        <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline btn-lg" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.9);">Browse Listings</a>
+        <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary btn-lg">Get Started</a>
+        <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline btn-lg" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.9);">Browse Businesses</a>
       </div>
     </div>
   </div>
@@ -313,24 +300,9 @@ require __DIR__ . '/../includes/header.php';
 <script>
 document.querySelectorAll('.faq-header').forEach(header => {
   header.addEventListener('click', () => {
-    const item = header.parentElement;
-    const answer = item.querySelector('.faq-answer');
-    const icon = item.querySelector('.faq-icon');
-    const isOpen = item.style.borderLeftWidth === '4px' && item.style.borderLeftColor !== '#6B1D22';
-    item.style.borderLeft = isOpen ? '4px solid #6B1D22' : '1px solid #dbc0bf4d';
-    answer.style.display = isOpen ? 'block' : 'none';
-    icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(45deg)';
+    header.parentElement.classList.toggle('open');
   });
 });
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('.hp-animate-in').forEach(el => observer.observe(el));
 </script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
