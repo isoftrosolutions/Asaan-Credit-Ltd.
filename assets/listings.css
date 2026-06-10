@@ -1088,12 +1088,15 @@
   color: var(--ds-text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .stitch-detail .container {
   max-width: var(--ds-container);
   margin: 0 auto;
   padding-inline: 24px;
+  width: 100%;
 }
 
 /* ─── Breadcrumb ─── */
@@ -2226,9 +2229,10 @@
   .stitch-hero-metrics { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .stitch-metric-card { padding: 10px; }
   .stitch-metric-card .value { font-size: 1rem; }
-  .stitch-hero-actions { gap: 8px; }
-  .stitch-hero-actions .stitch-btn-primary { flex: 1; justify-content: center; }
-  .stitch-hero-actions .stitch-btn-secondary { padding: 12px 16px; }
+  .stitch-hero-actions { gap: 8px; flex-wrap: wrap; width: 100%; }
+  .stitch-hero-actions .stitch-btn { min-width: 0; }
+  .stitch-hero-actions .stitch-btn-primary { flex: 1; justify-content: center; min-width: 140px; }
+  .stitch-hero-actions .stitch-btn-secondary { padding: 12px 16px; flex: 1; justify-content: center; }
 
   .stitch-gallery-thumbs { height: 60px; gap: 8px; }
 
