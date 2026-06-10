@@ -14,7 +14,7 @@ function stitch_is_active($url) {
     </a>
 
     <nav class="stitch-nav" id="stitchNav">
-      <button class="stitch-nav-close" onclick="document.getElementById('stitchNav').classList.remove('open');document.getElementById('stitchBackdrop').classList.remove('open')" aria-label="Close menu">&times;</button>
+      <button class="stitch-nav-close" onclick="closeStitchMenu()" aria-label="Close menu">&times;</button>
       <div class="stitch-nav-links">
         <a href="/" class="stitch-nav-link <?= stitch_is_active('/') ? 'active' : '' ?>">Home</a>
         <a href="/browse/businesses" class="stitch-nav-link <?= stitch_is_active('/browse') ? 'active' : '' ?>">Opportunities</a>
@@ -32,9 +32,21 @@ function stitch_is_active($url) {
       </div>
     </nav>
 
-    <button class="stitch-header-toggle" onclick="document.getElementById('stitchNav').classList.toggle('open');document.getElementById('stitchBackdrop').classList.toggle('open')" aria-label="Toggle menu">
+    <button class="stitch-header-toggle" onclick="toggleStitchMenu()" aria-label="Toggle menu">
       <span></span><span></span><span></span>
     </button>
   </div>
-  <div class="stitch-backdrop" id="stitchBackdrop" onclick="document.getElementById('stitchNav').classList.remove('open');this.classList.remove('open')"></div>
+  <div class="stitch-backdrop" id="stitchBackdrop" onclick="closeStitchMenu()"></div>
 </header>
+<script>
+function toggleStitchMenu() {
+  document.getElementById('stitchNav').classList.toggle('open');
+  document.getElementById('stitchBackdrop').classList.toggle('open');
+  document.body.classList.toggle('menu-open');
+}
+function closeStitchMenu() {
+  document.getElementById('stitchNav').classList.remove('open');
+  document.getElementById('stitchBackdrop').classList.remove('open');
+  document.body.classList.remove('menu-open');
+}
+</script>
