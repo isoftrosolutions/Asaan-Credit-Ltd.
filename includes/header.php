@@ -107,12 +107,13 @@ if ($user) {
             <a href="/" class="logo" aria-label="Asaan Capital Ltd"></a>
           </div>
         </div>
-        <nav style="display:flex;gap:24px;">
-          <a href="/" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Home</a>
-          <a href="/browse/businesses" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Opportunities</a>
-          <a href="/about" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">About</a>
-          <a href="/blog" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Blog</a>
-        </nav>
+          <nav style="display:flex;gap:24px;">
+            <a href="/" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Home</a>
+            <a href="/browse/businesses" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Investment & Opportunities</a>
+            <a href="/about" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">About Us</a>
+            <a href="/blog" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Blog</a>
+            <a href="/contact" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Contact</a>
+          </nav>
         <div style="margin-left:auto;display:flex;gap:8px;">
           <a href="/login" style="padding:8px 16px;border:1px solid var(--dash-border);border-radius:8px;text-decoration:none;color:var(--dash-ink);font-weight:500;">Log in</a>
           <a href="/onboarding" style="padding:8px 16px;background:var(--color-primary-vivid);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;">Sign up</a>
