@@ -151,13 +151,25 @@ if ($user) {
         . '<a href="/onboarding" class="btn btn-sm btn-primary">Sign up</a>';
 }
 ?>
-<?php if (!empty($dashChrome)): ?>
+<?php if (!empty($useStitchHeader)): ?>
+/* Stitch header rendered server-side; skip JS injection. */
+<?php elseif (!empty($dashChrome)): ?>
 /* Dashboard chrome is rendered in PHP (see layout-dashboard.php); skip JS injection. */
 <?php elseif ($user && empty($forcePublicHeader)): ?>
 injectHeader('<?= $isAdmin ? 'admin' : 'dashboard' ?>', <?= json_encode($headerActions) ?>);
 <?php else: ?>
 injectHeader('public', <?= json_encode($headerActions) ?>);
 <?php endif; ?>
+
+  // Scroll shadow for Stitch header
+  var sh = document.querySelector('.stitch-header');
+  if (sh) {
+    (function() {
+      function check() { sh.classList.toggle('scrolled', window.scrollY > 20); }
+      requestAnimationFrame(check);
+      window.addEventListener('scroll', check, { passive: true });
+    })();
+  }
 });
 </script>
 <?php flash_render(); ?>
