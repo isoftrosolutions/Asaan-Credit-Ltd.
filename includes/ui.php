@@ -91,6 +91,14 @@ if (!defined('UI_PHP_LOADED')) {
 
     /** Role → sidebar links. Mirrors DASHBOARD_LINKS in assets/header.js. */
     function ui_dashboard_links(string $role): array {
+        $role = [
+            'owner' => 'business_owner',
+            'ceo' => 'business_owner',
+            'cfo' => 'business_owner',
+            'individual_investor' => 'investor',
+            'investment_manager' => 'investor',
+            'broker' => 'advisor',
+        ][$role] ?? $role;
         $map = [
             'investor' => [
                 ['Dashboard', '/dashboard', 'home'],

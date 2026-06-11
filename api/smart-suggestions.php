@@ -38,7 +38,21 @@ $role = $user['role'];
 $suggestions = [];
 $cachedUntil = date('Y-m-d H:i:s', strtotime('+24 hours'));
 
-if ($role === 'investor') {
+$suggestRole = [
+    'investor' => 'investor',
+    'individual_investor' => 'investor',
+    'investment_manager' => 'investor',
+    'business_owner' => 'business_owner',
+    'owner' => 'business_owner',
+    'ceo' => 'business_owner',
+    'cfo' => 'business_owner',
+    'entrepreneur' => 'entrepreneur',
+    'franchisor' => 'franchisor',
+    'advisor' => 'advisor',
+    'broker' => 'advisor',
+][$role] ?? null;
+
+if ($suggestRole === 'investor') {
     $ipStmt = db()->prepare("SELECT * FROM investor_profiles WHERE user_id = ?");
     $ipStmt->execute([$userId]);
     $profile = $ipStmt->fetch();
@@ -58,13 +72,13 @@ if ($role === 'investor') {
         scoreTargets($userId, 'pitch', $preferredSectors, $preferredStages, $ticketMin, $ticketMax, $cachedUntil)
     );
 
-} elseif (in_array($role, ['entrepreneur', 'business_owner', 'franchisor'])) {
+} elseif (in_array($suggestRole, ['entrepreneur', 'business_owner', 'franchisor'])) {
     $userSectorId = null;
     $userStage = null;
     $userFundingMin = 0;
     $userFundingMax = 999999999;
 
-    if ($role === 'entrepreneur') {
+    if ($suggestRole === 'entrepreneur') {
         $pStmt = db()->prepare("SELECT sector_id, stage, funding_amount FROM pitches WHERE user_id = ? AND is_published = 1 LIMIT 1");
         $pStmt->execute([$userId]);
         $pitch = $pStmt->fetch();
@@ -76,7 +90,7 @@ if ($role === 'investor') {
                 $userFundingMax = (float)$pitch['funding_amount'] * 2;
             }
         }
-    } elseif ($role === 'business_owner') {
+    } elseif ($suggestRole === 'business_owner') {
         $bStmt = db()->prepare("SELECT sector_id, asking_price FROM businesses WHERE user_id = ? AND is_published = 1 LIMIT 1");
         $bStmt->execute([$userId]);
         $business = $bStmt->fetch();

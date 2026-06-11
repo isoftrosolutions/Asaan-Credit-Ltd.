@@ -126,9 +126,11 @@ function injectHeader(type, actionsHtml) {
 
   var mobileNavHtml = _mobileNavHtml(PUBLIC_NAV);
 
+  var ROLE_ALIAS = { owner:'business_owner', ceo:'business_owner', cfo:'business_owner', individual_investor:'investor', investment_manager:'investor', broker:'advisor' };
   var dashboardLinksHtml = '';
   if (isAuth && typeof CURRENT_USER !== 'undefined' && CURRENT_USER) {
-    var links = type === 'admin' ? ADMIN_LINKS : (DASHBOARD_LINKS[CURRENT_USER.role] || DASHBOARD_LINKS.investor);
+    var roleKey = ROLE_ALIAS[CURRENT_USER.role] || CURRENT_USER.role;
+    var links = type === 'admin' ? ADMIN_LINKS : (DASHBOARD_LINKS[roleKey] || DASHBOARD_LINKS.investor);
     dashboardLinksHtml = _mobileNavHtml(links);
   }
 
