@@ -10,6 +10,7 @@ $businessCols = [
     "ADD COLUMN `legal_entity_type` VARCHAR(100) DEFAULT NULL AFTER `employee_count`",
     "ADD COLUMN `monthly_revenue` DECIMAL(15,2) DEFAULT NULL AFTER `annual_revenue`",
     "ADD COLUMN `funding_required` DECIMAL(15,2) DEFAULT NULL AFTER `asking_price`",
+    "ADD COLUMN `valuation` DECIMAL(15,2) DEFAULT NULL AFTER `funding_required`",
     "ADD COLUMN `status` ENUM('draft','pending','approved','rejected','sold') NOT NULL DEFAULT 'approved' AFTER `is_hidden`",
     "ADD COLUMN `overview` LONGTEXT DEFAULT NULL AFTER `description`",
     "ADD COLUMN `products_services` LONGTEXT DEFAULT NULL AFTER `overview`",

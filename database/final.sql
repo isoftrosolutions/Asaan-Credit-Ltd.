@@ -110,6 +110,7 @@ CREATE TABLE `businesses` (
   `annual_revenue` decimal(15,2) DEFAULT NULL,
   `ebitda_pct` decimal(5,2) DEFAULT NULL,
   `asking_price` decimal(15,2) DEFAULT NULL,
+  `valuation` decimal(15,2) DEFAULT NULL,
   `stake_offered_pct` decimal(5,2) DEFAULT NULL,
   `loan_amount` decimal(15,2) DEFAULT NULL,
   `loan_interest_pct` decimal(5,2) DEFAULT NULL,
