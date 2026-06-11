@@ -98,6 +98,186 @@ if ($queryParams) {
   <span>Entrepreneurs &amp; Pitches</span>
 </div>
 
+<style>
+.pitch-card {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: transform 220ms var(--ease-out), box-shadow 220ms var(--ease-out), border-color 220ms var(--ease-out);
+  display: flex;
+  flex-direction: column;
+}
+.pitch-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+  border-color: var(--color-primary-vivid);
+}
+
+.pitch-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.pitch-avatar-initials {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-vivid));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.pitch-contact-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 0.75rem;
+}
+.pitch-contact-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dash-ink-soft);
+  font-size: 0.85rem;
+  transition: background 200ms ease, color 200ms ease;
+}
+.pitch-contact-icon:hover {
+  background: var(--color-primary-vivid);
+  color: #fff;
+}
+
+.pitch-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--dash-ink);
+}
+.pitch-role {
+  font-size: 0.8rem;
+  color: var(--dash-ink-soft);
+  margin-top: 2px;
+}
+
+.pitch-section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dash-ink-soft);
+  margin-bottom: 4px;
+}
+.pitch-section-text {
+  font-size: 0.85rem;
+  color: var(--dash-ink);
+  line-height: 1.5;
+}
+
+.pitch-location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: var(--dash-ink-soft);
+  margin: 0.75rem 0;
+}
+.pitch-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: var(--color-warning);
+  margin-bottom: 0.75rem;
+}
+
+.pitch-data-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--dash-border);
+  border-bottom: 1px solid var(--dash-border);
+  margin-bottom: 0.75rem;
+}
+.pitch-data-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--dash-ink-soft);
+}
+.pitch-data-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--dash-ink);
+}
+
+.pitch-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+.pitch-funding-label {
+  font-size: 0.7rem;
+  color: var(--dash-ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.pitch-funding {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-primary-vivid);
+}
+.btn-send-proposal {
+  padding: 8px 18px;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: transform 160ms var(--ease-out), background 160ms var(--ease-out);
+  white-space: nowrap;
+}
+.btn-send-proposal:active {
+  transform: scale(0.95);
+}
+.btn-send-proposal:hover {
+  background: #4A1317;
+}
+
+.filter-sidebar {
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .browse-grid { grid-template-columns: 1fr; }
+  .pitch-data-grid { grid-template-columns: 1fr; }
+  .pitch-footer { flex-direction: column; gap: 0.75rem; align-items: stretch; }
+  .btn-send-proposal { width: 100%; text-align: center; }
+}
+</style>
+
 <div class="container" style="padding-bottom:var(--space-8);">
   <div class="browse-title-bar">
     <h2>Browse Entrepreneurs</h2>

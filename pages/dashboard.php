@@ -7,10 +7,15 @@ $role = $user['role'];
 
 $roleDashboards = [
     'investor' => __DIR__ . '/../investor/dashboard.php',
+    'individual_investor' => __DIR__ . '/../investor/dashboard.php',
     'business_owner' => __DIR__ . '/../business/dashboard.php',
+    'owner' => __DIR__ . '/../business/dashboard.php',
+    'ceo' => __DIR__ . '/../business/dashboard.php',
+    'cfo' => __DIR__ . '/../business/dashboard.php',
     'entrepreneur' => __DIR__ . '/../entrepreneur/dashboard.php',
     'franchisor' => __DIR__ . '/../franchise/dashboard.php',
     'advisor' => __DIR__ . '/../advisor/dashboard.php',
+    'broker' => __DIR__ . '/../advisor/dashboard.php',
 ];
 
 if (!empty($user['is_admin'])) {

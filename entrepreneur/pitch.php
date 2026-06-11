@@ -59,6 +59,104 @@ $breadcrumbSchema = '<script type="application/ld+json">{
 require __DIR__ . '/../includes/layout-public.php';
 ?>
 <?= $breadcrumbSchema ?>
+<style>
+.pitch-detail-sidebar {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+
+.detail-sidebar-inner > .btn-contact {
+  width: 100%;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-vivid) 100%);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
+  margin: 1rem 0;
+}
+.detail-sidebar-inner > .btn-contact:active {
+  transform: scale(0.97);
+}
+.detail-sidebar-inner > .btn-contact:hover {
+  box-shadow: 0 8px 24px rgba(107,29,34,0.3);
+}
+
+.sidebar-login-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 1rem;
+}
+.sidebar-login-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-md);
+  color: var(--dash-ink);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 200ms ease, border-color 200ms ease;
+}
+.sidebar-login-btn:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.16);
+}
+
+.sidebar-social-proof {
+  text-align: center;
+  padding: 0.75rem;
+  background: rgba(152,32,42,0.06);
+  border-radius: var(--radius-md);
+  font-size: 0.8rem;
+  color: var(--dash-ink-soft);
+  margin: 1rem 0;
+}
+
+.sidebar-price {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-primary-vivid);
+  line-height: 1.2;
+}
+.sidebar-label {
+  font-size: 0.85rem;
+  color: var(--dash-ink-soft);
+  margin-bottom: 0.5rem;
+}
+
+/* Recent Activity Feed */
+.activity-feed { max-width:960px; margin:0 auto; padding:0 1rem; }
+.activity-feed h3 { font-size:1.1rem; font-weight:700; margin-bottom:1rem; color:var(--dash-ink); }
+.activity-item { display:flex; align-items:flex-start; gap:0.75rem; padding:0.75rem 0; border-bottom:1px solid var(--dash-border); }
+.activity-item:last-child { border-bottom:none; }
+.activity-dot { width:8px; height:8px; border-radius:50%; background:var(--color-primary-vivid); margin-top:6px; flex-shrink:0; }
+.activity-text { font-size:0.85rem; color:var(--dash-ink); line-height:1.5; }
+.activity-time { font-size:0.75rem; color:var(--dash-ink-soft); margin-top:2px; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .pitch-detail-grid { grid-template-columns:1fr; }
+  .detail-sidebar-card { position:static; }
+  .pitch-detail-grid > div:first-child { order:1; }
+  .pitch-detail-grid > div:last-child { order:0; }
+}
+@media (max-width: 640px) {
+  .pitch-detail-grid > div:first-child h3 { font-size:1.1rem; }
+}
+</style>
 <div class="breadcrumbs container">
     <a href="<?= APP_URL ?>/">Home</a> <span>/</span>
     <a href="<?= APP_URL ?>/browse/entrepreneurs">Entrepreneurs</a> <span>/</span>
@@ -156,7 +254,7 @@ require __DIR__ . '/../includes/layout-public.php';
             <?php endif; ?>
         </div>
 
-        <div class="detail-sidebar-card">
+        <div class="detail-sidebar-card pitch-detail-sidebar">
             <div class="detail-sidebar-inner">
                 <?php if ($pitch['funding_amount']): ?>
                 <div class="sidebar-price"><?= money($pitch['funding_amount']) ?></div>
@@ -203,7 +301,6 @@ require __DIR__ . '/../includes/layout-public.php';
                     <strong>Disclaimer:</strong> Asaan Capital Ltd is a discovery platform. Conduct your own due diligence.
                 </div>
 
-                <button class="btn btn-ghost btn-sm" style="width:100%;margin-top:0.75rem;font-size:0.75rem;color:var(--color-text-muted);cursor:pointer;border:none;background:none;padding:8px;font-family:inherit;" onclick="document.getElementById('report-modal').classList.add('open')">Report listing</button>
             </div>
         </div>
     </div>
@@ -229,35 +326,6 @@ require __DIR__ . '/../includes/layout-public.php';
     </div>
 </div>
 
-<div id="report-modal" class="modal" onclick="if(event.target===this)this.classList.remove('open')">
-    <div class="modal-content" onclick="event.stopImmediatePropagation()">
-        <div class="modal-header">
-            <h3>Report Listing</h3>
-            <button class="close-btn" onclick="document.getElementById('report-modal').classList.remove('open')">&times;</button>
-        </div>
-        <form method="POST" action="/connections/send-interest" onsubmit="event.preventDefault();const f=this;fetch('/api/report.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f))}).then(r=>r.json()).then(d=>{if(d.ok){alert('Report submitted. Thank you.');f.closest('.modal').classList.remove('open')}else{alert('Error submitting report.')}}).catch(()=>{alert('Error submitting report.')})">
-            <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
-            <input type="hidden" name="target_type" value="pitch">
-            <input type="hidden" name="target_id" value="<?= $pitchId ?>">
-            <div class="input-group">
-                <label>Reason</label>
-                <select name="reason" class="input" required>
-                    <option value="">Select a reason...</option>
-                    <option value="inaccurate_info">Inaccurate information</option>
-                    <option value="suspicious">Suspicious or fraudulent</option>
-                    <option value="duplicate">Duplicate listing</option>
-                    <option value="inappropriate">Inappropriate content</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label>Details (optional)</label>
-                <textarea name="details" class="input" rows="3" placeholder="Provide additional context..."></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary" style="width:100%;">Submit Report</button>
-        </form>
-    </div>
-</div>
 
 <div id="interest-modal" class="modal" onclick="if (event.target === this) this.classList.remove('open')">
     <div class="modal-content" onclick="event.stopImmediatePropagation()">
