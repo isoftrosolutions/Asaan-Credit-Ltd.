@@ -7,7 +7,8 @@
     };
 
     var roleLabels = {
-        owner: 'Owner / Founder',
+        owner: 'Founder / Owner',
+        investor: 'Investor',
         ceo: 'CEO / Managing Director',
         cfo: 'CFO / Finance',
         investment_manager: 'Investment Manager',

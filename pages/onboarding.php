@@ -32,11 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($accountType === 'company' && $company === '') $errors['company'] = 'Company name is required.';
 
-    $validRoles = ['owner', 'ceo', 'cfo', 'investment_manager', 'broker', 'advisor', 'individual_investor', 'entrepreneur', 'franchisor'];
+    $validRoles = ['owner', 'investor', 'ceo', 'cfo', 'investment_manager', 'broker', 'advisor', 'individual_investor', 'entrepreneur', 'franchisor'];
     if (!in_array($role, $validRoles)) $errors['role'] = 'Please select a role.';
 
     $roleMap = [
         'owner' => 'business_owner',
+        'investor' => 'investor',
         'ceo' => 'business_owner',
         'cfo' => 'business_owner',
         'individual_investor' => 'investor',
@@ -195,15 +196,8 @@ require __DIR__ . '/../includes/header.php';
           <label for="role">Your role</label>
             <select id="role" name="role" required>
             <option value="">Select a role</option>
-            <option value="owner" <?= ($_POST['role'] ?? '') === 'owner' ? 'selected' : '' ?>>Owner / Founder</option>
-            <option value="ceo" <?= ($_POST['role'] ?? '') === 'ceo' ? 'selected' : '' ?>>CEO / Managing Director</option>
-            <option value="cfo" <?= ($_POST['role'] ?? '') === 'cfo' ? 'selected' : '' ?>>CFO / Finance</option>
-            <option value="investment_manager" <?= ($_POST['role'] ?? '') === 'investment_manager' ? 'selected' : '' ?>>Investment Manager</option>
-            <option value="individual_investor" <?= ($_POST['role'] ?? '') === 'individual_investor' ? 'selected' : '' ?>>Individual Investor</option>
-            <option value="broker" <?= ($_POST['role'] ?? '') === 'broker' ? 'selected' : '' ?>>Broker / Advisor</option>
-            <option value="advisor" <?= ($_POST['role'] ?? '') === 'advisor' ? 'selected' : '' ?>>Advisor / Consultant</option>
-            <option value="entrepreneur" <?= ($_POST['role'] ?? '') === 'entrepreneur' ? 'selected' : '' ?>>Entrepreneur / Startup</option>
-            <option value="franchisor" <?= ($_POST['role'] ?? '') === 'franchisor' ? 'selected' : '' ?>>Franchisor</option>
+            <option value="owner" <?= ($_POST['role'] ?? '') === 'owner' ? 'selected' : '' ?>>Founder / Owner</option>
+            <option value="investor" <?= ($_POST['role'] ?? '') === 'investor' ? 'selected' : '' ?>>Investor</option>
           </select>
           <span class="field-error"><?= e($errors['role'] ?? '') ?></span>
         </div>
