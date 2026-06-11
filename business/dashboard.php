@@ -52,6 +52,11 @@ if (!empty($businesses)) {
 }
 
 $topAskingPrice = !empty($askingPrices) ? max($askingPrices) : 0;
+$drafts = $totalListings - $published;
+$publishedLabel = $published . ' published';
+if ($drafts > 0) {
+    $publishedLabel .= ' / ' . $drafts . ' draft' . ($drafts === 1 ? '' : 's');
+}
 
 $pageTitle = 'Business Owner Dashboard';
 require __DIR__ . '/../includes/layout-dashboard.php';
@@ -64,17 +69,44 @@ ui_page_header(
 ?>
 
 <?php if (empty($businesses)): ?>
-  <div class="dash-panel">
-    <?php ui_empty_state([
-        'imageSrc' => APP_URL . '/assets/business-founder-owner-empty.png',
-        'imageAlt' => 'Business founder preparing a listing dashboard',
-        'title' => 'No business listings yet',
-        'text' => 'Create your first business listing to start connecting with investors and buyers.',
-        'ctaHref' => APP_URL . '/business/create',
-        'ctaLabel' => 'Create business listing',
-    ]); ?>
+  <div class="dash-panel biz-empty-hero">
+    <div class="biz-empty-copy">
+      <span class="biz-eyebrow">Founder / Owner Portal</span>
+      <h2>Launch your business listing in minutes</h2>
+      <p>Create a clear investor-ready profile with your company overview, transaction goal, financial highlights, and supporting documents.</p>
+      <div class="biz-empty-actions">
+        <a href="<?= APP_URL ?>/business/create" class="btn btn-primary">Create business listing</a>
+        <a href="<?= APP_URL ?>/business-valuation" class="btn btn-outline">Estimate valuation</a>
+      </div>
+      <div class="biz-empty-steps" aria-label="Listing setup steps">
+        <span><strong>1</strong> Add business details</span>
+        <span><strong>2</strong> Upload proof and media</span>
+        <span><strong>3</strong> Connect with investors</span>
+      </div>
+    </div>
+    <div class="biz-empty-visual">
+      <img src="<?= APP_URL ?>/assets/business-founder-owner-empty.png" alt="Business founder preparing a listing dashboard" loading="lazy">
+    </div>
   </div>
 <?php else: ?>
+
+<div class="dash-panel biz-dashboard-hero">
+  <div class="biz-dashboard-hero-copy">
+    <span class="biz-eyebrow">Business owner workspace</span>
+    <h2><?= e($totalListings === 1 ? 'Your listing is ready to manage' : 'Manage your business portfolio') ?></h2>
+    <p>Track listing visibility, respond to investor interest, and keep your business details current from one place.</p>
+  </div>
+  <div class="biz-dashboard-hero-meta">
+    <div>
+      <span class="biz-meta-label">Listings</span>
+      <strong><?= number_format($totalListings) ?></strong>
+    </div>
+    <div>
+      <span class="biz-meta-label">Status</span>
+      <strong><?= e($publishedLabel) ?></strong>
+    </div>
+  </div>
+</div>
 
 <div class="dash-stats">
   <?php
@@ -85,12 +117,21 @@ ui_page_header(
   ?>
 </div>
 
+<?php ui_section_header('Quick actions'); ?>
+<div class="dash-qa-grid">
+  <?php
+    ui_quick_action(['title' => 'Add new listing', 'desc' => 'Create another business profile', 'icon' => 'plus', 'href' => APP_URL . '/business/create', 'tone' => 'primary']);
+    ui_quick_action(['title' => 'Review connections', 'desc' => $interestCount . ' total interest request' . ($interestCount === 1 ? '' : 's'), 'icon' => 'matches', 'href' => APP_URL . '/connections', 'tone' => 'success']);
+    ui_quick_action(['title' => 'Update listing details', 'desc' => 'Refresh pricing, media, and profile data', 'icon' => 'settings', 'href' => APP_URL . '/business/edit', 'tone' => 'info']);
+  ?>
+</div>
+
 <?php ui_section_header('Your listings'); ?>
-<div class="dash-panel">
+<div class="dash-panel biz-listings-panel">
   <div class="dash-table-wrap">
     <table class="dash-table">
       <thead><tr>
-        <th>Business</th><th>Type</th><th>Asking price</th>
+        <th>Business</th><th>Transaction</th><th>Asking price</th>
         <th class="ta-center">Status</th><th class="ta-center">Views</th><th class="ta-right">Actions</th>
       </tr></thead>
       <tbody>
@@ -99,6 +140,7 @@ ui_page_header(
           <td>
             <span class="t-strong"><?= e($b['business_name']) ?></span>
             <?php if ($b['is_featured']): ?> <span class="dash-pill featured">Featured</span><?php endif; ?>
+            <br><span class="t-muted">Updated <?= e(date_human($b['updated_at'] ?? $b['created_at'])) ?></span>
           </td>
           <td><?= e(ucfirst(str_replace('_', ' ', $b['listing_type']))) ?></td>
           <td><?= $b['asking_price'] ? money($b['asking_price']) : '—' ?></td>
