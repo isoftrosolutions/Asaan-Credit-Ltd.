@@ -49,7 +49,7 @@ return [
                 <p style="color:#5A5A5A;margin-top:8px;font-size:15px;">Enter the code below to reset your password.</p>
             </div>
             <p style="font-size:16px;margin-bottom:24px;line-height:1.6;">Hello <strong style="color:#1E4866;">{{user_name}}</strong>,</p>
-            <p style="font-size:15px;margin-bottom:28px;line-height:1.6;color:#5A5A5A;">Use the following one-time code to reset your password. This code expires in <strong>10 minutes</strong>.</p>
+            <p style="font-size:15px;margin-bottom:28px;line-height:1.6;color:#5A5A5A;">Use the following one-time code to reset your password. This code expires in <strong>5 minutes</strong>.</p>
             <div style="text-align:center;margin:32px 0;padding:28px;background:#F8F8F8;border-radius:16px;border:2px dashed #1E4866;letter-spacing:8px;">
                 <span style="font-size:36px;font-weight:900;color:#1E4866;font-family:monospace;">{{otp_code}}</span>
             </div>
