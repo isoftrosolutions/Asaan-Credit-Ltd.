@@ -10,9 +10,10 @@ function require_login(): void {
     }
 }
 
-function require_role(string $role): void {
+function require_role(string|array $role): void {
     $user = current_user();
-    if (!$user || $user['role'] !== $role) {
+    $roles = is_array($role) ? $role : [$role];
+    if (!$user || !in_array($user['role'], $roles, true)) {
         http_response_code(403);
         e('Forbidden: you do not have access to this area.');
         exit;
