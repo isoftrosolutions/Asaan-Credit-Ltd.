@@ -1498,10 +1498,83 @@
   box-shadow: var(--ds-shadow);
 }
 
+.stitch-fin-period {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--ds-soft);
+  color: var(--ds-text-secondary);
+  font-size: var(--ds-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.stitch-fin-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.stitch-fin-summary > div {
+  min-width: 0;
+  border: 1px solid var(--ds-border);
+  border-radius: var(--ds-radius-sm);
+  background: linear-gradient(180deg, #fff, var(--ds-bg));
+  padding: 14px 16px;
+}
+
+.stitch-fin-summary .label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ds-muted);
+  font-size: var(--ds-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.stitch-fin-summary strong {
+  display: block;
+  color: var(--ds-text);
+  font-size: 1.05rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.stitch-chart-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.stitch-chart-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stitch-chart-title span {
+  color: var(--ds-text);
+  font-size: var(--ds-small);
+  font-weight: 800;
+}
+
+.stitch-chart-title small {
+  color: var(--ds-muted);
+  font-size: var(--ds-label);
+  font-weight: 600;
+}
+
 .stitch-chart-legend {
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
-  margin-bottom: 20px;
   font-size: var(--ds-label);
   font-weight: 600;
   color: var(--ds-text-secondary);
@@ -1514,43 +1587,68 @@
   vertical-align: middle;
   margin-right: 4px;
 }
+.stitch-chart-legend .dot.revenue { background: var(--ds-primary); }
+.stitch-chart-legend .dot.profit { background: var(--ds-success); }
 
 .stitch-chart {
   display: flex;
   align-items: flex-end;
-  gap: 16px;
-  height: 200px;
+  gap: 14px;
+  min-height: 232px;
+  overflow-x: auto;
   border-bottom: 1px solid var(--ds-border);
-  padding-bottom: 8px;
-  margin-bottom: 16px;
+  padding: 14px 4px 10px;
+  margin-bottom: 18px;
+  background:
+    linear-gradient(to top, rgba(226,232,240,.85) 1px, transparent 1px) 0 0 / 100% 25%,
+    linear-gradient(180deg, rgba(248,250,252,.72), rgba(255,255,255,0));
+  border-radius: var(--ds-radius-sm) var(--ds-radius-sm) 0 0;
 }
 
 .stitch-chart-group {
   flex: 1;
+  min-width: 62px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  height: 100%;
   justify-content: flex-end;
 }
 
 .stitch-chart-bars {
   display: flex;
   align-items: flex-end;
-  gap: 4px;
+  gap: 6px;
   width: 100%;
+  height: 170px;
   justify-content: center;
+  padding-inline: 4px;
+  border-bottom: 2px solid var(--ds-border);
 }
 
 .stitch-bar {
-  width: 100%;
-  max-width: 32px;
-  border-radius: 4px 4px 0 0;
-  transition: height .3s;
+  width: clamp(14px, 28%, 30px);
+  height: var(--bar-height, 2%);
+  min-height: 4px;
+  border-radius: 6px 6px 0 0;
+  opacity: var(--bar-opacity, 1);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22);
+  transition: height .25s ease, opacity .25s ease;
 }
 .stitch-bar.revenue { background: var(--ds-primary); }
 .stitch-bar.profit { background: var(--ds-success); }
+.stitch-bar.is-empty {
+  height: 4px;
+  min-height: 4px;
+  background: repeating-linear-gradient(
+    45deg,
+    #CBD5E1,
+    #CBD5E1 3px,
+    #E2E8F0 3px,
+    #E2E8F0 6px
+  );
+  opacity: .65;
+}
 
 .stitch-chart-label {
   font-size: var(--ds-label);
@@ -2247,9 +2345,12 @@
   .stitch-highlights-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .stitch-highlight-item { padding: 14px; }
 
-  .stitch-chart { height: 140px; gap: 8px; overflow-x: auto; }
-  .stitch-chart-group { min-width: 48px; }
-  .stitch-bar { max-width: 24px; }
+  .stitch-fin-summary { grid-template-columns: 1fr; }
+  .stitch-chart-head { align-items: flex-start; flex-direction: column; }
+  .stitch-chart { min-height: 190px; gap: 8px; }
+  .stitch-chart-bars { height: 130px; }
+  .stitch-chart-group { min-width: 54px; }
+  .stitch-bar { width: clamp(12px, 30%, 24px); }
   .stitch-financial-card { padding: 16px; }
 
   .stitch-nda-card { padding: 16px; }

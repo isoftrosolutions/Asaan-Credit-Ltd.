@@ -114,7 +114,16 @@ if (count($financialItems) >= 2) {
     if ((float)$prev['revenue'] > 0) $revGrowth = round((( (float)$last['revenue'] - (float)$prev['revenue']) / (float)$prev['revenue']) * 100, 1);
     if ((float)$prev['profit'] > 0) $profitGrowth = round((( (float)$last['profit'] - (float)$prev['profit']) / (float)$prev['profit']) * 100, 1);
 }
-$maxRevenue = empty($financialItems) ? 0 : max(array_map(fn($f) => (float)$f['revenue'], $financialItems));
+$maxFinancialValue = 0;
+foreach ($financialItems as $f) {
+    $maxFinancialValue = max(
+        $maxFinancialValue,
+        max(0, (float)($f['revenue'] ?? 0)),
+        max(0, (float)($f['profit'] ?? 0)),
+        max(0, (float)($f['ebitda'] ?? 0))
+    );
+}
+$latestFin = !empty($financialItems) ? $financialItems[count($financialItems) - 1] : null;
 
 $pageTitle = e($business['business_name']) . ' — ' . APP_NAME;
 $pageDescription = mb_substr(strip_tags($business['description'] ?: $business['overview'] ?: ''), 0, 160);
@@ -364,29 +373,60 @@ require __DIR__ . '/../includes/layout-public.php';
     <?php endif; ?>
 
     <!-- ── Financial Performance ── -->
-    <?php if (!empty($financialItems) && $maxRevenue > 0): ?>
+    <?php if (!empty($financialItems) && $maxFinancialValue > 0): ?>
     <section class="stitch-section">
-      <h2 class="stitch-section-title">Financial Performance</h2>
+      <div class="stitch-section-header-row">
+        <h2 class="stitch-section-title" style="margin:0">Financial Performance</h2>
+        <span class="stitch-fin-period"><?= count($financialItems) ?> fiscal year<?= count($financialItems) === 1 ? '' : 's' ?></span>
+      </div>
       <div class="stitch-financial-card">
 
-        <div class="stitch-chart-legend">
-          <span><span class="dot" style="background:var(--color-secondary)"></span> Revenue (NPR)</span>
-          <span><span class="dot" style="background:var(--color-success)"></span> Profit (NPR)</span>
+        <div class="stitch-fin-summary">
+          <div>
+            <span class="label">Latest Revenue</span>
+            <strong><?= money($latestFin['revenue'] ?? 0) ?></strong>
+          </div>
+          <div>
+            <span class="label">Latest Profit</span>
+            <strong><?= money($latestFin['profit'] ?? 0) ?></strong>
+          </div>
+          <div>
+            <span class="label">Latest EBITDA</span>
+            <strong><?= money($latestFin['ebitda'] ?? 0) ?></strong>
+          </div>
+        </div>
+
+        <div class="stitch-chart-head">
+          <div class="stitch-chart-title">
+            <span>Revenue and profit trend</span>
+            <small>Scaled to highest reported financial value</small>
+          </div>
+          <div class="stitch-chart-legend">
+            <span><span class="dot revenue"></span> Revenue</span>
+            <span><span class="dot profit"></span> Profit</span>
+          </div>
         </div>
 
         <div class="stitch-chart">
           <?php foreach ($financialItems as $f):
-            $rh = max(4, ((float)$f['revenue'] / $maxRevenue) * 180);
-            $pp = (float)$f['profit'];
-            $ph = $maxRevenue > 0 ? max(4, ($pp / $maxRevenue) * 180) : 4;
+            $revenue = max(0, (float)($f['revenue'] ?? 0));
+            $profit = max(0, (float)($f['profit'] ?? 0));
+            $rh = $maxFinancialValue > 0 ? max(2, min(100, ($revenue / $maxFinancialValue) * 100)) : 0;
+            $ph = $maxFinancialValue > 0 ? max(2, min(100, ($profit / $maxFinancialValue) * 100)) : 0;
             $isLatest = $f['fiscal_year'] == max($finYears);
             $opacity = $isLatest ? '100' : ($f['fiscal_year'] == max($finYears) - 1 ? '70' : ($f['fiscal_year'] == max($finYears) - 2 ? '40' : '20'));
           ?>
           <div class="stitch-chart-group">
             <div class="stitch-chart-bars">
-              <div class="stitch-bar revenue" style="height:<?= $rh ?>px;opacity:<?= $opacity === '100' ? '1' : '0.' . $opacity ?>"></div>
-              <?php if ($pp > 0): ?>
-              <div class="stitch-bar profit" style="height:<?= $ph ?>px;opacity:<?= $opacity === '100' ? '1' : '0.' . $opacity ?>"></div>
+              <?php if ($revenue > 0): ?>
+              <div class="stitch-bar revenue" style="--bar-height:<?= round($rh, 2) ?>%;--bar-opacity:<?= $opacity === '100' ? '1' : '0.' . $opacity ?>" title="Revenue: <?= e(money($revenue)) ?>"></div>
+              <?php else: ?>
+              <div class="stitch-bar is-empty" title="Revenue not reported"></div>
+              <?php endif; ?>
+              <?php if ($profit > 0): ?>
+              <div class="stitch-bar profit" style="--bar-height:<?= round($ph, 2) ?>%;--bar-opacity:<?= $opacity === '100' ? '1' : '0.' . $opacity ?>" title="Profit: <?= e(money($profit)) ?>"></div>
+              <?php else: ?>
+              <div class="stitch-bar is-empty" title="Profit not reported"></div>
               <?php endif; ?>
             </div>
             <span class="stitch-chart-label <?= $isLatest ? 'current' : '' ?>"><?= $isLatest ? (int)$f['fiscal_year'] . ' (YTD)' : (int)$f['fiscal_year'] ?></span>
