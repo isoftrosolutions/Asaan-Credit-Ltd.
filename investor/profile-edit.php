@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 require_login();
-require_role(ROLE_INVESTOR);
+require_role([ROLE_INVESTOR, 'individual_investor']);
 
 $user = current_user();
 $userId = $user['id'];
