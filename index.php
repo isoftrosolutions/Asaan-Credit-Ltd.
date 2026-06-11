@@ -104,7 +104,7 @@ if (preg_match('#^/investor/(\d+)$#', $path, $m)) {
     exit;
 }
 
-if (preg_match('#^/business/([a-z0-9-]+)$#', $path, $m)) {
+if (preg_match('#^/business/([a-z0-9-]+)$#', $path, $m) && !in_array($m[1], ['create', 'edit'], true)) {
     if (ctype_digit($m[1])) {
         $_GET['id'] = $m[1];
     } else {
