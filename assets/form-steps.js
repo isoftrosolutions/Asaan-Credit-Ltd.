@@ -2,6 +2,7 @@
   'use strict';
 
   window.initFormSteps = function (config) {
+    config = config || {};
     var form = config.form || document.querySelector('.form-steps');
     if (!form) return;
 
