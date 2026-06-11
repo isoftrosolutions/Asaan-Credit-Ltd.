@@ -47,6 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         redirect('/admin/email-settings');
     }
 
+    // The test form is separate from the SMTP config form, so $_POST does not
+    // carry SMTP fields.  Reset the cached config so the send reads fresh from DB,
+    // then send via the normal pipeline.
+    email_service()->resetSmtpConfig();
+
     ob_start();
     require __DIR__ . '/../includes/layout-admin.php';
     $shell = ob_get_clean();
@@ -58,10 +63,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         <h2 style="color:#1E7A4D;font-size:22px;font-weight:800;text-align:center;">Test Email Successful!</h2>
         <p style="font-size:15px;line-height:1.6;color:#5A5A5A;text-align:center;">Your SMTP configuration is working correctly. This email confirms that Asaan Capital can send emails through your configured mail server.</p>
         <div style="background:#F8F8F8;padding:20px;border-radius:12px;margin:24px 0;border:1px solid #ECECEC;font-size:13px;color:#5A5A5A;">
-            <p style="margin:4px 0;"><strong>Host:</strong> ' . e($_POST['smtp_host'] ?? SMTP_HOST) . '</p>
-            <p style="margin:4px 0;"><strong>Port:</strong> ' . ((int)($_POST['smtp_port'] ?? SMTP_PORT)) . '</p>
-            <p style="margin:4px 0;"><strong>Encryption:</strong> ' . e($_POST['smtp_encryption'] ?? SMTP_ENCRYPTION) . '</p>
-            <p style="margin:4px 0;"><strong>Username:</strong> ' . e($_POST['smtp_username'] ?? SMTP_USER) . '</p>
+            <p style="margin:4px 0;"><strong>Host:</strong> ' . e(SMTP_HOST) . '</p>
+            <p style="margin:4px 0;"><strong>Port:</strong> ' . SMTP_PORT . '</p>
+            <p style="margin:4px 0;"><strong>Encryption:</strong> ' . e(SMTP_ENCRYPTION) . '</p>
+            <p style="margin:4px 0;"><strong>Username:</strong> ' . e(SMTP_USER) . '</p>
         </div>
         <p style="font-size:13px;color:#C3C6C5;text-align:center;">Asaan Capital Ltd — Kathmandu, Nepal</p>
     </div>';

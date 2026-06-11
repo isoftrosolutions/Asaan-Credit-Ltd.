@@ -366,11 +366,15 @@ if (!defined('UI_PHP_LOADED')) {
         <?php
     }
 
-    /** Empty-state block. $o: icon?, title, text?, ctaHref?, ctaLabel? */
+    /** Empty-state block. $o: icon?, imageSrc?, imageAlt?, title, text?, ctaHref?, ctaLabel? */
     function ui_empty_state(array $o): void {
         ?>
         <div class="dash-empty">
-          <span class="dash-empty-ico"><?php ui_icon($o['icon'] ?? 'inbox'); ?></span>
+          <?php if (!empty($o['imageSrc'])): ?>
+            <img class="dash-empty-image" src="<?= e($o['imageSrc']) ?>" alt="<?= e($o['imageAlt'] ?? '') ?>" loading="lazy">
+          <?php else: ?>
+            <span class="dash-empty-ico"><?php ui_icon($o['icon'] ?? 'inbox'); ?></span>
+          <?php endif; ?>
           <div class="dash-empty-title"><?= e($o['title'] ?? 'Nothing here yet') ?></div>
           <?php if (!empty($o['text'])): ?><p class="dash-empty-text"><?= e($o['text']) ?></p><?php endif; ?>
           <?php if (!empty($o['ctaHref'])): ?>

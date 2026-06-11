@@ -2757,6 +2757,7 @@ body:has(.dash-shell) { background: var(--dash-bg); }
 
 /* ---- Empty state ---- */
 .dash-empty { text-align: center; padding: var(--space-8) var(--space-5); }
+.dash-empty-image { display: block; width: min(360px, 82%); height: auto; margin: 0 auto var(--space-4); border-radius: 10px; }
 .dash-empty-ico { display: inline-flex; color: var(--dash-ink-soft); opacity: .5; }
 .dash-empty-ico svg { width: 40px; height: 40px; }
 .dash-empty-title { margin-top: var(--space-3); font-weight: 600; color: var(--dash-ink); }

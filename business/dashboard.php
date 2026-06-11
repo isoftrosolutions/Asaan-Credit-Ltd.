@@ -65,7 +65,14 @@ ui_page_header(
 
 <?php if (empty($businesses)): ?>
   <div class="dash-panel">
-    <?php ui_empty_state(['icon' => 'briefcase', 'title' => 'No business listings yet', 'text' => 'Create your first business listing to start connecting with investors and buyers.', 'ctaHref' => APP_URL . '/business/create', 'ctaLabel' => 'Create business listing']); ?>
+    <?php ui_empty_state([
+        'imageSrc' => APP_URL . '/assets/business-founder-owner-empty.png',
+        'imageAlt' => 'Business founder preparing a listing dashboard',
+        'title' => 'No business listings yet',
+        'text' => 'Create your first business listing to start connecting with investors and buyers.',
+        'ctaHref' => APP_URL . '/business/create',
+        'ctaLabel' => 'Create business listing',
+    ]); ?>
   </div>
 <?php else: ?>
 
