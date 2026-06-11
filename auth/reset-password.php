@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['otp'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['password'])) {
     csrf_check();
 
-    if ($_SESSION['otp_verified_email'] ?? null !== $email) {
+    if (($_SESSION['otp_verified_email'] ?? null) !== $email) {
         $error = 'Please verify your OTP code first.';
     } else {
         $password = $_POST['password'] ?? '';
