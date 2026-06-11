@@ -14,7 +14,7 @@
 return [
     'email_verification' => [
         'name'      => 'Email Verification',
-        'subject'   => 'Verify your email — Asaan Capital',
+        'subject'   => 'Verify your email - Asaan Capital',
         'variables' => ['user_name', 'verification_link'],
         'body'      => '<div style="font-family:\'Inter\',\'Helvetica Neue\',sans-serif;max-width:600px;margin:20px auto;padding:40px;border:1px solid #eef2f6;border-radius:24px;color:#2a2a2a;background:#ffffff;box-shadow:0 10px 30px rgba(0,0,0,0.02);">
             <div style="text-align:center;margin-bottom:32px;">
@@ -38,7 +38,7 @@ return [
 
     'password_reset' => [
         'name'      => 'Password Reset',
-        'subject'   => 'Reset your password — Asaan Capital',
+        'subject'   => 'Reset your password - Asaan Capital',
         'variables' => ['user_name', 'otp_code'],
         'body'      => '<div style="font-family:\'Inter\',\'Helvetica Neue\',sans-serif;max-width:600px;margin:20px auto;padding:40px;border:1px solid #eef2f6;border-radius:24px;color:#2a2a2a;background:#ffffff;box-shadow:0 10px 30px rgba(0,0,0,0.02);">
             <div style="text-align:center;margin-bottom:32px;">
@@ -62,7 +62,7 @@ return [
 
     'password_changed' => [
         'name'      => 'Password Changed Confirmation',
-        'subject'   => 'Password changed successfully — Asaan Capital',
+        'subject'   => 'Password changed successfully - Asaan Capital',
         'variables' => ['user_name'],
         'body'      => '<div style="font-family:\'Inter\',\'Helvetica Neue\',sans-serif;max-width:600px;margin:20px auto;padding:40px;border:1px solid #eef2f6;border-radius:24px;color:#2a2a2a;background:#ffffff;box-shadow:0 10px 30px rgba(0,0,0,0.02);">
             <div style="text-align:center;margin-bottom:32px;">
@@ -85,7 +85,7 @@ return [
 
     'welcome' => [
         'name'      => 'Welcome New User',
-        'subject'   => 'Welcome to Asaan Capital — {{user_name}}',
+        'subject'   => 'Welcome to Asaan Capital - {{user_name}}',
         'variables' => ['user_name', 'login_url', 'role', 'user_email'],
         'body'      => '<div style="font-family:\'Inter\',\'Helvetica Neue\',sans-serif;max-width:600px;margin:20px auto;padding:40px;border:1px solid #eef2f6;border-radius:24px;color:#2a2a2a;background:#ffffff;box-shadow:0 10px 30px rgba(0,0,0,0.02);">
             <div style="text-align:center;margin-bottom:32px;">
@@ -121,7 +121,7 @@ return [
 
     'interest_received' => [
         'name'      => 'Interest Request Received',
-        'subject'   => 'New interest received for your {{listing_type}} — Asaan Capital',
+        'subject'   => 'New interest received for your {{listing_type}} - Asaan Capital',
         'variables' => ['user_name', 'sender_name', 'sender_role', 'listing_type', 'listing_name', 'message', 'login_url'],
         'body'      => '<div style="font-family:\'Inter\',\'Helvetica Neue\',sans-serif;max-width:600px;margin:20px auto;padding:40px;border:1px solid #eef2f6;border-radius:24px;color:#2a2a2a;background:#ffffff;box-shadow:0 10px 30px rgba(0,0,0,0.02);">
             <div style="text-align:center;margin-bottom:32px;">
@@ -148,7 +148,7 @@ return [
 
     'match_confirmed' => [
         'name'      => 'Match Confirmed',
-        'subject'   => 'You have a new match! — Asaan Capital',
+        'subject'   => 'You have a new match! - Asaan Capital',
         'variables' => ['user_name', 'matched_user_name', 'matched_user_role', 'context_type', 'context_name', 'login_url'],
         'body'      => '<div style="font-family:\'Inter\',\'Helvetica Neue\',sans-serif;max-width:600px;margin:20px auto;padding:40px;border:1px solid #eef2f6;border-radius:24px;color:#2a2a2a;background:#ffffff;box-shadow:0 10px 30px rgba(0,0,0,0.02);">
             <div style="text-align:center;margin-bottom:32px;">
@@ -177,7 +177,7 @@ return [
 
     'interest_accepted' => [
         'name'      => 'Interest Request Accepted',
-        'subject'   => 'Your interest was accepted! — Asaan Capital',
+        'subject'   => 'Your interest was accepted! - Asaan Capital',
         'variables' => ['user_name', 'responder_name', 'listing_type', 'listing_name', 'login_url'],
         'body'      => '<div style="font-family:\'Inter\',\'Helvetica Neue\',sans-serif;max-width:600px;margin:20px auto;padding:40px;border:1px solid #eef2f6;border-radius:24px;color:#2a2a2a;background:#ffffff;box-shadow:0 10px 30px rgba(0,0,0,0.02);">
             <div style="text-align:center;margin-bottom:32px;">
@@ -200,7 +200,7 @@ return [
 
     'broadcast' => [
         'name'      => 'Admin Broadcast',
-        'subject'   => '{{subject}} — Asaan Capital',
+        'subject'   => '{{subject}} - Asaan Capital',
         'variables' => ['user_name', 'subject', 'message', 'login_url'],
         'body'      => '<div style="font-family:\'Inter\',\'Helvetica Neue\',sans-serif;max-width:600px;margin:20px auto;padding:40px;border:1px solid #eef2f6;border-radius:24px;color:#2a2a2a;background:#ffffff;box-shadow:0 10px 30px rgba(0,0,0,0.02);">
             <div style="text-align:center;margin-bottom:32px;">
@@ -224,7 +224,7 @@ return [
 
     'verification_approved' => [
         'name'      => 'Verification Approved',
-        'subject'   => 'Your account has been verified — Asaan Capital',
+        'subject'   => 'Your account has been verified - Asaan Capital',
         'variables' => ['user_name', 'login_url'],
         'body'      => '<div style="font-family:\'Inter\',\'Helvetica Neue\',sans-serif;max-width:600px;margin:20px auto;padding:40px;border:1px solid #eef2f6;border-radius:24px;color:#2a2a2a;background:#ffffff;box-shadow:0 10px 30px rgba(0,0,0,0.02);">
             <div style="text-align:center;margin-bottom:32px;">
@@ -250,7 +250,7 @@ return [
 
     'verification_rejected' => [
         'name'      => 'Verification Rejected',
-        'subject'   => 'Verification document needs attention — Asaan Capital',
+        'subject'   => 'Verification document needs attention - Asaan Capital',
         'variables' => ['user_name', 'rejection_reason', 'login_url'],
         'body'      => '<div style="font-family:\'Inter\',\'Helvetica Neue\',sans-serif;max-width:600px;margin:20px auto;padding:40px;border:1px solid #eef2f6;border-radius:24px;color:#2a2a2a;background:#ffffff;box-shadow:0 10px 30px rgba(0,0,0,0.02);">
             <div style="text-align:center;margin-bottom:32px;">
@@ -277,7 +277,7 @@ return [
 
     'new_message' => [
         'name'      => 'New Message Notification',
-        'subject'   => 'New message from {{sender_name}} — Asaan Capital',
+        'subject'   => 'New message from {{sender_name}} - Asaan Capital',
         'variables' => ['user_name', 'sender_name', 'message_preview', 'login_url'],
         'body'      => '<div style="font-family:\'Inter\',\'Helvetica Neue\',sans-serif;max-width:600px;margin:20px auto;padding:40px;border:1px solid #eef2f6;border-radius:24px;color:#2a2a2a;background:#ffffff;box-shadow:0 10px 30px rgba(0,0,0,0.02);">
             <div style="text-align:center;margin-bottom:32px;">
