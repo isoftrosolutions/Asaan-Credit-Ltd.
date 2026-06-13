@@ -25,6 +25,10 @@ $forcePublicHeader = true; // home keeps the public marketing nav even when logg
 require __DIR__ . '/../includes/header.php';
 ?>
 <style>
+:root {
+  --ease-out-strong: cubic-bezier(0.23,1,0.32,1);
+  --ease-in-out-strong: cubic-bezier(0.77,0,0.175,1);
+}
 @media (min-width:768px) {
   .hp-hero { min-height:600px; }
   .hp-hero-inner { padding-top:80px; padding-bottom:80px; }
@@ -61,17 +65,95 @@ require __DIR__ . '/../includes/header.php';
   .hp-hero-actions { flex-direction:column; }
   .hp-hero-actions a { width:100%; text-align:center; }
 }
+
+/* ── Hero entrance stagger ── */
+.hp-hero-content { animation: hpFadeSlide 600ms var(--ease-out-strong) both; }
+.hp-hero-visual { animation: hpFadeSlide 600ms var(--ease-out-strong) 150ms both; }
+
+.hp-hero-title { opacity:0; animation: hpFadeSlide 500ms var(--ease-out-strong) 100ms both; }
+.hp-hero-sub { opacity:0; animation: hpFadeSlide 500ms var(--ease-out-strong) 200ms both; }
+.hp-hero-actions { opacity:0; animation: hpFadeSlide 500ms var(--ease-out-strong) 300ms both; }
+
+@keyframes hpFadeSlide {
+  from { opacity:0; transform:translateY(12px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* ── Stagger card entry ── */
+.hp-card-stagger { opacity:0; transform:translateY(8px); }
+.hp-card-stagger:nth-child(1) { animation: hpFadeSlide 400ms var(--ease-out-strong) 50ms both; }
+.hp-card-stagger:nth-child(2) { animation: hpFadeSlide 400ms var(--ease-out-strong) 100ms both; }
+.hp-card-stagger:nth-child(3) { animation: hpFadeSlide 400ms var(--ease-out-strong) 150ms both; }
+.hp-card-stagger:nth-child(4) { animation: hpFadeSlide 400ms var(--ease-out-strong) 200ms both; }
+.hp-card-stagger:nth-child(5) { animation: hpFadeSlide 400ms var(--ease-out-strong) 250ms both; }
+.hp-card-stagger:nth-child(6) { animation: hpFadeSlide 400ms var(--ease-out-strong) 300ms both; }
+
+/* ── Clickable cards: active press ── */
+.pub-card, .pub-feature, .faq-item, [class*="hp-card-stagger"] {
+  transition: transform 160ms var(--ease-out-strong), box-shadow 220ms var(--ease-out-strong), border-color 220ms var(--ease-out-strong);
+}
+@media (hover:hover) and (pointer:fine) {
+  .pub-card:hover, .faq-item:hover {
+    box-shadow: var(--shadow-md);
+  }
+  .pub-feature:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+}
+.pub-card:active, .faq-item:active {
+  transform: scale(0.98);
+}
+.pub-feature:active {
+  transform: scale(0.97);
+}
+
+/* ── FAQ accordion animation ── */
+.faq-answer {
+  display:grid;
+  grid-template-rows:0fr;
+  transition:grid-template-rows 280ms var(--ease-out-strong), opacity 200ms var(--ease-out-strong);
+  opacity:0;
+}
+.faq-item.open .faq-answer {
+  grid-template-rows:1fr;
+  opacity:1;
+}
+.faq-answer-inner { overflow:hidden; }
+.faq-icon {
+  display:inline-flex;align-items:center;justify-content:center;
+  transition:transform 220ms var(--ease-out-strong);
+  font-size:20px;font-weight:300;color:var(--color-primary);width:28px;height:28px;
+  flex-shrink:0;
+}
+.faq-item.open .faq-icon { transform:rotate(45deg); }
+.faq-header { gap:12px; user-select:none; }
+.faq-header:hover { color:var(--color-primary); }
+
+/* ── Pitch carousel ── */
+.pitch-scroll { scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
+.pitch-scroll > * { scroll-snap-align:start; }
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion:reduce) {
+  *, *::before, *::after {
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+  }
+  .hp-card-stagger { opacity:1; transform:none; }
+}
 </style>
 <main class="pub-page">
 <!-- Hero Section -->
 <section class="hp-hero" style="position:relative;overflow:hidden;display:flex;align-items:center;background:#fff;">
   <div class="hp-hero-inner pub-wrap" style="width:100%;position:relative;z-index:10;padding-top:60px;padding-bottom:60px;">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;">
-      <div style="max-width:540px;">
+      <div class="hp-hero-content">
         <h1 class="hp-hero-title pub-h1" style="color:var(--dash-ink);margin-bottom:20px;">
           <?= $hero_title ?>
         </h1>
-        <p class="pub-lead" style="color:var(--dash-ink-soft);max-width:520px;">
+        <p class="hp-hero-sub pub-lead" style="color:var(--dash-ink-soft);max-width:520px;">
           <?= e($hero_subtitle) ?>
         </p>
         <div class="hp-hero-actions pub-cta-actions" style="justify-content:flex-start;margin-top:28px;">
@@ -79,7 +161,7 @@ require __DIR__ . '/../includes/header.php';
           <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline" style="border-color:var(--dash-border);color:var(--dash-ink);background:transparent;">Browse Businesses</a>
         </div>
       </div>
-      <div style="border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+      <div class="hp-hero-visual" style="border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
         <img src="<?= APP_URL ?>/public/uploads/hero-bg.jpg" alt="" style="width:100%;height:auto;display:block;aspect-ratio:16/10;object-fit:cover;">
       </div>
     </div>
@@ -112,22 +194,22 @@ require __DIR__ . '/../includes/header.php';
 <section class="pub-section surface">
   <div class="pub-wrap">
     <div class="pub-grid cols-4">
-      <div class="pub-feature">
+      <div class="pub-feature hp-card-stagger">
         <span class="pub-feature-ico"><i class="fas fa-check-circle"></i></span>
         <h3 class="pub-feature-title">Pre-approved</h3>
         <p class="pub-feature-text">Every business, investor and advisor profile is pre-screened by our analysts.</p>
       </div>
-      <div class="pub-feature">
+      <div class="pub-feature hp-card-stagger">
         <span class="pub-feature-ico"><i class="fas fa-lock"></i></span>
         <h3 class="pub-feature-title">Confidential</h3>
         <p class="pub-feature-text">Your contact details stay private until there is a mutual match.</p>
       </div>
-      <div class="pub-feature">
+      <div class="pub-feature hp-card-stagger">
         <span class="pub-feature-ico"><i class="fas fa-chart-line"></i></span>
         <h3 class="pub-feature-title">Fair Valuation</h3>
         <p class="pub-feature-text">Benchmark your business against comparable private companies in Nepal.</p>
       </div>
-      <div class="pub-feature">
+      <div class="pub-feature hp-card-stagger">
         <span class="pub-feature-ico"><i class="fas fa-globe"></i></span>
         <h3 class="pub-feature-title">Global Network</h3>
         <p class="pub-feature-text">Connect with investors, buyers and partners across Nepal and beyond.</p>
@@ -143,7 +225,7 @@ require __DIR__ . '/../includes/header.php';
     <div class="hp-biz-split" style="display:grid;gap:32px;align-items:center;">
       <div class="hp-biz-cards" style="display:grid;gap:16px;">
         <?php foreach (array_slice($featured_biz, 0, 2) as $biz): ?>
-        <div class="pub-card card-accent-bar" style="cursor:pointer;" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'">
+        <div class="pub-card card-accent-bar hp-card-stagger" style="cursor:pointer;" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
             <span class="pub-badge success">Business for Sale</span>
             <?php if (!empty($biz['rating'])): ?>
@@ -178,8 +260,8 @@ require __DIR__ . '/../includes/header.php';
   <div class="pub-wrap">
     <div class="hp-biz-split" style="display:grid;gap:32px;align-items:center;">
       <div class="hp-biz-cards" style="display:grid;gap:16px;">
-        <?php foreach (array_slice($recent_biz, 0, 6) as $biz): ?>
-        <div class="pub-card card-accent-bar" style="cursor:pointer;" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'">
+        <?php foreach (array_slice($recent_biz, 0, 2) as $biz): ?>
+        <div class="pub-card card-accent-bar hp-card-stagger" style="cursor:pointer;" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
             <span class="pub-badge success">Business for Sale</span>
             <?php if (!empty($biz['rating'])): ?>
@@ -269,7 +351,7 @@ $pitchSectionTitle = !empty($featured_pitches) ? 'Featured Investment Opportunit
       </div>
       <a href="<?= APP_URL ?>/browse/entrepreneurs" class="btn btn-ghost btn-sm hp-hide-mobile" style="flex-shrink:0;">View All</a>
     </div>
-    <div style="display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;">
+    <div class="pitch-scroll" style="display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;">
       <?php foreach ($displayPitches as $p): ?>
       <div class="pub-card card-accent-bar-navy" style="flex-shrink:0;width:300px;cursor:pointer;" onclick="location.href='<?= APP_URL ?>/pitch/<?= (int)$p['id'] ?>'">
         <div style="margin-bottom:12px;">
@@ -316,7 +398,7 @@ $pitchSectionTitle = !empty($featured_pitches) ? 'Featured Investment Opportunit
         <span class="faq-icon">+</span>
       </div>
       <div class="faq-answer">
-        <?= e($faq['answer']) ?>
+        <div class="faq-answer-inner"><?= e($faq['answer']) ?></div>
       </div>
     </div>
     <?php $first = false; endforeach; ?>
