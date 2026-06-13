@@ -64,21 +64,23 @@ require __DIR__ . '/../includes/header.php';
 </style>
 <main class="pub-page">
 <!-- Hero Section -->
-<section class="hp-hero" style="position:relative;overflow:hidden;display:flex;align-items:center;">
-  <div style="position:absolute;inset:0;z-index:0;background:linear-gradient(135deg, #00263f 0%, #013a5e 55%, #00263f 100%);"></div>
-  <img src="https://picsum.photos/seed/asaan-capital-nepal/1600/900" alt="" aria-hidden="true" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;mix-blend-mode:overlay;opacity:0.15;">
-  <div style="position:absolute;inset:0;z-index:2;background:radial-gradient(120% 90% at 85% 15%, rgba(152,32,42,0.22) 0%, rgba(152,32,42,0) 55%);"></div>
-  <div class="hp-hero-inner pub-wrap" style="width:100%;position:relative;z-index:10;">
-    <div style="max-width:580px;">
-      <h1 class="hp-hero-title pub-h1" style="color:#fff;margin-bottom:20px;">
-        <?= $hero_title ?>
-      </h1>
-      <p class="pub-lead" style="color:#fff;opacity:0.92;max-width:560px;">
-        <?= e($hero_subtitle) ?>
-      </p>
-      <div class="hp-hero-actions pub-cta-actions" style="justify-content:flex-start;margin-top:28px;">
-        <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">Get Started</a>
-        <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);color:#fff;background:transparent;">Browse Businesses</a>
+<section class="hp-hero" style="position:relative;overflow:hidden;display:flex;align-items:center;background:#fff;">
+  <div class="hp-hero-inner pub-wrap" style="width:100%;position:relative;z-index:10;padding-top:60px;padding-bottom:60px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;">
+      <div style="max-width:540px;">
+        <h1 class="hp-hero-title pub-h1" style="color:var(--dash-ink);margin-bottom:20px;">
+          <?= $hero_title ?>
+        </h1>
+        <p class="pub-lead" style="color:var(--dash-ink-soft);max-width:520px;">
+          <?= e($hero_subtitle) ?>
+        </p>
+        <div class="hp-hero-actions pub-cta-actions" style="justify-content:flex-start;margin-top:28px;">
+          <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">Get Started</a>
+          <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline" style="border-color:var(--dash-border);color:var(--dash-ink);background:transparent;">Browse Businesses</a>
+        </div>
+      </div>
+      <div style="border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+        <img src="<?= APP_URL ?>/public/uploads/hero-bg.jpg" alt="" style="width:100%;height:auto;display:block;aspect-ratio:16/10;object-fit:cover;">
       </div>
     </div>
   </div>
@@ -170,12 +172,13 @@ require __DIR__ . '/../includes/header.php';
     </div>
   </div>
 </section>
-<?php elseif (!empty($recent_biz)): ?>
+<?php endif; ?>
+<?php if (!empty($recent_biz)): ?>
 <section class="pub-section tint">
   <div class="pub-wrap">
     <div class="hp-biz-split" style="display:grid;gap:32px;align-items:center;">
       <div class="hp-biz-cards" style="display:grid;gap:16px;">
-        <?php foreach (array_slice($recent_biz, 0, 2) as $biz): ?>
+        <?php foreach (array_slice($recent_biz, 0, 6) as $biz): ?>
         <div class="pub-card card-accent-bar" style="cursor:pointer;" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
             <span class="pub-badge success">Business for Sale</span>
