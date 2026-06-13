@@ -15,7 +15,9 @@ $stats_matches = $homepage['stats_matches'] ?? '12,800+';
 $stats_deal_value = $homepage['stats_deal_value'] ?? 'NPR 850 Cr+';
 
 $featured_biz = db()->query("SELECT * FROM businesses WHERE status='approved' AND is_featured=1 ORDER BY rating DESC LIMIT 6")->fetchAll();
-$featured_pitches = db()->query("SELECT p.*, s.name as sector_name FROM pitches p LEFT JOIN sectors s ON p.sector_id = s.id WHERE p.is_published=1 ORDER BY p.id DESC LIMIT 6")->fetchAll();
+$recent_biz = db()->query("SELECT * FROM businesses WHERE status='approved' ORDER BY created_at DESC LIMIT 6")->fetchAll();
+$featured_pitches = db()->query("SELECT p.*, s.name as sector_name FROM pitches p LEFT JOIN sectors s ON p.sector_id = s.id WHERE p.is_published=1 AND p.is_hidden=0 ORDER BY p.id DESC LIMIT 6")->fetchAll();
+$recent_pitches = db()->query("SELECT p.*, s.name as sector_name FROM pitches p LEFT JOIN sectors s ON p.sector_id = s.id WHERE p.is_published=1 AND p.is_hidden=0 ORDER BY p.created_at DESC LIMIT 6")->fetchAll();
 $faqs = db()->query("SELECT * FROM faqs WHERE is_active=1 ORDER BY sort_order LIMIT 4")->fetchAll();
 
 $pageTitle = APP_NAME_LONG;
@@ -168,7 +170,42 @@ require __DIR__ . '/../includes/header.php';
     </div>
   </div>
 </section>
-<?php endif; ?>
+<?php elseif (!empty($recent_biz)): ?>
+<section class="pub-section tint">
+  <div class="pub-wrap">
+    <div class="hp-biz-split" style="display:grid;gap:32px;align-items:center;">
+      <div class="hp-biz-cards" style="display:grid;gap:16px;">
+        <?php foreach (array_slice($recent_biz, 0, 2) as $biz): ?>
+        <div class="pub-card card-accent-bar" style="cursor:pointer;" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+            <span class="pub-badge success">Business for Sale</span>
+            <?php if (!empty($biz['rating'])): ?>
+            <span class="pub-badge warning"><?= e($biz['rating']) ?></span>
+            <?php endif; ?>
+          </div>
+          <h4 class="pub-card-title" style="margin:0 0 6px;"><?= e($biz['business_name']) ?></h4>
+          <p class="pub-text" style="margin:0 0 12px;"><?= e(mb_substr($biz['description'] ?? '', 0, 120)) ?></p>
+          <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--dash-border);">
+            <div><span class="pub-stat-label" style="display:block;">Run Rate</span><span class="pub-stat-value"><?= money($biz['annual_revenue']) ?></span></div>
+            <?php if (!empty($biz['ebitda_pct'])): ?>
+            <div><span class="pub-stat-label" style="display:block;">EBITDA</span><span class="pub-stat-value"><?= e($biz['ebitda_pct']) ?>%</span></div>
+            <?php endif; ?>
+            <?php if (!empty($biz['asking_price'])): ?>
+            <div style="width:100%;padding-top:8px;"><strong style="font-size:16px;color:var(--color-primary-vivid);">Asking <?= money($biz['asking_price']) ?></strong></div>
+            <?php endif; ?>
+          </div>
+        </div>
+        <?php endforeach; ?>
+      </div>
+      <div>
+        <h2 class="pub-h2" style="color:var(--color-primary);margin:0 0 16px;">Recently Added Businesses</h2>
+        <p class="pub-lead" style="margin:0 0 24px;">New listings added by verified business owners. Find ventures looking for a full sale, raising capital, or seeking a business loan.</p>
+        <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-primary btn-lg">Browse Businesses</a>
+      </div>
+    </div>
+  </div>
+</section>
+<?php endif; ?><!-- END BUSINESSES SECTION -->
 
 <!-- Dual Path Cards -->
 <section class="pub-section surface">
@@ -215,18 +252,22 @@ require __DIR__ . '/../includes/header.php';
 </section>
 
 <!-- Featured Pitches -->
-<?php if (!empty($featured_pitches)): ?>
+<?php
+$displayPitches = !empty($featured_pitches) ? $featured_pitches : (!empty($recent_pitches) ? $recent_pitches : []);
+$pitchSectionTitle = !empty($featured_pitches) ? 'Featured Investment Opportunities' : 'Latest Investment Opportunities';
+?>
+<?php if (!empty($displayPitches)): ?>
 <section class="pub-section tint">
   <div class="pub-wrap">
     <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;gap:16px;flex-wrap:wrap;">
       <div>
-        <h2 class="pub-h2" style="color:var(--color-primary);margin:0 0 8px 0;">Featured Investment Opportunities</h2>
+        <h2 class="pub-h2" style="color:var(--color-primary);margin:0 0 8px 0;"><?= $pitchSectionTitle ?></h2>
         <p class="pub-text" style="margin:0;">Pre-verified entrepreneurs seeking capital for growth.</p>
       </div>
       <a href="<?= APP_URL ?>/browse/entrepreneurs" class="btn btn-ghost btn-sm hp-hide-mobile" style="flex-shrink:0;">View All</a>
     </div>
     <div style="display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;">
-      <?php foreach ($featured_pitches as $p): ?>
+      <?php foreach ($displayPitches as $p): ?>
       <div class="pub-card card-accent-bar-navy" style="flex-shrink:0;width:300px;cursor:pointer;" onclick="location.href='<?= APP_URL ?>/pitch/<?= (int)$p['id'] ?>'">
         <div style="margin-bottom:12px;">
           <span class="pub-badge info">Seeking Investment</span>

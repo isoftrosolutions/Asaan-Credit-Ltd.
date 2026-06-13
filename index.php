@@ -51,6 +51,7 @@ $routes = [
     '/admin/users'                  => 'admin/users.php',
     '/admin/verification'           => 'admin/verification.php',
     '/admin/pitches'                => 'admin/pitches.php',
+    '/admin/businesses'             => 'admin/businesses.php',
     '/admin/reports'                => 'admin/reports.php',
     '/admin/interest-log'           => 'admin/interest-log.php',
     '/admin/inquiries'              => 'admin/inquiries.php',

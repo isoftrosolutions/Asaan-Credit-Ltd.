@@ -72,6 +72,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         redirect_back();
     }
 
+    $pitchImage = $pitch['pitch_image'];
+    if (!empty($_FILES['pitch_image']) && $_FILES['pitch_image']['error'] === UPLOAD_ERR_OK) {
+        $allowedMime = ['image/jpeg', 'image/png', 'image/webp'];
+        $destDir = upload_path('pitch-images');
+        $uploaded = handle_upload($_FILES['pitch_image'], $allowedMime, UPLOAD_MAX_BYTES_PHOTO, $destDir);
+        if ($uploaded) {
+            $pitchImage = '/public/uploads/pitch-images/' . $uploaded;
+        }
+    }
+
     $pitchDeck = $pitch['pitch_deck'];
     if (!empty($_FILES['pitch_deck']) && $_FILES['pitch_deck']['error'] === UPLOAD_ERR_OK) {
         $allowedMime = ['application/pdf'];
@@ -91,8 +101,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = db();
 
     try {
-        $stmt = $db->prepare('UPDATE pitches SET tagline = ?, short_summary = ?, problem_statement = ?, solution = ?, market_size = ?, business_model = ?, funding_amount = ?, equity_offered = ?, valuation = ?, sector_id = ?, stage = ?, pitch_deck = ?, pitch_video_url = ?, is_published = ?, updated_at = NOW() WHERE id = ? AND user_id = ?');
-        $stmt->execute([$tagline, $shortSummary, $problemStatement, $solution, $marketSize, $businessModel, $fundingAmount, $equityOffered, $valuation, $sectorId, $stage, $pitchDeck, $pitchVideoUrl, $isPublished, $pitchId, $userId]);
+        $stmt = $db->prepare('UPDATE pitches SET tagline = ?, short_summary = ?, problem_statement = ?, solution = ?, market_size = ?, business_model = ?, funding_amount = ?, equity_offered = ?, valuation = ?, sector_id = ?, stage = ?, pitch_deck = ?, pitch_video_url = ?, pitch_image = ?, is_published = ?, updated_at = NOW() WHERE id = ? AND user_id = ?');
+        $stmt->execute([$tagline, $shortSummary, $problemStatement, $solution, $marketSize, $businessModel, $fundingAmount, $equityOffered, $valuation, $sectorId, $stage, $pitchDeck, $pitchVideoUrl, $pitchImage, $isPublished, $pitchId, $userId]);
 
         unset($_SESSION['_old']);
         flash_set('success', 'Pitch updated successfully.');
@@ -205,6 +215,20 @@ require __DIR__ . '/../includes/layout-dashboard.php';
         <div class="card" style="margin-bottom:1.5rem;">
             <h4>Media</h4>
             <div class="input-group">
+                <label>Pitch Image / Logo</label>
+                <input type="file" name="pitch_image" class="input" accept="image/jpeg,image/png,image/webp" onchange="previewPitchImage(this)">
+                <div id="pitch-image-preview" style="margin-top:0.5rem;display:none;">
+                    <img src="" alt="Preview" style="width:200px;height:150px;object-fit:cover;border-radius:8px;border:1px solid var(--dash-border);">
+                </div>
+                <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Max 2MB. JPEG, PNG, WebP.</p>
+                <?php if ($pitch['pitch_image']): ?>
+                <div style="margin-top:0.5rem;">
+                    <label>Current Image</label>
+                    <img src="<?= APP_URL . $pitch['pitch_image'] ?>" alt="" style="width:200px;height:150px;object-fit:cover;border-radius:8px;border:1px solid var(--dash-border);display:block;margin-top:4px;">
+                </div>
+                <?php endif; ?>
+            </div>
+            <div class="input-group">
                 <label>Pitch Deck (PDF, max 10MB)</label>
                 <input type="file" name="pitch_deck" class="input" accept="application/pdf">
                 <?php if ($pitch['pitch_deck']): ?>
@@ -235,6 +259,19 @@ require __DIR__ . '/../includes/layout-dashboard.php';
     </div>
 </form>
 
+<script>
+function previewPitchImage(input) {
+    var preview = document.getElementById('pitch-image-preview');
+    var img = preview.querySelector('img');
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) { img.src = e.target.result; preview.style.display = 'block'; };
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        preview.style.display = 'none';
+    }
+}
+</script>
 <script src="/assets/form-steps.js"></script>
 <script>initFormSteps({});</script>
 

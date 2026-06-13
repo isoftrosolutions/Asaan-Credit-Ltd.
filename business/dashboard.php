@@ -15,8 +15,10 @@ $published = 0;
 $totalViews = 0;
 $ratings = [];
 $askingPrices = [];
+$statusLabels = ['draft' => 'Draft', 'pending' => 'Pending', 'approved' => 'Published', 'rejected' => 'Rejected', 'sold' => 'Sold'];
+$statusClasses = ['draft' => 'draft', 'pending' => 'pending', 'approved' => 'published', 'rejected' => 'rejected', 'sold' => 'rejected'];
 foreach ($businesses as $b) {
-    if ($b['is_published']) $published++;
+    if ($b['status'] === 'approved') $published++;
     $totalViews += (int)$b['views'];
     if ($b['rating'] > 0) $ratings[] = (float)$b['rating'];
     if ($b['asking_price'] > 0) $askingPrices[] = (float)$b['asking_price'];
@@ -56,6 +58,10 @@ $drafts = $totalListings - $published;
 $publishedLabel = $published . ' published';
 if ($drafts > 0) {
     $publishedLabel .= ' / ' . $drafts . ' draft' . ($drafts === 1 ? '' : 's');
+}
+$pendingCount = count(array_filter($businesses, fn($b) => $b['status'] === 'pending'));
+if ($pendingCount > 0) {
+    $publishedLabel .= ' / ' . $pendingCount . ' pending';
 }
 
 $pageTitle = 'Business Owner Dashboard';
@@ -131,12 +137,25 @@ ui_page_header(
   <div class="dash-table-wrap">
     <table class="dash-table">
       <thead><tr>
-        <th>Business</th><th>Transaction</th><th>Asking price</th>
+        <th>Image</th><th>Business</th><th>Transaction</th><th>Asking price</th>
         <th class="ta-center">Status</th><th class="ta-center">Views</th><th class="ta-right">Actions</th>
       </tr></thead>
       <tbody>
       <?php foreach ($businesses as $b): ?>
         <tr>
+          <td>
+            <?php
+              $src = '';
+              if (!empty($b['thumbnail_url'])) {
+                  $src = (str_starts_with($b['thumbnail_url'], 'http') || str_starts_with($b['thumbnail_url'], '/')) ? $b['thumbnail_url'] : '/public/uploads/business-thumbnails/' . $b['thumbnail_url'];
+              }
+            ?>
+            <?php if (!empty($src)): ?>
+              <img src="<?= e($src) ?>" alt="" style="width:48px;height:36px;object-fit:cover;border-radius:4px;">
+            <?php else: ?>
+              <div style="width:48px;height:36px;background:var(--color-bg-soft);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--color-text-muted);"><i class="fas fa-building"></i></div>
+            <?php endif; ?>
+          </td>
           <td>
             <span class="t-strong"><?= e($b['business_name']) ?></span>
             <?php if ($b['is_featured']): ?> <span class="dash-pill featured">Featured</span><?php endif; ?>
@@ -144,7 +163,7 @@ ui_page_header(
           </td>
           <td><?= e(ucfirst(str_replace('_', ' ', $b['listing_type']))) ?></td>
           <td><?= $b['asking_price'] ? money($b['asking_price']) : '—' ?></td>
-          <td class="ta-center"><span class="dash-pill <?= $b['is_published'] ? 'published' : 'draft' ?>"><?= $b['is_published'] ? 'Published' : 'Draft' ?></span></td>
+          <td class="ta-center"><span class="dash-pill <?= $statusClasses[$b['status']] ?? 'draft' ?>"><?= $statusLabels[$b['status']] ?? e($b['status']) ?></span></td>
           <td class="ta-center"><?= (int)$b['views'] ?></td>
           <td class="ta-right">
             <span class="dash-table-actions">

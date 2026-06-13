@@ -13,7 +13,7 @@ if ($__host === 'localhost' || $__host === '127.0.0.1' || str_starts_with($__hos
 }
 unset($__host);
 
-define('DEBUG_MODE', false);
+define('DEBUG_MODE', true);
 
 define('DB_HOST', '127.0.0.1');
 define('DB_PORT', '3306');

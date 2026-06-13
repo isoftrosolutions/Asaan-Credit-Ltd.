@@ -16,8 +16,14 @@ $published = 0;
 $totalViews = 0;
 $totalInterest = 0;
 $fundingAmounts = [];
+$pitchStatusLabels = [];
 foreach ($pitches as $p) {
-    if ($p['is_published']) $published++;
+    if ($p['is_published']) {
+        $published++;
+        $pitchStatusLabels[$p['id']] = $p['is_hidden'] ? 'Hidden' : 'Published';
+    } else {
+        $pitchStatusLabels[$p['id']] = 'Draft';
+    }
     if ($p['funding_amount'] > 0) $fundingAmounts[] = (float)$p['funding_amount'];
 }
 $topFunding = !empty($fundingAmounts) ? max($fundingAmounts) : 0;
@@ -77,19 +83,26 @@ ui_page_header(
   <div class="dash-table-wrap">
     <table class="dash-table">
       <thead><tr>
-        <th>Tagline</th><th>Stage</th><th>Funding ask</th>
+        <th>Image</th><th>Tagline</th><th>Stage</th><th>Funding ask</th>
         <th class="ta-center">Status</th><th class="ta-right">Actions</th>
       </tr></thead>
       <tbody>
       <?php foreach ($pitches as $p): ?>
         <tr>
           <td>
+            <?php if (!empty($p['pitch_image'])): ?>
+              <img src="<?= APP_URL . $p['pitch_image'] ?>" alt="" style="width:48px;height:36px;object-fit:cover;border-radius:4px;">
+            <?php else: ?>
+              <div style="width:48px;height:36px;background:var(--color-bg-soft);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--color-text-muted);"><i class="fas fa-chart"></i></div>
+            <?php endif; ?>
+          </td>
+          <td>
             <span class="t-strong"><?= e($p['tagline']) ?></span>
             <?php if ($p['is_featured']): ?> <span class="dash-pill featured">Featured</span><?php endif; ?>
           </td>
           <td><?= e(ucfirst($p['stage'] ?? '—')) ?></td>
           <td><?= $p['funding_amount'] ? money($p['funding_amount']) : '—' ?></td>
-          <td class="ta-center"><span class="dash-pill <?= $p['is_published'] ? 'published' : 'draft' ?>"><?= $p['is_published'] ? 'Published' : 'Draft' ?></span></td>
+          <td class="ta-center"><span class="dash-pill <?= $p['is_published'] ? ($p['is_hidden'] ? 'draft' : 'published') : 'draft' ?>"><?= $pitchStatusLabels[$p['id']] ?? ($p['is_published'] ? 'Published' : 'Draft') ?></span></td>
           <td class="ta-right">
             <span class="dash-table-actions">
               <a href="<?= APP_URL ?>/pitch/<?= $p['id'] ?>" class="btn btn-sm btn-outline">View</a>

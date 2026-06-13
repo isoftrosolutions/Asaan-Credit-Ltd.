@@ -252,8 +252,9 @@ require __DIR__ . '/../includes/layout-public.php';
       </div>
       <?php endif; ?>
       <?php elseif (!empty($business['thumbnail_url'])): ?>
+      <?php $thumbSrc = (str_starts_with($business['thumbnail_url'], 'http') || str_starts_with($business['thumbnail_url'], '/')) ? $business['thumbnail_url'] : '/public/uploads/business-thumbnails/' . $business['thumbnail_url']; ?>
       <div class="stitch-gallery-main-wrap">
-        <img src="<?= e($business['thumbnail_url']) ?>" alt="<?= e($business['business_name']) ?>" class="stitch-gallery-main">
+        <img src="<?= e($thumbSrc) ?>" alt="<?= e($business['business_name']) ?>" class="stitch-gallery-main">
       </div>
       <?php else: ?>
       <div class="stitch-gallery-fallback">
@@ -635,8 +636,12 @@ require __DIR__ . '/../includes/layout-public.php';
         <?php foreach ($related as $r): ?>
         <div class="stitch-related-card" onclick="location.href='<?= APP_URL ?>/business/<?= e($r['slug'] ?: $r['id']) ?>'" tabindex="0" role="link">
           <div class="stitch-related-img">
-            <?php if ($r['thumbnail_url']): ?>
-            <img src="<?= e($r['thumbnail_url']) ?>" alt="" loading="lazy">
+            <?php
+              $rSrc = '';
+              if (!empty($r['thumbnail_url'])) $rSrc = (str_starts_with($r['thumbnail_url'], 'http') || str_starts_with($r['thumbnail_url'], '/')) ? $r['thumbnail_url'] : '/public/uploads/business-thumbnails/' . $r['thumbnail_url'];
+            ?>
+            <?php if ($rSrc): ?>
+            <img src="<?= e($rSrc) ?>" alt="" loading="lazy">
             <?php else: ?>
             <div class="fallback"><i class="fas fa-image" style="font-size:40px;opacity:0.4;"></i></div>
             <?php endif; ?>

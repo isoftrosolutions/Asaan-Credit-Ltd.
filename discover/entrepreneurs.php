@@ -63,6 +63,17 @@ $sql = "SELECT p.*, s.name as sector_name, u.name as user_name, u.profile_photo
         WHERE $whereClause
         ORDER BY $orderBy
         LIMIT {$p['perPage']} OFFSET {$p['offset']}";
+
+// Helper to get pitch image src
+function pitch_img_src($pitch) {
+    if (!empty($pitch['pitch_image'])) {
+        return APP_URL . $pitch['pitch_image'];
+    }
+    if (!empty($pitch['profile_photo'])) {
+        return $pitch['profile_photo'];
+    }
+    return null;
+}
 $stmt = db()->prepare($sql);
 $stmt->execute($params);
 $pitches = $stmt->fetchAll();
@@ -372,8 +383,11 @@ if ($queryParams) {
           <?php foreach ($pitches as $pitch): ?>
             <div class="pitch-card" onclick="location.href='<?= APP_URL ?>/pitch/<?= $pitch['id'] ?>'">
               <div class="pitch-header">
-                <?php if (!empty($pitch['profile_photo'])): ?>
-                  <img class="pitch-avatar" src="<?= e($pitch['profile_photo']) ?>" alt="">
+                <?php
+                  $pImg = pitch_img_src($pitch);
+                ?>
+                <?php if ($pImg): ?>
+                  <img class="pitch-avatar" src="<?= e($pImg) ?>" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;">
                 <?php else: ?>
                   <div class="pitch-avatar-initials"><?= e(mb_substr($pitch['user_name'] ?? 'EN', 0, 2)) ?></div>
                 <?php endif; ?>

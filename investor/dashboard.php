@@ -32,6 +32,14 @@ $stmt = db()->prepare("
 $stmt->execute([$userId]);
 $suggestions = $stmt->fetchAll();
 
+// Fallback: if no smart suggestions, show recent listings
+$recentBiz = [];
+$recentPitches = [];
+if (empty($suggestions)) {
+    $recentBiz = db()->query("SELECT id, business_name, listing_type, annual_revenue, asking_price, ebitda_pct, province, thumbnail_url FROM businesses WHERE status='approved' AND is_hidden=0 ORDER BY created_at DESC LIMIT 6")->fetchAll();
+    $recentPitches = db()->query("SELECT p.id, p.tagline, p.funding_amount, p.equity_offered, p.stage, p.pitch_image, s.name as sector_name FROM pitches p LEFT JOIN sectors s ON p.sector_id = s.id WHERE p.is_published=1 AND p.is_hidden=0 ORDER BY p.created_at DESC LIMIT 6")->fetchAll();
+}
+
 $stmt = db()->prepare('SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC LIMIT 8');
 $stmt->execute([$userId]);
 $recentNotifications = $stmt->fetchAll();
@@ -110,6 +118,75 @@ ui_page_header(
           <div class="dash-rec-score-top"><span>Match score</span><span class="dash-rec-score-num"><?= e(number_format($score, 0)) ?>%</span></div>
           <div class="dash-rec-score-track"><div class="dash-rec-score-fill" style="width:<?= e(number_format($score, 0)) ?>%;background:<?= $scoreColor ?>;"></div></div>
         </div>
+        <span class="dash-rec-cta">View <?php ui_icon('arrowRight'); ?></span>
+      </div>
+    </a>
+    <?php endforeach; ?>
+  </div>
+
+<?php elseif (!empty($recentBiz) || !empty($recentPitches)): ?>
+  <?php ui_section_header('Recently added for you', APP_URL . '/browse/businesses', 'View all'); ?>
+  <div class="dash-rec-grid">
+    <?php foreach ($recentBiz as $rb): ?>
+    <a class="dash-rec" href="<?= APP_URL ?>/business/<?= (int)$rb['id'] ?>">
+      <div class="dash-rec-top">
+        <span class="dash-rec-badge sale">For Sale</span>
+        <?php if (!empty($rb['province'])): ?>
+          <span class="dash-rec-loc"><?php ui_icon('mapPin'); ?><?= e($rb['province']) ?></span>
+        <?php endif; ?>
+      </div>
+      <div>
+        <div class="dash-rec-title"><?= e($rb['business_name'] ?? 'Untitled') ?></div>
+        <div class="dash-rec-meta"><?php if ($rb['annual_revenue']): ?>NPR <?= e(number_format((float)$rb['annual_revenue'], 0)) ?> revenue<?php endif; ?></div>
+      </div>
+      <?php if ($rb['asking_price'] || $rb['ebitda_pct']): ?>
+      <div class="dash-rec-details">
+        <?php if ($rb['asking_price']): ?>
+        <div>
+          <div class="dash-rec-detail-label">Asking</div>
+          <div class="dash-rec-detail-value">NPR <?= e(number_format((float)$rb['asking_price'], 0)) ?></div>
+        </div>
+        <?php endif; ?>
+        <?php if ($rb['ebitda_pct']): ?>
+        <div>
+          <div class="dash-rec-detail-label">EBITDA</div>
+          <div class="dash-rec-detail-value"><?= e($rb['ebitda_pct']) ?>%</div>
+        </div>
+        <?php endif; ?>
+      </div>
+      <?php endif; ?>
+      <div class="dash-rec-foot">
+        <span class="dash-rec-cta">View <?php ui_icon('arrowRight'); ?></span>
+      </div>
+    </a>
+    <?php endforeach; ?>
+    <?php foreach ($recentPitches as $rp): ?>
+    <a class="dash-rec" href="<?= APP_URL ?>/pitch/<?= (int)$rp['id'] ?>">
+      <div class="dash-rec-top">
+        <span class="dash-rec-badge investment">Pitch</span>
+        <?php if ($rp['sector_name']): ?>
+          <span class="dash-rec-loc"><?= e($rp['sector_name']) ?></span>
+        <?php endif; ?>
+      </div>
+      <div>
+        <div class="dash-rec-title"><?= e(mb_substr($rp['tagline'] ?? 'Untitled', 0, 40)) ?></div>
+        <div class="dash-rec-meta"><?= e(ucfirst(str_replace('_', ' ', $rp['stage'] ?? ''))) ?></div>
+      </div>
+      <?php if ($rp['funding_amount']): ?>
+      <div class="dash-rec-details">
+        <div>
+          <div class="dash-rec-detail-label">Funding</div>
+          <div class="dash-rec-detail-value">NPR <?= e(number_format((float)$rp['funding_amount'], 0)) ?></div>
+        </div>
+        <?php if ($rp['equity_offered']): ?>
+        <div>
+          <div class="dash-rec-detail-label">Equity</div>
+          <div class="dash-rec-detail-value"><?= e($rp['equity_offered']) ?>%</div>
+        </div>
+        <?php endif; ?>
+      </div>
+      <?php endif; ?>
+      <div class="dash-rec-foot">
         <span class="dash-rec-cta">View <?php ui_icon('arrowRight'); ?></span>
       </div>
     </a>
