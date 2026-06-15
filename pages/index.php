@@ -163,6 +163,86 @@ require __DIR__ . '/../includes/header.php';
 .pitch-scroll { scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
 .pitch-scroll > * { scroll-snap-align:start; }
 
+/* ── Featured Businesses showcase ── */
+.fb-row {
+  display:grid; grid-template-columns:1.9fr 1fr;
+  gap:40px; align-items:start;
+}
+.fb-cards-wrap { position:relative; }
+.fb-track {
+  display:flex; gap:12px; overflow-x:auto;
+  scroll-snap-type:x mandatory; scroll-behavior:smooth;
+  padding:4px 0;
+  -ms-overflow-style:none; scrollbar-width:none;
+}
+.fb-track::-webkit-scrollbar { display:none; }
+.fb-track > * { scroll-snap-align:start; flex-shrink:0; width:calc(50% - 6px); }
+.fb-card { padding:var(--space-4); border-left:4px solid var(--color-primary); cursor:pointer; }
+.fb-card-img {
+  width:100%; height:120px; object-fit:cover; border-radius:var(--radius-md);
+  margin-bottom:10px; background:var(--color-bg-soft);
+}
+.fb-card-title { margin:0 0 3px; font-size:1rem; font-weight:700; color:var(--dash-ink); }
+.fb-card-desc { margin:0 0 8px; font-size:0.8rem; line-height:1.5; color:var(--dash-ink-soft); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.fb-card-meta { display:flex; gap:14px; font-size:0.78rem; color:var(--dash-ink-soft); margin-bottom:8px; flex-wrap:wrap; }
+.fb-card-meta span { display:inline-flex; align-items:center; gap:4px; }
+.fb-card-fin {
+  background:var(--color-bg-soft); border-radius:var(--radius-lg);
+  padding:8px 10px; margin-bottom:8px;
+  display:grid; grid-template-columns:1fr 1fr; gap:2px 14px; font-size:0.78rem;
+}
+.fb-card-fin .lbl { color:var(--dash-ink-soft); font-size:0.7rem; }
+.fb-card-fin .val { font-weight:600; color:var(--dash-ink); }
+.fb-card-ftr {
+  display:flex; justify-content:space-between; align-items:center; gap:8px;
+}
+.fb-card-price { font-weight:700; font-size:0.9rem; color:var(--color-primary-vivid); white-space:nowrap; }
+.fb-card-btn {
+  flex-shrink:0;
+  background:var(--color-primary-vivid); color:#fff;
+  border:none; border-radius:var(--radius-md); padding:5px 12px;
+  font-size:0.75rem; font-weight:600; cursor:pointer; text-decoration:none;
+  transition:background 160ms ease-out, transform 160ms ease-out;
+}
+.fb-card-btn:hover { background:var(--color-primary); }
+.fb-card-btn:active { transform:scale(0.97); }
+.fb-arrow {
+  position:absolute; top:50%; transform:translateY(-50%);
+  z-index:5; width:34px; height:34px; border:none; border-radius:50%;
+  background:#fff; color:var(--dash-ink); cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,0.10);
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; line-height:1; opacity:0;
+  transition:opacity 200ms ease-out, transform 200ms ease-out;
+}
+.fb-cards-wrap:hover .fb-arrow { opacity:1; }
+.fb-arrow-left { left:-14px; }
+.fb-arrow-right { right:-14px; }
+.fb-arrow:active { transform:translateY(-50%) scale(0.92); }
+.fb-content { padding-top:4px; }
+.fb-content .fb-label {
+  display:inline-block; font-size:0.72rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--color-primary); margin-bottom:6px;
+}
+.fb-content h2 {
+  font-family:var(--font-heading);
+  font-size:1.5rem; line-height:1.35;
+  color:var(--dash-ink); margin:0 0 12px;
+}
+.fb-content p {
+  font-size:0.88rem; line-height:1.7;
+  color:var(--dash-ink-soft); margin:0 0 24px;
+}
+@media (max-width:900px) {
+  .fb-row { grid-template-columns:1fr; gap:28px; }
+  .fb-content { order:-1; }
+}
+@media (max-width:640px) {
+  .fb-track > * { width:100%; }
+  .fb-arrow { display:none; }
+}
+
 /* ── Mobile bottom nav ── */
 .hp-bottom-nav {
   display:none;
@@ -272,7 +352,7 @@ require __DIR__ . '/../includes/header.php';
   </div>
 </section>
 
-<!-- Businesses Marquee Carousel -->
+<!-- Featured Businesses Showcase -->
 <?php
 $allBiz = [];
 $seen = [];
@@ -284,50 +364,71 @@ foreach ([$featured_biz, $recent_biz] as $list) {
         }
     }
 }
+$listingTypeLabels = ['full_sale'=>'Full Sale', 'partial_sale'=>'Partial Stake', 'seeking_investment'=>'Seeking Investment', 'seeking_loan'=>'Seeking Loan', 'franchise'=>'Franchise'];
 ?>
 <?php if (!empty($allBiz)): ?>
 <section class="pub-section tint">
   <div class="pub-wrap">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;gap:16px;flex-wrap:wrap;">
-      <div>
-        <h2 class="pub-h2" style="color:var(--color-primary);margin:0 0 8px;">Featured Businesses</h2>
-        <p class="pub-text" style="margin:0;">Pre-screened businesses for sale across Nepal.</p>
-      </div>
-      <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-ghost btn-sm hp-hide-mobile" style="flex-shrink:0;">Browse All</a>
-    </div>
-    <div class="hp-marquee" id="bizMarquee">
-      <button class="hp-marquee-arrow hp-marquee-arrow-left" type="button" aria-label="Previous">&#8249;</button>
-      <div class="hp-marquee-track" id="bizMarqueeTrack">
-        <?php foreach ($allBiz as $biz): ?>
-        <div class="pub-card card-accent-bar" style="cursor:pointer;flex-shrink:0;flex:0 0 calc(50% - 6px);" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
-            <span class="pub-badge success">Business for Sale</span>
-            <?php if (!empty($biz['rating'])): ?>
-            <span class="pub-badge warning"><?= e($biz['rating']) ?></span>
+    <div class="fb-row">
+      <div class="fb-cards-wrap" id="bizMarquee">
+        <button class="fb-arrow fb-arrow-left" type="button" aria-label="Previous">&#8249;</button>
+        <div class="fb-track" id="bizMarqueeTrack">
+          <?php foreach ($allBiz as $biz):
+            $loc = array_filter([$biz['district'] ?? '', $biz['province'] ?? '']);
+            $locStr = !empty($loc) ? implode(', ', $loc) : 'Nepal';
+            $lt = $listingTypeLabels[$biz['listing_type']] ?? 'Business for Sale';
+            $img = '';
+            if (!empty($biz['thumbnail_url'])) {
+                $img = (str_starts_with($biz['thumbnail_url'], 'http') || str_starts_with($biz['thumbnail_url'], '/'))
+                    ? $biz['thumbnail_url']
+                    : '/public/uploads/business-thumbnails/' . $biz['thumbnail_url'];
+            }
+          ?>
+          <div class="pub-card fb-card" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'">
+            <?php if ($img): ?>
+            <img src="<?= e($img) ?>" alt="" class="fb-card-img" loading="lazy">
             <?php endif; ?>
+            <h3 class="fb-card-title"><?= e($biz['business_name']) ?></h3>
+            <p class="fb-card-desc"><?= e(mb_substr($biz['description'] ?? '', 0, 110)) ?></p>
+            <div class="fb-card-meta">
+              <?php if (!empty($biz['rating'])): ?>
+              <span><svg width="13" height="13" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> <?= e($biz['rating']) ?></span>
+              <?php endif; ?>
+              <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> <?= e($locStr) ?></span>
+            </div>
+            <div class="fb-card-fin">
+              <div><span class="lbl">Run Rate Sales</span><span class="val"><?= money($biz['annual_revenue'] ?? 0) ?: 'Not disclosed' ?></span></div>
+              <div><span class="lbl">EBITDA</span><span class="val"><?= !empty($biz['ebitda_pct']) ? e($biz['ebitda_pct']).'%' : '—' ?></span></div>
+              <div style="grid-column:1/2;"><span class="lbl">Sale Type</span><span class="val"><?= e($lt) ?></span></div>
+              <div style="grid-column:2/3;"><span class="lbl"><?= !empty($biz['stake_offered_pct']) ? 'Stake' : 'Asking Price' ?></span><span class="val"><?= !empty($biz['stake_offered_pct']) ? e($biz['stake_offered_pct']).'%' : (money($biz['asking_price'] ?? 0) ?: 'Contact') ?></span></div>
+            </div>
+            <div class="fb-card-ftr">
+              <span class="fb-card-price"><?= money($biz['asking_price'] ?? 0) ?: 'Contact for price' ?></span>
+              <a href="<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>" class="fb-card-btn">Contact Business</a>
+            </div>
           </div>
-          <h4 class="pub-card-title" style="margin:0 0 6px;"><?= e($biz['business_name']) ?></h4>
-          <p class="pub-text" style="margin:0 0 12px;"><?= e(mb_substr($biz['description'] ?? '', 0, 120)) ?></p>
-          <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--dash-border);">
-            <div><span class="pub-stat-label" style="display:block;">Run Rate</span><span class="pub-stat-value"><?= money($biz['annual_revenue']) ?></span></div>
-            <?php if (!empty($biz['ebitda_pct'])): ?>
-            <div><span class="pub-stat-label" style="display:block;">EBITDA</span><span class="pub-stat-value"><?= e($biz['ebitda_pct']) ?>%</span></div>
-            <?php endif; ?>
-            <?php if (!empty($biz['asking_price'])): ?>
-            <div style="width:100%;padding-top:8px;"><strong style="font-size:16px;color:var(--color-primary-vivid);">Asking <?= money($biz['asking_price']) ?></strong></div>
-            <?php endif; ?>
-          </div>
+          <?php endforeach; ?>
         </div>
-        <?php endforeach; ?>
+        <button class="fb-arrow fb-arrow-right" type="button" aria-label="Next">&#8250;</button>
       </div>
-      <button class="hp-marquee-arrow hp-marquee-arrow-right" type="button" aria-label="Next">&#8250;</button>
-    </div>
-    <div class="hp-show-mobile" style="text-align:center;margin-top:16px;">
-      <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-ghost btn-sm">Browse All</a>
+      <div class="fb-content">
+        <span class="fb-label">FEATURED BUSINESSES</span>
+        <h2>Businesses for Sale in Nepal</h2>
+        <p>Explore pre-screened businesses for sale across Nepal. Find businesses looking for full sale, partial stake, investment, or business loans. Register as an investor to buy or invest in verified businesses.</p>
+        <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-primary">View All Businesses</a>
+      </div>
     </div>
   </div>
 </section>
-<?php endif; ?><!-- END BUSINESSES MARQUEE -->
+<?php else: ?>
+<section class="pub-section tint">
+  <div class="pub-wrap">
+    <div style="text-align:center;padding:var(--space-6) 0;">
+      <p style="color:var(--dash-ink-soft);margin:0;">No featured businesses available right now.</p>
+    </div>
+  </div>
+</section>
+<?php endif; ?><!-- END FEATURED BUSINESSES -->
 
 <!-- Dual Path Cards -->
 <section class="pub-section surface">
@@ -515,8 +616,8 @@ function initMarquee(id) {
   var marquee = document.getElementById(id);
   if (!track || !marquee) return;
 
-  var leftArrow = marquee.querySelector('.hp-marquee-arrow-left');
-  var rightArrow = marquee.querySelector('.hp-marquee-arrow-right');
+  var leftArrow = marquee.querySelector('.fb-arrow-left, .hp-marquee-arrow-left');
+  var rightArrow = marquee.querySelector('.fb-arrow-right, .hp-marquee-arrow-right');
   var interval = null;
   var isPaused = false;
 
@@ -581,6 +682,11 @@ function initMarquee(id) {
 
 initMarquee('bizMarquee');
 initMarquee('pitchMarquee');
+
+// Prevent card onclick when clicking "Contact Business" link
+document.querySelectorAll('.fb-card-btn').forEach(function(btn) {
+  btn.addEventListener('click', function(e) { e.stopPropagation(); });
+});
 
 // Bottom nav active state
 (function() {
