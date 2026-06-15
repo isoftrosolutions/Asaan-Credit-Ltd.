@@ -238,9 +238,22 @@ require __DIR__ . '/../includes/header.php';
   .fb-row { grid-template-columns:1fr; gap:28px; }
   .fb-content { order:-1; }
 }
+@media (max-width:768px) {
+  .fb-card-fin { grid-template-columns:1fr; gap:4px; }
+  .fb-card-fin div { grid-column:1!important; }
+  .fb-card-meta { gap:10px; font-size:0.75rem; }
+  .fb-card-desc { -webkit-line-clamp:1; }
+  .fb-card-img { height:100px; }
+}
 @media (max-width:640px) {
   .fb-track > * { width:100%; }
   .fb-arrow { display:none; }
+  .fb-card-ftr { flex-direction:column; align-items:stretch; gap:8px; }
+  .fb-card-btn { text-align:center; padding:8px 12px; font-size:0.8rem; }
+  .fb-card-price { text-align:center; }
+  .fb-card { padding:var(--space-3); }
+  .fb-content h2 { font-size:1.3rem; }
+  .fb-content p { font-size:0.85rem; }
 }
 
 /* ── Mobile bottom nav ── */
