@@ -73,7 +73,10 @@ const PUBLIC_NAV = [
 /* ---- helpers ---- */
 
 function _icon(name) {
-  const svg = ICONS[name];
+  if (typeof ICONS === 'undefined' || !ICONS) {
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01"/></svg>';
+  }
+  var svg = ICONS[name];
   return svg || '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01"/></svg>';
 }
 

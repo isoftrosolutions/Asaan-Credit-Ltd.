@@ -126,7 +126,7 @@ if ($user) {
   </header>
 </noscript>
 <div id="header-root"></div>
-<script src="<?= APP_URL ?>/assets/icons.js?v=<?= filemtime(__DIR__ . '/../assets/icons.js') ?>"></script>
+<script src="<?= APP_URL ?>/assets/icons.js?v=<?= filemtime(__DIR__ . '/../assets/icons.js') ?>" defer></script>
 <script src="<?= APP_URL ?>/assets/header.js?v=<?= filemtime(__DIR__ . '/../assets/header.js') ?>" defer></script>
 <script src="<?= APP_URL ?>/assets/components.js?v=<?= filemtime(__DIR__ . '/../assets/components.js') ?>" defer></script>
 <script>

@@ -63,26 +63,45 @@
 .header-logo {
   display: flex;
   align-items: center;
-  flex-shrink: 0;
+  flex-shrink: 1;
   text-decoration: none;
   min-width: 0;
+  overflow: hidden;
+}
+
+@media (min-width: 769px) {
+  .header-logo {
+    flex-shrink: 0;
+  }
 }
 
 .header-logo-img {
   display: block;
   width: auto;
-  height: 44px;
-  max-width: 128px;
-  object-fit: contain;
+  height: 38px;
+  max-width: 120px;
+}
+
+@media (min-width: 400px) {
+  .header-logo-img {
+    height: 44px;
+    max-width: 128px;
+  }
 }
 
 .mobile-panel-logo {
   display: block;
   width: auto;
-  height: 44px;
-  max-width: 136px;
-  object-fit: contain;
+  height: 38px;
+  max-width: 120px;
   flex-shrink: 0;
+}
+
+@media (min-width: 400px) {
+  .mobile-panel-logo {
+    height: 44px;
+    max-width: 136px;
+  }
 }
 
 .header-logo-wordmark {

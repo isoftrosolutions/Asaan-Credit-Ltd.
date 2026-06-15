@@ -2,6 +2,17 @@
 require __DIR__ . '/../config/bootstrap.php';
 require_admin();
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delete') {
+    csrf_check();
+    $businessId = (int)($_POST['id'] ?? 0);
+    if ($businessId) {
+        db()->prepare('DELETE FROM businesses WHERE id = ?')->execute([$businessId]);
+        admin_log('delete_business', 'business', $businessId);
+        flash_set('success', 'Business deleted.');
+    }
+    redirect('/admin/businesses');
+}
+
 $action = $_GET['action'] ?? '';
 $businessId = (int)($_GET['id'] ?? 0);
 $statusFilter = $_GET['status'] ?? '';
@@ -31,13 +42,6 @@ if ($action === 'unhide' && $businessId) {
     flash_set('success', 'Business is now visible.');
     redirect('/admin/businesses');
 }
-if ($action === 'delete' && $businessId) {
-    db()->prepare('DELETE FROM businesses WHERE id = ?')->execute([$businessId]);
-    admin_log('delete_business', 'business', $businessId);
-    flash_set('success', 'Business deleted.');
-    redirect('/admin/businesses');
-}
-
 $page = max(1, (int)($_GET['page'] ?? 1));
 $perPage = 20;
 
@@ -128,7 +132,12 @@ ui_page_header('Business Management', 'Review, approve, or manage all business l
               <?php else: ?>
                 <a href="?action=hide&id=<?= $b['id'] ?>" class="btn btn-sm btn-outline" onclick="return confirm('Hide this business?')">Hide</a>
               <?php endif; ?>
-              <a href="?action=delete&id=<?= $b['id'] ?>" class="btn btn-sm btn-primary" onclick="return confirm('Delete this business permanently?')" style="background:var(--color-error);border-color:var(--color-error);">Delete</a>
+              <form method="post" style="display:inline" onsubmit="return confirm('Delete this business permanently?')">
+                <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="id" value="<?= $b['id'] ?>">
+                <button type="submit" class="btn btn-sm btn-primary" style="background:var(--color-error);border-color:var(--color-error);">Delete</button>
+              </form>
             </span>
           </td>
         </tr>
