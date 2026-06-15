@@ -125,7 +125,9 @@ if ($user) {
     </div>
   </header>
 </noscript>
+<?php if (empty($useStitchHeader)): ?>
 <div id="header-root"></div>
+<?php endif; ?>
 <script src="<?= APP_URL ?>/assets/icons.js?v=<?= filemtime(__DIR__ . '/../assets/icons.js') ?>" defer></script>
 <script src="<?= APP_URL ?>/assets/header.js?v=<?= filemtime(__DIR__ . '/../assets/header.js') ?>" defer></script>
 <script src="<?= APP_URL ?>/assets/components.js?v=<?= filemtime(__DIR__ . '/../assets/components.js') ?>" defer></script>
