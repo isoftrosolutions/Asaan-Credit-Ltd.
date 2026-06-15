@@ -51,15 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $facilities = trim($_POST['facilities'] ?? '');
     $capitalization = trim($_POST['capitalization'] ?? '');
     $thumbnailUrl = null;
-    $isPublished = 0;
-
-    $status = $_POST['status'] ?? 'draft';
-    if (!in_array($status, ['draft', 'pending', 'approved'], true)) {
-        $status = 'draft';
-    }
-    if ($status === 'approved') {
-        $isPublished = 1;
-    }
+    $status = 'approved';
+    $isPublished = 1;
 
     if ($businessName === '' || $listingType === '') {
         flash_set('error', 'Business name and listing type are required.');
@@ -412,17 +405,6 @@ require __DIR__ . '/../includes/layout-dashboard.php';
                 <label>Upload Images, Videos, or Documents</label>
                 <input type="file" name="media[]" class="input" multiple accept="image/jpeg,image/png,image/webp,video/mp4,application/pdf">
                 <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Max 2MB per file. JPEG, PNG, WebP, MP4, PDF accepted.</p>
-            </div>
-        </div>
-        <div class="card" style="margin-bottom:1.5rem;">
-            <h4>Publish Settings</h4>
-            <div class="input-group">
-                <label>Status</label>
-                <select name="status" class="input">
-                    <option value="draft">Save as Draft</option>
-                    <option value="pending">Submit for Approval</option>
-                    <option value="approved">Publish Now</option>
-                </select>
             </div>
         </div>
     </div>
