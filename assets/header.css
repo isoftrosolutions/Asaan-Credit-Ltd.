@@ -37,15 +37,16 @@
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
 }
 
-/* ---- Stitch variant ---- */
+/* ---- Stitch variant (glass) ---- */
 .stitch-header {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: var(--ds-surface);
 }
-
-.stitch-header.scrolled {
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+@supports (backdrop-filter: blur(10px)) {
+  .stitch-header {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
 }
 
 /* ---- Header inner (mobile-first: tight padding) ---- */
