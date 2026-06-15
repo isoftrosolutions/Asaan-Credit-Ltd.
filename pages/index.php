@@ -133,13 +133,13 @@ require __DIR__ . '/../includes/header.php';
 /* ── Marquee carousel ── */
 .hp-marquee { position:relative; }
 .hp-marquee-track {
-  display:flex; gap:16px; overflow-x:auto;
+  display:flex; gap:12px; overflow-x:auto;
   scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
   scroll-behavior:smooth; padding:4px 0;
   -ms-overflow-style:none; scrollbar-width:none;
 }
 .hp-marquee-track::-webkit-scrollbar { display:none; }
-.hp-marquee-track > * { scroll-snap-align:start; flex-shrink:0; width:320px; }
+.hp-marquee-track > * { scroll-snap-align:start; flex-shrink:0; flex:0 0 calc(50% - 6px); }
 
 .hp-marquee-arrow {
   position:absolute; top:50%; transform:translateY(-50%);
@@ -156,7 +156,7 @@ require __DIR__ . '/../includes/header.php';
 .hp-marquee-arrow-right { right:-16px; }
 .hp-marquee-arrow:active { transform:translateY(-50%) scale(0.92); }
 @media (max-width:767px) {
-  .hp-marquee-track > * { width:280px; }
+  .hp-marquee-track > * { flex:0 0 calc(50% - 6px); }
   .hp-marquee-arrow { display:none; }
 }
 
@@ -285,7 +285,6 @@ foreach ([$featured_biz, $recent_biz] as $list) {
     }
 }
 ?>
-<?php $allBiz = array_slice($allBiz, 0, 2); ?>
 <?php if (!empty($allBiz)): ?>
 <section class="pub-section tint">
   <div class="pub-wrap">
@@ -300,7 +299,7 @@ foreach ([$featured_biz, $recent_biz] as $list) {
       <button class="hp-marquee-arrow hp-marquee-arrow-left" type="button" aria-label="Previous">&#8249;</button>
       <div class="hp-marquee-track" id="bizMarqueeTrack">
         <?php foreach ($allBiz as $biz): ?>
-        <div class="pub-card card-accent-bar" style="cursor:pointer;width:320px;flex-shrink:0;" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'">
+        <div class="pub-card card-accent-bar" style="cursor:pointer;flex-shrink:0;flex:0 0 calc(50% - 6px);" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
             <span class="pub-badge success">Business for Sale</span>
             <?php if (!empty($biz['rating'])): ?>
@@ -378,7 +377,6 @@ foreach ([$featured_biz, $recent_biz] as $list) {
 <?php
 $displayPitches = !empty($featured_pitches) ? $featured_pitches : (!empty($recent_pitches) ? $recent_pitches : []);
 $pitchSectionTitle = !empty($featured_pitches) ? 'Featured Investment Opportunities' : 'Latest Investment Opportunities';
-$displayPitches = array_slice($displayPitches, 0, 2);
 ?>
 <?php if (!empty($displayPitches)): ?>
 <section class="pub-section tint">
@@ -392,9 +390,9 @@ $displayPitches = array_slice($displayPitches, 0, 2);
     </div>
     <div class="hp-marquee" id="pitchMarquee">
       <button class="hp-marquee-arrow hp-marquee-arrow-left" type="button" aria-label="Previous">&#8249;</button>
-      <div class="pitch-scroll hp-marquee-track" id="pitchMarqueeTrack" style="display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;">
+      <div class="pitch-scroll hp-marquee-track" id="pitchMarqueeTrack" style="display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;">
       <?php foreach ($displayPitches as $p): ?>
-      <div class="pub-card card-accent-bar-navy" style="flex-shrink:0;width:300px;cursor:pointer;" onclick="location.href='<?= APP_URL ?>/pitch/<?= (int)$p['id'] ?>'">
+      <div class="pub-card card-accent-bar-navy" style="flex-shrink:0;flex:0 0 calc(50% - 6px);cursor:pointer;" onclick="location.href='<?= APP_URL ?>/pitch/<?= (int)$p['id'] ?>'">
         <div style="margin-bottom:12px;">
           <span class="pub-badge info">Seeking Investment</span>
         </div>
@@ -525,7 +523,7 @@ function initMarquee(id) {
   function getScrollAmount() {
     var card = track.querySelector('.pub-card');
     if (!card) return 320;
-    return card.offsetWidth + 16;
+    return card.offsetWidth + 12;
   }
 
   function scrollNext() {
