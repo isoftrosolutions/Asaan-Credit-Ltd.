@@ -164,224 +164,76 @@ require __DIR__ . '/../includes/header.php';
 .pitch-scroll > * { scroll-snap-align:start; }
 
 /* ── Featured Businesses showcase ── */
-.showcase-header {
-  text-align:center; margin-bottom:40px;
+/* two-column layout */
+@media (min-width:901px) {
+  .fb-ref-row { flex-direction:row!important; }
+  .fb-ref-left { width:65%!important; }
+  .fb-ref-right { width:35%!important; }
 }
-.showcase-header .showcase-eyebrow {
-  display:inline-block;
-  font-size:0.72rem; font-weight:700; text-transform:uppercase;
-  letter-spacing:0.12em; color:var(--color-primary);
-  margin-bottom:8px;
-}
-.showcase-header h2 {
-  font-family:var(--font-heading); font-size:1.75rem;
-  font-weight:800; color:var(--dash-ink); margin:0 0 6px;
-}
-.showcase-header p {
-  font-size:0.9rem; color:var(--dash-ink-soft);
-  margin:0; max-width:520px; margin-left:auto; margin-right:auto;
-}
-.fb-row {
-  display:grid; grid-template-columns:1.9fr 1fr;
-  gap:48px; align-items:start;
-}
-.fb-cards-wrap { position:relative; }
-.fb-track {
-  display:flex; gap:16px; overflow-x:auto;
-  scroll-snap-type:x mandatory; scroll-behavior:smooth;
-  padding:4px 0;
-  -ms-overflow-style:none; scrollbar-width:none;
-}
-.fb-track::-webkit-scrollbar { display:none; }
-.fb-track > * { scroll-snap-align:start; flex-shrink:0; width:calc(50% - 8px); }
 
-.fb-card {
-  background:var(--dash-card); border-radius:var(--dash-radius-card);
-  border:1px solid var(--dash-border); padding:0; cursor:pointer;
-  box-shadow:var(--dash-shadow); overflow:hidden; position:relative;
-  transition:box-shadow var(--motion-base) var(--ease-standard),
-             transform var(--motion-base) var(--ease-standard),
-             border-color var(--motion-base) var(--ease-standard);
+/* card */
+.fb-ref-card {
+  background:#fff; border-radius:8px;
+  border:1px solid var(--dash-border);
+  box-shadow:var(--dash-shadow); padding:20px;
+  display:flex; flex-direction:column; cursor:pointer;
+  transition:box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+  scroll-snap-align:start; flex-shrink:0;
 }
-.fb-card:hover {
-  box-shadow:var(--dash-shadow-hover); transform:translateY(-3px);
+.fb-ref-card:hover {
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+  transform:translateY(-3px);
   border-color:var(--color-primary);
 }
-.fb-card-inner { padding:20px; }
+.fb-ref-card .fb-ref-title { transition:color .2s ease; }
+.fb-ref-card:hover .fb-ref-title { color:var(--color-primary); }
 
-/* ── card badge (listing type) ── */
-.fb-card-badge {
-  display:inline-block;
-  font-size:0.65rem; font-weight:700; text-transform:uppercase;
-  letter-spacing:0.06em;
-  padding:3px 10px; border-radius:var(--radius-pill);
-  background:rgba(107,29,34,0.08); color:var(--color-primary);
-}
-.fb-card-badge.is-investment {
-  background:rgba(16,185,129,0.1); color:var(--dash-success);
-}
-.fb-card-badge.is-loan {
-  background:rgba(59,130,246,0.1); color:var(--dash-info);
-}
-
-/* ── rating pill ── */
-.fb-card-rating {
-  position:absolute; top:12px; right:12px; z-index:2;
-  display:inline-flex; align-items:center; gap:3px;
-  font-size:0.72rem; font-weight:700;
-  padding:2px 8px; border-radius:var(--radius-pill);
-  background:rgba(255,255,255,0.92); color:#b45309;
-  box-shadow:0 1px 4px rgba(0,0,0,0.06);
-}
-
-/* ── card image ── */
-.fb-card-img {
-  width:100%; height:110px; object-fit:cover; display:block;
-  background:var(--color-bg-soft);
-}
-
-/* ── card title ── */
-.fb-card-title {
-  margin:10px 0 3px; font-size:0.95rem; font-weight:700;
-  color:var(--dash-ink); line-height:1.35;
-}
-
-/* ── card description ── */
-.fb-card-desc {
-  margin:0 0 8px; font-size:0.78rem; line-height:1.55;
-  color:var(--dash-ink-soft);
-  display:-webkit-box; -webkit-line-clamp:2;
-  -webkit-box-orient:vertical; overflow:hidden;
-}
-
-/* ── location meta ── */
-.fb-card-meta {
-  display:flex; gap:14px; font-size:0.75rem;
-  color:var(--dash-ink-soft); margin-bottom:10px; flex-wrap:wrap;
-}
-.fb-card-meta span { display:inline-flex; align-items:center; gap:4px; }
-
-/* ── financial grid ── */
-.fb-card-fin {
-  background:var(--color-bg-soft); border-radius:var(--radius-md);
-  padding:8px 10px; margin-bottom:10px;
-  display:grid; grid-template-columns:1fr 1fr; gap:3px 16px;
-  font-size:0.76rem;
-}
-.fb-card-fin .lbl {
-  color:var(--dash-ink-soft); font-size:0.65rem;
-  text-transform:uppercase; letter-spacing:0.04em;
-}
-.fb-card-fin .val {
-  font-weight:600; color:var(--dash-ink);
-}
-
-/* ── footer ── */
-.fb-card-ftr {
-  display:flex; justify-content:space-between;
-  align-items:center; gap:8px;
-}
-.fb-card-price-wrap { display:flex; flex-direction:column; }
-.fb-card-price-label {
-  font-size:0.62rem; font-weight:600; text-transform:uppercase;
-  letter-spacing:0.06em; color:var(--dash-ink-soft); line-height:1;
-}
-.fb-card-price {
-  font-weight:800; font-size:1rem;
-  color:var(--color-primary-vivid); white-space:nowrap; margin-top:2px;
-}
-.fb-card-btn {
-  flex-shrink:0;
-  background:rgba(177,217,253,0.35); color:#1a4a6e;
-  border:none; border-radius:var(--radius-md); padding:5px 14px;
-  font-size:0.72rem; font-weight:700; cursor:pointer;
-  text-decoration:none; white-space:nowrap;
-  transition:background 160ms ease-out, transform 160ms ease-out;
-}
-.fb-card-btn:hover {
-  background:rgba(177,217,253,0.6);
-}
-.fb-card-btn:active { transform:scale(0.97); }
-
-/* ── carousel arrows ── */
-.fb-arrow {
-  position:absolute; top:50%; transform:translateY(-50%);
-  z-index:5; width:34px; height:34px; border:none; border-radius:50%;
-  background:#fff; color:var(--dash-ink); cursor:pointer;
-  box-shadow:0 2px 8px rgba(0,0,0,0.10);
-  display:flex; align-items:center; justify-content:center;
-  font-size:16px; line-height:1; opacity:0;
-  transition:opacity 200ms ease-out, transform 200ms ease-out;
-}
-.fb-cards-wrap:hover .fb-arrow { opacity:1; }
-.fb-arrow-left { left:-14px; }
-.fb-arrow-right { right:-14px; }
-.fb-arrow:active { transform:translateY(-50%) scale(0.92); }
-
-/* ── right content column ── */
-.fb-content { padding-top:4px; }
-.fb-content .fb-eyebrow {
-  display:inline-block; font-size:0.72rem; font-weight:700;
-  text-transform:uppercase; letter-spacing:0.08em;
-  color:var(--color-primary); margin-bottom:10px;
-}
-.fb-content h2 {
-  font-family:var(--font-heading);
-  font-size:1.5rem; line-height:1.35;
-  color:var(--color-primary); margin:0 0 8px;
-}
-.fb-content h3 {
-  font-family:var(--font-heading);
-  font-size:1rem; line-height:1.4; font-weight:600;
-  color:var(--color-secondary); margin:0 0 14px;
-}
-.fb-content p {
-  font-size:0.88rem; line-height:1.7;
-  color:var(--dash-ink-soft); margin:0 0 28px;
-}
-.fb-content .fb-cta {
-  display:inline-block;
-  background:rgba(107,29,34,0.12); color:var(--color-primary);
-  padding:14px 32px; border-radius:var(--radius-md);
-  font-size:0.9rem; font-weight:700; text-decoration:none;
-  transition:background 160ms ease-out, transform 160ms ease-out;
-}
-.fb-content .fb-cta:hover {
-  background:rgba(107,29,34,0.2);
-}
-.fb-content .fb-cta:active { transform:scale(0.97); }
-
-/* ── responsive ── */
-@media (max-width:1024px) {
-  .fb-row { gap:32px; }
-  .fb-track > * { width:calc(50% - 8px); }
+/* carousel track */
+.fb-track {
+  display:grid; grid-template-columns:1fr 1fr; gap:16px;
 }
 @media (max-width:900px) {
-  .fb-row { grid-template-columns:1fr; gap:28px; }
-  .fb-content { order:-1; }
-  .fb-content h2 { font-size:1.35rem; }
+  .fb-track {
+    display:flex; gap:16px; overflow-x:auto;
+    scroll-snap-type:x mandatory; scroll-behavior:smooth; padding:4px 0;
+    -ms-overflow-style:none; scrollbar-width:none;
+  }
+  .fb-track::-webkit-scrollbar { display:none; }
   .fb-track > * { width:calc(50% - 8px); }
-}
-@media (max-width:768px) {
-  .fb-card-fin { grid-template-columns:1fr; gap:4px; }
-  .fb-card-fin div { grid-column:1!important; }
-  .fb-card-meta { gap:10px; font-size:0.72rem; }
-  .fb-card-desc { -webkit-line-clamp:1; }
-  .fb-card-img { height:90px; }
-  .fb-card-rating { top:8px; right:8px; }
-  .showcase-header { margin-bottom:28px; }
-  .showcase-header h2 { font-size:1.35rem; }
+  .fb-ref-arrows { display:none; }
 }
 @media (max-width:640px) {
   .fb-track > * { width:100%; }
-  .fb-arrow { display:none; }
-  .fb-card-ftr { flex-direction:column; align-items:stretch; gap:8px; }
-  .fb-card-btn { text-align:center; padding:8px 12px; font-size:0.8rem; }
-  .fb-card-price-wrap { align-items:center; }
-  .fb-card-price { text-align:center; }
-  .fb-card-inner { padding:14px; }
-  .fb-content h2 { font-size:1.2rem; }
-  .fb-content p { font-size:0.85rem; }
+}
+
+/* contact button */
+.fb-ref-btn {
+  flex-shrink:0;
+  background:rgba(177,217,253,0.35); color:#1a4a6e;
+  border:none; border-radius:8px; padding:6px 16px;
+  font-size:13px; font-weight:600; cursor:pointer;
+  text-decoration:none; white-space:nowrap;
+  transition:background .16s ease-out, transform .16s;
+}
+.fb-ref-btn:hover { background:rgba(177,217,253,0.6); }
+.fb-ref-btn:active { transform:scale(0.97); }
+
+/* View All CTA */
+.fb-ref-cta:hover { background:rgba(107,29,34,0.2)!important; }
+.fb-ref-cta:active { transform:scale(0.97); }
+
+/* carousel arrows */
+.fb-arrow { opacity:0; transition:opacity .2s ease, background .2s; }
+.fb-ref-left:hover .fb-arrow { opacity:1; }
+.fb-arrow:hover { background:var(--color-bg-soft)!important; }
+.fb-arrow:active { transform:translateY(-50%) scale(0.92)!important; }
+@media (max-width:900px) {
+  .fb-arrow { display:none!important; }
+}
+
+/* right column responsive */
+@media (max-width:900px) {
+  .fb-ref-right { order:-1; margin-bottom:8px; }
 }
 
 /* ── Mobile bottom nav ── */
@@ -507,89 +359,97 @@ foreach ([$featured_biz, $recent_biz] as $list) {
     }
 }
 $ltLabels = ['full_sale'=>'Business for Sale', 'partial_sale'=>'Stake Sale', 'seeking_investment'=>'Seeking Investment', 'seeking_loan'=>'Seeking Loan', 'franchise'=>'Franchise'];
-$ltCSS = ['full_sale'=>'', 'partial_sale'=>'', 'seeking_investment'=>'is-investment', 'seeking_loan'=>'is-loan', 'franchise'=>''];
 ?>
 <?php if (!empty($allBiz)): ?>
-<section class="pub-section tint">
-  <div class="pub-wrap">
-    <div class="showcase-header">
-      <span class="showcase-eyebrow">Featured Businesses</span>
-      <h2>Businesses for Sale in Nepal</h2>
-      <p>Pre-screened businesses for sale across Nepal — verified by our analysts.</p>
-    </div>
-    <div class="fb-row">
-      <div class="fb-cards-wrap" id="bizMarquee">
-        <button class="fb-arrow fb-arrow-left" type="button" aria-label="Previous">&#8249;</button>
+<section style="background:var(--color-bg);padding:64px 0;">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+    <div style="display:flex;gap:48px;align-items:flex-start;flex-direction:column;" class="fb-ref-row">
+      <!-- Left Column -->
+      <div style="width:100%;position:relative;" class="fb-ref-left" id="bizMarquee">
+        <!-- Carousel Arrows -->
+        <div class="fb-ref-arrows">
+          <button class="fb-arrow fb-arrow-left" type="button" aria-label="Previous" style="position:absolute;left:-20px;top:50%;transform:translateY(-50%);z-index:10;width:40px;height:40px;border-radius:50%;border:1px solid var(--dash-border);background:#fff;display:flex;align-items:center;justify-content:center;color:var(--color-primary);box-shadow:var(--dash-shadow);cursor:pointer;transition:background .2s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="fb-arrow fb-arrow-right" type="button" aria-label="Next" style="position:absolute;right:-20px;top:50%;transform:translateY(-50%);z-index:10;width:40px;height:40px;border-radius:50%;border:1px solid var(--dash-border);background:#fff;display:flex;align-items:center;justify-content:center;color:var(--color-primary);box-shadow:var(--dash-shadow);cursor:pointer;transition:background .2s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+        <!-- Cards Track -->
         <div class="fb-track" id="bizMarqueeTrack">
           <?php foreach ($allBiz as $biz):
             $loc = array_filter([$biz['district'] ?? '', $biz['province'] ?? '']);
             $locStr = !empty($loc) ? implode(', ', $loc) : 'Nepal';
             $lt = $ltLabels[$biz['listing_type']] ?? 'Business for Sale';
-            $ltClass = $ltCSS[$biz['listing_type']] ?? '';
-            $img = '';
-            if (!empty($biz['thumbnail_url'])) {
-                $img = (str_starts_with($biz['thumbnail_url'], 'http') || str_starts_with($biz['thumbnail_url'], '/'))
-                    ? $biz['thumbnail_url']
-                    : '/public/uploads/business-thumbnails/' . $biz['thumbnail_url'];
-            }
             $hasStake = !empty($biz['stake_offered_pct']);
+            $ap = (int)($biz['asking_price'] ?? 0);
           ?>
-          <div class="fb-card" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'">
-            <?php if ($img): ?>
-            <img src="<?= e($img) ?>" alt="" class="fb-card-img" loading="lazy">
-            <?php endif; ?>
-            <div class="fb-card-inner">
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                <span class="fb-card-badge <?= e($ltClass) ?>"><?= e($lt) ?></span>
-                <?php if (!empty($biz['rating'])): ?>
-                <span class="fb-card-rating">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                  <?= e($biz['rating']) ?>
-                </span>
-                <?php endif; ?>
+          <div class="fb-ref-card" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:999px;background:rgba(107,29,34,0.08);color:var(--color-primary);"><?= e($lt) ?></span>
+              <?php if (!empty($biz['rating'])): ?>
+              <div style="display:flex;align-items:center;gap:3px;background:var(--color-bg-soft);padding:2px 6px;border-radius:999px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <span style="font-size:12px;font-weight:600;color:var(--dash-ink);"><?= e($biz['rating']) ?></span>
               </div>
-              <h3 class="fb-card-title"><?= e($biz['business_name']) ?></h3>
-              <p class="fb-card-desc"><?= e(mb_substr($biz['description'] ?? '', 0, 120)) ?></p>
-              <div class="fb-card-meta">
-                <span>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  <?= e($locStr) ?>
-                </span>
-              </div>
-              <div class="fb-card-fin">
-                <div><span class="lbl">Run Rate Sales</span><span class="val"><?php $rv = $biz['annual_revenue'] ?? 0; echo $rv > 0 ? money($rv) : 'Not disclosed'; ?></span></div>
-                <div><span class="lbl">EBITDA</span><span class="val"><?= !empty($biz['ebitda_pct']) ? e($biz['ebitda_pct']).'%' : '—' ?></span></div>
-                <div><span class="lbl">Sale Type</span><span class="val"><?= e($lt) ?></span></div>
-                <div><span class="lbl"><?= $hasStake ? 'Stake' : 'Asking Price' ?></span><span class="val"><?= $hasStake ? e($biz['stake_offered_pct']).'%' : ((int)($biz['asking_price'] ?? 0) > 0 ? money((int)$biz['asking_price']) : 'Contact') ?></span></div>
-              </div>
-              <div class="fb-card-ftr">
-                <div class="fb-card-price-wrap">
-                  <span class="fb-card-price-label">Asking Price</span>
-                  <span class="fb-card-price"><?php $ap = (int)($biz['asking_price'] ?? 0); if ($ap > 0) { echo $ap >= 10000000 ? 'रू ' . number_format($ap / 10000000, 1) . 'Cr' : ($ap >= 100000 ? 'रू ' . number_format($ap / 100000, 1) . 'L' : money($ap)); } else { echo 'Contact for price'; } ?></span>
+              <?php endif; ?>
+            </div>
+            <h3 style="font-family:var(--font-heading);font-size:18px;font-weight:700;color:var(--dash-ink);margin:0 0 4px;" class="fb-ref-title"><?= e($biz['business_name']) ?></h3>
+            <p style="font-size:14px;line-height:1.5;color:var(--dash-ink-soft);margin:0 0 12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
+              <?= e(mb_substr($biz['description'] ?? '', 0, 130)) ?>
+            </p>
+            <div style="display:flex;align-items:center;gap:4px;margin-bottom:12px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span style="font-size:12px;font-weight:500;color:var(--dash-ink-soft);"><?= e($locStr) ?></span>
+            </div>
+            <div style="background:var(--color-bg-soft);border-radius:8px;padding:12px;margin-bottom:12px;">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div>
+                  <p style="font-size:10px;color:var(--dash-ink-soft);text-transform:uppercase;letter-spacing:0.04em;margin:0 0 1px;">Run Rate Sales</p>
+                  <p style="font-size:14px;font-weight:600;color:var(--dash-ink);margin:0;"><?php $rv = $biz['annual_revenue'] ?? 0; echo $rv > 0 ? money($rv) : 'Not disclosed'; ?></p>
                 </div>
-                <a href="<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>" class="fb-card-btn" onclick="event.stopPropagation()">Contact Business</a>
+                <div>
+                  <p style="font-size:10px;color:var(--dash-ink-soft);text-transform:uppercase;letter-spacing:0.04em;margin:0 0 1px;">EBITDA</p>
+                  <p style="font-size:14px;font-weight:600;color:var(--dash-ink);margin:0;"><?= !empty($biz['ebitda_pct']) ? e($biz['ebitda_pct']).'%' : '—' ?></p>
+                </div>
+                <div>
+                  <p style="font-size:10px;color:var(--dash-ink-soft);text-transform:uppercase;letter-spacing:0.04em;margin:0 0 1px;">Sale Type</p>
+                  <p style="font-size:14px;font-weight:600;color:var(--dash-ink);margin:0;"><?= e($lt) ?></p>
+                </div>
+                <div>
+                  <p style="font-size:10px;color:var(--dash-ink-soft);text-transform:uppercase;letter-spacing:0.04em;margin:0 0 1px;"><?= $hasStake ? 'Stake' : 'Asking Price' ?></p>
+                  <p style="font-size:14px;font-weight:600;color:var(--dash-ink);margin:0;"><?= $hasStake ? e($biz['stake_offered_pct']).'%' : ($ap > 0 ? money($ap) : 'Contact') ?></p>
+                </div>
               </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;">
+              <div style="display:flex;flex-direction:column;">
+                <span style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--dash-ink-soft);">Asking Price</span>
+                <span style="font-size:18px;font-weight:800;color:var(--color-primary-vivid);"><?php if ($ap > 0) { echo $ap >= 10000000 ? 'रू '.number_format($ap/10000000,1).'Cr' : ($ap >= 100000 ? 'रू '.number_format($ap/100000,1).'L' : money($ap)); } else { echo 'Contact for price'; } ?></span>
+              </div>
+              <a href="<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>" class="fb-ref-btn" onclick="event.stopPropagation()">Contact Business</a>
             </div>
           </div>
           <?php endforeach; ?>
         </div>
-        <button class="fb-arrow fb-arrow-right" type="button" aria-label="Next">&#8250;</button>
       </div>
-      <div class="fb-content">
-        <span class="fb-eyebrow">Why Asaan Capital</span>
-        <h2>Businesses for Sale in Nepal</h2>
-        <h3>Pre-screened businesses for sale across Nepal.</h3>
-        <p>Explore pre-screened businesses for sale across Nepal. Find verified businesses looking for full sale, partial stake sale, investment, or business loans. Asaan Capital helps investors, buyers, and entrepreneurs discover trusted opportunities with confidence.</p>
-        <a href="<?= APP_URL ?>/browse/businesses" class="fb-cta">View All Businesses</a>
+      <!-- Right Column -->
+      <div style="width:100%;display:flex;flex-direction:column;justify-content:center;" class="fb-ref-right">
+        <h2 style="font-family:var(--font-heading);font-size:28px;font-weight:700;color:var(--color-primary);margin:0 0 4px;">Businesses for Sale in Nepal</h2>
+        <h3 style="font-family:var(--font-heading);font-size:18px;font-weight:600;color:var(--color-secondary);margin:0 0 12px;">Pre-screened businesses for sale across Nepal.</h3>
+        <p style="font-size:16px;line-height:1.7;color:var(--dash-ink-soft);margin:0 0 28px;">
+          Explore pre-screened businesses for sale across Nepal. Find verified businesses looking for full sale, partial stake sale, investment, or business loans. Asaan Capital helps investors, buyers, and entrepreneurs discover trusted opportunities with confidence.
+        </p>
+        <a href="<?= APP_URL ?>/browse/businesses" style="display:inline-block;background:rgba(107,29,34,0.12);color:var(--color-primary);padding:14px 32px;border-radius:8px;font-size:16px;font-weight:700;text-decoration:none;transition:background .2s,transform .15s;align-self:flex-start;" class="fb-ref-cta">View All Businesses</a>
       </div>
     </div>
   </div>
 </section>
 <?php else: ?>
-<section class="pub-section tint">
-  <div class="pub-wrap">
-    <div style="text-align:center;padding:var(--space-6) 0;">
-      <p style="color:var(--dash-ink-soft);margin:0;">No featured businesses available right now.</p>
+<section style="background:var(--dash-bg);padding:64px 0;">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+    <div style="text-align:center;padding:48px 0;">
+      <p style="color:var(--dash-ink-soft);margin:0;font-size:16px;">No featured businesses available right now.</p>
     </div>
   </div>
 </section>
@@ -787,7 +647,7 @@ function initMarquee(id) {
   var isPaused = false;
 
   function getScrollAmount() {
-    var card = track.querySelector('.pub-card, .fb-card');
+    var card = track.querySelector('.pub-card, .fb-card, .fb-ref-card');
     if (!card) return 320;
     return card.offsetWidth + 16;
   }
@@ -847,11 +707,6 @@ function initMarquee(id) {
 
 initMarquee('bizMarquee');
 initMarquee('pitchMarquee');
-
-// Prevent card onclick when clicking "Contact Business" link
-document.querySelectorAll('.fb-card-btn').forEach(function(btn) {
-  btn.addEventListener('click', function(e) { e.stopPropagation(); });
-});
 
 // Bottom nav active state
 (function() {
