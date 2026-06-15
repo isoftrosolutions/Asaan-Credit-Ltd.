@@ -32,6 +32,36 @@ $matches = $db->prepare('
 $matches->execute([$userId, $userId, $userId, $userId, $userId, $userId]);
 $allMatches = $matches->fetchAll();
 
+$pendingSent = $db->prepare('
+    SELECT ir.*, u.name AS receiver_name, u.role AS receiver_role,
+           CASE
+               WHEN ir.business_id IS NOT NULL THEN (SELECT business_name FROM businesses WHERE id = ir.business_id)
+               WHEN ir.pitch_id IS NOT NULL THEN (SELECT tagline FROM pitches WHERE id = ir.pitch_id)
+               ELSE NULL
+           END AS context_name
+    FROM interest_requests ir
+    JOIN users u ON u.id = ir.receiver_id
+    WHERE ir.sender_id = ? AND ir.status = \'pending\'
+    ORDER BY ir.created_at DESC
+');
+$pendingSent->execute([$userId]);
+$sentRequests = $pendingSent->fetchAll();
+
+$pendingReceived = $db->prepare('
+    SELECT ir.*, u.name AS sender_name, u.role AS sender_role,
+           CASE
+               WHEN ir.business_id IS NOT NULL THEN (SELECT business_name FROM businesses WHERE id = ir.business_id)
+               WHEN ir.pitch_id IS NOT NULL THEN (SELECT tagline FROM pitches WHERE id = ir.pitch_id)
+               ELSE NULL
+           END AS context_name
+    FROM interest_requests ir
+    JOIN users u ON u.id = ir.sender_id
+    WHERE ir.receiver_id = ? AND ir.status = \'pending\'
+    ORDER BY ir.created_at DESC
+');
+$pendingReceived->execute([$userId]);
+$receivedRequests = $pendingReceived->fetchAll();
+
 $recentActivity = $db->prepare('
     SELECT \'match\' AS event_type, m.matched_at AS event_at,
            CASE WHEN m.user_a_id = ? THEN mu.name ELSE mu2.name END AS other_name
@@ -55,15 +85,61 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 
 ui_page_header(
     'My Connections',
-    'Mutual matches where contact details have been revealed &mdash; <strong>' . count($allMatches) . '</strong> total.'
+    'Mutual matches and pending requests in one place.'
 );
 ?>
 
-<?php if (empty($allMatches)): ?>
+<?php if (empty($allMatches) && empty($sentRequests) && empty($receivedRequests)): ?>
   <div class="dash-panel">
     <?php ui_empty_state(['icon' => 'matches', 'title' => 'No connections yet', 'text' => 'Browse listings and send interest requests to get started.', 'ctaHref' => APP_URL . '/browse/businesses', 'ctaLabel' => 'Browse businesses']); ?>
   </div>
-<?php else: ?>
+<?php endif; ?>
+
+<?php if (!empty($receivedRequests)): ?>
+  <?php ui_section_header('Requests to respond to'); ?>
+  <div class="dash-panel dash-list">
+    <?php foreach ($receivedRequests as $r): ?>
+      <div class="dash-listrow" style="flex-wrap:wrap;">
+        <div class="dash-avatar"><?= e(strtoupper(substr($r['sender_name'], 0, 2))) ?></div>
+        <div class="dash-listrow-main">
+          <div class="dash-listrow-title"><?= e($r['sender_name']) ?></div>
+          <div class="dash-listrow-sub"><?= e(ucfirst(str_replace('_', ' ', $r['sender_role'] ?? ''))) ?><?php if ($r['context_name']): ?> &middot; <?= e($r['context_name']) ?><?php endif; ?></div>
+        </div>
+        <form method="POST" action="<?= APP_URL ?>/connections/respond" class="dash-listrow-actions">
+          <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
+          <input type="hidden" name="request_id" value="<?= (int)$r['id'] ?>">
+          <button type="submit" name="action" value="accept" class="btn btn-primary btn-sm">Accept</button>
+          <button type="submit" name="action" value="reject" class="btn btn-outline btn-sm" onclick="return confirm('Decline this interest request?')">Decline</button>
+        </form>
+        <?php if ($r['message']): ?>
+          <div class="dash-listrow-quote" style="flex-basis:100%;">&ldquo;<?= e($r['message']) ?>&rdquo;</div>
+        <?php endif; ?>
+      </div>
+    <?php endforeach; ?>
+  </div>
+<?php endif; ?>
+
+<?php if (!empty($sentRequests)): ?>
+  <?php ui_section_header('Requests you sent'); ?>
+  <div class="dash-panel dash-list">
+    <?php foreach ($sentRequests as $r): ?>
+      <div class="dash-listrow" style="flex-wrap:wrap;">
+        <div class="dash-avatar"><?= e(strtoupper(substr($r['receiver_name'], 0, 2))) ?></div>
+        <div class="dash-listrow-main">
+          <div class="dash-listrow-title"><?= e($r['receiver_name']) ?></div>
+          <div class="dash-listrow-sub">Pending response<?php if ($r['context_name']): ?> &middot; <?= e($r['context_name']) ?><?php endif; ?> &middot; <?= date_human($r['created_at']) ?></div>
+        </div>
+        <span class="dash-pill pending">Pending</span>
+        <?php if ($r['message']): ?>
+          <div class="dash-listrow-quote" style="flex-basis:100%;">&ldquo;<?= e($r['message']) ?>&rdquo;</div>
+        <?php endif; ?>
+      </div>
+    <?php endforeach; ?>
+  </div>
+<?php endif; ?>
+
+<?php if (!empty($allMatches)): ?>
+  <?php ui_section_header('Accepted connections'); ?>
   <div class="dash-panel dash-list">
     <?php foreach ($allMatches as $m): ?>
       <div class="dash-listrow" style="flex-wrap:wrap;">

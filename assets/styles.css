@@ -2542,7 +2542,7 @@ body:has(.dash-shell) { background: var(--dash-bg); }
   border-bottom: 1px solid var(--dash-border);
 }
 .dash-brand-link { display: flex; align-items: center; gap: 10px; text-decoration: none; min-width: 0; }
-.dash-brand-logo { height: 38px; width: auto; display: block; flex-shrink: 0; }
+.dash-brand-logo { height: 50px; width: auto; max-width: 146px; object-fit: contain; display: block; flex-shrink: 0; }
 .dash-brand-word { font-family: var(--font-heading); font-weight: 800; font-size: 1.18rem; letter-spacing: -.01em; line-height: 1; color: var(--color-secondary); white-space: nowrap; }
 .dash-brand-word span { color: var(--color-primary-vivid); }
 .dash-sidebar-close { display: none; background: none; border: none; color: var(--dash-ink-soft); cursor: pointer; padding: 6px; }
@@ -2885,6 +2885,7 @@ body:has(.dash-shell) { background: var(--dash-bg); }
 .dash-pill.draft { background: rgba(107,114,128,.12); color: var(--dash-ink-soft); }
 .dash-pill.featured { background: rgba(245,158,11,.12); color: var(--dash-warning); }
 .dash-pill.open { background: rgba(59,130,246,.1); color: var(--dash-info); }
+.dash-pill.pending { background: rgba(245,158,11,.12); color: var(--dash-warning); }
 
 /* ---- Definition list / detail grid ---- */
 .dash-deflist { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-4) var(--space-5); }

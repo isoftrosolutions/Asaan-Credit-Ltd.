@@ -28,13 +28,13 @@
   --ds-label: 0.75rem;
 
   /* Spacing */
-  --ds-section-gap: 2rem;
+  --ds-section-gap: 1.25rem;
   --ds-radius: 12px;
   --ds-radius-sm: 8px;
   --ds-shadow: 0 1px 3px rgba(0,0,0,0.05);
 
   /* Container */
-  --ds-container: 1440px;
+  --ds-container: 1200px;
 }
 
 /* ─── Base ─── */
@@ -1106,7 +1106,7 @@
   gap: 8px;
   font-size: var(--ds-label);
   color: var(--ds-muted);
-  padding: 20px 0 12px;
+  padding-block: 8px;
   max-width: var(--ds-container);
   margin: 0 auto;
   padding-inline: 24px;
@@ -1130,23 +1130,23 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding: 32px;
+  gap: 18px;
+  padding: 24px;
   color: #fff;
 }
 @media (min-width: 1024px) {
-  .stitch-hero-inner { flex-direction: row; min-height: 420px; }
+  .stitch-hero-inner { flex-direction: row; min-height: 0; }
 }
 @media (max-width: 1023px) {
-  .stitch-hero-inner { padding: 24px; }
+  .stitch-hero-inner { padding: 20px; }
 }
 
 .stitch-hero-left {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 16px;
+  justify-content: flex-start;
+  gap: 12px;
 }
 
 .stitch-hero-badges {
@@ -1201,7 +1201,7 @@
 .stitch-hero-metrics {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 10px;
 }
 
 .stitch-metric-card {
@@ -1345,10 +1345,10 @@
 .stitch-layout {
   display: grid;
   grid-template-columns: 1fr 360px;
-  gap: 32px;
+  gap: 24px;
   align-items: start;
   max-width: var(--ds-container);
-  margin: 24px auto 48px;
+  margin: 16px auto 32px;
   padding-inline: 24px;
 }
 
@@ -1370,7 +1370,7 @@
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--ds-primary);
-  margin: 0 0 16px;
+  margin: 0 0 10px;
 }
 
 /* ─── Investment Snapshot ─── */
@@ -2264,8 +2264,8 @@
 /* ─── Footer ─── */
 .stitch-footer {
   max-width: var(--ds-container);
-  margin: 48px auto 0;
-  padding: 40px 24px;
+  margin: 32px auto 0;
+  padding: 28px 24px;
   border-top: 1px solid var(--ds-border);
 }
 
@@ -2321,7 +2321,8 @@
   .stitch-layout,
   .stitch-footer { padding-inline: 16px; }
 
-  .stitch-hero-inner { padding: 20px; gap: 16px; }
+  .stitch-breadcrumb { padding-block: 6px; }
+  .stitch-hero-inner { padding: 16px; gap: 12px; }
   .stitch-hero-title { font-size: 1.5rem; }
   .stitch-hero-desc { font-size: var(--ds-small); }
   .stitch-hero-metrics { grid-template-columns: repeat(2, 1fr); gap: 8px; }
@@ -2335,6 +2336,7 @@
   .stitch-gallery-thumbs { height: 60px; gap: 8px; }
 
   .stitch-section-title { font-size: 1.25rem; }
+  .stitch-layout { margin: 12px auto 24px; gap: 20px; }
 
   .stitch-snapshot-grid { padding: 16px; gap: 8px 16px; }
   .stitch-snapshot-value { font-size: var(--ds-body); }
@@ -2390,7 +2392,7 @@
 }
 
 .stitch-header-inner {
-  max-width: var(--ds-container);
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -2405,6 +2407,14 @@
   gap: 10px;
   text-decoration: none;
   flex-shrink: 0;
+}
+
+.stitch-logo-img {
+  display: block;
+  width: auto;
+  height: 50px;
+  max-width: 146px;
+  object-fit: contain;
 }
 
 .stitch-logo-mark {
@@ -2516,6 +2526,15 @@
 }
 
 @media (max-width: 900px) {
+  .stitch-header-inner {
+    padding: 0 12px;
+  }
+
+  .stitch-logo-img {
+    height: 44px;
+    max-width: 128px;
+  }
+
   .stitch-nav {
     position: fixed;
     top: 0;

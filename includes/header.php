@@ -37,7 +37,7 @@ if ($user) {
     "name": "Asaan Capital Ltd",
     "description": "Financial & Investment Services",
     "url": "https://asaancapital.com",
-    "logo": "https://asaancapital.com/logo.png",
+    "logo": "https://asaancapital.com/assets/asaan-capital-logo-header.png",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Madhyapur Thimi Municipality-9",
@@ -105,7 +105,9 @@ if ($user) {
       <div class="pub-header-inner" style="max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;height:64px;gap:32px;">
         <div class="logo-section">
           <div class="logo-wrapper">
-            <a href="/" class="logo" aria-label="Asaan Capital Ltd"></a>
+            <a href="/" class="header-logo" aria-label="Asaan Capital Ltd">
+              <img src="<?= APP_URL ?>/assets/asaan-capital-logo-header.png" alt="Asaan Capital Ltd" class="header-logo-img">
+            </a>
           </div>
         </div>
           <nav style="display:flex;gap:24px;">

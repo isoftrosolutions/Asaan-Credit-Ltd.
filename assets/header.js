@@ -115,6 +115,17 @@ function _mobileNavHtml(links) {
   return html;
 }
 
+function _assetUrl(path) {
+  var scripts = document.getElementsByTagName('script');
+  for (var i = 0; i < scripts.length; i++) {
+    var src = scripts[i].getAttribute('src') || '';
+    var marker = '/assets/header.js';
+    var markerPos = src.indexOf(marker);
+    if (markerPos !== -1) return src.slice(0, markerPos) + path;
+  }
+  return path;
+}
+
 /* ---- injectHeader(type, actionsHtml) ---- */
 function injectHeader(type, actionsHtml) {
   var root = document.getElementById('header-root');
@@ -125,6 +136,7 @@ function injectHeader(type, actionsHtml) {
   var desktopNavHtml = _navLinksHtml(PUBLIC_NAV);
 
   var mobileNavHtml = _mobileNavHtml(PUBLIC_NAV);
+  var logoSrc = _assetUrl('/assets/asaan-capital-logo-header.png');
 
   var ROLE_ALIAS = { owner:'business_owner', ceo:'business_owner', cfo:'business_owner', individual_investor:'investor', investment_manager:'investor', broker:'advisor' };
   var dashboardLinksHtml = '';
@@ -140,7 +152,7 @@ function injectHeader(type, actionsHtml) {
         '<div class="header-logo-section" style="display:flex;align-items:center;gap:8px;">' +
           '<button class="hamburger" id="hamburgerBtn" type="button" aria-label="Open menu">' + _menuIcon() + '</button>' +
           '<a href="/" class="header-logo" aria-label="Asaan Capital Ltd">' +
-            '<span class="header-logo-wordmark">Asaan<span>Capital</span></span>' +
+            '<img src="' + logoSrc + '" alt="Asaan Capital Ltd" class="header-logo-img">' +
           '</a>' +
         '</div>' +
         '<nav class="desktop-nav" aria-label="Main navigation">' + desktopNavHtml + '</nav>' +
@@ -150,7 +162,7 @@ function injectHeader(type, actionsHtml) {
     '<div class="mobile-backdrop" id="mobileBackdrop"></div>' +
     '<div class="mobile-panel" id="mobilePanel">' +
       '<div class="mobile-panel-head">' +
-        '<span class="header-logo-wordmark">Asaan<span>Capital</span></span>' +
+        '<img src="' + logoSrc + '" alt="Asaan Capital Ltd" class="mobile-panel-logo">' +
         '<button class="mobile-panel-close" id="mobilePanelClose" type="button" aria-label="Close menu">' + _closeIcon() + '</button>' +
       '</div>' +
       '<div class="mobile-panel-body">' +

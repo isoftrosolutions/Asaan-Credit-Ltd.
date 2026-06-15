@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sectorId = !empty($_POST['sector_id']) ? (int)$_POST['sector_id'] : null;
     $stage = $_POST['stage'] ?? '';
     $pitchVideoUrl = trim($_POST['pitch_video_url'] ?? '');
-    $isPublished = !empty($_POST['is_published']) ? 1 : 0;
+    $isPublished = 1;
 
     $errors = [];
 
@@ -78,10 +78,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $stmt = $db->prepare('INSERT INTO pitches (user_id, tagline, short_summary, problem_statement, solution, market_size, business_model, funding_amount, equity_offered, valuation, sector_id, stage, pitch_deck, pitch_video_url, pitch_image, is_published, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())');
         $stmt->execute([$userId, $tagline, $shortSummary, $problemStatement, $solution, $marketSize, $businessModel, $fundingAmount, $equityOffered, $valuation, $sectorId, $stage, $pitchDeck, $pitchVideoUrl, $pitchImage, $isPublished]);
+        $pitchId = (int)$db->lastInsertId();
+
+        send_mail(
+            $user['email'],
+            'Your pitch is now published',
+            '<p>Hello ' . e($user['name'] ?? 'there') . ',</p>' .
+            '<p>Your pitch <strong>' . e($tagline) . '</strong> has been created and published on ' . APP_NAME . '.</p>' .
+            '<p><a href="' . APP_URL . '/pitch/' . $pitchId . '">View your published pitch</a></p>'
+        );
 
         unset($_SESSION['_old']);
-        flash_set('success', 'Pitch created successfully.');
-        redirect('/entrepreneur/pitch-edit.php?id=' . $db->lastInsertId());
+        flash_set('success', 'Pitch created and published successfully.');
+        redirect('/entrepreneur/pitch-edit.php?id=' . $pitchId);
     } catch (\Throwable $e) {
         flash_set('error', 'Failed to create pitch. Please try again.');
         if (DEBUG_MODE) error_log('pitch create error: ' . $e->getMessage());
@@ -207,10 +216,8 @@ require __DIR__ . '/../includes/layout-dashboard.php';
         </div>
 
         <div class="card" style="margin-bottom:1.5rem;">
-            <label style="display:flex;align-items:center;gap:0.5rem;">
-                <input type="checkbox" name="is_published" value="1" checked>
-                Publish immediately
-            </label>
+            <strong>Publish immediately</strong>
+            <p style="margin:0.35rem 0 0;color:var(--color-text-muted);font-size:0.9rem;">New pitches are published as soon as they are created.</p>
         </div>
     </div>
 

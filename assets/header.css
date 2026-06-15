@@ -65,15 +65,29 @@
   align-items: center;
   flex-shrink: 0;
   text-decoration: none;
+  min-width: 0;
 }
 
 .header-logo-img {
   display: block;
-  height: 32px;
   width: auto;
+  height: 44px;
+  max-width: 128px;
+  object-fit: contain;
+}
+
+.mobile-panel-logo {
+  display: block;
+  width: auto;
+  height: 44px;
+  max-width: 136px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .header-logo-wordmark {
+  display: inline-flex;
+  align-items: center;
   font-family: var(--font-heading);
   font-weight: 800;
   font-size: 1rem;
@@ -349,7 +363,8 @@ body.menu-open {
   }
 
   .header-logo-img {
-    height: 38px;
+    height: 50px;
+    max-width: 146px;
   }
 
   .header-logo-wordmark {

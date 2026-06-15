@@ -192,8 +192,7 @@ if (!defined('UI_PHP_LOADED')) {
         <aside class="dash-sidebar" id="dashSidebar" aria-label="Dashboard navigation">
           <div class="dash-sidebar-brand">
             <a href="<?= APP_URL ?>/" class="dash-brand-link" aria-label="Asaan Capital home">
-              <img src="<?= APP_URL ?>/logo.png" alt="" class="dash-brand-logo">
-              <span class="dash-brand-word">Asaan<span>Capital</span></span>
+              <img src="<?= APP_URL ?>/assets/asaan-capital-logo-header.png" alt="Asaan Capital Ltd" class="dash-brand-logo">
             </a>
             <button class="dash-sidebar-close" type="button" onclick="dashCloseSidebar()" aria-label="Close menu"><?php ui_icon('close'); ?></button>
           </div>
