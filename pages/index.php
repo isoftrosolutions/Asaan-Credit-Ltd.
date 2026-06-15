@@ -350,7 +350,7 @@ foreach ([$featured_biz, $recent_biz] as $list) {
         if (!isset($seen[$b['id']])) {
             $seen[$b['id']] = true;
             $allBiz[] = $b;
-            if (count($allBiz) >= 2) break 2;
+            if (count($allBiz) >= 4) break 2;
         }
     }
 }
@@ -680,9 +680,16 @@ function initMarquee(id) {
   var isPaused = false;
 
   function getScrollAmount() {
-    var card = track.querySelector('.pub-card, .fb-card, .fb-ref-card');
-    if (!card) return 320;
-    return card.offsetWidth + 16;
+    var cards = track.querySelectorAll('.pub-card, .fb-card, .fb-ref-card');
+    if (cards.length < 2) return 320;
+    var tr = track.getBoundingClientRect();
+    for (var i = 0; i < cards.length; i++) {
+      var cr = cards[i].getBoundingClientRect();
+      if (cr.left > tr.left + 10) {
+        return Math.max(cr.left - tr.left, 100);
+      }
+    }
+    return cards[0].offsetWidth + 16;
   }
 
   function scrollNext() {
@@ -735,7 +742,10 @@ function initMarquee(id) {
     startAutoScroll();
   }, { passive: true });
 
-  startAutoScroll();
+  // Only auto-scroll if cards overflow the container
+  if (track.scrollWidth > track.clientWidth + 2) {
+    startAutoScroll();
+  }
 }
 
 initMarquee('bizMarquee');
