@@ -207,7 +207,7 @@ require __DIR__ . '/../includes/header.php';
   box-shadow:var(--dash-shadow-hover); transform:translateY(-3px);
   border-color:var(--color-primary);
 }
-.fb-card-inner { padding:var(--space-4); }
+.fb-card-inner { padding:20px; }
 
 /* ── card badge (listing type) ── */
 .fb-card-badge {
@@ -281,22 +281,25 @@ require __DIR__ . '/../includes/header.php';
   display:flex; justify-content:space-between;
   align-items:center; gap:8px;
 }
+.fb-card-price-wrap { display:flex; flex-direction:column; }
+.fb-card-price-label {
+  font-size:0.62rem; font-weight:600; text-transform:uppercase;
+  letter-spacing:0.06em; color:var(--dash-ink-soft); line-height:1;
+}
 .fb-card-price {
-  font-weight:700; font-size:0.85rem;
-  color:var(--color-primary-vivid); white-space:nowrap;
+  font-weight:800; font-size:1rem;
+  color:var(--color-primary-vivid); white-space:nowrap; margin-top:2px;
 }
 .fb-card-btn {
   flex-shrink:0;
-  background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff;
+  background:rgba(177,217,253,0.35); color:#1a4a6e;
   border:none; border-radius:var(--radius-md); padding:5px 14px;
   font-size:0.72rem; font-weight:700; cursor:pointer;
   text-decoration:none; white-space:nowrap;
-  transition:box-shadow 160ms ease-out, transform 160ms ease-out;
-  box-shadow:0 1px 4px rgba(245,158,11,0.2);
+  transition:background 160ms ease-out, transform 160ms ease-out;
 }
 .fb-card-btn:hover {
-  box-shadow:0 4px 12px rgba(245,158,11,0.35);
-  transform:translateY(-1px);
+  background:rgba(177,217,253,0.6);
 }
 .fb-card-btn:active { transform:scale(0.97); }
 
@@ -320,17 +323,33 @@ require __DIR__ . '/../includes/header.php';
 .fb-content .fb-eyebrow {
   display:inline-block; font-size:0.72rem; font-weight:700;
   text-transform:uppercase; letter-spacing:0.08em;
-  color:var(--color-primary); margin-bottom:6px;
+  color:var(--color-primary); margin-bottom:10px;
 }
 .fb-content h2 {
   font-family:var(--font-heading);
   font-size:1.5rem; line-height:1.35;
-  color:var(--dash-ink); margin:0 0 12px;
+  color:var(--color-primary); margin:0 0 8px;
+}
+.fb-content h3 {
+  font-family:var(--font-heading);
+  font-size:1rem; line-height:1.4; font-weight:600;
+  color:var(--color-secondary); margin:0 0 14px;
 }
 .fb-content p {
   font-size:0.88rem; line-height:1.7;
-  color:var(--dash-ink-soft); margin:0 0 24px;
+  color:var(--dash-ink-soft); margin:0 0 28px;
 }
+.fb-content .fb-cta {
+  display:inline-block;
+  background:rgba(107,29,34,0.12); color:var(--color-primary);
+  padding:14px 32px; border-radius:var(--radius-md);
+  font-size:0.9rem; font-weight:700; text-decoration:none;
+  transition:background 160ms ease-out, transform 160ms ease-out;
+}
+.fb-content .fb-cta:hover {
+  background:rgba(107,29,34,0.2);
+}
+.fb-content .fb-cta:active { transform:scale(0.97); }
 
 /* ── responsive ── */
 @media (max-width:1024px) {
@@ -358,8 +377,9 @@ require __DIR__ . '/../includes/header.php';
   .fb-arrow { display:none; }
   .fb-card-ftr { flex-direction:column; align-items:stretch; gap:8px; }
   .fb-card-btn { text-align:center; padding:8px 12px; font-size:0.8rem; }
+  .fb-card-price-wrap { align-items:center; }
   .fb-card-price { text-align:center; }
-  .fb-card-inner { padding:var(--space-3); }
+  .fb-card-inner { padding:14px; }
   .fb-content h2 { font-size:1.2rem; }
   .fb-content p { font-size:0.85rem; }
 }
@@ -543,7 +563,10 @@ $ltCSS = ['full_sale'=>'', 'partial_sale'=>'', 'seeking_investment'=>'is-investm
                 <div><span class="lbl"><?= $hasStake ? 'Stake' : 'Asking Price' ?></span><span class="val"><?= $hasStake ? e($biz['stake_offered_pct']).'%' : ((int)($biz['asking_price'] ?? 0) > 0 ? money((int)$biz['asking_price']) : 'Contact') ?></span></div>
               </div>
               <div class="fb-card-ftr">
-                <span class="fb-card-price"><?= (int)($biz['asking_price'] ?? 0) > 0 ? money((int)$biz['asking_price']) : 'Contact for price' ?></span>
+                <div class="fb-card-price-wrap">
+                  <span class="fb-card-price-label">Asking Price</span>
+                  <span class="fb-card-price"><?php $ap = (int)($biz['asking_price'] ?? 0); if ($ap > 0) { echo $ap >= 10000000 ? 'रू ' . number_format($ap / 10000000, 1) . 'Cr' : ($ap >= 100000 ? 'रू ' . number_format($ap / 100000, 1) . 'L' : money($ap)); } else { echo 'Contact for price'; } ?></span>
+                </div>
                 <a href="<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>" class="fb-card-btn" onclick="event.stopPropagation()">Contact Business</a>
               </div>
             </div>
@@ -554,9 +577,10 @@ $ltCSS = ['full_sale'=>'', 'partial_sale'=>'', 'seeking_investment'=>'is-investm
       </div>
       <div class="fb-content">
         <span class="fb-eyebrow">Why Asaan Capital</span>
-        <h2>Verified Businesses,<br>Real Opportunities</h2>
-        <p>Every listing is pre-screened by our analysts. Whether you're looking for a full acquisition, a stake in a growing company, or an investment opportunity — find it here with confidence.</p>
-        <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-primary">View All Businesses</a>
+        <h2>Businesses for Sale in Nepal</h2>
+        <h3>Pre-screened businesses for sale across Nepal.</h3>
+        <p>Explore pre-screened businesses for sale across Nepal. Find verified businesses looking for full sale, partial stake sale, investment, or business loans. Asaan Capital helps investors, buyers, and entrepreneurs discover trusted opportunities with confidence.</p>
+        <a href="<?= APP_URL ?>/browse/businesses" class="fb-cta">View All Businesses</a>
       </div>
     </div>
   </div>
