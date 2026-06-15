@@ -45,6 +45,7 @@ const DASHBOARD_LINKS = {
 
 const ADMIN_LINKS = [
   ['Verification Queue', '/admin/verification', 'document'],
+  ['Businesses', '/admin/businesses', 'briefcase'],
   ['Business Verifications', '/admin/business-verifications', 'check'],
   ['Business Inquiries', '/admin/inquiries', 'mail'],
   ['NDA Requests', '/admin/nda-requests', 'lock'],

@@ -285,6 +285,7 @@ foreach ([$featured_biz, $recent_biz] as $list) {
     }
 }
 ?>
+<?php $allBiz = array_slice($allBiz, 0, 2); ?>
 <?php if (!empty($allBiz)): ?>
 <section class="pub-section tint">
   <div class="pub-wrap">
@@ -377,6 +378,7 @@ foreach ([$featured_biz, $recent_biz] as $list) {
 <?php
 $displayPitches = !empty($featured_pitches) ? $featured_pitches : (!empty($recent_pitches) ? $recent_pitches : []);
 $pitchSectionTitle = !empty($featured_pitches) ? 'Featured Investment Opportunities' : 'Latest Investment Opportunities';
+$displayPitches = array_slice($displayPitches, 0, 2);
 ?>
 <?php if (!empty($displayPitches)): ?>
 <section class="pub-section tint">

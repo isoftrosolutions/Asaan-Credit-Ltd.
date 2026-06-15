@@ -143,6 +143,7 @@ if (!defined('UI_PHP_LOADED')) {
     function ui_admin_links(): array {
         return [
             ['Verification Queue', '/admin/verification', 'document'],
+            ['Businesses', '/admin/businesses', 'briefcase'],
             ['Business Verifications', '/admin/business-verifications', 'check'],
             ['Business Inquiries', '/admin/inquiries', 'mail'],
             ['NDA Requests', '/admin/nda-requests', 'lock'],
