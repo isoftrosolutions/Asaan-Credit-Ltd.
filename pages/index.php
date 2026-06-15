@@ -188,20 +188,15 @@ require __DIR__ . '/../includes/header.php';
 .fb-ref-card .fb-ref-title { transition:color .2s ease; }
 .fb-ref-card:hover .fb-ref-title { color:var(--color-primary); }
 
-/* carousel track */
+/* carousel track — always flex for auto-scroll */
 .fb-track {
-  display:grid; grid-template-columns:1fr 1fr; gap:16px;
+  display:flex; gap:16px; overflow-x:auto;
+  scroll-snap-type:x mandatory; scroll-behavior:smooth;
+  padding:4px 0;
+  -ms-overflow-style:none; scrollbar-width:none;
 }
-@media (max-width:900px) {
-  .fb-track {
-    display:flex; gap:16px; overflow-x:auto;
-    scroll-snap-type:x mandatory; scroll-behavior:smooth; padding:4px 0;
-    -ms-overflow-style:none; scrollbar-width:none;
-  }
-  .fb-track::-webkit-scrollbar { display:none; }
-  .fb-track > * { width:calc(50% - 8px); }
-  .fb-ref-arrows { display:none; }
-}
+.fb-track::-webkit-scrollbar { display:none; }
+.fb-track > * { scroll-snap-align:start; flex-shrink:0; width:calc(50% - 8px); }
 @media (max-width:640px) {
   .fb-track > * { width:100%; }
 }
@@ -229,6 +224,7 @@ require __DIR__ . '/../includes/header.php';
 .fb-arrow:active { transform:translateY(-50%) scale(0.92)!important; }
 @media (max-width:900px) {
   .fb-arrow { display:none!important; }
+  .fb-ref-arrows { display:none; }
 }
 
 /* right column responsive */
@@ -354,7 +350,7 @@ foreach ([$featured_biz, $recent_biz] as $list) {
         if (!isset($seen[$b['id']])) {
             $seen[$b['id']] = true;
             $allBiz[] = $b;
-            if (count($allBiz) >= 4) break 2;
+            if (count($allBiz) >= 2) break 2;
         }
     }
 }
@@ -503,49 +499,86 @@ $ltLabels = ['full_sale'=>'Business for Sale', 'partial_sale'=>'Stake Sale', 'se
 <?php
 $displayPitches = !empty($featured_pitches) ? $featured_pitches : (!empty($recent_pitches) ? $recent_pitches : []);
 $pitchSectionTitle = !empty($featured_pitches) ? 'Featured Investment Opportunities' : 'Latest Investment Opportunities';
+$pitchStages = ['idea'=>'Idea', 'prototype'=>'Prototype', 'early_traction'=>'Early Traction', 'growth'=>'Growth', 'scaling'=>'Scaling'];
 ?>
 <?php if (!empty($displayPitches)): ?>
-<section class="pub-section tint">
-  <div class="pub-wrap">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;gap:16px;flex-wrap:wrap;">
-      <div>
-        <h2 class="pub-h2" style="color:var(--color-primary);margin:0 0 8px 0;"><?= $pitchSectionTitle ?></h2>
-        <p class="pub-text" style="margin:0;">Pre-verified entrepreneurs seeking capital for growth.</p>
-      </div>
-      <a href="<?= APP_URL ?>/browse/entrepreneurs" class="btn btn-ghost btn-sm hp-hide-mobile" style="flex-shrink:0;">View All</a>
-    </div>
-    <div class="hp-marquee" id="pitchMarquee">
-      <button class="hp-marquee-arrow hp-marquee-arrow-left" type="button" aria-label="Previous">&#8249;</button>
-      <div class="pitch-scroll hp-marquee-track" id="pitchMarqueeTrack" style="display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;">
-      <?php foreach ($displayPitches as $p): ?>
-      <div class="pub-card card-accent-bar-navy" style="flex-shrink:0;flex:0 0 calc(50% - 6px);cursor:pointer;" onclick="location.href='<?= APP_URL ?>/pitch/<?= (int)$p['id'] ?>'">
-        <div style="margin-bottom:12px;">
-          <span class="pub-badge info">Seeking Investment</span>
+<section style="background:var(--dash-bg);padding:64px 0;">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+    <div style="display:flex;gap:48px;align-items:flex-start;flex-direction:column;" class="fb-ref-row">
+      <!-- Left Column -->
+      <div style="width:100%;position:relative;" class="fb-ref-left" id="pitchMarquee">
+        <!-- Carousel Arrows -->
+        <div class="fb-ref-arrows">
+          <button class="hp-marquee-arrow hp-marquee-arrow-left fb-arrow" type="button" aria-label="Previous" style="position:absolute;left:-20px;top:50%;transform:translateY(-50%);z-index:10;width:40px;height:40px;border-radius:50%;border:1px solid var(--dash-border);background:#fff;display:flex;align-items:center;justify-content:center;color:var(--color-primary);box-shadow:var(--dash-shadow);cursor:pointer;transition:background .2s,opacity .2s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="hp-marquee-arrow hp-marquee-arrow-right fb-arrow" type="button" aria-label="Next" style="position:absolute;right:-20px;top:50%;transform:translateY(-50%);z-index:10;width:40px;height:40px;border-radius:50%;border:1px solid var(--dash-border);background:#fff;display:flex;align-items:center;justify-content:center;color:var(--color-primary);box-shadow:var(--dash-shadow);cursor:pointer;transition:background .2s,opacity .2s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
         </div>
-        <h4 class="pub-card-title" style="margin:0 0 6px;"><?= e($p['tagline']) ?></h4>
-        <p class="pub-text" style="margin:0 0 12px;"><?= e(mb_substr($p['short_summary'] ?? $p['problem_statement'] ?? '', 0, 120)) ?></p>
-        <div style="display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;">
-          <?php if (!empty($p['sector_name'])): ?>
-          <span class="pub-badge neutral"><?= e($p['sector_name']) ?></span>
-          <?php endif; ?>
-          <?php if (!empty($p['stage'])): ?>
-          <span class="pub-badge neutral"><?= e(ucfirst($p['stage'])) ?></span>
-          <?php endif; ?>
-        </div>
-        <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--dash-border);">
-          <div><span class="pub-stat-label" style="display:block;">Funding</span><span class="pub-stat-value"><?= money($p['funding_amount']) ?></span></div>
-          <?php if (!empty($p['equity_offered'])): ?>
-          <div><span class="pub-stat-label" style="display:block;">Equity</span><span class="pub-stat-value"><?= e($p['equity_offered']) ?>%</span></div>
-          <?php endif; ?>
-          <div style="width:100%;padding-top:8px;"><strong style="font-size:16px;color:var(--color-primary-vivid);">Valued at <?= money($p['valuation'] ?? 0) ?></strong></div>
+        <!-- Cards Track -->
+        <div class="pitch-scroll" id="pitchMarqueeTrack" style="display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:4px 0;-ms-overflow-style:none;scrollbar-width:none;">
+          <style>.pitch-scroll::-webkit-scrollbar { display:none; } .pitch-scroll > * { scroll-snap-align:start; flex-shrink:0; width:calc(50% - 8px); } @media (max-width:640px) { .pitch-scroll > * { width:100%; } }</style>
+          <?php foreach ($displayPitches as $p):
+            $stage = $pitchStages[$p['stage']] ?? '';
+          ?>
+          <div style="background:#fff;border-radius:8px;border:1px solid var(--dash-border);box-shadow:var(--dash-shadow);padding:20px;display:flex;flex-direction:column;cursor:pointer;transition:box-shadow .2s ease,transform .2s ease,border-color .2s ease;" onclick="location.href='<?= APP_URL ?>/pitch/<?= (int)$p['id'] ?>'" onmouseover="this.style.boxShadow='0 10px 30px rgba(0,0,0,0.08)';this.style.transform='translateY(-3px)';this.style.borderColor='var(--color-secondary)'" onmouseout="this.style.boxShadow='';this.style.transform='';this.style.borderColor=''">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:999px;background:rgba(30,72,102,0.08);color:var(--color-secondary);">Seeking Investment</span>
+              <?php if (!empty($p['sector_name'])): ?>
+              <span style="font-size:10px;font-weight:600;color:var(--dash-ink-soft);background:var(--color-bg-soft);padding:2px 6px;border-radius:999px;"><?= e($p['sector_name']) ?></span>
+              <?php endif; ?>
+            </div>
+            <h3 style="font-family:var(--font-heading);font-size:18px;font-weight:700;color:var(--dash-ink);margin:0 0 4px;"><?= e($p['tagline']) ?></h3>
+            <p style="font-size:14px;line-height:1.5;color:var(--dash-ink-soft);margin:0 0 12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
+              <?= e(mb_substr($p['short_summary'] ?? $p['problem_statement'] ?? '', 0, 130)) ?>
+            </p>
+            <?php if ($stage): ?>
+            <div style="display:flex;align-items:center;gap:4px;margin-bottom:12px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <span style="font-size:12px;font-weight:500;color:var(--dash-ink-soft);"><?= e($stage) ?> stage</span>
+            </div>
+            <?php endif; ?>
+            <div style="background:var(--color-bg-soft);border-radius:8px;padding:12px;margin-bottom:12px;">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div>
+                  <p style="font-size:10px;color:var(--dash-ink-soft);text-transform:uppercase;letter-spacing:0.04em;margin:0 0 1px;">Funding Required</p>
+                  <p style="font-size:14px;font-weight:600;color:var(--dash-ink);margin:0;"><?= money($p['funding_amount']) ?></p>
+                </div>
+                <div>
+                  <p style="font-size:10px;color:var(--dash-ink-soft);text-transform:uppercase;letter-spacing:0.04em;margin:0 0 1px;">Equity Offered</p>
+                  <p style="font-size:14px;font-weight:600;color:var(--dash-ink);margin:0;"><?= !empty($p['equity_offered']) ? e($p['equity_offered']).'%' : '—' ?></p>
+                </div>
+                <div>
+                  <p style="font-size:10px;color:var(--dash-ink-soft);text-transform:uppercase;letter-spacing:0.04em;margin:0 0 1px;">Valuation</p>
+                  <p style="font-size:14px;font-weight:600;color:var(--dash-ink);margin:0;"><?= money($p['valuation'] ?? 0) ?></p>
+                </div>
+                <div>
+                  <p style="font-size:10px;color:var(--dash-ink-soft);text-transform:uppercase;letter-spacing:0.04em;margin:0 0 1px;">Investors</p>
+                  <p style="font-size:14px;font-weight:600;color:var(--dash-ink);margin:0;"><?= (int)($p['investor_count'] ?? 0) ?> interested</p>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;">
+              <div style="display:flex;flex-direction:column;">
+                <span style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--dash-ink-soft);">Minimum Investment</span>
+                <span style="font-size:18px;font-weight:800;color:var(--color-secondary);"><?php $minInv = (int)($p['min_investment'] ?? $p['funding_amount'] ?? 0); echo $minInv > 0 ? money($minInv) : 'Contact'; ?></span>
+              </div>
+              <a href="<?= APP_URL ?>/pitch/<?= (int)$p['id'] ?>" style="flex-shrink:0;background:rgba(177,217,253,0.35);color:#1a4a6e;border:none;border-radius:8px;padding:6px 16px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap;transition:background .16s,transform .16s;" onclick="event.stopPropagation()" onmouseover="this.style.background='rgba(177,217,253,0.6)'" onmouseout="this.style.background='rgba(177,217,253,0.35)'">View Pitch</a>
+            </div>
+          </div>
+          <?php endforeach; ?>
         </div>
       </div>
-      <?php endforeach; ?>
+      <!-- Right Column -->
+      <div style="width:100%;display:flex;flex-direction:column;justify-content:center;" class="fb-ref-right">
+        <h2 style="font-family:var(--font-heading);font-size:28px;font-weight:700;color:var(--color-secondary);margin:0 0 4px;"><?= $pitchSectionTitle ?></h2>
+        <h3 style="font-family:var(--font-heading);font-size:18px;font-weight:600;color:var(--color-primary);margin:0 0 12px;">Pre-verified entrepreneurs seeking capital for growth.</h3>
+        <p style="font-size:16px;line-height:1.7;color:var(--dash-ink-soft);margin:0 0 28px;">
+          Discover pre-verified entrepreneurs and startups from Nepal seeking investment. Each pitch is reviewed by our analysts. Connect directly with founders building the next generation of Nepali businesses.
+        </p>
+        <a href="<?= APP_URL ?>/browse/entrepreneurs" style="display:inline-block;background:rgba(30,72,102,0.12);color:var(--color-secondary);padding:14px 32px;border-radius:8px;font-size:16px;font-weight:700;text-decoration:none;transition:background .2s,transform .15s;align-self:flex-start;" onmouseover="this.style.background='rgba(30,72,102,0.2)'" onmouseout="this.style.background='rgba(30,72,102,0.12)'">View All Pitches</a>
       </div>
-      <button class="hp-marquee-arrow hp-marquee-arrow-right" type="button" aria-label="Next">&#8250;</button>
-    </div>
-    <div class="hp-show-mobile" style="text-align:center;margin-top:16px;">
-      <a href="<?= APP_URL ?>/browse/entrepreneurs" class="btn btn-ghost btn-sm">View All</a>
     </div>
   </div>
 </section>
