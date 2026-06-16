@@ -177,7 +177,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
   </div>
 </form>
 
-<script src="/assets/form-steps.js"></script>
+<script src="<?= APP_URL ?>/assets/form-steps.js"></script>
 <script>initFormSteps({});</script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>

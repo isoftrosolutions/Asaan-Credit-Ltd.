@@ -42,7 +42,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 
 <div class="settings-page">
     <div class="breadcrumbs">
-        <a href="/notifications/settings">Settings</a> <span>/</span>
+        <a href="<?= APP_URL ?>/notifications/settings">Settings</a> <span>/</span>
         <span>Change Password</span>
     </div>
 
@@ -55,7 +55,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
         <div class="flash flash-error" style="margin-top:1.5rem;"><?= e($error) ?></div>
     <?php endif; ?>
 
-    <form method="post" action="/change-password" style="max-width:460px;" data-password-match>
+    <form method="post" action="<?= APP_URL ?>/change-password" style="max-width:460px;" data-password-match>
         <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
 
         <div class="card" style="margin-top:1.5rem;">

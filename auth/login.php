@@ -78,7 +78,7 @@ $pageDescription = 'Log in to your Asaan Capital Ltd account. Access your dashbo
         <p style="color:var(--color-text-muted);font-size:0.95rem;">Sign in to access your dashboard and matches</p>
     </div>
 
-    <form method="post" action="/login">
+    <form method="post" action="<?= APP_URL ?>/login">
         <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
 
         <?php if ($error): ?>
@@ -99,14 +99,14 @@ $pageDescription = 'Log in to your Asaan Capital Ltd account. Access your dashbo
             <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
                 <input type="checkbox" name="remember" style="accent-color:var(--color-primary-vivid);"> Remember me
             </label>
-            <a href="/forgot-password" style="color:var(--color-primary-vivid);text-decoration:none;">Forgot password?</a>
+            <a href="<?= APP_URL ?>/forgot-password" style="color:var(--color-primary-vivid);text-decoration:none;">Forgot password?</a>
         </div>
 
         <button type="submit" class="btn btn-primary" style="width:100%;padding:14px;">Log in</button>
     </form>
 
     <div style="margin-top:1.5rem;text-align:center;font-size:0.9rem;">
-        Don't have an account? <a href="/onboarding" style="color:var(--color-primary-vivid);font-weight:600;">Sign up free</a>
+        Don't have an account? <a href="<?= APP_URL ?>/onboarding" style="color:var(--color-primary-vivid);font-weight:600;">Sign up free</a>
     </div>
 </div>
 

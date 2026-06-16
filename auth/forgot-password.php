@@ -57,7 +57,7 @@ $pageDescription = 'Reset your password for Asaan Capital Ltd.';
 .email-mask { font-size: 1.05rem; font-weight: 600; color: var(--color-text); }
 </style>
 <div class="auth-wrap">
-    <a href="/login" class="auth-back">
+    <a href="<?= APP_URL ?>/login" class="auth-back">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path dM12 19l-7-7 7-7"/></svg>
         Back
     </a>
@@ -70,8 +70,8 @@ $pageDescription = 'Reset your password for Asaan Capital Ltd.';
             <h2 style="margin:0 0 0.35rem;font-size:1.35rem;">Check your email</h2>
             <p style="color:var(--color-text-muted);font-size:0.9rem;margin:0 0 0.25rem;">We sent a 6-digit code to</p>
             <p class="email-mask"><?= e($email) ?></p>
-            <a href="/reset-password?email=<?= e(urlencode($email)) ?>" class="btn btn-primary" style="display:block;margin-top:1.5rem;text-align:center;">Enter Code</a>
-            <p style="margin-top:1.25rem;font-size:0.85rem;color:var(--color-text-muted);">Didn't receive it? <a href="/forgot-password" style="color:var(--color-primary-vivid);">Resend</a></p>
+            <a href="<?= APP_URL ?>/reset-password?email=<?= e(urlencode($email)) ?>" class="btn btn-primary" style="display:block;margin-top:1.5rem;text-align:center;">Enter Code</a>
+            <p style="margin-top:1.25rem;font-size:0.85rem;color:var(--color-text-muted);">Didn't receive it? <a href="<?= APP_URL ?>/forgot-password" style="color:var(--color-primary-vivid);">Resend</a></p>
         </div>
     <?php else: ?>
         <h2 style="margin:0 0 0.35rem;font-size:1.35rem;">Forgot password?</h2>
@@ -90,7 +90,7 @@ $pageDescription = 'Reset your password for Asaan Capital Ltd.';
         </form>
 
         <div style="margin-top:1.5rem;text-align:center;font-size:0.9rem;">
-            Remember your password? <a href="/login" style="color:var(--color-primary-vivid);font-weight:600;">Sign In</a>
+            Remember your password? <a href="<?= APP_URL ?>/login" style="color:var(--color-primary-vivid);font-weight:600;">Sign In</a>
         </div>
     <?php endif; ?>
 </div>

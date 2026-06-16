@@ -1,6 +1,9 @@
 # Local dev scratch
 /1.png
 
+# Local SQL dump
+/_dump.sql
+
 # Design source bundles
 *.zip
 

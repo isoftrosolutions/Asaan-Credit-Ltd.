@@ -85,6 +85,14 @@ if ($user) {
     $hasMatch = (bool)$matchS->fetch();
 }
 
+$viewerIsPremium = $user && !empty($user['is_premium']);
+$isSaved = false;
+if ($user) {
+    $sS = $db->prepare("SELECT id FROM saved_listings WHERE user_id = ? AND listing_type = 'business' AND listing_id = ?");
+    $sS->execute([$userId, $businessId]);
+    $isSaved = (bool)$sS->fetch();
+}
+
 $typeLabels = [
     'business_sale' => 'Business for Sale', 'investment' => 'Investment Opportunity',
     'partial_stake' => 'Partial Stake Sale', 'loan' => 'Business Loan',
@@ -221,9 +229,9 @@ require __DIR__ . '/../includes/layout-public.php';
           <i class="fas fa-envelope" style="font-size:16px;"></i>
           Contact Seller
         </button>
-        <button class="stitch-btn stitch-btn-secondary" id="saveBtn" data-id="<?= $businessId ?>" data-type="business">
-          <i class="far fa-star" style="font-size:15px;"></i>
-          <span>Save</span>
+        <button class="stitch-btn stitch-btn-secondary card-save-btn-detail <?= $isSaved ? 'saved' : '' ?>" id="saveBtn" onclick="toggleSave('business',<?= (int)$businessId ?>,this)" data-id="<?= $businessId ?>" data-type="business">
+          <i class="fas fa-heart" style="font-size:15px;"></i>
+          <span><?= $isSaved ? 'Saved' : 'Save' ?></span>
         </button>
         <button class="stitch-btn stitch-btn-secondary" onclick="navigator.share? navigator.share({title:'<?= e($business['business_name']) ?>',url:window.location.href}) : navigator.clipboard.writeText(window.location.href)">
           <i class="fas fa-external-link-alt" style="font-size:13px;"></i>
@@ -236,7 +244,7 @@ require __DIR__ . '/../includes/layout-public.php';
     <div class="stitch-gallery">
       <?php if ($firstImg): ?>
       <div class="stitch-gallery-main-wrap">
-        <img src="<?= APP_URL . $firstImg['file_url'] ?>" alt="<?= e($business['business_name']) ?>" class="stitch-gallery-main" id="heroMainImage">
+        <img src="<?= upload_url($firstImg['file_url']) ?>" alt="<?= e($business['business_name']) ?>" class="stitch-gallery-main" id="heroMainImage">
         <?php if (count($images) > 1): ?>
         <button class="stitch-gallery-btn" onclick="document.getElementById('gallery-modal').classList.add('open')">
           <i class="fas fa-eye" style="font-size:15px;"></i>
@@ -247,12 +255,12 @@ require __DIR__ . '/../includes/layout-public.php';
       <?php if (count($images) > 1): ?>
       <div class="stitch-gallery-thumbs">
         <?php foreach (array_slice($images, 1, 3) as $i => $img): ?>
-        <img src="<?= APP_URL . $img['file_url'] ?>" alt="" class="stitch-gallery-thumb" onclick="document.getElementById('heroMainImage').src='<?= APP_URL . $img['file_url'] ?>'" loading="lazy">
+        <img src="<?= upload_url($img['file_url']) ?>" alt="" class="stitch-gallery-thumb" onclick="document.getElementById('heroMainImage').src='<?= upload_url($img['file_url']) ?>'" loading="lazy">
         <?php endforeach; ?>
       </div>
       <?php endif; ?>
       <?php elseif (!empty($business['thumbnail_url'])): ?>
-      <?php $thumbSrc = (str_starts_with($business['thumbnail_url'], 'http') || str_starts_with($business['thumbnail_url'], '/')) ? $business['thumbnail_url'] : '/public/uploads/business-thumbnails/' . $business['thumbnail_url']; ?>
+      <?php $thumbSrc = upload_url($business['thumbnail_url']); ?>
       <div class="stitch-gallery-main-wrap">
         <img src="<?= e($thumbSrc) ?>" alt="<?= e($business['business_name']) ?>" class="stitch-gallery-main">
       </div>
@@ -576,7 +584,7 @@ require __DIR__ . '/../includes/layout-public.php';
       <?php if ($hasDocs): ?>
       <div class="stitch-doc-links">
         <?php foreach ($mediaItems as $m): if ($m['media_type'] !== 'document') continue; ?>
-        <a href="<?= APP_URL . $m['file_url'] ?>" target="_blank">
+        <a href="<?= upload_url($m['file_url']) ?>" target="_blank">
           <i class="fas fa-file-alt" style="font-size:15px;"></i>
           <?= e($m['original_name'] ?: 'Document') ?>
         </a>
@@ -638,7 +646,7 @@ require __DIR__ . '/../includes/layout-public.php';
           <div class="stitch-related-img">
             <?php
               $rSrc = '';
-              if (!empty($r['thumbnail_url'])) $rSrc = (str_starts_with($r['thumbnail_url'], 'http') || str_starts_with($r['thumbnail_url'], '/')) ? $r['thumbnail_url'] : '/public/uploads/business-thumbnails/' . $r['thumbnail_url'];
+              if (!empty($r['thumbnail_url'])) $rSrc = upload_url($r['thumbnail_url']);
             ?>
             <?php if ($rSrc): ?>
             <img src="<?= e($rSrc) ?>" alt="" loading="lazy">
@@ -679,7 +687,7 @@ require __DIR__ . '/../includes/layout-public.php';
 
         <?php if ($userId && $userId === $ownerUserId): ?>
         <a href="<?= APP_URL ?>/business/edit.php?id=<?= $businessId ?>" class="stitch-sidebar-cta">Edit Listing</a>
-        <?php elseif ($hasInquired || $hasMatch): ?>
+        <?php elseif ($viewerIsPremium || $hasInquired || $hasMatch): ?>
         <button class="stitch-sidebar-cta" onclick="alert('Contact: <?= e($business['owner_name']) ?> — <?= e($business['owner_email']) ?>')">View Contact Details</button>
         <?php else: ?>
         <button class="stitch-sidebar-cta" onclick="document.getElementById('interest-modal').classList.add('open')">Contact Seller</button>
@@ -859,7 +867,7 @@ require __DIR__ . '/../includes/layout-public.php';
     </div>
     <div class="stitch-gallery-modal-grid">
       <?php foreach ($images as $img): ?>
-      <img src="<?= APP_URL . $img['file_url'] ?>" alt="" loading="lazy">
+      <img src="<?= upload_url($img['file_url']) ?>" alt="" loading="lazy">
       <?php endforeach; ?>
     </div>
   </div>
@@ -936,25 +944,8 @@ function signNda(businessId, btn) {
 
 document.addEventListener('DOMContentLoaded', function() {
   var saveBtn = document.getElementById('saveBtn');
-  if (saveBtn) {
-    saveBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var btn = this;
-      var params = 'listing_type=' + btn.getAttribute('data-type') + '&listing_id=' + btn.getAttribute('data-id') + '&_csrf=' + '<?= csrf_token() ?>';
-      fetch('/api/toggle-save.php', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: params
-      }).then(function(r) { return r.json(); }).then(function(d) {
-        if (d.saved) {
-          btn.querySelector('span').textContent = 'Saved';
-          btn.querySelector('i').className = 'fas fa-star';
-        } else {
-          btn.querySelector('span').textContent = 'Save';
-          btn.querySelector('i').className = 'far fa-star';
-        }
-      }).catch(function() {});
-    });
+  if (saveBtn && !saveBtn.hasAttribute('data-toggled')) {
+    saveBtn.setAttribute('data-toggled', '1');
   }
 });
 </script>

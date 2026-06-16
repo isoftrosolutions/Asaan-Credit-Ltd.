@@ -62,6 +62,14 @@ $stmt = db()->prepare($sql);
 $stmt->execute($params);
 $franchises = $stmt->fetchAll();
 
+$user = current_user();
+$savedIds = [];
+if ($user) {
+    $sStmt = db()->prepare("SELECT listing_id FROM saved_listings WHERE user_id = ? AND listing_type = 'franchise'");
+    $sStmt->execute([$user['id']]);
+    $savedIds = array_column($sStmt->fetchAll(), 'listing_id');
+}
+
 $sectors = db()->query("SELECT id, name FROM sectors WHERE is_active = 1 ORDER BY name")->fetchAll();
 
 $activeFilters = 0;
@@ -169,7 +177,10 @@ if ($queryParams) {
                     <?php if ($f['countries_present']): ?>&bull; <?= e($f['countries_present']) ?><?php endif; ?>
                   </div>
                 </div>
-                <span class="rating-badge"><?= e($f['rating']) ?></span>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <button type="button" class="card-save-btn <?= in_array($f['id'], $savedIds) ? 'saved' : '' ?>" onclick="event.stopPropagation();toggleSave('franchise',<?= (int)$f['id'] ?>,this)" aria-label="<?= in_array($f['id'], $savedIds) ? 'Unsave' : 'Save' ?> franchise"><i class="fas fa-heart"></i></button>
+                  <span class="rating-badge"><?= e($f['rating']) ?></span>
+                </div>
               </div>
               <div class="card-desc" style="margin:0.5rem 0 0;"><?= e(mb_substr($f['description'] ?? '', 0, 150)) ?></div>
               <div class="franchise-stats">

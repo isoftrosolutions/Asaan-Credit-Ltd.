@@ -104,6 +104,164 @@ function confirmAction(message, callback) {
   };
 }
 
+/* ===========================================================================
+ * Heart / Save Listing — site-wide
+ * ========================================================================= */
+
+/** Toggle save state for any listing. Shows toast, handles errors. */
+function toggleSave(listingType, listingId, btn) {
+  if (!CURRENT_USER) {
+    showToast('Please log in to save listings', 'warning');
+    setTimeout(function () { window.location.href = (window.APP_URL || '') + '/login'; }, 1200);
+    return;
+  }
+  if (btn.disabled) return;
+  btn.disabled = true;
+
+  var params = 'listing_type=' + encodeURIComponent(listingType)
+             + '&listing_id=' + encodeURIComponent(listingId)
+             + '&_csrf=' + encodeURIComponent(CSRF_TOKEN);
+
+  fetch((window.APP_URL || '') + '/api/toggle-save.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: params
+  }).then(function (r) {
+    if (!r.ok) throw new Error('Server error');
+    return r.json();
+  }).then(function (d) {
+    btn.classList.toggle('saved', d.saved);
+    /* Update label span if present (detail-page button style) */
+    var label = btn.querySelector('span');
+    if (label) label.textContent = d.saved ? 'Saved' : 'Save';
+    if (d.saved) {
+      showToast('Saved to your list', 'success');
+    } else {
+      showToast('Removed from saved', 'info');
+    }
+    loadSavedCount();
+  }).catch(function () {
+    showToast('Failed to save. Try again.', 'error');
+  }).finally(function () {
+    btn.disabled = false;
+  });
+}
+
+/** Fetch saved count and update all .saved-count badges. */
+function loadSavedCount() {
+  var badges = document.querySelectorAll('.saved-count');
+  if (!badges.length) return;
+  if (!CURRENT_USER) { badges.forEach(function (b) { b.textContent = '0'; b.style.display = 'none'; }); return; }
+
+  fetch((window.APP_URL || '') + '/api/get-saved.php?count=1&_=' + Date.now())
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      var c = (d && typeof d.count === 'number') ? d.count : 0;
+      badges.forEach(function (b) {
+        b.textContent = c > 9 ? '9+' : c;
+        b.style.display = c > 0 ? '' : 'none';
+      });
+    }).catch(function () {});
+}
+
+/** Open the saved-listings modal (fetches data from API). */
+function openSavedModal() {
+  if (!CURRENT_USER) {
+    showToast('Please log in to view saved listings', 'warning');
+    setTimeout(function () { window.location.href = (window.APP_URL || '') + '/login'; }, 1200);
+    return;
+  }
+
+  var existing = document.getElementById('saved-modal');
+  if (existing) { existing.classList.add('open'); return; }
+
+  var overlay = document.createElement('div');
+  overlay.className = 'modal-overlay saved-modal-overlay';
+  overlay.id = 'saved-modal';
+  overlay.onclick = function (e) { if (e.target === overlay) closeSavedModal(); };
+
+  overlay.innerHTML =
+    '<div class="modal-content saved-modal-content">' +
+      '<div class="saved-modal-head">' +
+        '<h3>Saved Listings</h3>' +
+        '<button class="modal-close" onclick="closeSavedModal()" aria-label="Close">&times;</button>' +
+      '</div>' +
+      '<div class="saved-modal-body" id="saved-modal-body">' +
+        '<div class="saved-loading">' +
+          '<div class="spinner"></div>' +
+          '<p>Loading saved listings&hellip;</p>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+  document.body.appendChild(overlay);
+
+  /* slight delay for CSS transition */
+  requestAnimationFrame(function () { overlay.classList.add('open'); });
+
+  fetch((window.APP_URL || '') + '/api/get-saved.php?_=' + Date.now())
+    .then(function (r) {
+      if (!r.ok) throw new Error('Failed to fetch');
+      return r.json();
+    })
+    .then(function (data) {
+      renderSavedItems(data.items || [], data.count || 0);
+    })
+    .catch(function () {
+      document.getElementById('saved-modal-body').innerHTML =
+        '<div class="saved-empty">' +
+          '<p>Could not load saved listings. Please try again.</p>' +
+          '<button class="btn btn-sm btn-primary" onclick="closeSavedModal()">Close</button>' +
+        '</div>';
+    });
+}
+
+function closeSavedModal() {
+  var m = document.getElementById('saved-modal');
+  if (m) { m.classList.remove('open'); setTimeout(function () { m.remove(); }, 250); }
+}
+
+function renderSavedItems(items, count) {
+  var body = document.getElementById('saved-modal-body');
+  if (!body) return;
+
+  if (!items || !items.length) {
+    body.innerHTML =
+      '<div class="saved-empty">' +
+        '<span class="saved-empty-icon">&hearts;</span>' +
+        '<p>No saved listings yet.</p>' +
+        '<p class="saved-empty-sub">Click the <i class="fas fa-heart"></i> heart icon on any listing to save it here.</p>' +
+      '</div>';
+    return;
+  }
+
+  var html = '';
+  for (var i = 0; i < items.length; i++) {
+    var item = items[i];
+    var title = item.title || 'Untitled';
+    var info = item.info || '';
+    var url = item.url || '#';
+    var label = item.type_label || item.type;
+    html +=
+      '<a href="' + url + '" class="saved-item" onclick="closeSavedModal()">' +
+        '<div class="saved-item-body">' +
+          '<span class="saved-item-type">' + label + '</span>' +
+          '<div class="saved-item-title">' + title + '</div>' +
+          (info ? '<div class="saved-item-info">' + info + '</div>' : '') +
+        '</div>' +
+        '<span class="saved-item-date">' + (item.since || '') + '</span>' +
+      '</a>';
+  }
+  body.innerHTML = html;
+}
+
+/* Keyboard shortcut: Escape closes saved modal */
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') closeSavedModal();
+});
+
+/* ---- Existing password UX code below ---- */
+
 /* ---------------------------------------------------------------------------
  * Password UX: show/hide toggle on every password field + live match check.
  * Progressive enhancement — runs on load, needs no template changes.
@@ -184,4 +342,5 @@ document.addEventListener('keydown', function (e) {
 document.addEventListener('DOMContentLoaded', function () {
   initPasswordToggles();
   initPasswordMatch();
+  loadSavedCount();
 });

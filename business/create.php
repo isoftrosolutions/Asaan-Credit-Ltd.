@@ -65,13 +65,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $destDir = upload_path('business-thumbnails');
         $uploaded = handle_upload($_FILES['thumbnail'], $allowedMime, UPLOAD_MAX_BYTES_PHOTO, $destDir);
         if ($uploaded) {
-            $thumbnailUrl = '/public/uploads/business-thumbnails/' . $uploaded;
+            $thumbnailUrl = 'business-thumbnails/' . $uploaded;
         }
     } else {
         $thumbnailUrl = trim($_POST['thumbnail_url'] ?? '');
     }
 
-    $slug = generate_slug($businessName);
+    $slug = unique_slug(generate_slug($businessName), 'businesses');
 
     $db->beginTransaction();
     try {
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($filename) {
                     $mimeType = mime_content_type($destDir . '/' . $filename);
                     $mediaType = str_starts_with($mimeType, 'video') ? 'video' : (str_starts_with($mimeType, 'application') ? 'document' : 'image');
-                    $db->prepare('INSERT INTO business_media (business_id, file_url, media_type, sort_order, created_at) VALUES (?, ?, ?, ?, NOW())')->execute([$businessId, '/public/uploads/business-photos/' . $filename, $mediaType, $sortOrder]);
+                    $db->prepare('INSERT INTO business_media (business_id, file_url, media_type, sort_order, created_at) VALUES (?, ?, ?, ?, NOW())')->execute([$businessId, 'business-photos/' . $filename, $mediaType, $sortOrder]);
                     $sortOrder++;
                 }
             }
@@ -414,7 +414,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
         <div class="step-nav-right">
             <button type="button" class="btn btn-primary btn-step-next">Next</button>
             <button type="submit" class="btn btn-primary btn-step-submit" style="display:none">Create Listing</button>
-            <a href="/dashboard" class="btn btn-outline" style="margin-left:8px;">Cancel</a>
+            <a href="<?= APP_URL ?>/dashboard" class="btn btn-outline" style="margin-left:8px;">Cancel</a>
         </div>
     </div>
 </form>
@@ -464,7 +464,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<script src="/assets/form-steps.js"></script>
+<script src="<?= APP_URL ?>/assets/form-steps.js"></script>
 <script>initFormSteps();</script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>

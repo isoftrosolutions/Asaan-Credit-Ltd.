@@ -18,6 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $company      = trim($_POST['company'] ?? '');
     $role         = $_POST['role'] ?? '';
     $size         = $_POST['size'] ?? '';
+    $phone        = trim($_POST['phone'] ?? '');
+    $province     = trim($_POST['province'] ?? '');
+    $district     = trim($_POST['district'] ?? '');
     $goal         = $_POST['goal'] ?? '';
     $notify       = $_POST['notifications'] ?? '';
     $agree        = $_POST['agree'] ?? '';
@@ -31,6 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     elseif (strlen($password) < 8) $errors['password'] = 'Password must be at least 8 characters.';
 
     if ($accountType === 'company' && $company === '') $errors['company'] = 'Company name is required.';
+
+    if ($phone !== '' && !preg_match('/^[\d\s\-\+\(\)]{7,20}$/', $phone)) $errors['phone'] = 'Please enter a valid phone number.';
 
     $validRoles = ['owner', 'investor', 'ceo', 'cfo', 'investment_manager', 'broker', 'advisor', 'individual_investor', 'entrepreneur', 'franchisor'];
     if (!in_array($role, $validRoles)) $errors['role'] = 'Please select a role.';
@@ -66,8 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $db = db();
             $db->beginTransaction();
 
-            $stmt = $db->prepare("INSERT INTO users (name, email, password, account_type, role, company_name, verification_status, email_verified_at, company_size, usage_goal, notifications, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 'unverified', NOW(), ?, ?, ?, NOW(), NOW())");
-            $stmt->execute([$name, $email, $hash, $accountType, $role, $company ?: null, $size ?: null, $goal, $notify ?: null]);
+            $stmt = $db->prepare("INSERT INTO users (name, email, password, account_type, role, company_name, phone, province, district, verification_status, email_verified_at, company_size, usage_goal, notifications, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'unverified', NOW(), ?, ?, ?, NOW(), NOW())");
+            $stmt->execute([$name, $email, $hash, $accountType, $role, $company ?: null, $phone ?: null, $province ?: null, $district ?: null, $size ?: null, $goal, $notify ?: null]);
             $userId = $db->lastInsertId();
 
             $db->commit();
@@ -121,7 +126,7 @@ require __DIR__ . '/../includes/header.php';
     </div>
 
     <!-- Step panels -->
-    <form id="onboarding-form" method="POST" action="/onboarding" novalidate>
+    <form id="onboarding-form" method="POST" action="<?= APP_URL ?>/onboarding" novalidate>
       <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
 
       <!-- Step 1: Account Setup -->
@@ -201,6 +206,36 @@ require __DIR__ . '/../includes/header.php';
           </select>
           <span class="field-error"><?= e($errors['role'] ?? '') ?></span>
         </div>
+
+        <div class="input-divider" style="height:1px;background:var(--dash-border);margin:16px 0;"></div>
+        <p style="font-size:14px;font-weight:600;color:var(--dash-ink);margin:0 0 12px;">Contact Information</p>
+
+        <div class="input-group <?= isset($errors['phone']) ? 'has-error' : '' ?>">
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" name="phone" value="<?= e($_POST['phone'] ?? '') ?>" placeholder="+977-98XXXXXXXX" autocomplete="tel">
+          <span class="field-error"><?= e($errors['phone'] ?? '') ?></span>
+        </div>
+
+        <div class="input-group <?= isset($errors['province']) ? 'has-error' : '' ?>">
+          <label for="province">Province</label>
+          <select id="province" name="province">
+            <option value="">Select province</option>
+            <option value="Koshi" <?= ($_POST['province'] ?? '') === 'Koshi' ? 'selected' : '' ?>>Koshi</option>
+            <option value="Madhesh" <?= ($_POST['province'] ?? '') === 'Madhesh' ? 'selected' : '' ?>>Madhesh</option>
+            <option value="Bagmati" <?= ($_POST['province'] ?? '') === 'Bagmati' ? 'selected' : '' ?>>Bagmati</option>
+            <option value="Gandaki" <?= ($_POST['province'] ?? '') === 'Gandaki' ? 'selected' : '' ?>>Gandaki</option>
+            <option value="Lumbini" <?= ($_POST['province'] ?? '') === 'Lumbini' ? 'selected' : '' ?>>Lumbini</option>
+            <option value="Karnali" <?= ($_POST['province'] ?? '') === 'Karnali' ? 'selected' : '' ?>>Karnali</option>
+            <option value="Sudurpashchim" <?= ($_POST['province'] ?? '') === 'Sudurpashchim' ? 'selected' : '' ?>>Sudurpashchim</option>
+          </select>
+          <span class="field-error"><?= e($errors['province'] ?? '') ?></span>
+        </div>
+
+        <div class="input-group <?= isset($errors['district']) ? 'has-error' : '' ?>">
+          <label for="district">District</label>
+          <input type="text" id="district" name="district" value="<?= e($_POST['district'] ?? '') ?>" placeholder="e.g. Kathmandu" autocomplete="address-level2">
+          <span class="field-error"><?= e($errors['district'] ?? '') ?></span>
+        </div>
       </div>
 
       <!-- Step 3: Preferences -->
@@ -235,6 +270,7 @@ require __DIR__ . '/../includes/header.php';
         <div class="input-group">
           <label class="checkbox-label">
             <input type="checkbox" name="notifications" value="email" <?= ($_POST['notifications'] ?? '') === 'email' ? 'checked' : '' ?>>
+            <span class="cb-visual"></span>
             <span>Send me email notifications about matches and messages</span>
           </label>
         </div>
@@ -242,6 +278,7 @@ require __DIR__ . '/../includes/header.php';
         <div class="input-group">
           <label class="checkbox-label">
             <input type="checkbox" name="updates" value="1" <?= ($_POST['updates'] ?? '') === '1' ? 'checked' : '' ?>>
+            <span class="cb-visual"></span>
             <span>Keep me updated on product news and features</span>
           </label>
         </div>
@@ -278,6 +315,18 @@ require __DIR__ . '/../includes/header.php';
             <span class="review-value" data-field="size"></span>
           </div>
           <div class="review-row">
+            <span class="review-label">Phone</span>
+            <span class="review-value" data-field="phone"></span>
+          </div>
+          <div class="review-row">
+            <span class="review-label">Province</span>
+            <span class="review-value" data-field="province"></span>
+          </div>
+          <div class="review-row">
+            <span class="review-label">District</span>
+            <span class="review-value" data-field="district"></span>
+          </div>
+          <div class="review-row">
             <span class="review-label">Goal</span>
             <span class="review-value" data-field="goal"></span>
           </div>
@@ -290,7 +339,8 @@ require __DIR__ . '/../includes/header.php';
         <div class="input-group <?= isset($errors['agree']) ? 'has-error' : '' ?>">
           <label class="checkbox-label">
             <input type="checkbox" name="agree" value="1" required>
-            <span>I agree to the <a href="/legal" target="_blank">Terms of Service</a> and <a href="/legal" target="_blank">Privacy Policy</a></span>
+            <span class="cb-visual"></span>
+            <span>I agree to the <a href="<?= APP_URL ?>/legal" target="_blank">Terms of Service</a> and <a href="<?= APP_URL ?>/legal" target="_blank">Privacy Policy</a></span>
           </label>
           <span class="field-error"><?= e($errors['agree'] ?? '') ?></span>
         </div>
@@ -308,6 +358,6 @@ require __DIR__ . '/../includes/header.php';
   </div>
 </main>
 
-<script src="/assets/onboarding.js"></script>
+<script src="<?= APP_URL ?>/assets/onboarding.js"></script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>

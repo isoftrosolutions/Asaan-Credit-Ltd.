@@ -222,7 +222,7 @@ ui_page_header('Edit Investor Profile', 'Keep your profile current to get sharpe
   <a href="<?= APP_URL ?>/investor/documents-edit" class="dash-section-link">Manage verification documents <?= ui_icon_str('arrowRight') ?></a>
 </div>
 
-<script src="/assets/form-steps.js"></script>
+<script src="<?= APP_URL ?>/assets/form-steps.js"></script>
 <script>
 function initPreferenceTags() {
   document.querySelectorAll('.preference-tag').forEach(function(tag) {

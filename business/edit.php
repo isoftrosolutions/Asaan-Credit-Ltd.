@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $destDir = upload_path('business-thumbnails');
         $uploaded = handle_upload($_FILES['thumbnail'], $allowedMime, UPLOAD_MAX_BYTES_PHOTO, $destDir);
         if ($uploaded) {
-            $thumbnailUrl = '/public/uploads/business-thumbnails/' . $uploaded;
+            $thumbnailUrl = 'business-thumbnails/' . $uploaded;
         }
     } elseif (isset($_POST['thumbnail_url']) && trim($_POST['thumbnail_url']) !== '') {
         $thumbnailUrl = trim($_POST['thumbnail_url']);
@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $isPublished = ($status === 'approved') ? 1 : 0;
 
-    $slug = $business['slug'] ?: generate_slug($businessName);
+    $slug = $business['slug'] ?: unique_slug(generate_slug($businessName), 'businesses');
 
     $db->beginTransaction();
     try {
@@ -143,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($filename) {
                     $mimeType = mime_content_type($destDir . '/' . $filename);
                     $mediaType = str_starts_with($mimeType, 'video') ? 'video' : (str_starts_with($mimeType, 'application') ? 'document' : 'image');
-                    $db->prepare('INSERT INTO business_media (business_id, file_url, media_type, sort_order, created_at) VALUES (?, ?, ?, ?, NOW())')->execute([$businessId, '/public/uploads/business-photos/' . $filename, $mediaType, $sortOrder]);
+                    $db->prepare('INSERT INTO business_media (business_id, file_url, media_type, sort_order, created_at) VALUES (?, ?, ?, ?, NOW())')->execute([$businessId, 'business-photos/' . $filename, $mediaType, $sortOrder]);
                     $sortOrder++;
                 }
             }
@@ -434,7 +434,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
             <?php if (!empty($business['thumbnail_url'])): ?>
             <div class="input-group" style="margin-top:0.75rem;">
                 <label>Current Thumbnail</label>
-                <div style="margin-top:0.25rem;"><img src="<?= e($business['thumbnail_url']) ?>" alt="" style="width:200px;height:150px;object-fit:cover;border-radius:8px;border:1px solid var(--dash-border);"></div>
+                <div style="margin-top:0.25rem;"><img src="<?= upload_url($business['thumbnail_url']) ?>" alt="" style="width:200px;height:150px;object-fit:cover;border-radius:8px;border:1px solid var(--dash-border);"></div>
             </div>
             <?php endif; ?>
             <div class="input-group" style="margin-top:0.75rem;">
@@ -449,9 +449,9 @@ require __DIR__ . '/../includes/layout-dashboard.php';
                 <?php foreach ($mediaItems as $m): ?>
                 <div style="position:relative;">
                     <?php if ($m['media_type'] === 'image'): ?>
-                    <img src="<?= APP_URL . $m['file_url'] ?>" alt="" style="width:100%;height:100px;object-fit:cover;border-radius:0.5rem;">
+                    <img src="<?= upload_url($m['file_url']) ?>" alt="" style="width:100%;height:100px;object-fit:cover;border-radius:0.5rem;">
                     <?php elseif ($m['media_type'] === 'video'): ?>
-                    <video style="width:100%;height:100px;object-fit:cover;border-radius:0.5rem;" src="<?= APP_URL . $m['file_url'] ?>"></video>
+                    <video style="width:100%;height:100px;object-fit:cover;border-radius:0.5rem;" src="<?= upload_url($m['file_url']) ?>"></video>
                     <?php else: ?>
                     <div style="width:100%;height:100px;display:flex;align-items:center;justify-content:center;background:var(--color-bg-soft);border-radius:0.5rem;font-size:0.75rem;">PDF</div>
                     <?php endif; ?>
@@ -486,7 +486,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
         <div class="step-nav-right">
             <button type="button" class="btn btn-primary btn-step-next">Next</button>
             <button type="submit" class="btn btn-primary btn-step-submit" style="display:none">Save Changes</button>
-            <a href="/dashboard" class="btn btn-outline" style="margin-left:8px;">Cancel</a>
+            <a href="<?= APP_URL ?>/dashboard" class="btn btn-outline" style="margin-left:8px;">Cancel</a>
         </div>
     </div>
 </form>
@@ -535,7 +535,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<script src="/assets/form-steps.js"></script>
+<script src="<?= APP_URL ?>/assets/form-steps.js"></script>
 <script>initFormSteps();</script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>

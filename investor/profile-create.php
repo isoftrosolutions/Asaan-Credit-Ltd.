@@ -211,7 +211,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
   </form>
 </div>
 
-<script src="/assets/form-steps.js"></script>
+<script src="<?= APP_URL ?>/assets/form-steps.js"></script>
 <script>
 function initPreferenceTags() {
   document.querySelectorAll('.preference-tag').forEach(function(tag) {

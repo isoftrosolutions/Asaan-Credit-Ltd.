@@ -257,9 +257,12 @@ $listingTypeLabels = [
                     <span class="premium-ribbon" style="margin-left:4px;">PREMIUM</span>
                   <?php endif; ?>
                 </span>
-                <div class="card-rating">
-                  <i class="fas fa-star"></i>
-                  <span><?= e($b['rating']) ?></span>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <button type="button" class="card-save-btn <?= in_array($b['id'], $savedIds) ? 'saved' : '' ?>" onclick="event.stopPropagation();toggleSave('business',<?= (int)$b['id'] ?>,this)" aria-label="<?= in_array($b['id'], $savedIds) ? 'Unsave' : 'Save' ?> listing"><i class="fas fa-heart"></i></button>
+                  <div class="card-rating">
+                    <i class="fas fa-star"></i>
+                    <span><?= e($b['rating']) ?></span>
+                  </div>
                 </div>
               </div>
               <h3 class="card-title"><?= e($b['business_name']) ?></h3>
@@ -270,7 +273,7 @@ $listingTypeLabels = [
                 <?php
                   $thumbSrc = '';
                   if (!empty($b['thumbnail_url'])) {
-                      $thumbSrc = (str_starts_with($b['thumbnail_url'], 'http') || str_starts_with($b['thumbnail_url'], '/')) ? $b['thumbnail_url'] : '/public/uploads/business-thumbnails/' . $b['thumbnail_url'];
+                      $thumbSrc = upload_url($b['thumbnail_url']);
                   }
                 ?>
                 <?php if (!empty($thumbSrc)): ?>

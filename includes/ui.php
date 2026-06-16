@@ -234,6 +234,10 @@ if (!defined('UI_PHP_LOADED')) {
             <input type="text" name="q" placeholder="Search businesses, investors, sectors…" aria-label="Search">
           </form>
           <div class="dash-topbar-actions">
+            <button type="button" class="dash-iconbtn" onclick="openSavedModal()" aria-label="Saved listings" title="Saved listings">
+              <i class="fas fa-heart"></i>
+              <span class="saved-count dash-iconbtn-badge" style="display:none;">0</span>
+            </button>
             <a href="<?= APP_URL ?>/notifications" class="dash-iconbtn" aria-label="<?= e($bellLabel) ?>">
               <?php ui_icon('bell'); ?>
               <?php if ($unreadCount > 0): ?><span class="dash-iconbtn-badge"><?= $unreadCount > 9 ? '9+' : $unreadCount ?></span><?php endif; ?>

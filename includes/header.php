@@ -105,21 +105,21 @@ if ($user) {
       <div class="pub-header-inner" style="max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;height:64px;gap:32px;">
         <div class="logo-section">
           <div class="logo-wrapper">
-            <a href="/" class="header-logo" aria-label="Asaan Capital Ltd">
+            <a href="<?= APP_URL ?>/" class="header-logo" aria-label="Asaan Capital Ltd">
               <img src="<?= APP_URL ?>/assets/asaan-capital-logo-header.png" alt="Asaan Capital Ltd" class="header-logo-img">
             </a>
           </div>
         </div>
           <nav style="display:flex;gap:24px;">
-            <a href="/" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Home</a>
-            <a href="/browse/businesses" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Investment & Opportunities</a>
-            <a href="/about" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">About Us</a>
-            <a href="/blog" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Blog</a>
-            <a href="/contact" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Contact</a>
+            <a href="<?= APP_URL ?>/" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Home</a>
+            <a href="<?= APP_URL ?>/browse/businesses" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Investment & Opportunities</a>
+            <a href="<?= APP_URL ?>/about" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">About Us</a>
+            <a href="<?= APP_URL ?>/blog" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Blog</a>
+            <a href="<?= APP_URL ?>/contact" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Contact</a>
           </nav>
         <div style="margin-left:auto;display:flex;gap:8px;">
-          <a href="/login" style="padding:8px 16px;border:1px solid var(--dash-border);border-radius:8px;text-decoration:none;color:var(--dash-ink);font-weight:500;">Log in</a>
-          <a href="/onboarding" style="padding:8px 16px;background:var(--color-primary-vivid);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;">Sign up</a>
+          <a href="<?= APP_URL ?>/login" style="padding:8px 16px;border:1px solid var(--dash-border);border-radius:8px;text-decoration:none;color:var(--dash-ink);font-weight:500;">Log in</a>
+          <a href="<?= APP_URL ?>/onboarding" style="padding:8px 16px;background:var(--color-primary-vivid);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;">Sign up</a>
         </div>
       </div>
     </div>
@@ -132,6 +132,7 @@ if ($user) {
 <script src="<?= APP_URL ?>/assets/header.js?v=<?= filemtime(__DIR__ . '/../assets/header.js') ?>" defer></script>
 <script src="<?= APP_URL ?>/assets/components.js?v=<?= filemtime(__DIR__ . '/../assets/components.js') ?>" defer></script>
 <script>
+const APP_URL = '<?= APP_URL ?>';
 const UNREAD_COUNT = <?= $unreadCount ?>;
 const CURRENT_USER = <?= json_encode($user, JSON_INVALID_UTF8_SUBSTITUTE) ?: 'null' ?>;
 const CSRF_TOKEN = '<?= csrf_token() ?>';
@@ -144,17 +145,20 @@ if ($user) {
     $badgeStyle = $unreadCount > 0 ? '' : ' style="display:none;"';
     $badgeText = $unreadCount > 9 ? '9+' : (string)$unreadCount;
     $userName = $user['name'] ?? 'User';
-    $headerActions = '<a href="/notifications" class="notification-bell" aria-label="' . e($bellLabel) . '">'
+    $headerActions = '<button type="button" class="header-saved-btn" onclick="openSavedModal()" aria-label="Saved listings">'
+        . '<i class="fas fa-heart"></i>'
+        . '<span class="saved-count header-saved-badge" style="display:none;">0</span></button>'
+        . '<a href="' . APP_URL . '/notifications" class="notification-bell" aria-label="' . e($bellLabel) . '">'
         . '<i class="fas fa-bell"></i>'
         . '<span class="notification-badge" aria-hidden="true"' . $badgeStyle . '>' . $badgeText . '</span></a>'
-        . '<a href="/dashboard" class="header-user" aria-label="' . e($userName) . ' — go to dashboard">'
+        . '<a href="' . APP_URL . '/dashboard" class="header-user" aria-label="' . e($userName) . ' — go to dashboard">'
         . '<div class="avatar avatar-sm" aria-hidden="true">' . e($initial) . '</div>'
         . '<span class="header-user-name">' . e($userName) . '</span></a>';
 } elseif (!empty($onboardingPage)) {
-    $headerActions = '<a href="/login" class="btn btn-sm btn-outline">Log in</a>';
+    $headerActions = '<a href="' . APP_URL . '/login" class="btn btn-sm btn-outline">Log in</a>';
 } else {
-    $headerActions = '<a href="/login" class="btn btn-sm btn-outline">Log in</a>'
-        . '<a href="/onboarding" class="btn btn-sm btn-primary">Sign up</a>';
+    $headerActions = '<a href="' . APP_URL . '/login" class="btn btn-sm btn-outline">Log in</a>'
+        . '<a href="' . APP_URL . '/onboarding" class="btn btn-sm btn-primary">Sign up</a>';
 }
 ?>
 <?php if (!empty($useStitchHeader)): ?>

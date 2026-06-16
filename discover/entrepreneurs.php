@@ -416,6 +416,7 @@ if ($queryParams) {
                 <i class="fas fa-star"></i>
                 <span>Verified</span>
               </div>
+              <button type="button" class="card-save-btn pitch-save-btn <?= in_array($pitch['id'], $savedIds) ? 'saved' : '' ?>" onclick="event.stopPropagation();toggleSave('pitch',<?= (int)$pitch['id'] ?>,this)" aria-label="<?= in_array($pitch['id'], $savedIds) ? 'Unsave' : 'Save' ?> pitch"><i class="fas fa-heart"></i></button>
               <div class="pitch-data-grid">
                 <div class="pitch-data-item">
                   <span class="pitch-data-label">Sector</span>

@@ -154,11 +154,11 @@ $pageDescription = 'Reset your password for Asaan Capital Ltd.';
             </div>
             <h2 style="margin:0 0 0.35rem;font-size:1.35rem;">Password reset successful</h2>
             <p style="color:var(--color-text-muted);font-size:0.9rem;margin:0 0 1.5rem;">Your password has been updated successfully.</p>
-            <a href="/login" class="btn btn-primary" style="display:block;text-align:center;">Continue to Login</a>
+            <a href="<?= APP_URL ?>/login" class="btn btn-primary" style="display:block;text-align:center;">Continue to Login</a>
         </div>
 
     <?php elseif ($otpVerified): ?>
-        <a href="/reset-password?email=<?= e(urlencode($email)) ?>" class="auth-back">
+        <a href="<?= APP_URL ?>/reset-password?email=<?= e(urlencode($email)) ?>" class="auth-back">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path dM12 19l-7-7 7-7"/></svg>
             Back
         </a>
@@ -170,7 +170,7 @@ $pageDescription = 'Reset your password for Asaan Capital Ltd.';
             <div class="flash flash-error" style="margin-bottom:1rem;"><?= e($error) ?></div>
         <?php endif; ?>
 
-        <form method="post" action="/reset-password?email=<?= e(urlencode($email)) ?>" id="pwdForm">
+        <form method="post" action="<?= APP_URL ?>/reset-password?email=<?= e(urlencode($email)) ?>" id="pwdForm">
             <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
             <input type="hidden" name="email" value="<?= e($email) ?>">
 
@@ -311,7 +311,7 @@ $pageDescription = 'Reset your password for Asaan Capital Ltd.';
         </script>
 
     <?php else: ?>
-        <a href="/forgot-password" class="auth-back">
+        <a href="<?= APP_URL ?>/forgot-password" class="auth-back">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path dM12 19l-7-7 7-7"/></svg>
             Back
         </a>
@@ -326,7 +326,7 @@ $pageDescription = 'Reset your password for Asaan Capital Ltd.';
             </div>
         <?php endif; ?>
 
-        <form method="post" action="/reset-password?email=<?= e(urlencode($email)) ?>" id="otpForm">
+        <form method="post" action="<?= APP_URL ?>/reset-password?email=<?= e(urlencode($email)) ?>" id="otpForm">
             <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
             <input type="hidden" name="email" value="<?= e($email) ?>">
             <input type="hidden" name="otp" id="otpHidden">
@@ -346,7 +346,7 @@ $pageDescription = 'Reset your password for Asaan Capital Ltd.';
 
         <div style="margin-top:1.25rem;text-align:center;font-size:0.9rem;">
             Didn't receive code?
-            <a href="/forgot-password" id="resendLink" style="color:var(--color-primary-vivid);font-weight:600;">Resend</a>
+            <a href="<?= APP_URL ?>/forgot-password" id="resendLink" style="color:var(--color-primary-vivid);font-weight:600;">Resend</a>
         </div>
 
         <script>

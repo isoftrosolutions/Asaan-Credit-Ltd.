@@ -34,7 +34,8 @@ if ($loggedIn) {
     ');
     $stmt->execute([$loggedIn['id'], $investorId, $investorId, $loggedIn['id']]);
     $isMatch = (int)$stmt->fetchColumn() > 0;
-    $showContact = $isMatch || $loggedIn['id'] == $investorId;
+    $viewerIsPremium = !empty($loggedIn['is_premium']);
+    $showContact = $viewerIsPremium || $isMatch || $loggedIn['id'] == $investorId;
 }
 
 $preferredSectors = json_decode($profile['preferred_sectors'] ?? '[]', true) ?: [];

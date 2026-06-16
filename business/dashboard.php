@@ -147,7 +147,7 @@ ui_page_header(
             <?php
               $src = '';
               if (!empty($b['thumbnail_url'])) {
-                  $src = (str_starts_with($b['thumbnail_url'], 'http') || str_starts_with($b['thumbnail_url'], '/')) ? $b['thumbnail_url'] : '/public/uploads/business-thumbnails/' . $b['thumbnail_url'];
+                  $src = upload_url($b['thumbnail_url']);
               }
             ?>
             <?php if (!empty($src)): ?>

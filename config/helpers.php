@@ -38,6 +38,18 @@ function redirect_back(): void {
     exit;
 }
 
+function upload_url(?string $path): string {
+    if (!$path) return '';
+    if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) return $path;
+    if (str_starts_with($path, 'business-thumbnails/') || str_starts_with($path, 'business-photos/')) {
+        return APP_URL . '/public/uploads/' . $path;
+    }
+    if (str_starts_with($path, '/')) {
+        return APP_URL . $path;
+    }
+    return APP_URL . '/public/uploads/' . $path;
+}
+
 function money($amount): string {
     return 'रू ' . number_format((float)$amount, 0);
 }
@@ -117,7 +129,24 @@ function render_pagination(int $page, int $lastPage, string $baseUrl): string {
 
 function generate_slug(string $str): string {
     $str = preg_replace('/[^a-z0-9]+/', '-', strtolower(trim($str)));
-    return trim($str, '-');
+    $slug = trim($str, '-');
+    if ($slug === '' || $slug === '-') {
+        $slug = 'business-' . time();
+    }
+    return $slug;
+}
+
+function unique_slug(string $slug, string $table, string $column = 'slug'): string {
+    $db = db();
+    $original = $slug;
+    $i = 1;
+    $stmt = $db->prepare("SELECT COUNT(*) FROM {$table} WHERE {$column} = ?");
+    while (true) {
+        $stmt->execute([$slug]);
+        if ((int)$stmt->fetchColumn() === 0) break;
+        $slug = $original . '-' . $i++;
+    }
+    return $slug;
 }
 
 function remove_query_param(string $url, string $param): string {

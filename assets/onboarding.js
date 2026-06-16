@@ -35,6 +35,16 @@
         advisory: 'Advisory Services'
     };
 
+    var provinceLabels = {
+        Koshi: 'Koshi',
+        Madhesh: 'Madhesh',
+        Bagmati: 'Bagmati',
+        Gandaki: 'Gandaki',
+        Lumbini: 'Lumbini',
+        Karnali: 'Karnali',
+        Sudurpashchim: 'Sudurpashchim'
+    };
+
     var form, currentStep, totalSteps, isTransitioning;
 
     function getFieldValue(name) {
@@ -101,6 +111,9 @@
 
             var role = getFieldValue('role');
             if (!role) { showError('role', 'Please select a role.'); valid = false; }
+
+            var phone = getFieldValue('phone');
+            if (phone && !/^[\d\s\-\+\(\)]{7,20}$/.test(phone)) { showError('phone', 'Please enter a valid phone number.'); valid = false; }
         } else if (step === 3) {
             var goal = getFieldValue('goal');
             if (!goal) { showError('goal', 'Please select a goal.'); valid = false; }
@@ -137,6 +150,10 @@
         var accType = getFieldValue('account_type');
         var isComp = accType === 'company';
 
+        var phoneVal = getFieldValue('phone');
+        var provVal = getFieldValue('province');
+        var distVal = getFieldValue('district');
+
         var data = {
             name: getFieldValue('name'),
             email: getFieldValue('email'),
@@ -144,6 +161,9 @@
             company: isComp ? getFieldValue('company') : '—',
             role: roleLabels[getFieldValue('role')] || getFieldValue('role'),
             size: isComp ? (sizeLabels[getFieldValue('size')] || getFieldValue('size')) : '—',
+            phone: phoneVal || '—',
+            province: provVal ? (provinceLabels[provVal] || provVal) : '—',
+            district: distVal || '—',
             goal: goalLabels[getFieldValue('goal')] || getFieldValue('goal')
         };
 
@@ -198,11 +218,11 @@
 
         void nextPanel.offsetWidth;
 
-        currentPanel.style.transition = 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1), opacity 250ms cubic-bezier(0.4, 0, 0.2, 1)';
+        currentPanel.style.transition = 'transform 180ms cubic-bezier(0.23, 1, 0.32, 1), opacity 180ms cubic-bezier(0.23, 1, 0.32, 1)';
         currentPanel.style.transform = 'translateX(' + exitX + ')';
         currentPanel.style.opacity = '0';
 
-        nextPanel.style.transition = 'transform 250ms cubic-bezier(0.4, 0, 0.2, 1), opacity 250ms cubic-bezier(0.4, 0, 0.2, 1)';
+        nextPanel.style.transition = 'transform 250ms cubic-bezier(0.23, 1, 0.32, 1), opacity 250ms cubic-bezier(0.23, 1, 0.32, 1)';
         nextPanel.style.transform = 'translateX(0)';
         nextPanel.style.opacity = '1';
 
@@ -247,6 +267,7 @@
         } else if (field === 'company' && isCompany() && !value) msg = 'Company name is required.';
         else if (field === 'role' && !value) msg = 'Please select a role.';
         else if (field === 'size' && isCompany() && !value) msg = 'Please select company size.';
+        else if (field === 'phone' && value && !/^[\d\s\-\+\(\)]{7,20}$/.test(value)) msg = 'Please enter a valid phone number.';
 
         if (msg) {
             showError(field, msg);

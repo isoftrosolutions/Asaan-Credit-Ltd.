@@ -29,11 +29,18 @@ function handle_upload(array $file, array $allowedMime, int $maxBytes, string $d
 
 function strip_exif(string $path): void {
     try {
-        $img = imagecreatefromstring(file_get_contents($path));
-        if ($img) {
+        $data = file_get_contents($path);
+        if ($data === false) return;
+        $img = imagecreatefromstring($data);
+        unset($data);
+        if (!$img) return;
+        $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        if ($ext === 'png') {
+            imagepng($img, $path, 9);
+        } else {
             imagejpeg($img, $path, 85);
-            imagedestroy($img);
         }
+        imagedestroy($img);
     } catch (\Throwable $e) {
     }
 }
