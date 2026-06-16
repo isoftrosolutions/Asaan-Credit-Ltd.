@@ -59,7 +59,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
   <h2 style="margin-bottom:0.25rem;">Investor / Buyer Profile</h2>
   <p style="color:var(--color-text-muted); margin-bottom:1.5rem;">Define your investment mandate and get matched with opportunities.</p>
 
-  <form method="POST" class="form-steps" style="padding:0;">
+  <form method="POST" class="form-steps" novalidate style="padding:0;">
     <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
 
     <div class="form-step-progress" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3">
@@ -226,6 +226,10 @@ function initPreferenceTags() {
 }
 initFormSteps({});
 initPreferenceTags();
+document.querySelector('.form-steps')?.addEventListener('submit', function() {
+  var btn = this.querySelector('.btn-step-submit');
+  if (btn) btn.disabled = true;
+});
 </script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>

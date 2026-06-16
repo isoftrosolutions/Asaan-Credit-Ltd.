@@ -83,7 +83,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 <h2 style="margin-bottom:0.25rem;">Edit Franchise Profile</h2>
 <p style="color:var(--color-text-muted);margin-bottom:1.5rem;">Update your franchise listing for <strong><?= e($franchise['brand_name']) ?></strong>.</p>
 
-<form method="post" enctype="multipart/form-data" class="form-steps" style="max-width:640px;">
+<form method="post" enctype="multipart/form-data" class="form-steps" novalidate style="max-width:640px;">
   <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
 
   <div class="form-step-progress" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3">
@@ -211,7 +211,13 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 </form>
 
 <script src="<?= APP_URL ?>/assets/form-steps.js"></script>
-<script>initFormSteps({});</script>
+<script>
+initFormSteps({});
+document.querySelector('.form-steps')?.addEventListener('submit', function() {
+  var btn = this.querySelector('.btn-step-submit');
+  if (btn) btn.disabled = true;
+});
+</script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
 </div></div>

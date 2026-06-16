@@ -188,7 +188,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 <h2 style="margin-bottom:0.25rem;">Edit Business Listing</h2>
 <p style="color:var(--color-text-muted);">Update your business information across all sections.</p>
 
-<form method="POST" enctype="multipart/form-data" class="form-steps">
+<form method="POST" enctype="multipart/form-data" class="form-steps" novalidate>
     <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
     <input type="hidden" name="id" value="<?= $businessId ?>">
 
@@ -536,7 +536,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script src="<?= APP_URL ?>/assets/form-steps.js"></script>
-<script>initFormSteps();</script>
+<script>
+initFormSteps();
+document.querySelector('.form-steps')?.addEventListener('submit', function() {
+  var btn = this.querySelector('.btn-step-submit');
+  if (btn) btn.disabled = true;
+});
+</script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
 </div></div>

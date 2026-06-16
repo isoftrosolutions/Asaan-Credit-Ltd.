@@ -120,7 +120,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 <h2 style="margin-bottom:0.25rem;">Edit Your Pitch</h2>
 <p style="color:var(--color-text-muted);">Update your pitch to attract the right investors.</p>
 
-<form method="POST" enctype="multipart/form-data" class="form-steps" style="margin-top:1.5rem;">
+<form method="POST" enctype="multipart/form-data" class="form-steps" novalidate style="margin-top:1.5rem;">
     <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
     <input type="hidden" name="id" value="<?= $pitchId ?>">
 
@@ -273,7 +273,13 @@ function previewPitchImage(input) {
 }
 </script>
 <script src="<?= APP_URL ?>/assets/form-steps.js"></script>
-<script>initFormSteps({});</script>
+<script>
+initFormSteps({});
+document.querySelector('.form-steps')?.addEventListener('submit', function() {
+  var btn = this.querySelector('.btn-step-submit');
+  if (btn) btn.disabled = true;
+});
+</script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
 </div></div>

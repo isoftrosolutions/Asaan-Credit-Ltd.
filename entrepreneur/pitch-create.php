@@ -104,7 +104,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 <h2 style="margin-bottom:0.25rem;">Create Your Pitch</h2>
 <p style="color:var(--color-text-muted);">Present your venture to thousands of pre-verified investors.</p>
 
-<form method="POST" enctype="multipart/form-data" class="form-steps" style="margin-top:1.5rem;">
+<form method="POST" enctype="multipart/form-data" class="form-steps" novalidate style="margin-top:1.5rem;">
     <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
 
     <div class="form-step-progress" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3">
@@ -245,7 +245,13 @@ function previewPitchImage(input) {
 }
 </script>
 <script src="<?= APP_URL ?>/assets/form-steps.js"></script>
-<script>initFormSteps({});</script>
+<script>
+initFormSteps({});
+document.querySelector('.form-steps')?.addEventListener('submit', function() {
+  var btn = this.querySelector('.btn-step-submit');
+  if (btn) btn.disabled = true;
+});
+</script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
 </div></div>
