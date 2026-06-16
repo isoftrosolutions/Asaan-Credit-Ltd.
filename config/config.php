@@ -13,20 +13,20 @@ if ($__host === 'localhost' || $__host === '127.0.0.1' || str_starts_with($__hos
 }
 unset($__host);
 
-define('DEBUG_MODE', false);
+define('DEBUG_MODE', true);
 
 define('DB_HOST', '127.0.0.1');
 define('DB_PORT', '3306');
 
-// --- Production DB ---
-define('DB_NAME', 'asaancapital_assan_capital');
-define('DB_USER', 'asaancapital_asaancapital');
-define('DB_PASS', 'J3ssEl.*}@OrYzmy');
+// --- Production DB (comment out for local dev) ---
+// define('DB_NAME', 'asaancapital_assan_capital');
+// define('DB_USER', 'asaancapital_asaancapital');
+// define('DB_PASS', 'J3ssEl.*}@OrYzmy');
 
-// --- Local dev DB (comment out for prod) ---
-// define('DB_NAME', 'invest_match');
-// define('DB_USER', 'root');
-// define('DB_PASS', '');
+// --- Local dev DB ---
+define('DB_NAME', 'invest_match');
+define('DB_USER', 'root');
+define('DB_PASS', '');
 define('DB_CHARSET', 'utf8mb4');
 
 define('SESSION_LIFETIME', 1800);
