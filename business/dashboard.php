@@ -6,6 +6,22 @@ require_role([ROLE_BUSINESS_OWNER, 'owner', 'ceo', 'cfo']);
 $user = current_user();
 $userId = (int)$user['id'];
 
+// Handle owner delete
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delete') {
+    csrf_check();
+    $deleteId = (int)($_POST['id'] ?? 0);
+    if ($deleteId) {
+        $stmt = db()->prepare('SELECT user_id FROM businesses WHERE id = ?');
+        $stmt->execute([$deleteId]);
+        $biz = $stmt->fetch();
+        if ($biz && (int)$biz['user_id'] === $userId) {
+            db()->prepare('DELETE FROM businesses WHERE id = ?')->execute([$deleteId]);
+            flash_set('success', 'Business listing deleted.');
+        }
+    }
+    redirect('/business/dashboard.php');
+}
+
 $stmt = db()->prepare('SELECT * FROM businesses WHERE user_id = ? ORDER BY created_at DESC');
 $stmt->execute([$userId]);
 $businesses = $stmt->fetchAll();
@@ -169,6 +185,12 @@ ui_page_header(
             <span class="dash-table-actions">
               <a href="<?= APP_URL ?>/business/<?= $b['id'] ?>" class="btn btn-sm btn-outline">View</a>
               <a href="<?= APP_URL ?>/business/edit?id=<?= $b['id'] ?>" class="btn btn-sm btn-primary">Edit</a>
+              <form method="post" style="display:inline" onsubmit="return confirm('Delete this listing permanently?')">
+                <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="id" value="<?= $b['id'] ?>">
+                <button type="submit" class="btn btn-sm" style="background:var(--color-error);border-color:var(--color-error);color:#fff;">Delete</button>
+              </form>
             </span>
           </td>
         </tr>
