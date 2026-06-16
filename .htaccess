@@ -1,7 +1,6 @@
 Options -Indexes
 
 RewriteEngine On
-RewriteBase /assan
 
 RewriteRule ^favicon\.ico$ favicon.png [L,R=301]
 
