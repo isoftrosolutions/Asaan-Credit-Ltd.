@@ -142,7 +142,7 @@ if (!defined('UI_PHP_LOADED')) {
 
     function ui_admin_links(): array {
         return [
-            ['Home', '/', 'home'],
+            ['Home', '/admin', 'home'],
             ['Verification Queue', '/admin/verification', 'document'],
             ['Businesses', '/admin/businesses', 'briefcase'],
             ['Business Verifications', '/admin/business-verifications', 'check'],
