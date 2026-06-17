@@ -1,6 +1,13 @@
 <?php
 function current_user(): ?array {
-    return $_SESSION['user'] ?? null;
+    if (!isset($_SESSION['user'])) return null;
+    if (!array_key_exists('is_premium', $_SESSION['user'])) {
+        $stmt = db()->prepare('SELECT * FROM users WHERE id = ?');
+        $stmt->execute([(int)$_SESSION['user']['id']]);
+        $fresh = $stmt->fetch();
+        if ($fresh) $_SESSION['user'] = $fresh;
+    }
+    return $_SESSION['user'];
 }
 
 function require_login(): void {

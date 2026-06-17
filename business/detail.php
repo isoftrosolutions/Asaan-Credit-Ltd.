@@ -686,7 +686,7 @@ require __DIR__ . '/../includes/layout-public.php';
         <?php if ($userId && $userId === $ownerUserId): ?>
         <a href="<?= APP_URL ?>/business/edit.php?id=<?= $businessId ?>" class="stitch-sidebar-cta">Edit Listing</a>
         <?php elseif ($viewerIsPremium || $hasInquired || $hasMatch): ?>
-        <button class="stitch-sidebar-cta" onclick="alert('Contact: <?= e($business['owner_name']) ?> — <?= e($business['owner_email']) ?>')">View Contact Details</button>
+        <button class="stitch-sidebar-cta" onclick="alert('Name: <?= e($business['owner_name']) ?>\nEmail: <?= e($business['owner_email']) ?>\nPhone: <?= e($business['owner_phone'] ?? '—') ?>')">View Contact Details</button>
         <?php else: ?>
         <a href="<?= APP_URL ?>/upgrade" class="stitch-sidebar-cta" style="display:block;text-align:center;">Unlock Contact — Go Premium</a>
         <?php endif; ?>
