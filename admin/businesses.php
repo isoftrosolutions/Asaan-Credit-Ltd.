@@ -104,15 +104,7 @@ ui_page_header('Business Management', 'Review, approve, or manage all business l
       <?php foreach ($businesses as $b): ?>
         <tr>
           <td>
-            <?php
-              $bsrc = '';
-              if (!empty($b['thumbnail_url'])) $bsrc = (str_starts_with($b['thumbnail_url'], 'http') || str_starts_with($b['thumbnail_url'], '/')) ? $b['thumbnail_url'] : '/public/uploads/business-thumbnails/' . $b['thumbnail_url'];
-            ?>
-            <?php if ($bsrc): ?>
-              <img src="<?= e($bsrc) ?>" alt="" style="width:48px;height:36px;object-fit:cover;border-radius:4px;">
-            <?php else: ?>
-              <div style="width:48px;height:36px;background:var(--color-bg-soft);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--color-text-muted);"><i class="fas fa-building"></i></div>
-            <?php endif; ?>
+            <div style="width:48px;height:36px;background:var(--color-bg-soft);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--color-text-muted);"><i class="fas fa-building"></i></div>
           </td>
           <td><span class="t-strong"><?= e($b['business_name']) ?></span></td>
           <td><span class="t-strong"><?= e($b['user_name']) ?></span><br><span class="t-muted"><?= e($b['email']) ?></span></td>

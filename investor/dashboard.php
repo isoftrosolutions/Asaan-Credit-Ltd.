@@ -36,7 +36,7 @@ $suggestions = $stmt->fetchAll();
 $recentBiz = [];
 $recentPitches = [];
 if (empty($suggestions)) {
-    $recentBiz = db()->query("SELECT id, business_name, listing_type, annual_revenue, asking_price, ebitda_pct, province, thumbnail_url FROM businesses WHERE status='approved' AND is_hidden=0 ORDER BY created_at DESC LIMIT 6")->fetchAll();
+    $recentBiz = db()->query("SELECT id, business_name, listing_type, annual_revenue, asking_price, ebitda_pct, province FROM businesses WHERE status='approved' AND is_hidden=0 ORDER BY created_at DESC LIMIT 6")->fetchAll();
     $recentPitches = db()->query("SELECT p.id, p.tagline, p.funding_amount, p.equity_offered, p.stage, p.pitch_image, s.name as sector_name FROM pitches p LEFT JOIN sectors s ON p.sector_id = s.id WHERE p.is_published=1 AND p.is_hidden=0 ORDER BY p.created_at DESC LIMIT 6")->fetchAll();
 }
 

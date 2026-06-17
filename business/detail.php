@@ -259,11 +259,6 @@ require __DIR__ . '/../includes/layout-public.php';
         <?php endforeach; ?>
       </div>
       <?php endif; ?>
-      <?php elseif (!empty($business['thumbnail_url'])): ?>
-      <?php $thumbSrc = upload_url($business['thumbnail_url']); ?>
-      <div class="stitch-gallery-main-wrap">
-        <img src="<?= e($thumbSrc) ?>" alt="<?= e($business['business_name']) ?>" class="stitch-gallery-main">
-      </div>
       <?php else: ?>
       <div class="stitch-gallery-fallback">
         <i class="fas fa-image" style="font-size:40px;opacity:0.4;"></i>
@@ -642,7 +637,7 @@ require __DIR__ . '/../includes/layout-public.php';
 
     <!-- ── Related Opportunities ── -->
     <?php
-    $relS = $db->prepare('SELECT id, business_name, slug, thumbnail_url, asking_price, annual_revenue, ebitda_pct, province FROM businesses WHERE sector_id = ? AND id != ? AND status = "approved" ORDER BY RAND() LIMIT 3');
+    $relS = $db->prepare('SELECT id, business_name, slug, asking_price, annual_revenue, ebitda_pct, province FROM businesses WHERE sector_id = ? AND id != ? AND status = "approved" ORDER BY RAND() LIMIT 3');
     $relS->execute([$business['sector_id'], $businessId]);
     $related = $relS->fetchAll();
     if (!empty($related)): ?>
@@ -655,15 +650,7 @@ require __DIR__ . '/../includes/layout-public.php';
         <?php foreach ($related as $r): ?>
         <div class="stitch-related-card" onclick="location.href='<?= APP_URL ?>/business/<?= e($r['slug'] ?: $r['id']) ?>'" tabindex="0" role="link">
           <div class="stitch-related-img">
-            <?php
-              $rSrc = '';
-              if (!empty($r['thumbnail_url'])) $rSrc = upload_url($r['thumbnail_url']);
-            ?>
-            <?php if ($rSrc): ?>
-            <img src="<?= e($rSrc) ?>" alt="" loading="lazy">
-            <?php else: ?>
             <div class="fallback"><i class="fas fa-image" style="font-size:40px;opacity:0.4;"></i></div>
-            <?php endif; ?>
             <?php if (!empty($r['is_featured'])): ?>
             <span class="stitch-premium-badge">PREMIUM</span>
             <?php endif; ?>

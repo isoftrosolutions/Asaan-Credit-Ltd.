@@ -20,7 +20,7 @@ $recentSignups = (int)db()->query("SELECT COUNT(*) FROM users WHERE created_at >
 $pendingVerification = (int)db()->query("SELECT COUNT(*) FROM verification_documents WHERE status = 'pending'")->fetchColumn();
 $pendingBizCount = (int)db()->query("SELECT COUNT(*) FROM businesses WHERE status = 'pending'")->fetchColumn();
 $pendingPitchCount = (int)db()->query("SELECT COUNT(*) FROM pitches WHERE is_published = 0")->fetchColumn();
-$recentBiz = db()->query("SELECT id, business_name, slug, thumbnail_url, status, created_at FROM businesses ORDER BY created_at DESC LIMIT 5")->fetchAll();
+$recentBiz = db()->query("SELECT id, business_name, slug, status, created_at FROM businesses ORDER BY created_at DESC LIMIT 5")->fetchAll();
 $recentPitches = db()->query("SELECT p.id, p.tagline, p.is_published, p.is_hidden, p.created_at, u.name FROM pitches p JOIN users u ON p.user_id = u.id ORDER BY p.created_at DESC LIMIT 5")->fetchAll();
 $statusLabels = ['draft' => 'Draft', 'pending' => 'Pending', 'approved' => 'Approved', 'rejected' => 'Rejected', 'sold' => 'Sold'];
 
@@ -99,11 +99,6 @@ ui_page_header('Platform Analytics', 'A live snapshot of activity across the mar
         <?php foreach ($recentBiz as $b): ?>
           <tr>
             <td>
-              <?php
-                $bsrc = '';
-                if (!empty($b['thumbnail_url'])) $bsrc = (str_starts_with($b['thumbnail_url'], 'http') || str_starts_with($b['thumbnail_url'], '/')) ? $b['thumbnail_url'] : '/public/uploads/business-thumbnails/' . $b['thumbnail_url'];
-              ?>
-              <?php if ($bsrc): ?><img src="<?= e($bsrc) ?>" alt="" style="width:32px;height:24px;object-fit:cover;border-radius:3px;vertical-align:middle;margin-right:6px;"><?php endif; ?>
               <span class="t-strong"><?= e($b['business_name']) ?></span>
             </td>
             <td class="ta-center"><span class="dash-pill <?= $b['status'] === 'approved' ? 'published' : ($b['status'] === 'pending' ? 'pending' : 'draft') ?>"><?= $statusLabels[$b['status']] ?? $b['status'] ?></span></td>

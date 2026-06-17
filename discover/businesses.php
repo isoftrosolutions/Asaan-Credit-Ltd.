@@ -270,19 +270,9 @@ $listingTypeLabels = [
                 <div class="card-body-left">
                   <p class="card-desc"><?= e(mb_substr($b['description'] ?? '', 0, 150)) ?><?= mb_strlen($b['description'] ?? '') > 150 ? '...' : '' ?></p>
                 </div>
-                <?php
-                  $thumbSrc = '';
-                  if (!empty($b['thumbnail_url'])) {
-                      $thumbSrc = upload_url($b['thumbnail_url']);
-                  }
-                ?>
-                <?php if (!empty($thumbSrc)): ?>
-                  <img class="card-thumb" src="<?= e($thumbSrc) ?>" alt="<?= e($b['business_name']) ?>" loading="lazy">
-                <?php else: ?>
-                  <div class="card-thumb-placeholder">
-                    <i class="fas fa-building" style="font-size:22px;"></i>
-                  </div>
-                <?php endif; ?>
+                <div class="card-thumb-placeholder">
+                  <i class="fas fa-building" style="font-size:22px;"></i>
+                </div>
               </div>
               <div class="card-location">
                 <i class="fas fa-map-marker-alt" style="font-size:15px;"></i>
