@@ -2496,8 +2496,8 @@ td {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #f6d365 0%, #fda085 50%, #f093fb 100%);
-  box-shadow: 0 0 6px rgba(246,211,101,.5), inset 0 1px 1px rgba(255,255,255,.6);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-vivid) 100%);
+  box-shadow: 0 0 6px rgba(107,29,34,.4), inset 0 1px 1px rgba(255,255,255,.3);
   font-size: 9px;
   color: #fff;
   vertical-align: middle;
@@ -2512,7 +2512,7 @@ td {
   right: 3px;
   height: 6px;
   border-radius: 50%;
-  background: linear-gradient(180deg, rgba(255,255,255,.7) 0%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(180deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,0) 100%);
   pointer-events: none;
 }
 .premium-badge i {
