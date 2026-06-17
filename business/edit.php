@@ -286,6 +286,42 @@ require __DIR__ . '/../includes/layout-dashboard.php';
   padding:2px 6px;font-size:11px;cursor:pointer;
 }
 
+/* Upload dropzone */
+.upload-dropzone {
+  border:2px dashed var(--dash-border);border-radius:10px;
+  padding:28px 16px;text-align:center;cursor:pointer;
+  transition:border-color 200ms,background 200ms;position:relative;
+}
+.upload-dropzone:hover { border-color:var(--color-primary);background:rgba(107,29,34,0.03); }
+.upload-dropzone.drag-over { border-color:var(--color-primary);background:rgba(107,29,34,0.06); }
+.upload-dropzone-content { pointer-events:none; }
+.upload-dropzone-content svg { color:var(--dash-ink-soft);margin-bottom:8px; }
+.upload-dropzone-content p { margin:0 0 4px;font-size:14px;font-weight:600;color:var(--dash-ink); }
+.upload-dropzone-content span { font-size:12px;color:var(--dash-ink-soft); }
+
+/* Upload preview grid */
+.upload-preview { display:flex;flex-wrap:wrap;gap:10px;margin-top:14px; }
+.upload-preview-item {
+  position:relative;width:100px;height:100px;border-radius:8px;
+  overflow:hidden;border:1px solid var(--dash-border);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--color-bg-soft);
+}
+.upload-preview-item img { width:100%;height:100%;object-fit:cover;display:block; }
+.upload-preview-icon { font-size:11px;font-weight:700;color:var(--dash-ink-soft); }
+.upload-preview-name {
+  position:absolute;bottom:0;left:0;right:0;
+  font-size:9px;padding:2px 4px;background:rgba(0,0,0,0.55);color:#fff;
+  text-overflow:ellipsis;overflow:hidden;white-space:nowrap;text-align:center;
+}
+.upload-preview-remove {
+  position:absolute;top:2px;right:2px;width:20px;height:20px;border:none;
+  background:rgba(0,0,0,0.55);color:#fff;border-radius:50%;
+  font-size:14px;line-height:1;cursor:pointer;display:flex;
+  align-items:center;justify-content:center;
+}
+.upload-preview-remove:hover { background:rgba(200,40,40,0.8); }
+
 /* Repeater rows */
 .repeater-row {
   display:grid;grid-template-columns:1fr;gap:10px;
@@ -587,7 +623,17 @@ require __DIR__ . '/../includes/layout-dashboard.php';
             <?php endif; ?>
             <div class="input">
               <label>Add New Images / Videos</label>
-              <input type="file" name="media[]" multiple accept="image/jpeg,image/png,image/webp,video/mp4,application/pdf">
+              <div class="upload-dropzone" id="uploadDropzone">
+                <div class="upload-dropzone-content">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="36" height="36">
+                    <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                  </svg>
+                  <p>Drop files here or click to browse</p>
+                  <span>JPEG, PNG, WebP, MP4, PDF up to 2MB each</span>
+                </div>
+                <input type="file" name="media[]" id="mediaInput" multiple accept="image/jpeg,image/png,image/webp,video/mp4,application/pdf" hidden>
+              </div>
+              <div class="upload-preview" id="uploadPreview"></div>
             </div>
           </div>
 
@@ -763,6 +809,89 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     updatePreview();
+})();
+
+// Drag & drop upload with live preview
+(function() {
+    var dropzone = document.getElementById('uploadDropzone');
+    var input = document.getElementById('mediaInput');
+    var preview = document.getElementById('uploadPreview');
+    var fileList = [];
+
+    function showPreviews() {
+        preview.innerHTML = '';
+        fileList.forEach(function(f, idx) {
+            var div = document.createElement('div');
+            div.className = 'upload-preview-item';
+            if (f.type.startsWith('image/')) {
+                var img = document.createElement('img');
+                img.src = URL.createObjectURL(f);
+                img.alt = f.name;
+                div.appendChild(img);
+            } else {
+                var icon = document.createElement('div');
+                icon.className = 'upload-preview-icon';
+                icon.textContent = f.type.includes('pdf') ? 'PDF' : 'VID';
+                div.appendChild(icon);
+            }
+            var name = document.createElement('span');
+            name.className = 'upload-preview-name';
+            name.textContent = f.name;
+            div.appendChild(name);
+            var remove = document.createElement('button');
+            remove.type = 'button';
+            remove.className = 'upload-preview-remove';
+            remove.innerHTML = '&times;';
+            remove.setAttribute('aria-label', 'Remove ' + f.name);
+            remove.onclick = function() {
+                fileList.splice(idx, 1);
+                syncInput();
+                showPreviews();
+            };
+            div.appendChild(remove);
+            preview.appendChild(div);
+        });
+    }
+
+    function syncInput() {
+        var dt = new DataTransfer();
+        fileList.forEach(function(f) { dt.items.add(f); });
+        input.files = dt.files;
+    }
+
+    function addFiles(files) {
+        for (var i = 0; i < files.length; i++) {
+            fileList.push(files[i]);
+        }
+        syncInput();
+        showPreviews();
+    }
+
+    input.addEventListener('change', function() {
+        if (this.files) addFiles(this.files);
+        this.value = '';
+    });
+
+    dropzone.addEventListener('click', function() { input.click(); });
+
+    dropzone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.add('drag-over');
+    });
+
+    dropzone.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove('drag-over');
+    });
+
+    dropzone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove('drag-over');
+        if (e.dataTransfer.files) addFiles(e.dataTransfer.files);
+    });
 })();
 </script>
 
