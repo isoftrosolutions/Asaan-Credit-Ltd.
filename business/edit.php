@@ -86,7 +86,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $facilities = trim($_POST['facilities'] ?? '');
     $capitalization = trim($_POST['capitalization'] ?? '');
     $thumbnailUrl = $business['thumbnail_url'];
-    $videoUrl = trim($_POST['video_url'] ?? '');
     $status = $_POST['status'] ?? 'draft';
     if (!in_array($status, ['draft', 'pending', 'approved', 'rejected', 'sold'], true)) {
         $status = 'draft';
@@ -114,8 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $db->beginTransaction();
     try {
-        $updateStmt = $db->prepare('UPDATE businesses SET business_name = ?, slug = ?, listing_type = ?, sector_id = ?, country_id = ?, state_id = ?, city_id = ?, province = ?, district = ?, established_year = ?, employee_count = ?, legal_entity_type = ?, monthly_revenue = ?, annual_revenue = ?, ebitda_pct = ?, asking_price = ?, funding_required = ?, stake_offered_pct = ?, valuation = ?, loan_amount = ?, loan_interest_pct = ?, description = ?, overview = ?, products_services = ?, reason_for_sale = ?, assets_included = ?, facilities = ?, capitalization = ?, thumbnail_url = ?, video_url = ?, status = ?, is_published = ?, updated_at = NOW() WHERE id = ? AND user_id = ?');
-        $updateStmt->execute([$businessName, $slug, $listingType, $sectorId, $countryId, $stateId, $cityId, $province, $district, $establishedYear, $employeeCount, $legalEntityType, $monthlyRevenue, $annualRevenue, $ebitdaPct, $askingPrice, $fundingRequired, $stakeOfferedPct, $valuation, $loanAmount, $loanInterestPct, $description, $overview, $productsServices, $reasonForSale, $assetsIncluded, $facilities, $capitalization, $thumbnailUrl, $videoUrl, $status, $isPublished, $businessId, $userId]);
+        $updateStmt = $db->prepare('UPDATE businesses SET business_name = ?, slug = ?, listing_type = ?, sector_id = ?, country_id = ?, state_id = ?, city_id = ?, province = ?, district = ?, established_year = ?, employee_count = ?, legal_entity_type = ?, monthly_revenue = ?, annual_revenue = ?, ebitda_pct = ?, asking_price = ?, funding_required = ?, stake_offered_pct = ?, valuation = ?, loan_amount = ?, loan_interest_pct = ?, description = ?, overview = ?, products_services = ?, reason_for_sale = ?, assets_included = ?, facilities = ?, capitalization = ?, thumbnail_url = ?, status = ?, is_published = ?, updated_at = NOW() WHERE id = ? AND user_id = ?');
+        $updateStmt->execute([$businessName, $slug, $listingType, $sectorId, $countryId, $stateId, $cityId, $province, $district, $establishedYear, $employeeCount, $legalEntityType, $monthlyRevenue, $annualRevenue, $ebitdaPct, $askingPrice, $fundingRequired, $stakeOfferedPct, $valuation, $loanAmount, $loanInterestPct, $description, $overview, $productsServices, $reasonForSale, $assetsIncluded, $facilities, $capitalization, $thumbnailUrl, $status, $isPublished, $businessId, $userId]);
 
         if (!empty($_POST['delete_media'])) {
             $deleteIds = array_map('intval', $_POST['delete_media']);
@@ -595,13 +594,6 @@ require __DIR__ . '/../includes/layout-dashboard.php';
             <img src="<?= upload_url($business['thumbnail_url']) ?>" alt="" style="width:160px;height:100px;object-fit:cover;border-radius:8px;border:1px solid var(--dash-border);">
           </div>
           <?php endif; ?>
-
-          <div style="margin-top:16px;">
-            <div class="input">
-              <label>Video URL <span style="color:var(--dash-ink-soft);font-weight:400;">(YouTube / Vimeo)</span></label>
-              <input type="url" name="video_url" value="<?= e($business['video_url'] ?? '') ?>" placeholder="https://www.youtube.com/watch?v=...">
-            </div>
-          </div>
 
           <div style="margin-top:18px;">
             <h4 style="font-size:14px;font-weight:600;margin:0 0 10px;color:var(--dash-ink);">Gallery Media</h4>
