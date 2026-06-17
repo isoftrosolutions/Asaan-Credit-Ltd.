@@ -90,39 +90,15 @@ foreach ($logPaths as $lp) {
 }
 
 if (!$logFound) {
-  // Try to find the log via grep
-  $out = shell_exec('find / -name "error_log" -type f 2>/dev/null | head -5');
-  if ($out) {
-    $paths = array_filter(explode("\n", $out));
-    $firstPath = trim($paths[0]);
-    if ($firstPath) {
-      $lines = file($firstPath);
-      $today = date('d-M-Y');
-      $printCount = 0;
-      for ($i = max(0, count($lines) - 50); $i < count($lines) && $printCount < 15; $i++) {
-        $l = trim($lines[$i]);
-        if (strpos($l, 'roundcube') !== false || strpos($l, 'kolab') !== false || strpos($l, 'sqlite') !== false) continue;
-        if (!strpos($l, $today)) continue;
-        $printCount++;
-        if (preg_match('/Fatal|Parse|syntax|Uncaught|Error|Warning.*require/', $l)) {
-          echo "  ❌ " . substr($l, 0, 300) . "{$br}";
-        } else {
-          echo "     " . substr($l, 0, 200) . "{$br}";
-        }
-      }
-      if ($printCount === 0) {
-        ok("Logs found at: {$firstPath} — no matching errors for today");
-      }
-    }
-  } else {
-    // Last resort: try PHP's error_log ini
+    // Try PHP error_log ini setting
     $phpLog = ini_get('error_log');
     if ($phpLog && file_exists($phpLog)) {
       $lines = file($phpLog);
       $today = date('d-M-Y');
       $found = false;
-      for ($i = max(0, count($lines) - 30); $i < count($lines); $i++) {
+      for ($i = max(0, count($lines) - 50); $i < count($lines); $i++) {
         $l = trim($lines[$i]);
+        if (strpos($l, 'roundcube') !== false || strpos($l, 'kolab') !== false || strpos($l, 'sqlite') !== false) continue;
         if (strpos($l, $today) !== false) {
           if (preg_match('/Fatal|Parse|syntax|Uncaught|Error/', $l)) {
             echo "  ❌ " . substr($l, 0, 300) . "{$br}";
@@ -130,12 +106,51 @@ if (!$logFound) {
           }
         }
       }
-      if (!$found) ok("No PHP errors found today");
+      if (!$found) ok("No PHP errors found today in PHP error log");
     } else {
-      warn("Could not locate PHP error log automatically");
+      // Walk known locations using pure PHP
+      $searchPaths = [
+        $_SERVER['DOCUMENT_ROOT'] ?? '',
+        __DIR__ . '/..',
+        $_SERVER['HOME'] ?? '',
+      ];
+      $foundLog = '';
+      foreach ($searchPaths as $base) {
+        if (!$base || !is_dir($base)) continue;
+        $it = new RecursiveDirectoryIterator($base, RecursiveDirectoryIterator::SKIP_DOTS);
+        $maxDepth = 4;
+        $rit = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::SELF_FIRST);
+        $rit->setMaxDepth($maxDepth);
+        foreach ($rit as $spl) {
+          if ($spl->getFilename() === 'error_log' && $spl->isFile() && $spl->isReadable() && $spl->getSize() > 0) {
+            $foundLog = $spl->getPathname();
+            break 2;
+          }
+        }
+      }
+      if ($foundLog) {
+        $lines = file($foundLog);
+        $today = date('d-M-Y');
+        $printCount = 0;
+        for ($i = max(0, count($lines) - 50); $i < count($lines) && $printCount < 15; $i++) {
+          $l = trim($lines[$i]);
+          if (strpos($l, 'roundcube') !== false || strpos($l, 'kolab') !== false || strpos($l, 'sqlite') !== false) continue;
+          if (!strpos($l, $today)) continue;
+          $printCount++;
+          if (preg_match('/Fatal|Parse|syntax|Uncaught|Error|Warning.*require/', $l)) {
+            echo "  ❌ " . substr($l, 0, 300) . "{$br}";
+          } else {
+            echo "     " . substr($l, 0, 200) . "{$br}";
+          }
+        }
+        if ($printCount === 0) {
+          ok("Logs found at: {$foundLog} — no matching errors for today");
+        }
+      } else {
+        warn("Could not locate PHP error log automatically");
+      }
     }
   }
-}
 
 echo "{$br}";
 
@@ -237,9 +252,11 @@ foreach ($files as $f) {
     $path = "{$root}/{$f}";
     if (file_exists($path)) {
         ok("{$f} exists");
-        $out = shell_exec("php -l " . escapeshellarg($path) . " 2>&1");
-        if (strpos($out, 'No syntax errors') === false && strpos($out, 'Parse error') !== false) {
-            fail("{$f} has syntax errors: {$out}");
+        if (function_exists('shell_exec')) {
+            $out = shell_exec("php -l " . escapeshellarg($path) . " 2>&1");
+            if (strpos($out, 'No syntax errors') === false && strpos($out, 'Parse error') !== false) {
+                fail("{$f} has syntax errors: {$out}");
+            }
         }
     } else {
         fail("{$f} is MISSING");
