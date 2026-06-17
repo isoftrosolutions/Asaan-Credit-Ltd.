@@ -19,9 +19,8 @@ foreach ($queries as $key => $sql) {
 $recentSignups = (int)db()->query("SELECT COUNT(*) FROM users WHERE created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)")->fetchColumn();
 $pendingVerification = (int)db()->query("SELECT COUNT(*) FROM verification_documents WHERE status = 'pending'")->fetchColumn();
 $pendingBizCount = (int)db()->query("SELECT COUNT(*) FROM businesses WHERE status = 'pending'")->fetchColumn();
-$pendingPitchCount = (int)db()->query("SELECT COUNT(*) FROM pitches WHERE is_published = 0")->fetchColumn();
 $recentBiz = db()->query("SELECT id, business_name, slug, status, created_at FROM businesses ORDER BY created_at DESC LIMIT 5")->fetchAll();
-$recentPitches = db()->query("SELECT p.id, p.tagline, p.is_published, p.is_hidden, p.created_at, u.name FROM pitches p JOIN users u ON p.user_id = u.id ORDER BY p.created_at DESC LIMIT 5")->fetchAll();
+$pendingPitchCount = (int)db()->query("SELECT COUNT(*) FROM pitches WHERE is_published = 0")->fetchColumn();
 $statusLabels = ['draft' => 'Draft', 'pending' => 'Pending', 'approved' => 'Approved', 'rejected' => 'Rejected', 'sold' => 'Sold'];
 
 $pageTitle = 'Admin Dashboard';
@@ -84,9 +83,8 @@ ui_page_header('Platform Analytics', 'A live snapshot of activity across the mar
   </div>
 </div>
 
-<?php if (!empty($recentBiz) || !empty($recentPitches)): ?>
+<?php if (!empty($recentBiz)): ?>
 <div class="dash-cols" style="margin-top:var(--space-8);">
-  <?php if (!empty($recentBiz)): ?>
   <div class="dash-panel" style="flex:1;">
     <div class="dash-panel-head">
       <span class="dash-panel-title">Recent Businesses</span>
@@ -109,35 +107,6 @@ ui_page_header('Platform Analytics', 'A live snapshot of activity across the mar
       </table>
     </div>
   </div>
-  <?php endif; ?>
-  <?php if (!empty($recentPitches)): ?>
-  <div class="dash-panel" style="flex:1;">
-    <div class="dash-panel-head">
-      <span class="dash-panel-title">Recent Pitches</span>
-      <a href="<?= APP_URL ?>/admin/pitches" class="dash-section-link">Manage <?php ui_icon('arrowRight'); ?></a>
-    </div>
-    <div class="dash-table-wrap">
-      <table class="dash-table">
-        <thead><tr><th>Tagline</th><th>By</th><th class="ta-center">Status</th><th class="ta-right">Date</th></tr></thead>
-        <tbody>
-        <?php foreach ($recentPitches as $p): ?>
-          <tr>
-            <td><span class="t-strong"><?= e(mb_substr($p['tagline'], 0, 40)) ?></span></td>
-            <td class="t-muted"><?= e($p['name']) ?></td>
-            <td class="ta-center">
-              <?php if (!$p['is_published']): ?><span class="dash-pill draft">Draft</span>
-              <?php elseif ($p['is_hidden']): ?><span class="dash-pill draft">Hidden</span>
-              <?php else: ?><span class="dash-pill published">Published</span>
-              <?php endif; ?>
-            </td>
-            <td class="ta-right t-muted"><?= date_human($p['created_at']) ?></td>
-          </tr>
-        <?php endforeach; ?>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <?php endif; ?>
 </div>
 <?php endif; ?>
 
