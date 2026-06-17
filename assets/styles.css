@@ -2488,6 +2488,55 @@ td {
   #header-root { min-height: 64px; }
 }
 
+/* Premium user badge — glossy round indicator */
+.premium-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 50%, #f093fb 100%);
+  box-shadow: 0 0 6px rgba(246,211,101,.5), inset 0 1px 1px rgba(255,255,255,.6);
+  font-size: 9px;
+  color: #fff;
+  vertical-align: middle;
+  flex-shrink: 0;
+  position: relative;
+}
+.premium-badge::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  right: 3px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,.7) 0%, rgba(255,255,255,0) 100%);
+  pointer-events: none;
+}
+.premium-badge i {
+  font-size: 8px;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
+.header-user .premium-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -4px;
+}
+.dash-topbar-user .premium-badge,
+.dash-avatar-wrapper .premium-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -4px;
+}
+.dash-avatar-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
 /* ============================================================
    DASHBOARD REDESIGN — Phase 1 (premium B2B SaaS shell + UI kit)
    Scoped to .dash-* classes; legacy .dashboard/.stat-card untouched.

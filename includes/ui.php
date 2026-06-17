@@ -244,7 +244,10 @@ if (!defined('UI_PHP_LOADED')) {
               <?php if ($unreadCount > 0): ?><span class="dash-iconbtn-badge"><?= $unreadCount > 9 ? '9+' : $unreadCount ?></span><?php endif; ?>
             </a>
             <a href="<?= APP_URL ?>/dashboard" class="dash-topbar-user" aria-label="<?= e($user['name'] ?? 'User') ?>">
-              <div class="dash-avatar dash-avatar-sm"><?= e($initial) ?></div>
+              <div class="dash-avatar-wrapper">
+                <div class="dash-avatar dash-avatar-sm"><?= e($initial) ?></div>
+                <?php if (!empty($user['is_premium'])): ?><span class="premium-badge" title="Premium"><i class="fas fa-crown"></i></span><?php endif; ?>
+              </div>
               <span class="dash-topbar-username"><?= e($user['name'] ?? 'User') ?></span>
             </a>
           </div>
