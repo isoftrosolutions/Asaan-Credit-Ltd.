@@ -316,7 +316,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
       <a href="<?= APP_URL ?>/business/<?= e($business['slug'] ?: $business['id']) ?>" class="btn btn-sm btn-outline" target="_blank">View Live</a>
     </div>
 
-    <form method="POST" id="editForm" novalidate>
+    <form method="POST" enctype="multipart/form-data" id="editForm" novalidate>
       <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
       <input type="hidden" name="id" value="<?= $businessId ?>">
 
