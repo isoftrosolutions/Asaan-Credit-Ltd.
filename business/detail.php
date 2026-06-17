@@ -1001,6 +1001,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<script>
 // Gallery
 (function() {
   var images = [];
