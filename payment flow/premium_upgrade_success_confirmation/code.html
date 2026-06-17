@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Payment Submitted | Asaan Capital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Montserrat:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .wave-divider {
+            background: linear-gradient(90deg, #6B1D22 0%, #1E4866 100%);
+            clip-path: ellipse(80% 50% at 50% 100%);
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+    </style>
+<!-- Tailwind Config Verbatim -->
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-container": "#6b1d22",
+                      "surface-dim": "#dcd9d9",
+                      "on-primary-fixed": "#410008",
+                      "background": "#fcf9f8",
+                      "outline-variant": "#dbc0bf",
+                      "inverse-primary": "#ffb3b2",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed": "#cce5ff",
+                      "on-tertiary-fixed-variant": "#0a4a72",
+                      "on-tertiary-container": "#76a8d5",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-container": "#385f7e",
+                      "surface-container": "#f0eded",
+                      "surface-container-high": "#eae7e7",
+                      "surface-tint": "#9b4144",
+                      "surface-container-low": "#f6f3f2",
+                      "secondary": "#3b6281",
+                      "surface-variant": "#e5e2e1",
+                      "on-background": "#1c1b1b",
+                      "surface": "#fcf9f8",
+                      "inverse-on-surface": "#f3f0ef",
+                      "on-surface-variant": "#554242",
+                      "primary": "#4d060f",
+                      "on-secondary-fixed": "#001e31",
+                      "tertiary-container": "#003d60",
+                      "tertiary": "#00263f",
+                      "secondary-container": "#b1d9fd",
+                      "tertiary-fixed": "#cde5ff",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed-variant": "#7d2a2e",
+                      "on-tertiary": "#ffffff",
+                      "surface-container-highest": "#e5e2e1",
+                      "on-error-container": "#93000a",
+                      "error": "#ba1a1a",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#313030",
+                      "secondary-fixed-dim": "#a4cbef",
+                      "on-primary-container": "#f08484",
+                      "outline": "#887271",
+                      "primary-fixed-dim": "#ffb3b2",
+                      "on-surface": "#1c1b1b",
+                      "primary-fixed": "#ffdad9",
+                      "on-secondary-fixed-variant": "#214a68",
+                      "on-tertiary-fixed": "#001d32",
+                      "tertiary-fixed-dim": "#9accfa",
+                      "surface-bright": "#fcf9f8"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xxl": "48px",
+                      "sm": "8px",
+                      "margin": "24px",
+                      "xs": "4px",
+                      "xl": "32px",
+                      "md": "16px",
+                      "lg": "24px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Montserrat"],
+                      "headline-xl": ["Montserrat"],
+                      "body-md": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-lg": ["Montserrat"],
+                      "body-lg": ["Inter"],
+                      "headline-lg-mobile": ["Montserrat"],
+                      "body-sm": ["Inter"],
+                      "body-md-bold": ["Inter"],
+                      "headline-sm": ["Montserrat"],
+                      "headline-xl-mobile": ["Montserrat"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-md-bold": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-xl-mobile": ["32px", {"lineHeight": "38px", "fontWeight": "800"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<nav class="docked full-width top-0 sticky z-50 bg-surface shadow-sm">
+<div class="flex justify-between items-center w-full px-gutter py-md max-w-[1200px] mx-auto">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-primary">Asaan Capital</span>
+</div>
+<div class="hidden md:flex items-center space-gap-xl space-x-8">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Discover</a>
+<a class="font-label-md text-label-md text-primary font-bold border-b-2 border-primary pb-1" href="#">Portfolio</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Connections</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Insights</a>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined text-primary">settings</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden ml-sm border border-outline-variant">
+<img alt="Investor Profile Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRulCtwpsN7tOWVy6Fy02y98B-2y2AeSgeFj_ZJYB_zoIFTS6vdzZKm5rMhE8UP-kRGvFy4xBJ45eGIfxdcUeJn--lU4MqwVPM9Zt-QuQwSRqzMZF6S_qk5OBBbwQPGTOfmW-mkXokZmVmXXRXDix3JuxH5eiOr9nz264naK50guLUljFAivp1GfT0TAPHIifAeeQVTD0S2b7asuyRh-E5WLW1OQjg_WmXw-7qE0iOWGEFS8U-vY17U88PheQJ1VATB2jeL5ug275p"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow flex items-center justify-center px-gutter py-xxl relative overflow-hidden">
+<!-- Background Atmospheric Element -->
+<div class="absolute inset-0 z-0 pointer-events-none opacity-20">
+<div class="absolute top-[-10%] right-[-5%] w-96 h-96 bg-primary-container rounded-full blur-[100px]"></div>
+<div class="absolute bottom-[-10%] left-[-5%] w-96 h-96 bg-secondary-container rounded-full blur-[100px]"></div>
+</div>
+<!-- Success Content Container -->
+<div class="relative z-10 w-full max-w-[1100px] flex flex-col items-center">
+<!-- Centered Card -->
+<div class="bg-surface-container-lowest shadow-lg rounded-xl p-xl md:p-xxl w-full max-w-2xl text-center border border-outline-variant transform transition-all duration-500 hover:shadow-xl">
+<!-- Animated Icon Container -->
+<div class="mb-lg inline-flex items-center justify-center w-24 h-24 rounded-full bg-green-50 text-green-600 animate-float">
+<span class="material-symbols-outlined text-[64px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<!-- Heading with Gold Gradient -->
+<h1 class="font-headline-xl text-headline-xl gold-gradient-text mb-md drop-shadow-sm">
+                    Payment Submitted!
+                </h1>
+<!-- Body Text -->
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-lg">
+                    Your payment receipt has been uploaded successfully.
+                </p>
+<!-- Status Badge -->
+<div class="inline-flex items-center gap-xs px-md py-sm bg-yellow-100 text-yellow-800 rounded-full font-label-md text-label-md border border-yellow-200 mb-xl">
+<span class="material-symbols-outlined text-[16px]">pending</span>
+                    Verification Pending
+                </div>
+<!-- Administrative Note -->
+<div class="p-md bg-surface-container-low rounded-lg border-l-4 border-secondary mb-xl">
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">
+                        "Our admin team will verify your payment within 24 hours. You will receive an email notification once the process is complete."
+                    </p>
+</div>
+<!-- Action Button -->
+<div class="flex flex-col sm:flex-row items-center justify-center gap-md">
+<a class="w-full sm:w-auto px-xl py-md bg-primary-container text-on-primary font-body-md-bold rounded-lg shadow-sm hover:opacity-90 active:scale-95 transition-all text-center" href="#">
+                        Back to Dashboard
+                    </a>
+<button class="w-full sm:w-auto px-xl py-md text-secondary border border-secondary font-body-md-bold rounded-lg hover:bg-secondary-container/10 transition-all">
+                        View Receipt
+                    </button>
+</div>
+</div>
+<!-- Asymmetric Support Detail (Bento-style accent) -->
+<div class="mt-xl grid grid-cols-1 md:grid-cols-3 gap-lg w-full max-w-4xl">
+<div class="bg-surface-container-high/50 backdrop-blur-sm p-lg rounded-xl border border-outline-variant flex items-start gap-md">
+<span class="material-symbols-outlined text-secondary">support_agent</span>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-xs">Need help?</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Contact our priority investment support desk.</p>
+</div>
+</div>
+<div class="bg-surface-container-high/50 backdrop-blur-sm p-lg rounded-xl border border-outline-variant flex items-start gap-md">
+<span class="material-symbols-outlined text-secondary">history_edu</span>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-xs">Next Steps</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Update your investor profile for faster vetting.</p>
+</div>
+</div>
+<div class="bg-surface-container-high/50 backdrop-blur-sm p-lg rounded-xl border border-outline-variant flex items-start gap-md">
+<span class="material-symbols-outlined text-secondary">verified_user</span>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-xs">Security</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Encrypted transactions via SEBON regulations.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Decorative Wave Divider (Visual Bridge) -->
+<div class="absolute bottom-0 left-0 w-full h-32 wave-divider opacity-10"></div>
+</main>
+<!-- Footer Component -->
+<footer class="full-width py-xl mt-xxl border-t border-outline-variant bg-surface-container-highest">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md px-gutter w-full max-w-[1200px] mx-auto text-center md:text-left">
+<div>
+<span class="font-headline-sm text-headline-sm text-primary">Asaan Capital</span>
+<p class="mt-sm font-body-sm text-body-sm text-on-surface-variant">Empowering the Nepalese startup ecosystem with clarity and trust.</p>
+<p class="mt-md font-label-md text-label-md text-on-surface-variant">© 2024 Asaan Capital Ltd. | Regulated by SEBON</p>
+</div>
+<div class="flex flex-wrap justify-center md:justify-end gap-md md:gap-xl items-center">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Investment Disclosure</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Compliance</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Contact</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for the card on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const card = document.querySelector('.bg-surface-container-lowest');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body></html>

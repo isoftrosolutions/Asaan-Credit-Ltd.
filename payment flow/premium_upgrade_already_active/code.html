@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Asaan Capital | Premium Membership</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .premium-glow {
+            box-shadow: 0 0 40px rgba(107, 29, 34, 0.08);
+        }
+        .wave-divider {
+            background: linear-gradient(90deg, #6B1D22 0%, #1E4866 100%);
+            height: 4px;
+            width: 80px;
+            border-radius: 2px;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#6b1d22",
+                    "surface-dim": "#dcd9d9",
+                    "on-primary-fixed": "#410008",
+                    "background": "#fcf9f8",
+                    "outline-variant": "#dbc0bf",
+                    "inverse-primary": "#ffb3b2",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed": "#cce5ff",
+                    "on-tertiary-fixed-variant": "#0a4a72",
+                    "on-tertiary-container": "#76a8d5",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#385f7e",
+                    "surface-container": "#f0eded",
+                    "surface-container-high": "#eae7e7",
+                    "surface-tint": "#9b4144",
+                    "surface-container-low": "#f6f3f2",
+                    "secondary": "#3b6281",
+                    "surface-variant": "#e5e2e1",
+                    "on-background": "#1c1b1b",
+                    "surface": "#fcf9f8",
+                    "inverse-on-surface": "#f3f0ef",
+                    "on-surface-variant": "#554242",
+                    "primary": "#4d060f",
+                    "on-secondary-fixed": "#001e31",
+                    "tertiary-container": "#003d60",
+                    "tertiary": "#00263f",
+                    "secondary-container": "#b1d9fd",
+                    "tertiary-fixed": "#cde5ff",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed-variant": "#7d2a2e",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#e5e2e1",
+                    "on-error-container": "#93000a",
+                    "error": "#ba1a1a",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#313030",
+                    "secondary-fixed-dim": "#a4cbef",
+                    "on-primary-container": "#f08484",
+                    "outline": "#887271",
+                    "primary-fixed-dim": "#ffb3b2",
+                    "on-surface": "#1c1b1b",
+                    "primary-fixed": "#ffdad9",
+                    "on-secondary-fixed-variant": "#214a68",
+                    "on-tertiary-fixed": "#001d32",
+                    "tertiary-fixed-dim": "#9accfa",
+                    "surface-bright": "#fcf9f8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xxl": "48px",
+                    "sm": "8px",
+                    "margin": "24px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Montserrat"],
+                    "headline-xl": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "body-sm": ["Inter"],
+                    "body-md-bold": ["Inter"],
+                    "headline-sm": ["Montserrat"],
+                    "headline-xl-mobile": ["Montserrat"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md-bold": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "38px", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- Top Navigation Anchor -->
+<nav class="sticky top-0 z-50 w-full bg-surface shadow-sm">
+<div class="max-w-[1200px] mx-auto px-gutter py-md flex justify-between items-center">
+<div class="flex items-center gap-xl">
+<span class="font-headline-md text-headline-md font-bold text-primary">Asaan Capital</span>
+<div class="hidden md:flex items-center gap-lg">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Discover</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Portfolio</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Connections</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Insights</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-sm rounded-full hover:bg-surface-container-low transition-all text-on-surface-variant">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center gap-sm pl-md border-l border-outline-variant">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
+<img alt="Investor Profile Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOGySRxdesmqXuSy_GxBt0HWmBTwBI3ekJ52vxwTRWatP1-u2ykkPhFiq8kWjqnTkys7ONASeNMo3XvhrA2O5SfxaFMpisZUHIUQ9dFqmtdDYMXuLB9xOCVWamZsHJvwiwAclxuLOu4LO7ZZFYNGEbDfea-zkgHsv7AT6Q9swuWSTF90qJCCXRDWZrAgC9tB6Ynw4HHZzsxG0AHLQ25mJkkUje7qB0_p9Ux_gAKDJfA9jg7SLZvyA4HvhZYnNtzsD5T9guRcEMeT03"/>
+</div>
+<span class="hidden md:block font-label-md text-label-md text-on-surface">Investor Portal</span>
+</div>
+</div>
+</div>
+</nav>
+<main class="flex-grow flex items-center justify-center py-xxl px-gutter">
+<div class="max-w-[1100px] w-full mx-auto">
+<!-- Hero Content -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xl items-center">
+<!-- Left Decorative / Illustration -->
+<div class="hidden lg:block lg:col-span-5 relative">
+<div class="absolute -top-12 -left-12 w-64 h-64 bg-primary-container/5 rounded-full blur-3xl"></div>
+<div class="relative z-10 p-lg rounded-xl bg-white shadow-md border border-outline-variant overflow-hidden">
+<img class="rounded-lg mb-md grayscale opacity-80" data-alt="A professional stock market dashboard displaying intricate financial growth charts and analytical data visualizations. The lighting is soft and corporate with a clean white and burgundy color palette. The composition is clean, organized, and conveys high-level financial authority and success." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgXblopuD0QK9VtqLDDtB2GeI2e2QKnAaREYAo-adAsqOdzTHZiPSBFYbuQR-JyqrOsNBgFE2p0x5UJFaOCk15X0hBAoTf-yMPAneN9Ijyj3MsHs5dKjvv_XGJZaLlx9wjgdlMxiTt75Nq_qpIoCz8zOf0S4HOBbJxqqi88aNdeJ_i-f7NZXsyTBLb8p3RyZZce0mZlhVNQq7bggycJVUifC5tgJLm0kd_qI2ypAiVOR6zZ0DCJZ5oH5wSjzaPym3XMaMxcextrZcE"/>
+<div class="space-y-sm">
+<div class="h-2 w-24 bg-surface-variant rounded"></div>
+<div class="h-2 w-48 bg-surface-variant rounded"></div>
+</div>
+</div>
+</div>
+<!-- Right - Centered Premium Card -->
+<div class="lg:col-span-7 flex justify-center">
+<div class="w-full max-w-[600px] bg-white border border-outline-variant rounded-xl p-xl premium-glow text-center">
+<!-- Premium Crown Icon -->
+<div class="w-20 h-20 bg-primary-container/10 rounded-full flex items-center justify-center mx-auto mb-lg">
+<span class="material-symbols-outlined text-4xl text-[#D4AF37]" style="font-variation-settings: 'FILL' 1;">crown</span>
+</div>
+<!-- Heading -->
+<div class="mb-md">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-sm">You're Already Premium</h1>
+<div class="wave-divider mx-auto"></div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto mb-xl">
+                            Welcome back to your elite investment dashboard. Your current status grants you full access to exclusive market insights and premium startup pitches.
+                        </p>
+<!-- Subscription Info Row -->
+<div class="grid grid-cols-3 gap-md mb-xl">
+<div class="p-md bg-surface-container-low rounded-lg border border-outline-variant/30 flex flex-col items-center">
+<span class="font-label-md text-label-md text-on-surface-variant mb-xs">Plan</span>
+<div class="flex items-center gap-xs">
+<span class="font-body-md-bold text-body-md-bold text-primary">Growth</span>
+<span class="material-symbols-outlined text-sm text-[#205880]" style="font-variation-settings: 'FILL' 1;">shield_lock</span>
+</div>
+<span class="text-[10px] uppercase tracking-wider text-on-surface-variant opacity-60">6mo Access</span>
+</div>
+<div class="p-md bg-surface-container-low rounded-lg border border-outline-variant/30 flex flex-col items-center">
+<span class="font-label-md text-label-md text-on-surface-variant mb-xs">Since</span>
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Oct 15, 2023</span>
+<span class="text-[10px] uppercase tracking-wider text-on-surface-variant opacity-60">Entry Date</span>
+</div>
+<div class="p-md bg-surface-container-low rounded-lg border border-outline-variant/30 flex flex-col items-center">
+<span class="font-label-md text-label-md text-on-surface-variant mb-xs">Expires</span>
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Apr 15, 2024</span>
+<span class="text-[10px] uppercase tracking-wider text-on-surface-variant opacity-60">Valid Thru</span>
+</div>
+</div>
+<!-- Action Button -->
+<div class="flex flex-col gap-md">
+<button class="w-full bg-[#6B1D22] text-white py-md rounded-lg font-body-md-bold text-body-md-bold hover:bg-[#4d060f] transition-all transform hover:-translate-y-0.5 active:scale-95 shadow-sm">
+                                Go to Dashboard
+                            </button>
+<button class="w-full py-sm text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-sm">settings</span>
+                                Manage Subscription
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Grid - Subtle Benefits Preview -->
+<div class="mt-xxl grid grid-cols-1 md:grid-cols-3 gap-lg">
+<div class="p-lg bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm hover:shadow-md transition-all group">
+<div class="w-10 h-10 rounded-lg bg-secondary-container/30 flex items-center justify-center mb-md group-hover:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-secondary">trending_up</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-xs">Priority Access</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">View new funding rounds 48 hours before they go public to the general network.</p>
+</div>
+<div class="p-lg bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm hover:shadow-md transition-all group">
+<div class="w-10 h-10 rounded-lg bg-secondary-container/30 flex items-center justify-center mb-md group-hover:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-secondary">analytics</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-xs">Deep Analytics</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Enhanced data visualization tools for better deal flow management and market tracking.</p>
+</div>
+<div class="p-lg bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm hover:shadow-md transition-all group">
+<div class="w-10 h-10 rounded-lg bg-secondary-container/30 flex items-center justify-center mb-md group-hover:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-secondary">headset_mic</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-xs">Expert Support</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Direct line to our analyst team for quarterly portfolio reviews and strategy sessions.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="mt-xxl border-t border-outline-variant bg-surface-container-highest py-xl">
+<div class="max-w-[1200px] mx-auto px-gutter grid grid-cols-1 md:grid-cols-2 gap-md items-center">
+<div class="text-center md:text-left">
+<span class="font-headline-sm text-headline-sm text-primary">Asaan Capital</span>
+<p class="mt-sm font-body-sm text-body-sm text-on-surface-variant">© 2024 Asaan Capital Ltd. | Regulated by SEBON</p>
+</div>
+<div class="flex flex-wrap justify-center md:justify-end gap-lg">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Investment Disclosure</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Compliance</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Contact</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction: Smooth hover effects for info boxes
+        document.querySelectorAll('.premium-glow div[class*="bg-surface-container-low"]').forEach(box => {
+            box.addEventListener('mouseenter', () => {
+                box.classList.add('border-primary-container/40');
+            });
+            box.addEventListener('mouseleave', () => {
+                box.classList.remove('border-primary-container/40');
+            });
+        });
+    </script>
+</body></html>

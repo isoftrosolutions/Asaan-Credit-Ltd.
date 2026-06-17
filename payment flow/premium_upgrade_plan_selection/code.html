@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Upgrade to Premium | Asaan Capital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "primary-container": "#6b1d22",
+                "surface-dim": "#dcd9d9",
+                "on-primary-fixed": "#410008",
+                "background": "#fcf9f8",
+                "outline-variant": "#dbc0bf",
+                "inverse-primary": "#ffb3b2",
+                "error-container": "#ffdad6",
+                "secondary-fixed": "#cce5ff",
+                "on-tertiary-fixed-variant": "#0a4a72",
+                "on-tertiary-container": "#76a8d5",
+                "surface-container-lowest": "#ffffff",
+                "on-secondary": "#ffffff",
+                "on-secondary-container": "#385f7e",
+                "surface-container": "#f0eded",
+                "surface-container-high": "#eae7e7",
+                "surface-tint": "#9b4144",
+                "surface-container-low": "#f6f3f2",
+                "secondary": "#3b6281",
+                "surface-variant": "#e5e2e1",
+                "on-background": "#1c1b1b",
+                "surface": "#fcf9f8",
+                "inverse-on-surface": "#f3f0ef",
+                "on-surface-variant": "#554242",
+                "primary": "#4d060f",
+                "on-secondary-fixed": "#001e31",
+                "tertiary-container": "#003d60",
+                "tertiary": "#00263f",
+                "secondary-container": "#b1d9fd",
+                "tertiary-fixed": "#cde5ff",
+                "on-primary": "#ffffff",
+                "on-primary-fixed-variant": "#7d2a2e",
+                "on-tertiary": "#ffffff",
+                "surface-container-highest": "#e5e2e1",
+                "on-error-container": "#93000a",
+                "error": "#ba1a1a",
+                "on-error": "#ffffff",
+                "inverse-surface": "#313030",
+                "secondary-fixed-dim": "#a4cbef",
+                "on-primary-container": "#f08484",
+                "outline": "#887271",
+                "primary-fixed-dim": "#ffb3b2",
+                "on-surface": "#1c1b1b",
+                "primary-fixed": "#ffdad9",
+                "on-secondary-fixed-variant": "#214a68",
+                "on-tertiary-fixed": "#001d32",
+                "tertiary-fixed-dim": "#9accfa",
+                "surface-bright": "#fcf9f8",
+                "gold": "#D4AF37",
+                "gold-light": "#F9F6E5"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "xxl": "48px",
+                "sm": "8px",
+                "margin": "24px",
+                "xs": "4px",
+                "xl": "32px",
+                "md": "16px",
+                "lg": "24px",
+                "gutter": "24px"
+            },
+            "fontFamily": {
+                "headline-md": ["Montserrat"],
+                "headline-xl": ["Montserrat"],
+                "body-md": ["Inter"],
+                "label-md": ["Inter"],
+                "headline-lg": ["Montserrat"],
+                "body-lg": ["Inter"],
+                "headline-lg-mobile": ["Montserrat"],
+                "body-sm": ["Inter"],
+                "body-md-bold": ["Inter"],
+                "headline-sm": ["Montserrat"],
+                "headline-xl-mobile": ["Montserrat"]
+            },
+            "fontSize": {
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}],
+                "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "body-md-bold": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "headline-xl-mobile": ["32px", {"lineHeight": "38px", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #B8860B 0%, #D4AF37 50%, #FFD700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .most-popular-glow {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            border: 2px solid #D4AF37;
+        }
+        .card-lift {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        }
+        .card-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        }
+        .wave-container {
+            background: linear-gradient(90deg, #6B1D22 0%, #1E4866 100%);
+            mask-image: url("data:image/svg+xml,%3Csvg width='1440' height='100' viewBox='0 0 1440 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 100V0C240 50 480 50 720 0C960 50 1200 50 1440 0V100H0Z' fill='black'/%3E%3C/svg%3E");
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='1440' height='100' viewBox='0 0 1440 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 100V0C240 50 480 50 720 0C960 50 1200 50 1440 0V100H0Z' fill='black'/%3E%3C/svg%3E");
+            mask-repeat: no-repeat;
+            mask-position: bottom;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: bottom;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased">
+<!-- Top Navigation Bar (Shared Component Strategy) -->
+<header class="sticky top-0 z-50 bg-surface shadow-sm w-full">
+<nav class="flex justify-between items-center w-full px-gutter py-md max-w-[1200px] mx-auto">
+<div class="flex items-center gap-xl">
+<span class="font-headline-md text-headline-md font-bold text-primary">Asaan Capital</span>
+<div class="hidden md:flex gap-lg">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Discover</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Portfolio</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Connections</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Insights</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-sm rounded-full hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Investor Profile Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLefbZsN91jZB-5q0pbzxDGto6yuiTy8i_bqPuNAofMeqIAJ88x7GUDRwgpodti1mA3JrLEGX0QCjpQoyn1g0glr79kAJ9BMplxsi72Lfpiu4ETIpLPKf1kzLi7WcvFPapp1uCsO_2hCV9D-ZgIEH6qqaJzj3r-hZ962OMzAhbiJSiMjdQAMPo7nkoueBj0eO4gKVAhxvwV6eiR00TYzlXPyqyhMWpvqN_sGvy_ulALqMW20GOLmSfQuza5N0lQbrtHDQN4f6iDzhX"/>
+</div>
+</div>
+</nav>
+</header>
+<main class="max-w-[1100px] mx-auto px-margin">
+<!-- Hero Header -->
+<section class="text-center py-xxl">
+<h1 class="font-headline-xl text-headline-xl gold-gradient-text mb-sm">Upgrade to Premium</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Unlock exclusive features to accelerate your growth and dominate the investment ecosystem.</p>
+</section>
+<!-- Pricing Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-lg mb-xxl">
+<!-- Starter Plan -->
+<div class="card-lift bg-surface-container-lowest p-xl rounded-xl shadow-sm flex flex-col h-full border border-outline-variant">
+<div class="mb-lg">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-xs">Starter</h2>
+<div class="flex items-baseline gap-xs">
+<span class="font-label-md text-label-md text-on-surface-variant">NPR</span>
+<span class="text-[32px] font-bold text-on-surface">1,500</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant mt-xs">3 months duration</p>
+</div>
+<div class="flex-grow space-y-md mb-xl">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm text-body-sm">Pitch visibility</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm text-body-sm">Basic analytics</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm text-body-sm">2 document uploads</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm text-body-sm">Standard support</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+<span class="font-body-sm text-body-sm">Verified badge</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="font-body-sm text-body-sm">Community access</span>
+</div>
+</div>
+<button class="w-full py-md rounded-lg border-2 border-primary-container text-primary-container font-bold hover:bg-primary-container hover:text-white transition-all">Start Growing</button>
+</div>
+<!-- Growth Plan (Most Popular) -->
+<div class="card-lift bg-surface-container-lowest p-xl rounded-xl shadow-md flex flex-col h-full most-popular-glow relative transform scale-105 z-10">
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gold text-white font-label-md text-label-md px-lg py-1 rounded-full uppercase tracking-widest shadow-md">Most Popular</div>
+<div class="mb-lg pt-2">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-xs">Growth</h2>
+<div class="flex items-baseline gap-xs">
+<span class="font-label-md text-label-md text-on-surface-variant">NPR</span>
+<span class="text-[32px] font-bold text-on-surface">3,000</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant mt-xs">6 months duration</p>
+</div>
+<div class="flex-grow space-y-md mb-xl">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-gold text-[20px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-body-sm text-body-sm font-bold">Priority discovery</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-gold text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm text-body-sm">Advanced analytics</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-gold text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm text-body-sm">10 document uploads</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-gold text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm text-body-sm">Priority support</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-gold text-[20px]" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+<span class="font-body-sm text-body-sm">Verified badge</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-gold text-[20px]" style="font-variation-settings: 'FILL' 1;">hub</span>
+<span class="font-body-sm text-body-sm">Investor networking</span>
+</div>
+</div>
+<button class="w-full py-md rounded-lg bg-primary-container text-white font-bold hover:opacity-90 transition-all shadow-md">Get Growth Plan</button>
+</div>
+<!-- Pro Plan -->
+<div class="card-lift bg-surface-container-lowest p-xl rounded-xl shadow-sm flex flex-col h-full border border-outline-variant">
+<div class="mb-lg">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-xs">Pro</h2>
+<div class="flex items-baseline gap-xs">
+<span class="font-label-md text-label-md text-on-surface-variant">NPR</span>
+<span class="text-[32px] font-bold text-on-surface">5,000</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant mt-xs">12 months duration</p>
+</div>
+<div class="flex-grow space-y-md mb-xl">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="font-body-sm text-body-sm font-bold">Featured spotlight</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm text-body-sm">Deep-dive analytics</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm text-body-sm">Unlimited uploads</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm text-body-sm">Dedicated manager</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+<span class="font-body-sm text-body-sm">Verified badge</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">rocket_launch</span>
+<span class="font-body-sm text-body-sm">Direct outreach</span>
+</div>
+</div>
+<button class="w-full py-md rounded-lg bg-secondary text-white font-bold hover:opacity-90 transition-all shadow-md">Unlock Pro Power</button>
+</div>
+</section>
+<!-- Benefits Section -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-xl mb-xxl">
+<!-- Startups Card -->
+<div class="bg-primary text-white p-xl rounded-xl overflow-hidden relative group">
+<div class="absolute top-0 right-0 p-lg opacity-10 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[80px]">rocket</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-lg">For Startups</h3>
+<ul class="space-y-md relative z-10">
+<li class="flex items-center gap-md">
+<span class="material-symbols-outlined text-gold">verified_user</span>
+<span class="font-body-md">Build credibility with a professional profile</span>
+</li>
+<li class="flex items-center gap-md">
+<span class="material-symbols-outlined text-gold">person_search</span>
+<span class="font-body-md">Access HNIs and Institutional Investors directly</span>
+</li>
+<li class="flex items-center gap-md">
+<span class="material-symbols-outlined text-gold">payments</span>
+<span class="font-body-md">Secure funding with streamlined deal-flow</span>
+</li>
+</ul>
+</div>
+<!-- Investors Card -->
+<div class="bg-tertiary text-white p-xl rounded-xl overflow-hidden relative group">
+<div class="absolute top-0 right-0 p-lg opacity-10 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[80px]">account_balance</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-lg">For Investors</h3>
+<ul class="space-y-md relative z-10">
+<li class="flex items-center gap-md">
+<span class="material-symbols-outlined text-gold">filter_alt</span>
+<span class="font-body-md">Curated deals based on your sector interests</span>
+</li>
+<li class="flex items-center gap-md">
+<span class="material-symbols-outlined text-gold">analytics</span>
+<span class="font-body-md">Verified data &amp; financial disclosure tracking</span>
+</li>
+<li class="flex items-center gap-md">
+<span class="material-symbols-outlined text-gold">chat</span>
+<span class="font-body-md">Direct founder access via secure channels</span>
+</li>
+</ul>
+</div>
+</section>
+<!-- Trust Row -->
+<section class="bg-surface-container-low rounded-xl py-xl px-lg mb-xxl">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg text-center">
+<div class="flex flex-col items-center gap-sm">
+<div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-primary mb-xs">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<p class="font-body-md-bold text-body-md-bold">Safe &amp; Secure Payment</p>
+</div>
+<div class="flex flex-col items-center gap-sm">
+<div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-primary mb-xs">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<p class="font-body-md-bold text-body-md-bold">Instant Activation</p>
+</div>
+<div class="flex flex-col items-center gap-sm">
+<div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-primary mb-xs">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+</div>
+<p class="font-body-md-bold text-body-md-bold">Grow Your Business Faster</p>
+</div>
+</div>
+</section>
+<!-- Bottom CTA -->
+<section class="text-center py-xxl mb-xxl rounded-2xl bg-surface-container overflow-hidden relative">
+<div class="absolute inset-0 opacity-5">
+<img alt="Networking Background Pattern" class="w-full h-full object-cover" data-alt="A sophisticated abstract architectural photograph featuring clean repeating lines and geometric patterns in a corporate setting. The lighting is bright and airy with soft shadows, creating a sense of order, professionalism, and high-end modern design. The color palette is composed of soft grays and muted whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyZAWuro_ES--bpQ_vYqfjMT__EToRTqK5YskuCqAAicHCfIANSVRIAZJjQKrpr1WVSqhKbG3eOy9pMfH1bUfT9M6JhgfV832WbRov35e2JcidOOSiNpvzo4KjLvobz2Detkht27dl6nBwOPRrfpW68r0c47pJYIwcKlHCDx90t7W1sv9yrGnaV81by1z6JxBwqCpboiU4fIme4B2YuLFx6vDtbY3v7LcNcHCwYLr6YKKiLxrBwvi2nCs_qopYrKgx1_oM9hk--FvI"/>
+</div>
+<div class="relative z-10">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-md">Ready to grow your business?</h2>
+<button class="bg-primary-container text-white px-xxl py-md rounded-full font-headline-sm text-headline-sm hover:scale-105 transition-transform shadow-lg">Get Started Free</button>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component Strategy) -->
+<footer class="bg-surface-container-highest w-full py-xl mt-xxl border-t border-outline-variant">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md px-gutter w-full max-w-[1200px] mx-auto text-center md:text-left">
+<div>
+<span class="font-headline-sm text-headline-sm text-primary block mb-sm">Asaan Capital</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 Asaan Capital Ltd. | Regulated by SEBON</p>
+</div>
+<div class="flex flex-wrap justify-center md:justify-end gap-lg items-center">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Investment Disclosure</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Compliance</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Contact</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple interactivity for cards
+        document.querySelectorAll('.card-lift').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('shadow-md');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('shadow-md');
+            });
+        });
+    </script>
+</body></html>
