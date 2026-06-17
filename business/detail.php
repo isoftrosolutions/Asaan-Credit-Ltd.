@@ -160,6 +160,7 @@ if ($business['annual_revenue']) {
 }
 $extraSchema = '<script type="application/ld+json">' . json_encode($businessSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>';
 $firstImg = $images[0] ?? null;
+$ogImage = $firstImg ? upload_url($firstImg['file_url']) : '';
 $hasDocs = !empty(array_filter($mediaItems, fn($m) => $m['media_type'] === 'document'));
 
 require __DIR__ . '/../includes/layout-public.php';
