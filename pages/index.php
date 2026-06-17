@@ -20,6 +20,8 @@ $featured_pitches = db()->query("SELECT p.*, s.name as sector_name FROM pitches 
 $recent_pitches = db()->query("SELECT p.*, s.name as sector_name FROM pitches p LEFT JOIN sectors s ON p.sector_id = s.id WHERE p.is_published=1 AND p.is_hidden=0 ORDER BY p.created_at DESC LIMIT 6")->fetchAll();
 $faqs = db()->query("SELECT * FROM faqs WHERE is_active=1 ORDER BY sort_order LIMIT 4")->fetchAll();
 
+$featured_investors = db()->query("SELECT u.id, u.name, u.company_name, u.province, u.district, u.profile_photo, u.bio, u.account_type, u.is_premium, u.created_at, ip.total_capital_deployed, ip.past_investments, ip.preferred_sectors, ip.ticket_min, ip.ticket_max FROM users u JOIN investor_profiles ip ON ip.user_id = u.id WHERE u.role = 'investor' AND u.verification_status = 'verified' ORDER BY u.is_premium DESC, u.last_login_at DESC LIMIT 8")->fetchAll();
+
 $pageTitle = APP_NAME_LONG;
 $forcePublicHeader = true; // home keeps the public marketing nav even when logged in
 require __DIR__ . '/../includes/header.php';
@@ -651,6 +653,100 @@ $pitchStages = ['idea'=>'Idea', 'prototype'=>'Prototype', 'early_traction'=>'Ear
 </section>
 <?php endif; ?>
 
+<!-- Featured Investors -->
+<?php if (!empty($featured_investors)): ?>
+<section style="background:var(--dash-card);padding:64px 0;">
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+    <div style="display:flex;gap:48px;align-items:flex-start;flex-direction:column;" class="fb-ref-row">
+      <!-- Left Column -->
+      <div style="width:100%;position:relative;" class="fb-ref-left" id="investorMarquee">
+        <div class="fb-ref-arrows">
+          <button class="fb-arrow fb-arrow-left" type="button" aria-label="Previous" style="position:absolute;left:-20px;top:50%;transform:translateY(-50%);z-index:10;width:40px;height:40px;border-radius:50%;border:1px solid var(--dash-border);background:#fff;display:flex;align-items:center;justify-content:center;color:var(--color-primary);box-shadow:var(--dash-shadow);cursor:pointer;transition:background .2s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="fb-arrow fb-arrow-right" type="button" aria-label="Next" style="position:absolute;right:-20px;top:50%;transform:translateY(-50%);z-index:10;width:40px;height:40px;border-radius:50%;border:1px solid var(--dash-border);background:#fff;display:flex;align-items:center;justify-content:center;color:var(--color-primary);box-shadow:var(--dash-shadow);cursor:pointer;transition:background .2s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+        <div class="fb-track" id="investorMarqueeTrack">
+          <?php foreach ($featured_investors as $inv):
+            $sectors = json_decode($inv['preferred_sectors'] ?? '[]', true) ?: [];
+            $invTypeLabels = ['individual'=>'Individual','angel'=>'Angel','venture_capital'=>'VC','private_equity'=>'PE','family_office'=>'Family Office','corporate'=>'Corporate','lender'=>'Lender','advisor'=>'Advisor'];
+            $typeLbl = $invTypeLabels[$inv['account_type']] ?? 'Investor';
+            $init = '';
+            $np = explode(' ', $inv['name'] ?? 'U');
+            foreach ($np as $p) $init .= mb_strtoupper(mb_substr($p, 0, 1));
+            $init = mb_substr($init, 0, 2);
+            $loc = array_filter([$inv['district'] ?? '', $inv['province'] ?? '']);
+            $locStr = !empty($loc) ? implode(', ', $loc) : 'Nepal';
+          ?>
+          <div class="fb-ref-card" onclick="location.href='<?= APP_URL ?>/investor/<?= (int)$inv['id'] ?>'">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:999px;background:rgba(30,72,102,0.08);color:var(--color-secondary);"><?= e($typeLbl) ?></span>
+              <?php if (!empty($inv['is_premium'])): ?>
+              <span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:999px;background:rgba(199,122,18,0.12);color:var(--color-warning);">Premium</span>
+              <?php endif; ?>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+              <?php if ($inv['profile_photo']): ?>
+              <img src="<?= upload_url($inv['profile_photo']) ?>" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;">
+              <?php else: ?>
+              <div style="width:44px;height:44px;border-radius:50%;background:var(--color-bg-soft);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--dash-ink-soft);"><?= e($init) ?></div>
+              <?php endif; ?>
+              <div>
+                <h3 style="font-size:16px;font-weight:700;color:var(--dash-ink);margin:0;"><?= e($inv['name']) ?></h3>
+                <?php if ($inv['company_name']): ?>
+                <p style="font-size:12px;color:var(--dash-ink-soft);margin:0;"><?= e($inv['company_name']) ?></p>
+                <?php endif; ?>
+              </div>
+            </div>
+            <p style="font-size:13px;line-height:1.5;color:var(--dash-ink-soft);margin:0 0 10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
+              <?= e(mb_substr($inv['bio'] ?? '', 0, 120)) ?: 'Experienced investor looking for the right opportunity.' ?>
+            </p>
+            <div style="display:flex;align-items:center;gap:4px;margin-bottom:10px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span style="font-size:12px;font-weight:500;color:var(--dash-ink-soft);"><?= e($locStr) ?></span>
+            </div>
+            <div style="background:var(--color-bg-soft);border-radius:8px;padding:10px;margin-bottom:10px;">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                <div>
+                  <p style="font-size:10px;color:var(--dash-ink-soft);text-transform:uppercase;letter-spacing:0.04em;margin:0 0 1px;">Capital Deployed</p>
+                  <p style="font-size:13px;font-weight:600;color:var(--dash-ink);margin:0;"><?= $inv['total_capital_deployed'] ? money($inv['total_capital_deployed']) : '—' ?></p>
+                </div>
+                <div>
+                  <p style="font-size:10px;color:var(--dash-ink-soft);text-transform:uppercase;letter-spacing:0.04em;margin:0 0 1px;">Past Investments</p>
+                  <p style="font-size:13px;font-weight:600;color:var(--dash-ink);margin:0;"><?= (int)$inv['past_investments'] ?> deals</p>
+                </div>
+                <div style="grid-column:1/-1;">
+                  <p style="font-size:10px;color:var(--dash-ink-soft);text-transform:uppercase;letter-spacing:0.04em;margin:0 0 1px;">Preferred Sectors</p>
+                  <p style="font-size:13px;font-weight:600;color:var(--dash-ink);margin:0;"><?= !empty($sectors) ? e(implode(', ', array_slice($sectors, 0, 3))) . (count($sectors) > 3 ? ' +' . (count($sectors)-3) : '') : 'All sectors' ?></p>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;">
+              <div style="display:flex;flex-direction:column;">
+                <span style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--dash-ink-soft);">Ticket Range</span>
+                <span style="font-size:14px;font-weight:800;color:var(--color-primary-vivid);"><?= $inv['ticket_min'] || $inv['ticket_max'] ? 'NPR ' . number_format((float)$inv['ticket_min']) . ' – ' . number_format((float)$inv['ticket_max']) : 'Flexible' ?></span>
+              </div>
+              <a href="<?= APP_URL ?>/investor/<?= (int)$inv['id'] ?>" class="fb-ref-btn" onclick="event.stopPropagation()">View Profile</a>
+            </div>
+          </div>
+          <?php endforeach; ?>
+        </div>
+      </div>
+      <div style="width:100%;display:flex;flex-direction:column;justify-content:center;" class="fb-ref-right">
+        <h2 style="font-family:var(--font-heading);font-size:28px;font-weight:700;color:var(--color-secondary);margin:0 0 4px;">Qualified Investors &amp; Buyers</h2>
+        <h3 style="font-family:var(--font-heading);font-size:18px;font-weight:600;color:var(--color-primary);margin:0 0 12px;">Verified investors actively looking for opportunities in Nepal.</h3>
+        <p style="font-size:16px;line-height:1.7;color:var(--dash-ink-soft);margin:0 0 28px;">
+          Browse our network of verified investors, from individual angel investors to venture capital firms and private equity groups. Each investor has been reviewed and has a track record of deploying capital in Nepali businesses.
+        </p>
+        <a href="<?= APP_URL ?>/browse/investors" style="display:inline-block;background:rgba(30,72,102,0.12);color:var(--color-secondary);padding:14px 32px;border-radius:8px;font-size:16px;font-weight:700;text-decoration:none;transition:background .2s,transform .15s;align-self:flex-start;" onmouseover="this.style.background='rgba(30,72,102,0.2)'" onmouseout="this.style.background='rgba(30,72,102,0.12)'">View All Investors</a>
+      </div>
+    </div>
+  </div>
+</section>
+<?php endif; ?>
+
 <!-- FAQ -->
 <section class="pub-section surface">
   <div class="pub-wrap-narrow">
@@ -817,6 +913,7 @@ function initMarquee(id) {
 
 initMarquee('bizMarquee');
 initMarquee('pitchMarquee');
+initMarquee('investorMarquee');
 
 // Bottom nav active state
 (function() {
