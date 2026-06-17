@@ -164,6 +164,21 @@ function notifiable_roles(): array {
     return [ROLE_INVESTOR, ROLE_BUSINESS_OWNER, ROLE_FRANCHISOR, ROLE_ADVISOR, ROLE_ENTREPRENEUR];
 }
 
+function site_setting(string $key, string $default = ''): string {
+    static $cache = [];
+    if (!isset($cache[$key])) {
+        try {
+            $stmt = db()->prepare("SELECT setting_value FROM site_settings WHERE setting_key = ?");
+            $stmt->execute([$key]);
+            $val = $stmt->fetchColumn();
+            $cache[$key] = $val !== false ? (string)$val : $default;
+        } catch (\Throwable $e) {
+            return $default;
+        }
+    }
+    return $cache[$key];
+}
+
 function admin_log(string $action, ?string $targetType = null, ?int $targetId = null, ?array $details = null): void {
     $admin = current_user();
     if (!$admin) return;

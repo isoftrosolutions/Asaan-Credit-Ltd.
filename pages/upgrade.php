@@ -8,6 +8,11 @@ $userId = (int)$user['id'];
 $pageTitle = 'Premium Plans — ' . APP_NAME;
 $pageDescription = 'Choose a premium plan and unlock exclusive features.';
 
+$qrCode = site_setting('payment_qr_code');
+$paymentPhone = site_setting('payment_phone');
+$paymentInstructions = site_setting('payment_instructions');
+$siteTagline = site_setting('site_tagline', 'Connect. Grow. Invest.');
+
 $plans = [
   'starter' => [
     'label' => 'Starter',
@@ -228,10 +233,14 @@ require __DIR__ . '/../includes/header.php';
 
     <div class="premium-qr-section">
       <div class="premium-qr-code">
-        <div class="premium-qr-placeholder">
-          <i class="fas fa-qrcode"></i>
-          <span>Scan to Pay</span>
-        </div>
+        <?php if ($qrCode): ?>
+          <img src="<?= e(upload_url($qrCode)) ?>" alt="Payment QR" class="premium-qr-image">
+        <?php else: ?>
+          <div class="premium-qr-placeholder">
+            <i class="fas fa-qrcode"></i>
+            <span>Scan to Pay</span>
+          </div>
+        <?php endif; ?>
       </div>
       <div class="premium-qr-info">
         <p style="margin:0 0 12px;font-weight:600;color:rgba(255,255,255,.9);">Scan with any app:</p>
@@ -241,13 +250,25 @@ require __DIR__ . '/../includes/header.php';
           <li><i class="fas fa-mobile-alt"></i> Khalti</li>
           <li><i class="fas fa-university"></i> Bank App</li>
         </ul>
+        <?php if ($paymentPhone): ?>
+        <p style="margin:0 0 12px;font-size:14px;color:rgba(255,255,255,.7);">
+          <i class="fas fa-phone" style="margin-right:6px;color:var(--premium-gold);"></i>
+          Or send to: <strong style="color:#fff;"><?= e($paymentPhone) ?></strong>
+        </p>
+        <?php endif; ?>
         <div class="premium-qr-steps">
           <strong>Instructions:</strong>
           <ol>
-            <li>Scan QR code</li>
-            <li>Complete payment of <strong>NPR <?= number_format($plan['amount']) ?></strong></li>
-            <li>Take a screenshot or download receipt</li>
-            <li>Upload proof below</li>
+            <?php if ($paymentInstructions): $lines = explode("\n", $paymentInstructions); ?>
+              <?php foreach ($lines as $line): $line = trim($line); if ($line): ?>
+                <li><?= e(preg_replace('/^\d+\.\s*/', '', $line)) ?></li>
+              <?php endif; endforeach; ?>
+            <?php else: ?>
+              <li>Scan QR code</li>
+              <li>Complete payment of <strong>NPR <?= number_format($plan['amount']) ?></strong></li>
+              <li>Take a screenshot or download receipt</li>
+              <li>Upload proof below</li>
+            <?php endif; ?>
           </ol>
         </div>
       </div>
@@ -320,7 +341,7 @@ require __DIR__ . '/../includes/header.php';
 
   <div class="premium-header">
     <h1 class="premium-h1">Upgrade to Premium</h1>
-    <p class="premium-subtitle">Connect. Grow. Invest. — Unlock premium features and get better visibility for your startup or investment opportunities.</p>
+    <p class="premium-subtitle"><?= e($siteTagline) ?> — Unlock premium features and get better visibility for your startup or investment opportunities.</p>
   </div>
 
   <?php if ($error): ?>
@@ -472,6 +493,7 @@ require __DIR__ . '/../includes/header.php';
 .premium-qr-code { flex-shrink: 0; }
 .premium-qr-placeholder { width: 160px; height: 160px; background: #fff; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #0B1121; font-size: 14px; font-weight: 600; gap: 8px; }
 .premium-qr-placeholder i { font-size: 64px; color: #1E2A45; }
+.premium-qr-image { width: 160px; height: 160px; object-fit: contain; border-radius: 12px; background: #fff; padding: 8px; }
 .premium-qr-info { flex: 1; }
 .premium-qr-apps { list-style: none; padding: 0; margin: 0 0 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .premium-qr-apps li { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--premium-muted); }

@@ -158,6 +158,7 @@ if (!defined('UI_PHP_LOADED')) {
             ['Broadcast', '/admin/broadcast', 'share'],
             ['Sectors', '/admin/sectors', 'tag'],
             ['Email Settings', '/admin/email-settings', 'settings'],
+            ['Site Settings', '/admin/site-settings', 'settings'],
             ['Pages', '/admin/pages', 'document'],
             ['Email Templates', '/admin/email-templates', 'document'],
             ['Email Log', '/admin/email-log', 'mail'],
