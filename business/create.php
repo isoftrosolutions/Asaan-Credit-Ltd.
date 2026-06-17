@@ -6,6 +6,14 @@ require_role([ROLE_BUSINESS_OWNER, 'owner', 'ceo', 'cfo']);
 $user = current_user();
 $userId = (int)$user['id'];
 
+$cntStmt = db()->prepare('SELECT COUNT(*) FROM businesses WHERE user_id = ?');
+$cntStmt->execute([$userId]);
+$existingCount = (int)$cntStmt->fetchColumn();
+if ($existingCount >= 1) {
+    flash_set('error', 'You can only list one business. Contact admin to upgrade.');
+    redirect('/business/dashboard.php');
+}
+
 $sectors = db()->query('SELECT id, name FROM sectors WHERE is_active = 1 ORDER BY name')->fetchAll();
 $countries = db()->query('SELECT id, name FROM countries WHERE is_active = 1 ORDER BY name')->fetchAll();
 $states = db()->query('SELECT id, name, country_id FROM states WHERE is_active = 1 ORDER BY name')->fetchAll();

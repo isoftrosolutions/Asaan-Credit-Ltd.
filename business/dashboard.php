@@ -86,7 +86,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 ui_page_header(
     'Business Dashboard',
     'Manage your business listings and track performance.',
-    empty($businesses) ? '' : '<a href="' . APP_URL . '/business/create" class="btn btn-primary btn-sm">' . ui_icon_str('plus') . ' New business</a>'
+    ''
 );
 ?>
 
@@ -142,7 +142,6 @@ ui_page_header(
 <?php ui_section_header('Quick actions'); ?>
 <div class="dash-qa-grid">
   <?php
-    ui_quick_action(['title' => 'Add new listing', 'desc' => 'Create another business profile', 'icon' => 'plus', 'href' => APP_URL . '/business/create', 'tone' => 'primary']);
     ui_quick_action(['title' => 'Review connections', 'desc' => $interestCount . ' total interest request' . ($interestCount === 1 ? '' : 's'), 'icon' => 'matches', 'href' => APP_URL . '/connections', 'tone' => 'success']);
     ui_quick_action(['title' => 'Update listing details', 'desc' => 'Refresh pricing, media, and profile data', 'icon' => 'settings', 'href' => APP_URL . '/business/edit', 'tone' => 'info']);
   ?>
