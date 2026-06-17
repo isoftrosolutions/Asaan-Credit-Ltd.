@@ -1,7 +1,6 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 require_login();
-require_role([ROLE_BUSINESS_OWNER, 'owner', 'ceo', 'cfo']);
 
 $user = current_user();
 $userId = (int)$user['id'];
@@ -19,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delet
             flash_set('success', 'Business listing deleted.');
         }
     }
-    redirect('/business/dashboard.php');
+    redirect('/dashboard');
 }
 
 $stmt = db()->prepare('SELECT * FROM businesses WHERE user_id = ? ORDER BY created_at DESC');

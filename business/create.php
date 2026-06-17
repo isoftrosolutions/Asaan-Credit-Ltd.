@@ -1,17 +1,13 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 require_login();
-require_role([ROLE_BUSINESS_OWNER, 'owner', 'ceo', 'cfo']);
 
 $user = current_user();
 $userId = (int)$user['id'];
 
-$cntStmt = db()->prepare('SELECT COUNT(*) FROM businesses WHERE user_id = ?');
-$cntStmt->execute([$userId]);
-$existingCount = (int)$cntStmt->fetchColumn();
-if ($existingCount >= 1) {
-    flash_set('error', 'You can only list one business. Contact admin to upgrade.');
-    redirect('/business/dashboard.php');
+if (!canCreateBusiness($user)) {
+    flash_set('error', 'Business creation limit reached. Premium users can create up to 10 listings.');
+    redirect('/dashboard');
 }
 
 $sectors = db()->query('SELECT id, name FROM sectors WHERE is_active = 1 ORDER BY name')->fetchAll();
@@ -41,6 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $countryId = !empty($_POST['country_id']) ? (int)$_POST['country_id'] : null;
     $stateId = !empty($_POST['state_id']) ? (int)$_POST['state_id'] : null;
     $cityId = !empty($_POST['city_id']) ? (int)$_POST['city_id'] : null;
+    $province = trim($_POST['province'] ?? '');
+    $district = trim($_POST['district'] ?? '');
     $establishedYear = !empty($_POST['established_year']) ? (int)$_POST['established_year'] : null;
     $employeeCount = !empty($_POST['employee_count']) ? (int)$_POST['employee_count'] : null;
     $legalEntityType = trim($_POST['legal_entity_type'] ?? '');
@@ -70,8 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $db->beginTransaction();
     try {
-        $stmt = $db->prepare('INSERT INTO businesses (user_id, business_name, slug, listing_type, sector_id, country_id, state_id, city_id, established_year, employee_count, legal_entity_type, monthly_revenue, annual_revenue, ebitda_pct, asking_price, funding_required, stake_offered_pct, valuation, description, overview, products_services, reason_for_sale, assets_included, facilities, capitalization, status, is_published, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())');
-        $stmt->execute([$userId, $businessName, $slug, $listingType, $sectorId, $countryId, $stateId, $cityId, $establishedYear, $employeeCount, $legalEntityType, $monthlyRevenue, $annualRevenue, $ebitdaPct, $askingPrice, $fundingRequired, $stakeOfferedPct, $valuation, $description, $overview, $productsServices, $reasonForSale, $assetsIncluded, $facilities, $capitalization, $status, $isPublished]);
+        $stmt = $db->prepare('INSERT INTO businesses (user_id, business_name, slug, listing_type, sector_id, country_id, state_id, city_id, province, district, established_year, employee_count, legal_entity_type, monthly_revenue, annual_revenue, ebitda_pct, asking_price, funding_required, stake_offered_pct, valuation, description, overview, products_services, reason_for_sale, assets_included, facilities, capitalization, status, is_published, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())');
+        $stmt->execute([$userId, $businessName, $slug, $listingType, $sectorId, $countryId, $stateId, $cityId, $province, $district, $establishedYear, $employeeCount, $legalEntityType, $monthlyRevenue, $annualRevenue, $ebitdaPct, $askingPrice, $fundingRequired, $stakeOfferedPct, $valuation, $description, $overview, $productsServices, $reasonForSale, $assetsIncluded, $facilities, $capitalization, $status, $isPublished]);
         $businessId = (int)$db->lastInsertId();
 
         // Handle media upload

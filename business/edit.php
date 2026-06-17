@@ -1,7 +1,6 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 require_login();
-require_role([ROLE_BUSINESS_OWNER, 'owner', 'ceo', 'cfo']);
 
 $user = current_user();
 $userId = (int)$user['id'];

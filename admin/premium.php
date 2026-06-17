@@ -57,6 +57,16 @@ $userStmt = db()->prepare("SELECT id, name, email, role, verification_status, cr
 $userStmt->execute($params);
 $premiumUsers = $userStmt->fetchAll();
 
+$pendingSubs = db()->query("
+    SELECT ps.id, ps.plan_label, ps.amount, ps.status, ps.created_at, ps.transaction_id, ps.receipt_file,
+           u.id AS user_id, u.name, u.email
+    FROM premium_subscriptions ps
+    JOIN users u ON u.id = ps.user_id
+    WHERE ps.status = 'pending'
+    ORDER BY ps.created_at DESC
+    LIMIT 50
+")->fetchAll();
+
 $requests = db()->query("
     SELECT n.id, n.title, n.body, n.created_at, n.action_url
     FROM notifications n
@@ -65,15 +75,43 @@ $requests = db()->query("
     LIMIT 50
 ")->fetchAll();
 
-$highlightId = (int)($_GET['requester_id'] ?? 0);
-
 $pageTitle = 'Premium Management';
 require __DIR__ . '/../includes/layout-admin.php';
 
-ui_page_header('Premium Management', count($premiumUsers) . ' premium users · ' . count($requests) . ' upgrade requests');
+$totalPending = count($pendingSubs);
+$totalRequests = count($requests);
+ui_page_header('Premium Management', $totalPending . ' pending payments · ' . count($premiumUsers) . ' premium users');
 ?>
 
-<?php ui_section_header('Upgrade Requests'); ?>
+<?php if (!empty($pendingSubs)): ?>
+<?php ui_section_header('Pending Payments (' . $totalPending . ')'); ?>
+<div class="dash-panel">
+  <div class="dash-table-wrap">
+    <table class="dash-table">
+      <thead><tr>
+        <th>User</th><th>Plan</th><th>Amount</th><th>Transaction</th><th>Receipt</th><th>Date</th><th class="ta-right">Actions</th>
+      </tr></thead>
+      <tbody>
+      <?php foreach ($pendingSubs as $sub): ?>
+        <tr>
+          <td class="t-strong"><?= e($sub['name']) ?><br><span class="t-muted"><?= e($sub['email']) ?></span></td>
+          <td><?= e($sub['plan_label']) ?></td>
+          <td class="t-strong">NPR <?= number_format((float)$sub['amount']) ?></td>
+          <td class="t-muted"><?= e($sub['transaction_id'] ?? '—') ?></td>
+          <td><?php if ($sub['receipt_file']): ?><a href="<?= e(upload_url('payment-receipts/' . $sub['receipt_file'])) ?>" target="_blank" class="btn btn-sm btn-outline"><i class="fas fa-eye"></i></a><?php else: ?><span class="t-muted">—</span><?php endif; ?></td>
+          <td class="t-muted"><?= date('M j, Y', strtotime($sub['created_at'])) ?></td>
+          <td class="ta-right">
+            <a href="<?= APP_URL ?>/admin/premium-verify?tab=pending" class="btn btn-sm btn-primary">Verify</a>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
+</div>
+<?php endif; ?>
+
+<?php ui_section_header('Upgrade Requests' . ($totalRequests ? ' (' . $totalRequests . ')' : '')); ?>
 <div class="dash-panel">
   <div class="dash-table-wrap">
     <table class="dash-table">
@@ -87,9 +125,8 @@ ui_page_header('Premium Management', count($premiumUsers) . ' premium users · '
         $reqEmail = $m[2] ?? '';
         parse_str(parse_url($req['action_url'] ?? '', PHP_URL_QUERY) ?: '', $q);
         $reqUserId = (int)($q['requester_id'] ?? 0);
-        $isHighlighted = $highlightId && $reqUserId === $highlightId;
       ?>
-        <tr<?= $isHighlighted ? ' style="background:rgba(16,185,129,.08);"' : '' ?>>
+        <tr>
           <td class="t-strong"><?= e($reqName) ?><br><span class="t-muted"><?= e($reqEmail) ?></span></td>
           <td><?= e($req['body']) ?></td>
           <td class="t-muted"><?= date_human($req['created_at']) ?></td>
@@ -102,7 +139,7 @@ ui_page_header('Premium Management', count($premiumUsers) . ' premium users · '
               <button type="submit" class="btn btn-sm btn-primary">Approve</button>
             </form>
             <?php else: ?>
-            <span class="t-muted" style="font-size:12px;">Cannot identify user</span>
+            <a href="<?= APP_URL ?>/admin/premium-verify?tab=pending" class="btn btn-sm btn-outline">View Payments</a>
             <?php endif; ?>
           </td>
         </tr>

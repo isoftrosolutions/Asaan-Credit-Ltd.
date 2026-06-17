@@ -118,8 +118,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $notes,
       ]);
 
-      $adminStmt = db()->query("SELECT id, email FROM users WHERE role = 'admin' OR is_admin = 1");
+      $adminStmt = db()->query("SELECT id, email FROM users WHERE is_admin = 1");
       $admins = $adminStmt->fetchAll();
+
+      $notifBody = $user['name'] . ' (' . $user['email'] . ') requested a premium upgrade. Plan: ' . $plan['label'] . ', Amount: NPR ' . number_format($plan['amount']);
+      foreach ($admins as $admin) {
+          $nStmt = db()->prepare("INSERT INTO notifications (user_id, type, title, body, action_url, is_read, created_at) VALUES (?, 'upgrade', 'Premium Upgrade Request', ?, '/admin/premium-verify', 0, NOW())");
+          $nStmt->execute([$admin['id'], $notifBody]);
+      }
+
       $mailBody = '<div style="font-family:sans-serif;max-width:600px;margin:20px auto;padding:32px;border:1px solid #eef2f6;border-radius:16px;">
         <h2 style="color:#6B1D22;margin:0 0 16px;">Premium Payment Submitted</h2>
         <p style="color:#555;font-size:15px;line-height:1.6;">
