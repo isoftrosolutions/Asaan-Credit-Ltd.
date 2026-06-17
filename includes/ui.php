@@ -142,6 +142,7 @@ if (!defined('UI_PHP_LOADED')) {
 
     function ui_admin_links(): array {
         return [
+            ['Home', '/', 'home'],
             ['Verification Queue', '/admin/verification', 'document'],
             ['Businesses', '/admin/businesses', 'briefcase'],
             ['Business Verifications', '/admin/business-verifications', 'check'],
@@ -152,6 +153,7 @@ if (!defined('UI_PHP_LOADED')) {
             ['Pitches', '/admin/pitches', 'tag'],
             ['Reports', '/admin/reports', 'lock'],
             ['Premium', '/admin/premium', 'star'],
+            ['Home', '/', 'home'],
             ['Broadcast', '/admin/broadcast', 'share'],
             ['Sectors', '/admin/sectors', 'tag'],
             ['Email Settings', '/admin/email-settings', 'settings'],
