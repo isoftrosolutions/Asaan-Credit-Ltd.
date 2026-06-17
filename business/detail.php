@@ -85,7 +85,7 @@ if ($user) {
     $hasMatch = (bool)$matchS->fetch();
 }
 
-$viewerIsPremium = $user && !empty($user['is_premium']);
+$viewerIsPremium = $user && (!empty($user['is_premium']) || !empty($user['is_admin']) || $userId === $ownerUserId);
 $isSaved = false;
 if ($user) {
     $sS = $db->prepare("SELECT id FROM saved_listings WHERE user_id = ? AND listing_type = 'business' AND listing_id = ?");
