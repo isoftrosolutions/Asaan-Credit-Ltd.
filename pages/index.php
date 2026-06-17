@@ -313,8 +313,75 @@ require __DIR__ . '/../includes/header.php';
   </div>
 </section>
 
+<!-- Why Asaan Capital -->
+<section class="pub-section surface" style="background:#fff;">
+  <div class="pub-wrap" style="max-width:960px;">
+    <div class="pub-section-head" style="margin-bottom:48px;">
+      <span style="display:inline-block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-primary-vivid);margin-bottom:8px;">Why Asaan Capital</span>
+      <h2 class="pub-h2" style="margin-bottom:12px;">Nepal's most trusted business matching platform</h2>
+      <p class="pub-text" style="max-width:640px;margin:0 auto;color:var(--dash-ink-soft);">We make it safe, simple, and smart to find the right business partner — whether you're buying, selling, investing, or raising capital.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+      <div style="display:flex;gap:16px;align-items:flex-start;">
+        <div style="width:48px;height:48px;border-radius:12px;background:rgba(107,29,34,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div>
+          <h3 style="font-size:16px;font-weight:700;color:var(--dash-ink);margin:0 0 4px;">Every profile is verified</h3>
+          <p style="font-size:14px;line-height:1.6;color:var(--dash-ink-soft);margin:0;">All businesses, investors, and advisors are manually screened before they go live. No bots, no fake listings.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-start;">
+        <div style="width:48px;height:48px;border-radius:12px;background:rgba(107,29,34,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        </div>
+        <div>
+          <h3 style="font-size:16px;font-weight:700;color:var(--dash-ink);margin:0 0 4px;">Your privacy is protected</h3>
+          <p style="font-size:14px;line-height:1.6;color:var(--dash-ink-soft);margin:0;">Contact details stay hidden until both sides express mutual interest. You control who sees your information.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-start;">
+        <div style="width:48px;height:48px;border-radius:12px;background:rgba(107,29,34,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <div>
+          <h3 style="font-size:16px;font-weight:700;color:var(--dash-ink);margin:0 0 4px;">Fair & transparent process</h3>
+          <p style="font-size:14px;line-height:1.6;color:var(--dash-ink-soft);margin:0;">No hidden fees. Clear pricing, straightforward matching, and a 1% finder's fee only when a deal closes.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-start;">
+        <div style="width:48px;height:48px;border-radius:12px;background:rgba(107,29,34,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div>
+          <h3 style="font-size:16px;font-weight:700;color:var(--dash-ink);margin:0 0 4px;">Active, engaged network</h3>
+          <p style="font-size:14px;line-height:1.6;color:var(--dash-ink-soft);margin:0;">Thousands of verified investors, business owners, and advisors across all seven provinces of Nepal.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-start;">
+        <div style="width:48px;height:48px;border-radius:12px;background:rgba(107,29,34,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div>
+          <h3 style="font-size:16px;font-weight:700;color:var(--dash-ink);margin:0 0 4px;">Trusted by industry leaders</h3>
+          <p style="font-size:14px;line-height:1.6;color:var(--dash-ink-soft);margin:0;">Partnered with leading business organizations, financial advisors, and industry associations across Nepal.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-start;">
+        <div style="width:48px;height:48px;border-radius:12px;background:rgba(107,29,34,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <h3 style="font-size:16px;font-weight:700;color:var(--dash-ink);margin:0 0 4px;">Built for Nepal</h3>
+          <p style="font-size:14px;line-height:1.6;color:var(--dash-ink-soft);margin:0;">Designed specifically for the Nepali market. Local knowledge, local regulations, and local support.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Trust Pillars -->
-<section class="pub-section surface">
+<section class="pub-section surface" style="background:var(--color-bg);">
   <div class="pub-wrap">
     <div class="pub-grid cols-4">
       <div class="pub-feature hp-card-stagger">

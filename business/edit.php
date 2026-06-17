@@ -85,7 +85,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $assetsIncluded = trim($_POST['assets_included'] ?? '');
     $facilities = trim($_POST['facilities'] ?? '');
     $capitalization = trim($_POST['capitalization'] ?? '');
-    $thumbnailUrl = $business['thumbnail_url'];
     $status = $_POST['status'] ?? 'draft';
     if (!in_array($status, ['draft', 'pending', 'approved', 'rejected', 'sold'], true)) {
         $status = 'draft';
@@ -96,25 +95,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         redirect_back();
     }
 
-    if (!empty($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] === UPLOAD_ERR_OK) {
-        $allowedMime = ['image/jpeg', 'image/png', 'image/webp'];
-        $destDir = upload_path('business-thumbnails');
-        $uploaded = handle_upload($_FILES['thumbnail'], $allowedMime, UPLOAD_MAX_BYTES_PHOTO, $destDir);
-        if ($uploaded) {
-            $thumbnailUrl = 'business-thumbnails/' . $uploaded;
-        }
-    } elseif (isset($_POST['thumbnail_url']) && trim($_POST['thumbnail_url']) !== '') {
-        $thumbnailUrl = trim($_POST['thumbnail_url']);
-    }
-
     $isPublished = ($status === 'approved') ? 1 : 0;
 
     $slug = $business['slug'] ?: unique_slug(generate_slug($businessName), 'businesses');
 
     $db->beginTransaction();
     try {
-        $updateStmt = $db->prepare('UPDATE businesses SET business_name = ?, slug = ?, listing_type = ?, sector_id = ?, country_id = ?, state_id = ?, city_id = ?, province = ?, district = ?, established_year = ?, employee_count = ?, legal_entity_type = ?, monthly_revenue = ?, annual_revenue = ?, ebitda_pct = ?, asking_price = ?, funding_required = ?, stake_offered_pct = ?, valuation = ?, loan_amount = ?, loan_interest_pct = ?, description = ?, overview = ?, products_services = ?, reason_for_sale = ?, assets_included = ?, facilities = ?, capitalization = ?, thumbnail_url = ?, status = ?, is_published = ?, updated_at = NOW() WHERE id = ? AND user_id = ?');
-        $updateStmt->execute([$businessName, $slug, $listingType, $sectorId, $countryId, $stateId, $cityId, $province, $district, $establishedYear, $employeeCount, $legalEntityType, $monthlyRevenue, $annualRevenue, $ebitdaPct, $askingPrice, $fundingRequired, $stakeOfferedPct, $valuation, $loanAmount, $loanInterestPct, $description, $overview, $productsServices, $reasonForSale, $assetsIncluded, $facilities, $capitalization, $thumbnailUrl, $status, $isPublished, $businessId, $userId]);
+        $updateStmt = $db->prepare('UPDATE businesses SET business_name = ?, slug = ?, listing_type = ?, sector_id = ?, country_id = ?, state_id = ?, city_id = ?, province = ?, district = ?, established_year = ?, employee_count = ?, legal_entity_type = ?, monthly_revenue = ?, annual_revenue = ?, ebitda_pct = ?, asking_price = ?, funding_required = ?, stake_offered_pct = ?, valuation = ?, loan_amount = ?, loan_interest_pct = ?, description = ?, overview = ?, products_services = ?, reason_for_sale = ?, assets_included = ?, facilities = ?, capitalization = ?, status = ?, is_published = ?, updated_at = NOW() WHERE id = ? AND user_id = ?');
+        $updateStmt->execute([$businessName, $slug, $listingType, $sectorId, $countryId, $stateId, $cityId, $province, $district, $establishedYear, $employeeCount, $legalEntityType, $monthlyRevenue, $annualRevenue, $ebitdaPct, $askingPrice, $fundingRequired, $stakeOfferedPct, $valuation, $loanAmount, $loanInterestPct, $description, $overview, $productsServices, $reasonForSale, $assetsIncluded, $facilities, $capitalization, $status, $isPublished, $businessId, $userId]);
 
         if (!empty($_POST['delete_media'])) {
             $deleteIds = array_map('intval', $_POST['delete_media']);
@@ -329,7 +317,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
       <a href="<?= APP_URL ?>/business/<?= e($business['slug'] ?: $business['id']) ?>" class="btn btn-sm btn-outline" target="_blank">View Live</a>
     </div>
 
-    <form method="POST" enctype="multipart/form-data" id="editForm">
+    <form method="POST" id="editForm">
       <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
       <input type="hidden" name="id" value="<?= $businessId ?>">
 
@@ -578,23 +566,6 @@ require __DIR__ . '/../includes/layout-dashboard.php';
           <span class="sec-toggle">▼</span>
         </div>
         <div class="edit-section-body">
-          <div class="edit-grid">
-            <div class="input">
-              <label>Thumbnail Upload</label>
-              <input type="file" name="thumbnail" accept="image/jpeg,image/png,image/webp" onchange="previewThumbnail(this)">
-              <p style="font-size:11px;color:var(--dash-ink-soft);margin:4px 0 0;">Max 2MB. JPEG, PNG, WebP.</p>
-            </div>
-            <div class="input">
-              <label>Or Image URL</label>
-              <input type="url" name="thumbnail_url" class="preview-input" data-preview="thumb" value="<?= e($business['thumbnail_url'] ?? '') ?>" placeholder="https://images.unsplash.com/photo-...">
-            </div>
-          </div>
-          <?php if (!empty($business['thumbnail_url'])): ?>
-          <div style="margin:10px 0 0;">
-            <img src="<?= upload_url($business['thumbnail_url']) ?>" alt="" style="width:160px;height:100px;object-fit:cover;border-radius:8px;border:1px solid var(--dash-border);">
-          </div>
-          <?php endif; ?>
-
           <div style="margin-top:18px;">
             <h4 style="font-size:14px;font-weight:600;margin:0 0 10px;color:var(--dash-ink);">Gallery Media</h4>
             <?php if (!empty($mediaItems)): ?>
@@ -652,14 +623,6 @@ require __DIR__ . '/../includes/layout-dashboard.php';
     </div>
     <div class="edit-preview-body">
       <div class="preview-card">
-        <div class="preview-card-img" id="previewThumb">
-          <?php $thumbSrc = $business['thumbnail_url'] ? upload_url($business['thumbnail_url']) : ''; ?>
-          <?php if ($thumbSrc): ?>
-          <img src="<?= e($thumbSrc) ?>" alt="">
-          <?php else: ?>
-          <span>No image</span>
-          <?php endif; ?>
-        </div>
         <div class="preview-card-body">
           <div class="preview-card-badges">
             <span class="preview-badge-type" id="previewType"><?= e($listingTypes[$business['listing_type']] ?? 'Business for Sale') ?></span>
@@ -698,17 +661,6 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 </div>
 
 <script>
-function previewThumbnail(input) {
-    var preview = document.getElementById('previewThumb');
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            preview.innerHTML = '<img src="' + e.target.result + '" alt="">';
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
 function updateStates(countryId) {
     document.querySelectorAll('select[name="state_id"] option').forEach(function(o) {
         o.style.display = o.value === '' || o.dataset.country == countryId ? '' : 'none';
@@ -804,17 +756,9 @@ document.addEventListener('DOMContentLoaded', function() {
         var descText = desc ? desc.value : '';
         document.getElementById('previewDesc').textContent = descText ? descText.substring(0, 200) : 'No description yet.';
 
-        // Thumbnail URL
-        var thumbUrl = document.querySelector('[name="thumbnail_url"]');
-        var previewThumb = document.getElementById('previewThumb');
-        if (thumbUrl && thumbUrl.value && thumbUrl.value.match(/^https?:\/\//)) {
-            previewThumb.innerHTML = '<img src="' + thumbUrl.value + '" alt="">';
-        } else if (!document.querySelector('[name="thumbnail"]')?.files?.[0]) {
-            // Keep current
-        }
     }
 
-    document.querySelectorAll('.preview-input, [name="description"], [name="province"], [name="district"], [name="thumbnail_url"]').forEach(function(el) {
+    document.querySelectorAll('.preview-input, [name="description"], [name="province"], [name="district"]').forEach(function(el) {
         el.addEventListener('input', updatePreview);
         el.addEventListener('change', updatePreview);
     });

@@ -50,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $assetsIncluded = trim($_POST['assets_included'] ?? '');
     $facilities = trim($_POST['facilities'] ?? '');
     $capitalization = trim($_POST['capitalization'] ?? '');
-    $thumbnailUrl = null;
     $status = 'approved';
     $isPublished = 1;
 
@@ -59,24 +58,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         redirect_back();
     }
 
-    // Handle thumbnail upload
-    if (!empty($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] === UPLOAD_ERR_OK) {
-        $allowedMime = ['image/jpeg', 'image/png', 'image/webp'];
-        $destDir = upload_path('business-thumbnails');
-        $uploaded = handle_upload($_FILES['thumbnail'], $allowedMime, UPLOAD_MAX_BYTES_PHOTO, $destDir);
-        if ($uploaded) {
-            $thumbnailUrl = 'business-thumbnails/' . $uploaded;
-        }
-    } else {
-        $thumbnailUrl = trim($_POST['thumbnail_url'] ?? '');
-    }
-
     $slug = unique_slug(generate_slug($businessName), 'businesses');
 
     $db->beginTransaction();
     try {
-        $stmt = $db->prepare('INSERT INTO businesses (user_id, business_name, slug, listing_type, sector_id, country_id, state_id, city_id, established_year, employee_count, legal_entity_type, monthly_revenue, annual_revenue, ebitda_pct, asking_price, funding_required, stake_offered_pct, valuation, description, overview, products_services, reason_for_sale, assets_included, facilities, capitalization, thumbnail_url, status, is_published, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())');
-        $stmt->execute([$userId, $businessName, $slug, $listingType, $sectorId, $countryId, $stateId, $cityId, $establishedYear, $employeeCount, $legalEntityType, $monthlyRevenue, $annualRevenue, $ebitdaPct, $askingPrice, $fundingRequired, $stakeOfferedPct, $valuation, $description, $overview, $productsServices, $reasonForSale, $assetsIncluded, $facilities, $capitalization, $thumbnailUrl, $status, $isPublished]);
+        $stmt = $db->prepare('INSERT INTO businesses (user_id, business_name, slug, listing_type, sector_id, country_id, state_id, city_id, established_year, employee_count, legal_entity_type, monthly_revenue, annual_revenue, ebitda_pct, asking_price, funding_required, stake_offered_pct, valuation, description, overview, products_services, reason_for_sale, assets_included, facilities, capitalization, status, is_published, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())');
+        $stmt->execute([$userId, $businessName, $slug, $listingType, $sectorId, $countryId, $stateId, $cityId, $establishedYear, $employeeCount, $legalEntityType, $monthlyRevenue, $annualRevenue, $ebitdaPct, $askingPrice, $fundingRequired, $stakeOfferedPct, $valuation, $description, $overview, $productsServices, $reasonForSale, $assetsIncluded, $facilities, $capitalization, $status, $isPublished]);
         $businessId = (int)$db->lastInsertId();
 
         // Handle media upload
@@ -384,22 +371,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 
     <!-- Step 5: Media -->
     <div class="step-panel" data-step="5" style="display:none">
-        <div class="card" style="margin-bottom:1.5rem;">
-            <h4>Thumbnail Image</h4>
-            <div class="input-group">
-                <label>Upload Business Logo / Thumbnail</label>
-                <input type="file" name="thumbnail" class="input" accept="image/jpeg,image/png,image/webp" onchange="previewThumbnail(this)">
-                <div id="thumbnail-preview" style="margin-top:0.5rem;display:none;">
-                    <img src="" alt="Preview" style="width:200px;height:150px;object-fit:cover;border-radius:8px;border:1px solid var(--dash-border);">
-                </div>
-                <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Max 2MB. JPEG, PNG, WebP. Recommended: 400x300px.</p>
-            </div>
-            <div class="input-group" style="margin-top:0.75rem;">
-                <label>Or paste an image URL <span style="font-weight:400;font-size:0.8rem;color:var(--color-text-muted);">(external link, optional)</span></label>
-                <input type="url" name="thumbnail_url" class="input" value="<?= e(old('thumbnail_url')) ?>" placeholder="https://images.unsplash.com/photo-...">
-            </div>
-        </div>
-        <div class="card" style="margin-bottom:1.5rem;">
+<div class="card" style="margin-bottom:1.5rem;">
             <h4>Photos &amp; Media</h4>
             <div class="input-group">
                 <label>Upload Images, Videos, or Documents</label>
@@ -420,17 +392,6 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 </form>
 
 <script>
-function previewThumbnail(input) {
-    var preview = document.getElementById('thumbnail-preview');
-    var img = preview.querySelector('img');
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) { img.src = e.target.result; preview.style.display = 'block'; };
-        reader.readAsDataURL(input.files[0]);
-    } else {
-        preview.style.display = 'none';
-    }
-}
 function updateStates(countryId) {
     document.querySelectorAll('select[name="state_id"] option').forEach(o => {
         o.style.display = o.value === '' || o.dataset.country == countryId ? '' : 'none';
