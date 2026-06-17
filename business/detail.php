@@ -238,21 +238,25 @@ require __DIR__ . '/../includes/layout-public.php';
     </div>
 
     <!-- Gallery -->
-    <div class="stitch-gallery">
+    <div class="stitch-gallery" id="businessGallery" data-images="<?= e(json_encode(array_map(fn($img) => upload_url($img['file_url']), $images))) ?>">
       <?php if ($firstImg): ?>
       <div class="stitch-gallery-main-wrap">
-        <img src="<?= upload_url($firstImg['file_url']) ?>" alt="<?= e($business['business_name']) ?>" class="stitch-gallery-main" id="heroMainImage">
-        <?php if (count($images) > 1): ?>
-        <button class="stitch-gallery-btn" onclick="document.getElementById('gallery-modal').classList.add('open')">
-          <i class="fas fa-eye" style="font-size:15px;"></i>
-          View all photos (<?= count($images) ?>)
+        <button class="stitch-gallery-nav stitch-gallery-nav-prev" onclick="galleryPrev()" aria-label="Previous image" <?= count($images) < 2 ? 'style="display:none"' : '' ?>>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M15 18l-6-6 6-6"/></svg>
         </button>
-        <?php endif; ?>
+        <img src="<?= upload_url($firstImg['file_url']) ?>" alt="<?= e($business['business_name']) ?>" class="stitch-gallery-main" id="heroMainImage" data-index="0">
+        <button class="stitch-gallery-nav stitch-gallery-nav-next" onclick="galleryNext()" aria-label="Next image" <?= count($images) < 2 ? 'style="display:none"' : '' ?>>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+        <button class="stitch-gallery-btn" onclick="openLightbox(0)">
+          <i class="fas fa-expand" style="font-size:13px;"></i>
+          <span class="stitch-gallery-count">1 / <?= count($images) ?></span>
+        </button>
       </div>
       <?php if (count($images) > 1): ?>
-      <div class="stitch-gallery-thumbs">
-        <?php foreach (array_slice($images, 1, 3) as $i => $img): ?>
-        <img src="<?= upload_url($img['file_url']) ?>" alt="" class="stitch-gallery-thumb" onclick="document.getElementById('heroMainImage').src='<?= upload_url($img['file_url']) ?>'" loading="lazy">
+      <div class="stitch-gallery-thumbs" id="galleryThumbs">
+        <?php foreach ($images as $i => $img): ?>
+        <img src="<?= upload_url($img['file_url']) ?>" alt="" class="stitch-gallery-thumb <?= $i === 0 ? 'active' : '' ?>" data-index="<?= $i ?>" onclick="gallerySelect(<?= $i ?>)" loading="lazy">
         <?php endforeach; ?>
       </div>
       <?php endif; ?>
@@ -885,18 +889,18 @@ require __DIR__ . '/../includes/layout-public.php';
      MODALS
      ════════════════════════════════════════════════════════════ -->
 
-<!-- Gallery Modal -->
-<div id="gallery-modal" class="stitch-overlay" onclick="if(event.target===this)this.classList.remove('open')" role="dialog" aria-modal="true">
-  <div class="stitch-overlay-content" onclick="event.stopImmediatePropagation()">
-    <div class="stitch-overlay-header">
-      <h3>Gallery (<?= count($images) ?>)</h3>
-      <button class="stitch-overlay-close" onclick="document.getElementById('gallery-modal').classList.remove('open')">&times;</button>
-    </div>
-    <div class="stitch-gallery-modal-grid">
-      <?php foreach ($images as $img): ?>
-      <img src="<?= upload_url($img['file_url']) ?>" alt="" loading="lazy">
-      <?php endforeach; ?>
-    </div>
+<!-- Lightbox Modal -->
+<div id="lightbox-modal" class="stitch-lightbox" onclick="if(event.target===this)closeLightbox()" role="dialog" aria-modal="true" style="display:none;">
+  <button class="stitch-lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <button class="stitch-lightbox-nav stitch-lightbox-prev" onclick="galleryPrev()" aria-label="Previous">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button class="stitch-lightbox-nav stitch-lightbox-next" onclick="galleryNext()" aria-label="Next">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+  <div class="stitch-lightbox-content" onclick="event.stopImmediatePropagation()">
+    <img src="" alt="" class="stitch-lightbox-img" id="lightboxImg">
+    <div class="stitch-lightbox-counter" id="lightboxCounter"></div>
   </div>
 </div>
 
@@ -995,6 +999,62 @@ document.addEventListener('DOMContentLoaded', function() {
     saveBtn.setAttribute('data-toggled', '1');
   }
 });
+</script>
+
+// Gallery
+(function() {
+  var images = [];
+  try {
+    var el = document.getElementById('businessGallery');
+    if (el) images = JSON.parse(el.getAttribute('data-images'));
+  } catch(e) {}
+  if (!images.length) return;
+
+  var mainImg = document.getElementById('heroMainImage');
+  var thumbs = document.querySelectorAll('.stitch-gallery-thumb');
+  var countEl = document.querySelector('.stitch-gallery-count');
+  var lightbox = document.getElementById('lightbox-modal');
+  var lightboxImg = document.getElementById('lightboxImg');
+  var lightboxCounter = document.getElementById('lightboxCounter');
+  var current = 0;
+
+  window.gallerySelect = function(idx) {
+    if (idx < 0) idx = images.length - 1;
+    if (idx >= images.length) idx = 0;
+    current = idx;
+    mainImg.src = images[idx];
+    mainImg.setAttribute('data-index', idx);
+    thumbs.forEach(function(t) { t.classList.toggle('active', parseInt(t.getAttribute('data-index')) === idx); });
+    if (countEl) countEl.textContent = (idx + 1) + ' / ' + images.length;
+    if (lightboxImg && lightbox.style.display !== 'none') {
+      lightboxImg.src = images[idx];
+      if (lightboxCounter) lightboxCounter.textContent = (idx + 1) + ' / ' + images.length;
+    }
+  };
+
+  window.galleryPrev = function() { gallerySelect(current - 1); };
+  window.galleryNext = function() { gallerySelect(current + 1); };
+
+  window.openLightbox = function(idx) {
+    current = idx;
+    lightbox.style.display = 'flex';
+    lightboxImg.src = images[idx];
+    if (lightboxCounter) lightboxCounter.textContent = (idx + 1) + ' / ' + images.length;
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeLightbox = function() {
+    lightbox.style.display = 'none';
+    document.body.style.overflow = '';
+  };
+
+  document.addEventListener('keydown', function(e) {
+    if (lightbox.style.display === 'none') return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') galleryPrev();
+    if (e.key === 'ArrowRight') galleryNext();
+  });
+})();
 </script>
 
 <?php $hidePublicFooter = true; require __DIR__ . '/../includes/footer.php'; ?>

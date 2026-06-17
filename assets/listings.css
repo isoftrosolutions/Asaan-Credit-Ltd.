@@ -1291,6 +1291,18 @@
   display: block;
 }
 
+.stitch-gallery-nav {
+  position:absolute;top:50%;z-index:2;
+  transform:translateY(-50%);width:36px;height:36px;
+  border:none;border-radius:50%;cursor:pointer;
+  background:rgba(0,0,0,.5);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;font-size:18px;
+}
+.stitch-gallery-nav:hover { background:rgba(0,0,0,.8); }
+.stitch-gallery-nav-prev { left:10px; }
+.stitch-gallery-nav-next { right:10px; }
+
 .stitch-gallery-btn {
   position: absolute;
   bottom: 12px;
@@ -1314,21 +1326,30 @@
 
 .stitch-gallery-thumbs {
   display: flex;
-  gap: 10px;
-  height: 80px;
+  gap: 8px;
+  height: 72px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,.3) transparent;
+  padding-bottom: 4px;
 }
+.stitch-gallery-thumbs::-webkit-scrollbar { height: 4px; }
+.stitch-gallery-thumbs::-webkit-scrollbar-thumb { background: rgba(255,255,255,.3); border-radius: 4px; }
 
 .stitch-gallery-thumb {
-  flex: 1;
+  flex-shrink: 0;
+  width: 100px;
+  height: 68px;
   border-radius: 8px;
-  overflow: hidden;
   object-fit: cover;
   cursor: pointer;
-  opacity: .8;
-  transition: opacity .2s;
-  border: 1px solid rgba(255,255,255,.2);
+  opacity: .7;
+  transition: opacity .2s, border-color .2s;
+  border: 2px solid transparent;
 }
 .stitch-gallery-thumb:hover { opacity: 1; }
+.stitch-gallery-thumb.active { opacity: 1; border-color: var(--color-primary); }
 
 .stitch-gallery-fallback {
   display: flex;
@@ -2248,17 +2269,41 @@
   color: var(--ds-text);
 }
 
-/* Gallery modal grid */
-.stitch-gallery-modal-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+/* Lightbox */
+.stitch-lightbox {
+  position:fixed;inset:0;z-index:2000;
+  background:rgba(0,0,0,.92);
+  align-items:center;justify-content:center;
+  flex-direction:column;
 }
-.stitch-gallery-modal-grid img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 8px;
+.stitch-lightbox-close {
+  position:absolute;top:16px;right:20px;z-index:3;
+  background:none;border:none;font-size:2.2rem;color:#fff;
+  cursor:pointer;line-height:1;padding:8px;font-family:inherit;
+  opacity:.7;transition:opacity .2s;
+}
+.stitch-lightbox-close:hover { opacity:1; }
+.stitch-lightbox-nav {
+  position:absolute;top:50%;z-index:3;
+  transform:translateY(-50%);
+  background:rgba(255,255,255,.1);border:none;border-radius:50%;
+  width:48px;height:48px;color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+.stitch-lightbox-nav:hover { background:rgba(255,255,255,.2); }
+.stitch-lightbox-prev { left:20px; }
+.stitch-lightbox-next { right:20px; }
+.stitch-lightbox-content {
+  display:flex;flex-direction:column;align-items:center;gap:16px;
+  max-width:90vw;max-height:90vh;
+}
+.stitch-lightbox-img {
+  max-width:100%;max-height:82vh;object-fit:contain;
+  border-radius:8px;
+}
+.stitch-lightbox-counter {
+  color:rgba(255,255,255,.6);font-size:14px;font-weight:600;
 }
 
 /* ─── Footer ─── */
@@ -2333,7 +2378,13 @@
   .stitch-hero-actions .stitch-btn-primary { flex: 1; justify-content: center; min-width: 140px; }
   .stitch-hero-actions .stitch-btn-secondary { padding: 12px 16px; flex: 1; justify-content: center; }
 
-  .stitch-gallery-thumbs { height: 60px; gap: 8px; }
+  .stitch-gallery-thumbs { height: 56px; }
+  .stitch-gallery-thumb { width: 76px; height: 52px; }
+  .stitch-gallery-nav { width:30px;height:30px; }
+  .stitch-gallery-nav svg { width:16px;height:16px; }
+  .stitch-lightbox-nav { width:36px;height:36px; }
+  .stitch-lightbox-prev { left:8px; }
+  .stitch-lightbox-next { right:8px; }
 
   .stitch-section-title { font-size: 1.25rem; }
   .stitch-layout { margin: 12px auto 24px; gap: 20px; }
@@ -2370,8 +2421,7 @@
   .stitch-sidebar-meta { padding: 12px 16px; }
   .stitch-sidebar-disclaimer { padding: 8px 16px; }
 
-  .stitch-gallery-modal-grid { grid-template-columns: 1fr; }
-  .stitch-gallery-modal-grid img { height: 200px; }
+
 
   body { padding-bottom: 72px; }
 }
