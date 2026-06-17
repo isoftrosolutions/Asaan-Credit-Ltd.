@@ -225,7 +225,7 @@ require __DIR__ . '/../includes/layout-public.php';
       </div>
 
       <div class="stitch-hero-actions">
-        <button class="stitch-btn stitch-btn-primary" onclick="<?php if ($viewerIsPremium || $userId === $ownerUserId): ?>document.getElementById('interest-modal').classList.add('open')<?php else: ?>document.getElementById('premium-modal').classList.add('open')<?php endif; ?>">
+        <button class="stitch-btn stitch-btn-primary" onclick="<?php if ($viewerIsPremium || $userId === $ownerUserId): ?>document.getElementById('interest-modal').classList.add('open')<?php else: ?>location.href='<?= APP_URL ?>/upgrade'<?php endif; ?>">
           <i class="fas fa-envelope" style="font-size:16px;"></i>
           Contact Seller
         </button>
@@ -599,7 +599,7 @@ require __DIR__ . '/../includes/layout-public.php';
         <i class="fas fa-file-alt" style="font-size:36px;color:var(--color-text-muted);margin-bottom:12px;display:block;"></i>
         <h3 style="margin:0 0 8px;font-size:16px;">Documents are Premium</h3>
         <p style="font-size:13px;color:var(--color-text-muted);margin:0 0 16px;">Upgrade to a premium account to access financial statements, contracts, and reports.</p>
-        <button class="stitch-btn-primary" style="font-size:13px;padding:8px 20px;" onclick="document.getElementById('premium-modal').classList.add('open')">Upgrade to Premium</button>
+        <a href="<?= APP_URL ?>/upgrade" class="stitch-btn-primary" style="display:inline-block;font-size:13px;padding:8px 20px;text-decoration:none;">Upgrade to Premium</a>
       </div>
     </section>
     <?php endif; ?>
@@ -701,7 +701,7 @@ require __DIR__ . '/../includes/layout-public.php';
         <?php elseif ($viewerIsPremium || $hasInquired || $hasMatch): ?>
         <button class="stitch-sidebar-cta" onclick="alert('Contact: <?= e($business['owner_name']) ?> — <?= e($business['owner_email']) ?>')">View Contact Details</button>
         <?php else: ?>
-        <button class="stitch-sidebar-cta" onclick="document.getElementById('premium-modal').classList.add('open')">Unlock Contact — Go Premium</button>
+        <a href="<?= APP_URL ?>/upgrade" class="stitch-sidebar-cta" style="display:block;text-align:center;">Unlock Contact — Go Premium</a>
         <?php endif; ?>
 
         <?php if ($inquiryCount > 0): ?>
@@ -768,7 +768,7 @@ require __DIR__ . '/../includes/layout-public.php';
         <div class="stitch-card-body" style="text-align:center;padding:16px;">
           <i class="fas fa-lock" style="font-size:24px;color:var(--color-text-muted);margin-bottom:8px;display:block;"></i>
           <p style="font-size:13px;color:var(--color-text-muted);margin:0 0 10px;">Owner details are hidden. Upgrade to Premium to see the owner's name, phone, and company.</p>
-          <button class="stitch-btn-primary" style="width:100%;font-size:13px;padding:8px 14px;" onclick="document.getElementById('premium-modal').classList.add('open')">Upgrade to Premium</button>
+          <a href="<?= APP_URL ?>/upgrade" class="stitch-btn-primary" style="display:block;text-align:center;font-size:13px;padding:8px 14px;text-decoration:none;">Upgrade to Premium</a>
         </div>
         <?php endif; ?>
       </div>
@@ -984,7 +984,7 @@ require __DIR__ . '/../includes/layout-public.php';
         Premium members can see owner contact details, financial documents, and reports. 
         Contact the admin to upgrade your account.
       </p>
-      <a href="<?= APP_URL ?>/contact" class="stitch-btn-primary" style="display:inline-block;padding:10px 28px;text-decoration:none;">Contact Admin</a>
+      <a href="<?= APP_URL ?>/upgrade" class="stitch-btn-primary" style="display:inline-block;padding:10px 28px;text-decoration:none;">Request Upgrade</a>
       <button class="stitch-btn-secondary" style="display:block;width:100%;margin-top:10px;padding:8px;font-size:12px;" onclick="document.getElementById('premium-modal').classList.remove('open')">Maybe later</button>
     </div>
   </div>

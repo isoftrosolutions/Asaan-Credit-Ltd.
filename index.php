@@ -26,6 +26,7 @@ $routes = [
     '/advisor/edit'                 => 'advisor/edit.php',
     '/business/create'              => 'business/create.php',
     '/business/edit'                => 'business/edit.php',
+    '/upgrade'                      => 'pages/upgrade.php',
     '/pricing'                      => 'pages/how-it-works.php',
     '/valuation'                    => 'pages/business-valuation.php',
     '/business-valuation'           => 'pages/business-valuation.php',
