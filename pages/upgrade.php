@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 (int)$admin['id'],
                 'Premium Upgrade Request',
                 $user['name'] . ' (' . $user['email'] . ') requested a premium upgrade.' . ($message ? ' Message: ' . $message : ''),
-                '/admin/users'
+                '/admin/premium?requester_id=' . $userId
             ]);
 
             $mailBody = '<div style="font-family:sans-serif;max-width:600px;margin:20px auto;padding:32px;border:1px solid #eef2f6;border-radius:16px;">

@@ -151,6 +151,7 @@ if (!defined('UI_PHP_LOADED')) {
             ['Users', '/admin/users', 'users'],
             ['Pitches', '/admin/pitches', 'tag'],
             ['Reports', '/admin/reports', 'lock'],
+            ['Premium', '/admin/premium', 'star'],
             ['Broadcast', '/admin/broadcast', 'share'],
             ['Sectors', '/admin/sectors', 'tag'],
             ['Email Settings', '/admin/email-settings', 'settings'],
