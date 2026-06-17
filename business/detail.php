@@ -218,10 +218,6 @@ require __DIR__ . '/../includes/layout-public.php';
           <span class="label">EBITDA Margin</span>
           <span class="value"><?= e($business['ebitda_pct'] ?? '—') ?>%</span>
         </div>
-        <div class="stitch-metric-card">
-          <span class="label">Growth (3Y)</span>
-          <span class="value"><?= $revGrowth !== null ? ($revGrowth >= 0 ? '+' : '') . $revGrowth . '%' : '—' ?></span>
-        </div>
       </div>
 
       <div class="stitch-hero-actions">
