@@ -153,6 +153,7 @@ if (!defined('UI_PHP_LOADED')) {
             ['Pitches', '/admin/pitches', 'tag'],
             ['Reports', '/admin/reports', 'lock'],
             ['Premium', '/admin/premium', 'star'],
+            ['Premium Verify', '/admin/premium-verify', 'lock'],
             ['Home', '/', 'home'],
             ['Broadcast', '/admin/broadcast', 'share'],
             ['Sectors', '/admin/sectors', 'tag'],

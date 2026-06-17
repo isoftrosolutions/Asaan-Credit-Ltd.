@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS `premium_subscriptions` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT NOT NULL,
+  `plan_type` ENUM('starter','growth','pro') NOT NULL DEFAULT 'starter',
+  `plan_label` VARCHAR(50) NOT NULL DEFAULT '',
+  `amount` DECIMAL(10,2) NOT NULL DEFAULT 0,
+  `duration_months` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `transaction_id` VARCHAR(255) DEFAULT NULL,
+  `payment_date` DATE DEFAULT NULL,
+  `receipt_file` VARCHAR(255) DEFAULT NULL,
+  `status` ENUM('pending','active','rejected','expired') NOT NULL DEFAULT 'pending',
+  `activated_by` INT DEFAULT NULL,
+  `activated_at` DATETIME DEFAULT NULL,
+  `expiry_date` DATE DEFAULT NULL,
+  `notes` TEXT DEFAULT NULL,
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  INDEX `idx_user_id` (`user_id`),
+  INDEX `idx_status` (`status`),
+  INDEX `idx_expiry` (`expiry_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

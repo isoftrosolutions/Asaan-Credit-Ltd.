@@ -54,6 +54,7 @@ $routes = [
     '/admin/pitches'                => 'admin/pitches.php',
     '/admin/businesses'             => 'admin/businesses.php',
     '/admin/premium'                => 'admin/premium.php',
+    '/admin/premium-verify'         => 'admin/premium-verify.php',
     '/admin/reports'                => 'admin/reports.php',
     '/admin/interest-log'           => 'admin/interest-log.php',
     '/admin/inquiries'              => 'admin/inquiries.php',

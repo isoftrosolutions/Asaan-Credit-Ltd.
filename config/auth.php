@@ -1,11 +1,29 @@
 <?php
 function current_user(): ?array {
     if (!isset($_SESSION['user'])) return null;
-    if (!array_key_exists('is_premium', $_SESSION['user'])) {
+    $needsRefresh = !array_key_exists('is_premium', $_SESSION['user']);
+    if ($needsRefresh) {
         $stmt = db()->prepare('SELECT * FROM users WHERE id = ?');
         $stmt->execute([(int)$_SESSION['user']['id']]);
         $fresh = $stmt->fetch();
         if ($fresh) $_SESSION['user'] = $fresh;
+    }
+    if (!empty($_SESSION['user']['is_premium'])) {
+        $expStmt = db()->prepare("
+            SELECT id, status, expiry_date FROM premium_subscriptions
+            WHERE user_id = ? AND status = 'active' AND expiry_date <= CURDATE()
+            ORDER BY id DESC LIMIT 1
+        ");
+        $expStmt->execute([(int)$_SESSION['user']['id']]);
+        $expired = $expStmt->fetch();
+        if ($expired) {
+            db()->prepare("UPDATE premium_subscriptions SET status = 'expired' WHERE id = ?")->execute([$expired['id']]);
+            db()->prepare("UPDATE users SET is_premium = 0 WHERE id = ?")->execute([(int)$_SESSION['user']['id']]);
+            $fresh = db()->prepare("SELECT * FROM users WHERE id = ?");
+            $fresh->execute([(int)$_SESSION['user']['id']]);
+            $_SESSION['user'] = $fresh->fetch() ?: $_SESSION['user'];
+            $_SESSION['user']['is_premium'] = 0;
+        }
     }
     return $_SESSION['user'];
 }
