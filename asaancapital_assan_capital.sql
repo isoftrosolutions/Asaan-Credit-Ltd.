@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 15, 2026 at 07:08 AM
+-- Generation Time: Jun 17, 2026 at 12:17 PM
 -- Server version: 10.11.18-MariaDB
 -- PHP Version: 8.4.21
 
@@ -66,7 +66,21 @@ INSERT INTO `admin_audit_log` (`id`, `admin_id`, `action`, `target_type`, `targe
 (21, 1, 'unhide_pitch', 'pitch', 1, NULL, '103.104.234.102', '2026-06-12 16:18:07'),
 (22, 1, 'resolve_report', 'report', 1, '{\"action_taken\":\"Action\"}', '103.104.234.102', '2026-06-12 16:19:10'),
 (23, 1, 'toggle_verification', 'business_verifications', 33, '{\"field\":\"email_verified\"}', '103.104.234.102', '2026-06-12 16:30:17'),
-(24, 1, 'toggle_verification', 'business_verifications', 33, '{\"field\":\"phone_verified\"}', '103.104.234.102', '2026-06-12 16:30:21');
+(24, 1, 'toggle_verification', 'business_verifications', 33, '{\"field\":\"phone_verified\"}', '103.104.234.102', '2026-06-12 16:30:21'),
+(25, 1, 'delete_business', 'business', 46, NULL, '103.28.86.60', '2026-06-17 10:13:32'),
+(26, 1, 'delete_business', 'business', 45, NULL, '103.28.86.60', '2026-06-17 10:13:35'),
+(27, 1, 'delete_business', 'business', 44, NULL, '103.28.86.60', '2026-06-17 10:13:38'),
+(28, 1, 'delete_business', 'business', 43, NULL, '103.28.86.60', '2026-06-17 10:14:43'),
+(29, 1, 'delete_business', 'business', 33, NULL, '103.28.86.60', '2026-06-17 10:14:45'),
+(30, 1, 'delete_business', 'business', 11, NULL, '103.28.86.60', '2026-06-17 10:14:47'),
+(31, 1, 'delete_business', 'business', 12, NULL, '103.28.86.60', '2026-06-17 10:14:49'),
+(32, 1, 'delete_business', 'business', 13, NULL, '103.28.86.60', '2026-06-17 10:14:52'),
+(201, 1, 'approve_verification', 'user', 201, '{\"email\":\"rkblockudhyog@gmail.com\"}', '127.0.0.1', '2026-06-17 10:26:17'),
+(202, 1, 'delete_business', 'business', 33, NULL, '103.28.86.60', '2026-06-17 10:26:40'),
+(203, 1, 'delete_business', 'business', 323, NULL, '103.28.86.60', '2026-06-17 10:26:43'),
+(204, 1, 'update_site_settings', 'site_settings', 0, '[\"_csrf\",\"payment_phone\",\"premium_contact_email\",\"payment_instructions\",\"site_tagline\"]', '103.28.86.60', '2026-06-17 11:50:41'),
+(205, 1, 'update_site_settings', 'site_settings', 0, '[\"_csrf\",\"payment_phone\",\"premium_contact_email\",\"payment_instructions\",\"site_tagline\"]', '103.28.86.60', '2026-06-17 11:54:16'),
+(206, 1, 'premium_verified', 'premium_subscription', 2, '{\"user_id\":23,\"plan\":\"growth\",\"amount\":\"3000.00\"}', '120.89.104.206', '2026-06-17 12:02:33');
 
 -- --------------------------------------------------------
 
@@ -186,7 +200,6 @@ CREATE TABLE `businesses` (
   `assets_included` text DEFAULT NULL,
   `facilities` longtext DEFAULT NULL,
   `capitalization` longtext DEFAULT NULL,
-  `thumbnail_url` varchar(500) DEFAULT NULL,
   `is_published` tinyint(1) DEFAULT 0,
   `is_hidden` tinyint(1) DEFAULT 0,
   `status` enum('draft','pending','approved','rejected','sold') NOT NULL DEFAULT 'approved',
@@ -201,37 +214,33 @@ CREATE TABLE `businesses` (
 -- Dumping data for table `businesses`
 --
 
-INSERT INTO `businesses` (`id`, `user_id`, `business_name`, `slug`, `listing_type`, `sector_id`, `province`, `district`, `country_id`, `state_id`, `city_id`, `established_year`, `employee_count`, `legal_entity_type`, `annual_revenue`, `monthly_revenue`, `ebitda_pct`, `asking_price`, `funding_required`, `valuation`, `stake_offered_pct`, `loan_amount`, `loan_interest_pct`, `description`, `overview`, `products_services`, `reason_for_sale`, `assets_included`, `facilities`, `capitalization`, `thumbnail_url`, `is_published`, `is_hidden`, `status`, `is_featured`, `views`, `rating`, `created_at`, `updated_at`) VALUES
-(1, 3, 'Enterprise Software Co.', 'enterprise-software-co-1', 'sale', 4, 'Bagmati', 'Kathmandu', 1, 3, 27, 2018, 45, NULL, 120000000.00, NULL, 18.00, 120000000.00, NULL, NULL, NULL, NULL, NULL, 'Cloud B2B SaaS platform serving 200+ clients across 12 countries. Strong recurring revenue with 92% retention rate.', NULL, NULL, 'Founder pursuing new venture in EdTech space', NULL, NULL, NULL, NULL, 1, 0, 'approved', 1, 1450, 9.3, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
-(2, 3, 'Manufacturing Unit Expansion', 'manufacturing-unit-expansion-2', 'partial_stake', 7, 'Bagmati', 'Kathmandu', 1, 3, 27, 2015, 120, NULL, 80000000.00, NULL, 12.00, 60000000.00, NULL, NULL, NULL, NULL, NULL, 'Food processing unit with modern equipment. 30% YoY growth. Looking for strategic partner for expansion.', NULL, NULL, 'Seeking capital for new product line', NULL, NULL, NULL, NULL, 1, 0, 'approved', 0, 895, 8.1, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
-(3, 3, 'Retail Pharmacy Chain', 'retail-pharmacy-chain-3', 'sale', 8, 'Bagmati', 'Lalitpur', 1, 3, 29, 2010, 30, NULL, 50000000.00, NULL, 15.00, 50000000.00, NULL, NULL, NULL, NULL, NULL, 'Chain of 5 retail pharmacy stores in Kathmandu Valley. Established brand with loyal customer base.', NULL, NULL, 'Owner relocating abroad', NULL, NULL, NULL, NULL, 1, 0, 'approved', 0, 675, 7.5, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
-(4, 4, 'Hotel Equity Stake', 'hotel-equity-stake-4', 'partial_stake', 9, 'Gandaki', 'Pokhara', 1, 4, NULL, 2012, 55, NULL, 35000000.00, NULL, 22.00, 30000000.00, NULL, NULL, NULL, NULL, NULL, 'Boutique hotel in Pokhara with 20 rooms. Strong tourism revenue. Offering 40% equity stake.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 'approved', 0, 544, 8.6, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
-(5, 4, 'Tech Startup Portfolio', 'tech-startup-portfolio-5', 'sale', 4, 'Bagmati', 'Kathmandu', 1, 3, 27, 2020, 8, NULL, 15000000.00, NULL, 25.00, 25000000.00, NULL, NULL, NULL, NULL, NULL, 'Portfolio of 3 bootstrapped SaaS products with 5,000+ paying users across SEA.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 'approved', 0, 315, 7.8, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
-(6, 5, 'Rana Supermart Chain', 'rana-supermart-chain-6', 'sale', 8, 'Bagmati', 'Kathmandu', 1, 3, 27, 2014, 85, NULL, 95000000.00, NULL, 16.00, 90000000.00, NULL, NULL, NULL, NULL, NULL, 'Chain of 6 neighbourhood supermarkets across the Kathmandu Valley.', NULL, NULL, 'Owner consolidating to focus on wholesale distribution', NULL, NULL, NULL, NULL, 1, 0, 'approved', 1, 760, 8.4, '2026-05-29 22:15:00', '2026-05-29 22:15:00'),
-(7, 5, 'Himalayan Handicrafts Export', 'himalayan-handicrafts-export-7', 'partial_stake', 13, 'Bagmati', 'Bhaktapur', 1, 3, 23, 2017, 40, NULL, 42000000.00, NULL, 20.00, 30000000.00, NULL, NULL, 30.00, NULL, NULL, 'Export-focused handicraft business shipping to Europe and North America.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 'approved', 0, 410, 7.9, '2026-05-29 22:15:00', '2026-05-29 22:15:00'),
-(11, 1, 'Mountain Vista Resort & Spa', 'mountain-vista-resort-spa-11', 'sale', 9, 'Gandaki', 'Pokhara', 1, 4, NULL, 2012, 48, NULL, 65000000.00, NULL, 22.00, 120000000.00, NULL, NULL, NULL, NULL, NULL, 'A 30-room boutique resort with panoramic Himalayan views, full-service spa, and multi-cuisine restaurant. Located on the scenic Pokhara lakeside. 85% average occupancy rate with 4.7-star guest rating.', NULL, NULL, 'Owner retiring after 12 successful years in hospitality', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop', 1, 0, 'approved', 1, 275, 9.1, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(12, 1, 'Downtown Kathmandu Business Hotel', 'downtown-kathmandu-business-hotel-12', 'sale', 9, 'Bagmati', 'Kathmandu', 1, 3, 27, 2015, 35, NULL, 42000000.00, NULL, 18.50, 75000000.00, NULL, NULL, NULL, NULL, NULL, 'Well-established 20-room business hotel in central Kathmandu with conference facilities, restaurant, and bar. Strong corporate client base and consistent year-round revenue.', NULL, NULL, 'Seeking to divest for larger development project', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&h=300&fit=crop', 1, 0, 'approved', 0, 899, 8.3, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(13, 1, 'Lakeside Restaurant & Bar', 'lakeside-restaurant-bar-13', 'sale', 9, 'Gandaki', 'Pokhara', 1, 4, NULL, 2018, 18, NULL, 18000000.00, NULL, 25.00, 28000000.00, NULL, NULL, NULL, NULL, NULL, 'Popular multi-cuisine restaurant and bar on Pokhara lakefront with 80-seat capacity, outdoor terrace, and live music license. Strong tourist and expat clientele.', NULL, NULL, 'Owner relocating abroad', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=400&h=300&fit=crop', 1, 0, 'approved', 0, 359, 8.7, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(14, 1, 'Everest Wellness Pharmacy Chain', 'everest-wellness-pharmacy-chain-14', 'sale', 8, 'Bagmati', 'Kathmandu', 1, 3, 27, 2008, 42, NULL, 72000000.00, NULL, 14.00, 85000000.00, NULL, NULL, NULL, NULL, NULL, 'Chain of 7 pharmacies across Kathmandu Valley with wholesale distribution license. Established supplier relationships with major pharmaceutical companies. Loyal customer base of 15,000+.', NULL, NULL, 'Founder expanding into hospital management', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1585435557343-3b092031a831?w=400&h=300&fit=crop', 1, 0, 'approved', 0, 228, 8.0, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(15, 1, 'Himalayan General Store & Provisions', 'himalayan-general-store-provisions-15', 'sale', 8, 'Bagmati', 'Lalitpur', 1, 3, 29, 2010, 22, NULL, 35000000.00, NULL, 12.00, 40000000.00, NULL, NULL, NULL, NULL, NULL, 'Full-service general store in a high-traffic residential area of Lalitpur. Stocking groceries, household items, and local specialties. Stable annual growth of 8-10%.', NULL, NULL, 'Owner pursuing franchise opportunity', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&h=300&fit=crop', 1, 0, 'approved', 0, 808, 7.8, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(16, 1, 'Organic & Natural Products Boutique', 'organic-natural-products-boutique-16', 'partial_stake', 8, 'Bagmati', 'Kathmandu', 1, 3, 27, 2019, 12, NULL, 15000000.00, NULL, 20.00, 12000000.00, NULL, NULL, NULL, NULL, NULL, 'Specialty retail store offering organic foods, natural cosmetics, and eco-friendly home products. Growing health-conscious customer segment. Seeking partner for 40% equity to fund expansion.', NULL, NULL, 'Expanding to second location, need growth capital', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop', 1, 0, 'approved', 0, 749, 8.5, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(17, 1, 'LearnNepal Online Academy', 'learnnepal-online-academy-17', 'partial_stake', 5, 'Bagmati', 'Kathmandu', 1, 3, 27, 2020, 28, NULL, 22000000.00, NULL, 28.00, 35000000.00, NULL, NULL, NULL, NULL, NULL, 'Online learning platform offering STEM courses for grades 8-12. 8,500+ active students across 35 districts. Offline-capable mobile app. Partnerships with 50+ schools.', NULL, NULL, 'Scaling to include vocational training vertical', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400&h=300&fit=crop', 1, 0, 'approved', 1, 312, 9.0, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(18, 1, 'SkillBridge Vocational Training Center', 'skillbridge-vocational-training-center-18', 'sale', 5, 'Province 1', 'Biratnagar', NULL, NULL, NULL, 2016, 25, NULL, 28000000.00, NULL, 16.00, 45000000.00, NULL, NULL, NULL, NULL, NULL, 'CTEVT-affiliated vocational training center offering IT, hospitality, and healthcare assistant courses. 500+ graduates annually with 85% placement rate. Government-recognized certification.', NULL, NULL, 'Owner retiring, looking for successor', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=300&fit=crop', 1, 0, 'approved', 0, 717, 8.1, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(19, 1, 'GreenFarm Hydroponics', 'greenfarm-hydroponics-19', 'partial_stake', 1, 'Bagmati', 'Kathmandu', 1, 3, 27, 2021, 15, NULL, 12000000.00, NULL, 30.00, 18000000.00, NULL, NULL, NULL, NULL, NULL, 'Commercial hydroponic farm supplying premium lettuce, herbs, and microgreens to 40+ hotels and restaurants in Kathmandu. Year-round production with 3 greenhouse facilities.', NULL, NULL, 'Seeking capital to build 5 more greenhouse units', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1585515321484-4e8e8e6b8f7b?w=400&h=300&fit=crop', 1, 0, 'approved', 0, 845, 8.8, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(20, 1, 'Nepal Organic Tea Plantation', 'nepal-organic-tea-plantation-20', 'sale', 1, 'Province 1', 'Ilam', NULL, NULL, NULL, 2005, 60, NULL, 38000000.00, NULL, 20.00, 95000000.00, NULL, NULL, NULL, NULL, NULL, 'Established 25-acre organic tea estate in Ilam producing premium orthodox teas. Exports to 8 countries. Certified organic and Fair Trade. On-site processing facility.', NULL, NULL, 'Founder looking for strategic acquisition partner', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1563822249366-3efb23b8e0c9?w=400&h=300&fit=crop', 1, 0, 'approved', 0, 242, 9.2, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(21, 1, 'Annapurna Steel Fabrication', 'annapurna-steel-fabrication-21', 'sale', 7, 'Bagmati', 'Hetauda', 1, 3, NULL, 2014, 85, NULL, 95000000.00, NULL, 15.00, 110000000.00, NULL, NULL, NULL, NULL, NULL, 'Steel fabrication and structural manufacturing unit with 30,000 sq ft factory. Supplies construction companies across central Nepal. ISO 9001 certified. Modern machinery.', NULL, NULL, 'Owner pursuing import business opportunities', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=300&fit=crop', 1, 0, 'approved', 0, 904, 8.2, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(22, 1, 'Himalayan Pashmina Weaving Mill', 'himalayan-pashmina-weaving-mill-22', 'partial_stake', 7, 'Bagmati', 'Kathmandu', 1, 3, 27, 2009, 55, NULL, 52000000.00, NULL, 22.00, 65000000.00, NULL, NULL, NULL, NULL, NULL, 'Traditional pashmina shawl and scarf manufacturer with 40 handlooms. Exports to luxury retailers in Europe, Japan, and North America. Ethical production certified.', NULL, NULL, 'Seeking investment for digital marketing and US market entry', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop', 1, 0, 'approved', 0, 380, 8.6, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(23, 1, 'Everest Bottled Water Co.', 'everest-bottled-water-co-23', 'sale', 7, 'Bagmati', 'Dhulikhel', 1, 3, NULL, 2011, 38, NULL, 45000000.00, NULL, 18.00, 55000000.00, NULL, NULL, NULL, NULL, NULL, 'Premium spring water bottling plant with source at 1,600m elevation. 5-stage purification system. Supplies 20,000+ bottles daily to hotels, offices, and retail outlets.', NULL, NULL, 'Competitive market prompting owner to exit', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1616118132534-3815a88f96b6?w=400&h=300&fit=crop', 1, 0, 'approved', 0, 585, 7.9, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(24, 1, 'Newa Momo Kitchen Franchise', 'newa-momo-kitchen-franchise-24', 'loan', 12, 'Bagmati', 'Kathmandu', 1, 3, 27, 2017, 20, NULL, 25000000.00, NULL, 24.00, 15000000.00, NULL, NULL, NULL, NULL, NULL, 'Popular momo chain with 3 outlets in Kathmandu. Famous for authentic Newari-style momos. Strong brand recognition. Looking for loan to open 2 more outlets in Lalitpur.', NULL, NULL, 'Expansion capital for new outlets', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=300&fit=crop', 1, 0, 'approved', 0, 789, 8.4, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(25, 1, 'Himalayan Coffee Roasters', 'himalayan-coffee-roasters-25', 'partial_stake', 12, 'Bagmati', 'Lalitpur', 1, 3, 29, 2018, 14, NULL, 18000000.00, NULL, 26.00, 25000000.00, NULL, NULL, NULL, NULL, NULL, 'Specialty coffee roastery sourcing beans from 200+ small farmers in Palpa and Gulmi. Supplies 60+ cafes across Nepal. Single-origin and blend offerings. 35% YoY growth.', NULL, NULL, 'Scaling production capacity and retail presence', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&h=300&fit=crop', 1, 0, 'approved', 1, 395, 9.3, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(26, 1, 'Bakery & Patisserie Shop', 'bakery-patisserie-shop-26', 'sale', 12, 'Bagmati', 'Bhaktapur', 1, 3, 23, 2019, 10, NULL, 9500000.00, NULL, 32.00, 15000000.00, NULL, NULL, NULL, NULL, NULL, 'Artisan bakery in heritage area of Bhaktapur producing sourdough, pastries, and celebration cakes. Strong repeat customer base. Equipment and recipes included.', NULL, NULL, 'Owner focusing on food consultancy', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&h=300&fit=crop', 1, 0, 'approved', 0, 975, 8.9, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(27, 1, 'NepalCraft Online Marketplace', 'nepalcraft-online-marketplace-27', 'partial_stake', 13, 'Bagmati', 'Kathmandu', 1, 3, 27, 2020, 18, NULL, 28000000.00, NULL, 16.00, 40000000.00, NULL, NULL, NULL, NULL, NULL, 'E-commerce platform connecting Nepali artisans with global buyers. 1,200+ registered sellers, 15,000+ products. Monthly orders: 2,500+. Shipping to 25+ countries.', NULL, NULL, 'Need capital for logistics infrastructure and marketing', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=300&fit=crop', 1, 0, 'approved', 0, 311, 8.0, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(28, 1, 'FreshGrocery Nepal', 'freshgrocery-nepal-28', 'sale', 13, 'Bagmati', 'Kathmandu', 1, 3, 27, 2021, 25, NULL, 32000000.00, NULL, 10.00, 22000000.00, NULL, NULL, NULL, NULL, NULL, 'Online grocery delivery service covering Kathmandu Valley. 4,000+ SKUs, own warehouse and delivery fleet. 300+ daily orders. 2-hour delivery window.', NULL, NULL, 'Competitive pressure prompting sale to larger player', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1594398901394-4e34939a4e17?w=400&h=300&fit=crop', 1, 0, 'approved', 0, 833, 7.5, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(29, 1, 'Shiva Construction & Engineering', 'shiva-construction-engineering-29', 'sale', 14, 'Bagmati', 'Kathmandu', 1, 3, 27, 2007, 120, NULL, 150000000.00, NULL, 12.00, 180000000.00, NULL, NULL, NULL, NULL, NULL, 'Class A construction company with 17 years of project delivery. Completed 35+ commercial and residential projects. Owns heavy equipment fleet. Government-approved contractor.', NULL, NULL, 'Founders approaching retirement age', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=400&h=300&fit=crop', 1, 0, 'approved', 0, 633, 8.2, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(30, 1, 'GreenBuild Materials Supply', 'greenbuild-materials-supply-30', 'sale', 14, 'Bagmati', 'Lalitpur', 1, 3, 29, 2016, 28, NULL, 42000000.00, NULL, 14.00, 35000000.00, NULL, NULL, NULL, NULL, NULL, 'Eco-friendly construction materials supplier offering bamboo panels, recycled aggregates, and energy-efficient blocks. Exclusive distributor for 5 international brands in Nepal.', NULL, NULL, 'Owner shifting focus to architectural consultancy', NULL, NULL, NULL, 'https://images.unsplash.com/photo-1579003106855-42f65416a5e5?w=400&h=300&fit=crop', 1, 0, 'approved', 0, 463, 8.0, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(31, 20, 'esagwglkwnegoin', 'esagwglkwnegoin', 'partial_stake', 14, NULL, NULL, 1, 6, 66, 2003, 10, 'Sole Proprietorship', 150000.00, 15000.00, 15.00, 1500.00, 2000000.00, 100000.00, 1.00, NULL, NULL, 'it uryhrn;odisrgnoeirgiuwtbiguwubibi', 'jniweeubnwgioubweou', 'onoierngoiw4ue', 'oginwoginoq', 'uhneiughwiu', 'goeirgorig', 'oignowigwnoi', 'https://unsplash.com/photos/woman-planting-a-small-houseplant-in-a-pot-MJLy1fUvX_w', 1, 0, 'approved', 0, 11, NULL, '2026-06-11 11:33:17', '2026-06-11 11:33:17'),
-(32, 20, 'hello  enterprises', 'hello-enterprises', 'investment', 10, NULL, NULL, 1, 6, 66, 2003, 101454, 'Sole Proprietorship', 1000000.00, 14.00, 10.00, 100000.00, 100000.00, 100000.00, 10.00, NULL, NULL, 'wfgwqfgwfgg', 'wggwgw', 'gwwegwge', 'wgwgewge', 'aeesage', 'wegweegw', 'wweew', 'https://unsplash.com/photos/woman-planting-a-small-houseplant-in-a-pot-MJLy1fUvX_w', 1, 0, 'approved', 0, 16, NULL, '2026-06-12 11:57:36', '2026-06-12 11:57:36'),
-(33, 19, 'R K Block Udhyog', 'r-k-block-udhyog', 'investment', 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Sole Proprietorship', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1, 0, 'approved', 0, 22, NULL, '2026-06-12 12:00:45', '2026-06-12 12:00:45');
+INSERT INTO `businesses` (`id`, `user_id`, `business_name`, `slug`, `listing_type`, `sector_id`, `province`, `district`, `country_id`, `state_id`, `city_id`, `established_year`, `employee_count`, `legal_entity_type`, `annual_revenue`, `monthly_revenue`, `ebitda_pct`, `asking_price`, `funding_required`, `valuation`, `stake_offered_pct`, `loan_amount`, `loan_interest_pct`, `description`, `overview`, `products_services`, `reason_for_sale`, `assets_included`, `facilities`, `capitalization`, `is_published`, `is_hidden`, `status`, `is_featured`, `views`, `rating`, `created_at`, `updated_at`) VALUES
+(1, 3, 'Enterprise Software Co.', 'enterprise-software-co-1', 'sale', 4, 'Bagmati', 'Kathmandu', 1, 3, 27, 2018, 45, NULL, 120000000.00, NULL, 18.00, 120000000.00, NULL, NULL, NULL, NULL, NULL, 'Cloud B2B SaaS platform serving 200+ clients across 12 countries. Strong recurring revenue with 92% retention rate.', NULL, NULL, 'Founder pursuing new venture in EdTech space', NULL, NULL, NULL, 1, 0, 'approved', 1, 1461, 9.3, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
+(2, 3, 'Manufacturing Unit Expansion', 'manufacturing-unit-expansion-2', 'partial_stake', 7, 'Bagmati', 'Kathmandu', 1, 3, 27, 2015, 120, NULL, 80000000.00, NULL, 12.00, 60000000.00, NULL, NULL, NULL, NULL, NULL, 'Food processing unit with modern equipment. 30% YoY growth. Looking for strategic partner for expansion.', NULL, NULL, 'Seeking capital for new product line', NULL, NULL, NULL, 1, 0, 'approved', 0, 899, 8.1, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
+(3, 3, 'Retail Pharmacy Chain', 'retail-pharmacy-chain-3', 'sale', 8, 'Bagmati', 'Lalitpur', 1, 3, 29, 2010, 30, NULL, 50000000.00, NULL, 15.00, 50000000.00, NULL, NULL, NULL, NULL, NULL, 'Chain of 5 retail pharmacy stores in Kathmandu Valley. Established brand with loyal customer base.', NULL, NULL, 'Owner relocating abroad', NULL, NULL, NULL, 1, 0, 'approved', 0, 679, 7.5, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
+(4, 4, 'Hotel Equity Stake', 'hotel-equity-stake-4', 'partial_stake', 9, 'Gandaki', 'Pokhara', 1, 4, NULL, 2012, 55, NULL, 35000000.00, NULL, 22.00, 30000000.00, NULL, NULL, NULL, NULL, NULL, 'Boutique hotel in Pokhara with 20 rooms. Strong tourism revenue. Offering 40% equity stake.', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 'approved', 0, 552, 8.6, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
+(5, 4, 'Tech Startup Portfolio', 'tech-startup-portfolio-5', 'sale', 4, 'Bagmati', 'Kathmandu', 1, 3, 27, 2020, 8, NULL, 15000000.00, NULL, 25.00, 25000000.00, NULL, NULL, NULL, NULL, NULL, 'Portfolio of 3 bootstrapped SaaS products with 5,000+ paying users across SEA.', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 'approved', 0, 320, 7.8, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
+(6, 5, 'Rana Supermart Chain', 'rana-supermart-chain-6', 'sale', 8, 'Bagmati', 'Kathmandu', 1, 3, 27, 2014, 85, NULL, 95000000.00, NULL, 16.00, 90000000.00, NULL, NULL, NULL, NULL, NULL, 'Chain of 6 neighbourhood supermarkets across the Kathmandu Valley.', NULL, NULL, 'Owner consolidating to focus on wholesale distribution', NULL, NULL, NULL, 1, 0, 'approved', 1, 765, 8.4, '2026-05-29 22:15:00', '2026-05-29 22:15:00'),
+(7, 5, 'Himalayan Handicrafts Export', 'himalayan-handicrafts-export-7', 'partial_stake', 13, 'Bagmati', 'Bhaktapur', 1, 3, 23, 2017, 40, NULL, 42000000.00, NULL, 20.00, 30000000.00, NULL, NULL, 30.00, NULL, NULL, 'Export-focused handicraft business shipping to Europe and North America.', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 'approved', 0, 413, 7.9, '2026-05-29 22:15:00', '2026-05-29 22:15:00'),
+(14, 1, 'Everest Wellness Pharmacy Chain', 'everest-wellness-pharmacy-chain-14', 'sale', 8, 'Bagmati', 'Kathmandu', 1, 3, 27, 2008, 42, NULL, 72000000.00, NULL, 14.00, 85000000.00, NULL, NULL, NULL, NULL, NULL, 'Chain of 7 pharmacies across Kathmandu Valley with wholesale distribution license. Established supplier relationships with major pharmaceutical companies. Loyal customer base of 15,000+.', NULL, NULL, 'Founder expanding into hospital management', NULL, NULL, NULL, 1, 0, 'approved', 0, 235, 8.0, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(15, 1, 'Himalayan General Store & Provisions', 'himalayan-general-store-provisions-15', 'sale', 8, 'Bagmati', 'Lalitpur', 1, 3, 29, 2010, 22, NULL, 35000000.00, NULL, 12.00, 40000000.00, NULL, NULL, NULL, NULL, NULL, 'Full-service general store in a high-traffic residential area of Lalitpur. Stocking groceries, household items, and local specialties. Stable annual growth of 8-10%.', NULL, NULL, 'Owner pursuing franchise opportunity', NULL, NULL, NULL, 1, 0, 'approved', 0, 812, 7.8, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(16, 1, 'Organic & Natural Products Boutique', 'organic-natural-products-boutique-16', 'partial_stake', 8, 'Bagmati', 'Kathmandu', 1, 3, 27, 2019, 12, NULL, 15000000.00, NULL, 20.00, 12000000.00, NULL, NULL, NULL, NULL, NULL, 'Specialty retail store offering organic foods, natural cosmetics, and eco-friendly home products. Growing health-conscious customer segment. Seeking partner for 40% equity to fund expansion.', NULL, NULL, 'Expanding to second location, need growth capital', NULL, NULL, NULL, 1, 0, 'approved', 0, 752, 8.5, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(17, 1, 'LearnNepal Online Academy', 'learnnepal-online-academy-17', 'partial_stake', 5, 'Bagmati', 'Kathmandu', 1, 3, 27, 2020, 28, NULL, 22000000.00, NULL, 28.00, 35000000.00, NULL, NULL, NULL, NULL, NULL, 'Online learning platform offering STEM courses for grades 8-12. 8,500+ active students across 35 districts. Offline-capable mobile app. Partnerships with 50+ schools.', NULL, NULL, 'Scaling to include vocational training vertical', NULL, NULL, NULL, 1, 0, 'approved', 1, 325, 9.0, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(18, 1, 'SkillBridge Vocational Training Center', 'skillbridge-vocational-training-center-18', 'sale', 5, 'Province 1', 'Biratnagar', NULL, NULL, NULL, 2016, 25, NULL, 28000000.00, NULL, 16.00, 45000000.00, NULL, NULL, NULL, NULL, NULL, 'CTEVT-affiliated vocational training center offering IT, hospitality, and healthcare assistant courses. 500+ graduates annually with 85% placement rate. Government-recognized certification.', NULL, NULL, 'Owner retiring, looking for successor', NULL, NULL, NULL, 1, 0, 'approved', 0, 722, 8.1, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(19, 1, 'GreenFarm Hydroponics', 'greenfarm-hydroponics-19', 'partial_stake', 1, 'Bagmati', 'Kathmandu', 1, 3, 27, 2021, 15, NULL, 12000000.00, NULL, 30.00, 18000000.00, NULL, NULL, NULL, NULL, NULL, 'Commercial hydroponic farm supplying premium lettuce, herbs, and microgreens to 40+ hotels and restaurants in Kathmandu. Year-round production with 3 greenhouse facilities.', NULL, NULL, 'Seeking capital to build 5 more greenhouse units', NULL, NULL, NULL, 1, 0, 'approved', 0, 845, 8.8, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(20, 1, 'Nepal Organic Tea Plantation', 'nepal-organic-tea-plantation-20', 'sale', 1, 'Province 1', 'Ilam', NULL, NULL, NULL, 2005, 60, NULL, 38000000.00, NULL, 20.00, 95000000.00, NULL, NULL, NULL, NULL, NULL, 'Established 25-acre organic tea estate in Ilam producing premium orthodox teas. Exports to 8 countries. Certified organic and Fair Trade. On-site processing facility.', NULL, NULL, 'Founder looking for strategic acquisition partner', NULL, NULL, NULL, 1, 0, 'approved', 0, 246, 9.2, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(21, 1, 'Annapurna Steel Fabrication', 'annapurna-steel-fabrication-21', 'sale', 7, 'Bagmati', 'Hetauda', 1, 3, NULL, 2014, 85, NULL, 95000000.00, NULL, 15.00, 110000000.00, NULL, NULL, NULL, NULL, NULL, 'Steel fabrication and structural manufacturing unit with 30,000 sq ft factory. Supplies construction companies across central Nepal. ISO 9001 certified. Modern machinery.', NULL, NULL, 'Owner pursuing import business opportunities', NULL, NULL, NULL, 1, 0, 'approved', 0, 905, 8.2, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(22, 1, 'Himalayan Pashmina Weaving Mill', 'himalayan-pashmina-weaving-mill-22', 'partial_stake', 7, 'Bagmati', 'Kathmandu', 1, 3, 27, 2009, 55, NULL, 52000000.00, NULL, 22.00, 65000000.00, NULL, NULL, NULL, NULL, NULL, 'Traditional pashmina shawl and scarf manufacturer with 40 handlooms. Exports to luxury retailers in Europe, Japan, and North America. Ethical production certified.', NULL, NULL, 'Seeking investment for digital marketing and US market entry', NULL, NULL, NULL, 1, 0, 'approved', 0, 381, 8.6, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(23, 1, 'Everest Bottled Water Co.', 'everest-bottled-water-co-23', 'sale', 7, 'Bagmati', 'Dhulikhel', 1, 3, NULL, 2011, 38, NULL, 45000000.00, NULL, 18.00, 55000000.00, NULL, NULL, NULL, NULL, NULL, 'Premium spring water bottling plant with source at 1,600m elevation. 5-stage purification system. Supplies 20,000+ bottles daily to hotels, offices, and retail outlets.', NULL, NULL, 'Competitive market prompting owner to exit', NULL, NULL, NULL, 1, 0, 'approved', 0, 586, 7.9, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(24, 1, 'Newa Momo Kitchen Franchise', 'newa-momo-kitchen-franchise-24', 'loan', 12, 'Bagmati', 'Kathmandu', 1, 3, 27, 2017, 20, NULL, 25000000.00, NULL, 24.00, 15000000.00, NULL, NULL, NULL, NULL, NULL, 'Popular momo chain with 3 outlets in Kathmandu. Famous for authentic Newari-style momos. Strong brand recognition. Looking for loan to open 2 more outlets in Lalitpur.', NULL, NULL, 'Expansion capital for new outlets', NULL, NULL, NULL, 1, 0, 'approved', 0, 791, 8.4, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(25, 1, 'Himalayan Coffee Roasters', 'himalayan-coffee-roasters-25', 'partial_stake', 12, 'Bagmati', 'Lalitpur', 1, 3, 29, 2018, 14, NULL, 18000000.00, NULL, 26.00, 25000000.00, NULL, NULL, NULL, NULL, NULL, 'Specialty coffee roastery sourcing beans from 200+ small farmers in Palpa and Gulmi. Supplies 60+ cafes across Nepal. Single-origin and blend offerings. 35% YoY growth.', NULL, NULL, 'Scaling production capacity and retail presence', NULL, NULL, NULL, 1, 0, 'approved', 1, 403, 9.3, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(26, 1, 'Bakery & Patisserie Shop', 'bakery-patisserie-shop-26', 'sale', 12, 'Bagmati', 'Bhaktapur', 1, 3, 23, 2019, 10, NULL, 9500000.00, NULL, 32.00, 15000000.00, NULL, NULL, NULL, NULL, NULL, 'Artisan bakery in heritage area of Bhaktapur producing sourdough, pastries, and celebration cakes. Strong repeat customer base. Equipment and recipes included.', NULL, NULL, 'Owner focusing on food consultancy', NULL, NULL, NULL, 1, 0, 'approved', 0, 977, 8.9, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(27, 1, 'NepalCraft Online Marketplace', 'nepalcraft-online-marketplace-27', 'partial_stake', 13, 'Bagmati', 'Kathmandu', 1, 3, 27, 2020, 18, NULL, 28000000.00, NULL, 16.00, 40000000.00, NULL, NULL, NULL, NULL, NULL, 'E-commerce platform connecting Nepali artisans with global buyers. 1,200+ registered sellers, 15,000+ products. Monthly orders: 2,500+. Shipping to 25+ countries.', NULL, NULL, 'Need capital for logistics infrastructure and marketing', NULL, NULL, NULL, 1, 0, 'approved', 0, 314, 8.0, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(28, 1, 'FreshGrocery Nepal', 'freshgrocery-nepal-28', 'sale', 13, 'Bagmati', 'Kathmandu', 1, 3, 27, 2021, 25, NULL, 32000000.00, NULL, 10.00, 22000000.00, NULL, NULL, NULL, NULL, NULL, 'Online grocery delivery service covering Kathmandu Valley. 4,000+ SKUs, own warehouse and delivery fleet. 300+ daily orders. 2-hour delivery window.', NULL, NULL, 'Competitive pressure prompting sale to larger player', NULL, NULL, NULL, 1, 0, 'approved', 0, 835, 7.5, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(29, 1, 'Shiva Construction & Engineering', 'shiva-construction-engineering-29', 'sale', 14, 'Bagmati', 'Kathmandu', 1, 3, 27, 2007, 120, NULL, 150000000.00, NULL, 12.00, 180000000.00, NULL, NULL, NULL, NULL, NULL, 'Class A construction company with 17 years of project delivery. Completed 35+ commercial and residential projects. Owns heavy equipment fleet. Government-approved contractor.', NULL, NULL, 'Founders approaching retirement age', NULL, NULL, NULL, 1, 0, 'approved', 0, 636, 8.2, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(30, 1, 'GreenBuild Materials Supply', 'greenbuild-materials-supply-30', 'sale', 14, 'Bagmati', 'Lalitpur', 1, 3, 29, 2016, 28, NULL, 42000000.00, NULL, 14.00, 35000000.00, NULL, NULL, NULL, NULL, NULL, 'Eco-friendly construction materials supplier offering bamboo panels, recycled aggregates, and energy-efficient blocks. Exclusive distributor for 5 international brands in Nepal.', NULL, NULL, 'Owner shifting focus to architectural consultancy', NULL, NULL, NULL, 1, 0, 'approved', 0, 465, 8.0, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(201, 201, 'R K Block Udhyog', 'r-k-block-udhyog', 'investment', 7, 'Bagmati', 'Kathmandu', NULL, NULL, NULL, NULL, NULL, 'Sole Proprietorship', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Block manufacturing and construction materials supplier. Looking for investment to expand production capacity and purchase new machinery.', '', '', '', '', '', '', 1, 0, 'approved', 0, 22, NULL, '2026-06-17 10:26:17', '2026-06-17 10:26:17'),
+(324, 19, 'R K Block Udhyog', 'r-k-block-udhyog-1', 'business_sale', 7, '', '', 1, 2, 15, 2026, 12, 'Private Limited', 24000000.00, 2000000.00, 25.00, 35000000.00, 35000000.00, 50000000.00, 70.00, NULL, NULL, '\"R K Block Udhyog is a manufacturing business specializing in quality concrete blocks and construction materials, serving residential and commercial construction projects with reliable products and consistent quality.\"', 'R K Block Udhyog is a construction materials manufacturing company specializing in the production of high-quality concrete blocks, paving blocks, and related building materials. The company serves residential, commercial, and infrastructure projects, focusing on product quality, timely delivery, and customer satisfaction. With growing demand in the construction sector, the business has established a reliable market presence and offers significant opportunities for future expansion and increased production capacity.', 'R K Block Udhyog offers a range of construction materials designed for residential, commercial, and infrastructure projects. The main products include concrete blocks (solid and hollow blocks), interlocking/paver blocks, and other cement-based building materials. The company also provides customized block sizes based on project requirements and ensures consistent quality, durability, and timely supply for construction needs.', 'R K Block Udhyog is equipped with essential production facilities required for concrete block manufacturing. The setup includes a block-making machine, molds of different sizes, mixing equipment, curing area, and storage space for raw materials and finished products. The facility is designed to support smooth daily operations, consistent production, and efficient order fulfillment. Basic infrastructure such as water supply, electricity, and transportation access is also available to ensure uninterrupted production.', 'R K Block Udhyog has been established with adequate capital investment to support its production facilities, machinery, raw materials, and operational expenses. The business is funded through the owner’s equity along with reinvested profits from operations. The current capitalization structure is sufficient to maintain daily operations and has the potential for further expansion through additional investment.', 'R K Block Udhyog has been established with adequate capital investment to support its production facilities, machinery, raw materials, and operational expenses. The business is funded through the owner’s equity along with reinvested profits from operations. The current capitalization structure is sufficient to maintain daily operations and has the potential for further expansion through additional investment.', 'R K Block Udhyog has been established with adequate capital investment to support its production facilities, machinery, raw materials, and operational expenses. The business is funded through the owner’s equity along with reinvested profits from operations. The current capitalization structure is sufficient to maintain daily operations and has the potential for further expansion through additional investment.', 1, 0, 'approved', 0, 65, NULL, '2026-06-17 10:41:19', '2026-06-17 11:30:24');
 
 -- --------------------------------------------------------
 
@@ -255,8 +264,8 @@ CREATE TABLE `business_assets` (
 --
 
 INSERT INTO `business_assets` (`id`, `business_id`, `asset_name`, `asset_type`, `estimated_value`, `description`, `created_at`, `updated_at`) VALUES
-(1, 31, 'wegwgwgt', 'building', 100.00, '141000', '2026-06-11 11:33:17', '2026-06-11 11:33:17'),
-(2, 32, 'wegwgwgt', 'land', 10000.00, '0tyiojjy', '2026-06-12 11:57:36', '2026-06-12 11:57:36');
+(48, 324, 'Machinery & Equipment', 'equipment', 2000000.00, 'sdhfytdjhgfs', '2026-06-17 11:30:24', '2026-06-17 11:30:24'),
+(49, 324, 'Land & Building', 'building', 452354.00, 'xdafhjghsg', '2026-06-17 11:30:24', '2026-06-17 11:30:24');
 
 -- --------------------------------------------------------
 
@@ -281,8 +290,7 @@ CREATE TABLE `business_financials` (
 --
 
 INSERT INTO `business_financials` (`id`, `business_id`, `fiscal_year`, `revenue`, `expenses`, `profit`, `ebitda`, `created_at`, `updated_at`) VALUES
-(1, 31, 2025, 4274277.00, 10000.00, 54472522.00, 10.00, '2026-06-11 11:33:17', '2026-06-11 11:33:17'),
-(2, 32, 2026, 84945656.00, 84985656.00, 651516516516.00, 516516516.00, '2026-06-12 11:57:36', '2026-06-12 11:57:36');
+(24, 324, 2082, 24000000.00, 20000000.00, 40000000.00, 28.00, '2026-06-17 11:30:24', '2026-06-17 11:30:24');
 
 -- --------------------------------------------------------
 
@@ -299,14 +307,6 @@ CREATE TABLE `business_inquiries` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `business_inquiries`
---
-
-INSERT INTO `business_inquiries` (`id`, `business_id`, `user_id`, `message`, `status`, `created_at`, `updated_at`) VALUES
-(2, 11, 19, 'dfz', '', '2026-06-10 02:14:32', '2026-06-12 16:28:41'),
-(3, 33, 22, 'hi i want to buy the projucts', 'new', '2026-06-13 12:39:37', '2026-06-13 12:39:37');
 
 -- --------------------------------------------------------
 
@@ -329,8 +329,7 @@ CREATE TABLE `business_media` (
 --
 
 INSERT INTO `business_media` (`id`, `business_id`, `file_url`, `media_type`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 31, '/public/uploads/business-photos/20_1781177597_a1368960.jpg', 'image', 0, '2026-06-11 11:33:17', NULL),
-(2, 32, '/public/uploads/business-photos/20_1781265456_798184d5.jpg', 'image', 0, '2026-06-12 11:57:36', NULL);
+(12, 324, 'business-photos/19_1781692879_c5dba638.pdf', 'document', 0, '2026-06-17 10:41:19', NULL);
 
 -- --------------------------------------------------------
 
@@ -369,7 +368,7 @@ CREATE TABLE `business_verifications` (
 --
 
 INSERT INTO `business_verifications` (`id`, `business_id`, `email_verified`, `phone_verified`, `identity_verified`, `company_verified`, `verified_at`, `created_at`, `updated_at`) VALUES
-(1, 33, 1, 1, 0, 0, NULL, '2026-06-12 16:30:17', '2026-06-12 16:30:21');
+(201, 201, 1, 1, 1, 1, '2026-06-17 10:26:17', '2026-06-17 10:26:17', '2026-06-17 10:26:17');
 
 -- --------------------------------------------------------
 
@@ -542,7 +541,16 @@ INSERT INTO `email_log` (`id`, `recipient`, `subject`, `template_key`, `status`,
 (8, 'rkblockudhyog@gmail.com', 'Your account has been verified ΓÇö Asaan Capital', 'verification_approved', 'sent', NULL, NULL, '2026-06-11 11:40:41'),
 (9, 'asaancredit@gmail.com', 'Welcome to Asaan Capital ΓÇö Asaan Credit Ltd', 'welcome', 'sent', NULL, NULL, '2026-06-12 11:06:32'),
 (10, 'asaancredit@gmail.com', 'Your account has been verified ΓÇö Asaan Capital', 'verification_approved', 'sent', NULL, NULL, '2026-06-12 12:01:32'),
-(11, 'asaancredit@gmail.com', 'Test Email from Asaan Capital', NULL, 'sent', NULL, NULL, '2026-06-12 16:32:57');
+(11, 'asaancredit@gmail.com', 'Test Email from Asaan Capital', NULL, 'sent', NULL, NULL, '2026-06-12 16:32:57'),
+(12, 'isoftrosolutions@gmail.com', 'New interest received for your business ΓÇö Asaan Capital Ltd.', 'interest_received', 'sent', NULL, NULL, '2026-06-15 08:43:44'),
+(13, 'admin@investmatch.com', 'Interest Accepted — You\'re Now Connected!', NULL, 'sent', NULL, NULL, '2026-06-15 08:44:28'),
+(14, 'isoftrosolutions@gmail.com', 'Interest Accepted — You\'re Now Connected!', NULL, 'sent', NULL, NULL, '2026-06-15 08:44:28'),
+(201, 'rkblockudhyog@gmail.com', 'Your account has been verified — Asaan Capital', 'verification_approved', 'sent', NULL, NULL, '2026-06-17 10:26:17'),
+(202, 'admin@investmatch.com', 'Premium Upgrade Request — R K Block Udhyog', NULL, 'sent', NULL, NULL, '2026-06-17 11:31:24'),
+(203, 'admin@investmatch.com', 'Premium Payment Submitted — Muscle Bank', NULL, 'sent', NULL, NULL, '2026-06-17 11:52:03'),
+(204, 'eparcalnepal@yahoo.com', 'Welcome to Asaan Capital ΓÇö eParcal Nepal', 'welcome', 'sent', NULL, NULL, '2026-06-17 11:59:37'),
+(205, 'admin@investmatch.com', 'Premium Payment Submitted — eParcal Nepal', NULL, 'sent', NULL, NULL, '2026-06-17 12:00:43'),
+(206, 'eparcalnepal@yahoo.com', 'Premium Account Activated 🎉', NULL, 'sent', NULL, NULL, '2026-06-17 12:02:33');
 
 -- --------------------------------------------------------
 
@@ -736,6 +744,13 @@ CREATE TABLE `interest_requests` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `interest_requests`
+--
+
+INSERT INTO `interest_requests` (`id`, `sender_id`, `receiver_id`, `pitch_id`, `business_id`, `message`, `status`, `responded_at`, `rejected_until`, `created_at`, `updated_at`) VALUES
+(1, 1, 20, NULL, NULL, 'this is my intreset', 'accepted', '2026-06-15 08:44:28', NULL, '2026-06-15 08:43:43', '2026-06-15 08:43:43');
+
 -- --------------------------------------------------------
 
 --
@@ -819,6 +834,13 @@ CREATE TABLE `matches` (
   `closed_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `matches`
+--
+
+INSERT INTO `matches` (`id`, `interest_request_id`, `user_a_id`, `user_b_id`, `context_type`, `context_id`, `matched_at`, `closed_status`, `closed_at`) VALUES
+(1, 1, 1, 20, 'business', 37, '2026-06-15 08:44:28', 'open', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -869,13 +891,6 @@ CREATE TABLE `nda_requests` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `nda_requests`
---
-
-INSERT INTO `nda_requests` (`id`, `business_id`, `investor_id`, `signed`, `signed_at`, `created_at`, `updated_at`) VALUES
-(1, 33, 19, 1, '2026-06-13 12:40:39', '2026-06-13 12:40:39', '2026-06-13 12:40:39');
-
 -- --------------------------------------------------------
 
 --
@@ -908,7 +923,15 @@ INSERT INTO `notifications` (`id`, `user_id`, `type`, `title`, `body`, `action_u
 (7, 20, 'verification', 'Verification Approved', 'Your account has been verified. You now have full access to the platform.', '/dashboard', 0, '2026-06-11 11:40:39', NULL),
 (8, 19, 'verification', 'Verification Approved', 'Your account has been verified. You now have full access to the platform.', '/dashboard', 0, '2026-06-11 11:40:41', NULL),
 (9, 22, 'verification', 'Verification Approved', 'Your account has been verified. You now have full access to the platform.', '/dashboard', 0, '2026-06-12 12:01:32', NULL),
-(10, 19, 'interest', 'New Inquiry', 'Asaan Credit Ltd is interested in R K Block Udhyog', '/business/33', 0, '2026-06-13 12:39:37', NULL);
+(10, 19, 'interest', 'New Inquiry', 'Asaan Credit Ltd is interested in R K Block Udhyog', '/business/33', 1, '2026-06-13 12:39:37', NULL),
+(11, 20, 'interest', 'New Inquiry', 'Admin User is interested in Hunter Kidd', '/connections', 0, '2026-06-15 08:43:43', NULL),
+(12, 1, 'interest', 'Inquiry Sent', 'Your inquiry for Hunter Kidd was sent to the business owner.', '/connections', 0, '2026-06-15 08:43:43', NULL),
+(13, 1, 'match', 'Interest Accepted', 'Muscle Bank has accepted your interest request. You are now connected!', '/connections', 0, '2026-06-15 08:44:28', NULL),
+(14, 20, 'match', 'Interest Accepted', 'You accepted an interest request from Admin User. You are now connected!', '/connections', 0, '2026-06-15 08:44:28', NULL),
+(201, 201, 'verification', 'Verification Approved', 'Your account has been verified. You now have full access to the platform.', '/dashboard', 0, '2026-06-17 10:26:17', NULL),
+(202, 1, 'interest', 'New Inquiry', 'R K Block Udhyog is interested in Mountain Vista Resort & Spa', '/business/11', 0, '2026-06-17 10:26:17', NULL),
+(203, 201, 'interest', 'New Inquiry', 'Asaan Credit Ltd is interested in R K Block Udhyog', '/business/201', 0, '2026-06-17 10:26:17', NULL),
+(204, 1, 'upgrade', 'Premium Upgrade Request', 'R K Block Udhyog (rkblockudhyog@gmail.com) requested a premium upgrade. Message: c BVNbxv', '/admin/premium?requester_id=19', 0, '2026-06-17 11:31:23', NULL);
 
 -- --------------------------------------------------------
 
@@ -1027,7 +1050,7 @@ CREATE TABLE `pitches` (
 
 INSERT INTO `pitches` (`id`, `user_id`, `tagline`, `company_registration_number`, `company_type`, `short_summary`, `product_stage`, `problem_statement`, `solution`, `market_size`, `business_model`, `revenue_model`, `monthly_revenue`, `monthly_users`, `growth_rate`, `customer_retention`, `traction`, `target_customers`, `competitors`, `competitive_advantage`, `funding_amount`, `minimum_investment`, `previous_funding`, `previous_funding_source`, `has_legal_disputes`, `legal_details`, `existing_debt`, `business_type`, `customer_type`, `looking_for`, `investor_involvement`, `open_to_acquisition`, `monthly_burn`, `runway_months`, `relocate_willingness`, `matchmaking_tags`, `equity_offered`, `fund_usage`, `valuation`, `pitch_deck`, `financial_projections`, `pitch_video_url`, `pitch_image`, `stage`, `sector_id`, `is_active`, `is_hidden`, `is_featured`, `completeness_score`, `is_published`, `views`, `created_at`, `updated_at`) VALUES
 (1, 3, 'AI-powered cold storage reducing post-harvest losses for 2,400+ farmers across Nepal.', NULL, NULL, NULL, NULL, '34% of Nepal perishable produce is lost before reaching market due to lack of reliable cold storage. Small farmers lose NPR 18,000-40,000 per season.', 'Low-cost, solar-hybrid smart cold rooms with IoT monitoring and AI demand forecasting. Farmers pay per use via mobile.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2,400 farmers onboarded (Q1 2026)\nNPR 9.2M revenue run-rate\n3 provinces live, 2 more in pipeline\nPartnership with Nepal Agricultural Research Council', NULL, NULL, NULL, 28000000.00, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 12.00, NULL, NULL, NULL, NULL, NULL, NULL, 'Early Revenue', 1, 1, 0, 0, 0, 0, 0, NULL, NULL),
-(2, 3, 'Making quality education accessible in rural areas through AI-powered learning platforms', NULL, NULL, 'EdTech for Rural Nepal - AI-powered learning platform', NULL, 'Rural Nepal lacks access to quality education. 70% of students in rural areas have no access to digital learning.', 'AI-powered mobile learning platform that works offline. Adaptive curriculum in Nepali language.', 'NPR 500 Cr TAM in Nepal alone', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5000000.00, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 15.00, NULL, 33333333.00, NULL, NULL, NULL, NULL, 'seed', 4, 1, 0, 1, 0, 1, 9, '2026-05-29 04:34:33', '2026-05-29 04:34:33');
+(2, 3, 'Making quality education accessible in rural areas through AI-powered learning platforms', NULL, NULL, 'EdTech for Rural Nepal - AI-powered learning platform', NULL, 'Rural Nepal lacks access to quality education. 70% of students in rural areas have no access to digital learning.', 'AI-powered mobile learning platform that works offline. Adaptive curriculum in Nepali language.', 'NPR 500 Cr TAM in Nepal alone', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5000000.00, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 15.00, NULL, 33333333.00, NULL, NULL, NULL, NULL, 'seed', 4, 1, 0, 1, 0, 1, 14, '2026-05-29 04:34:33', '2026-05-29 04:34:33');
 
 -- --------------------------------------------------------
 
@@ -1060,6 +1083,39 @@ CREATE TABLE `pitch_team_members` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `premium_subscriptions`
+--
+
+CREATE TABLE `premium_subscriptions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `plan_type` enum('starter','growth','pro') NOT NULL DEFAULT 'starter',
+  `plan_label` varchar(50) NOT NULL DEFAULT '',
+  `amount` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `duration_months` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
+  `transaction_id` varchar(255) DEFAULT NULL,
+  `payment_date` date DEFAULT NULL,
+  `receipt_file` varchar(255) DEFAULT NULL,
+  `status` enum('pending','active','rejected','expired') NOT NULL DEFAULT 'pending',
+  `activated_by` int(11) DEFAULT NULL,
+  `activated_at` datetime DEFAULT NULL,
+  `expiry_date` date DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `premium_subscriptions`
+--
+
+INSERT INTO `premium_subscriptions` (`id`, `user_id`, `plan_type`, `plan_label`, `amount`, `duration_months`, `transaction_id`, `payment_date`, `receipt_file`, `status`, `activated_by`, `activated_at`, `expiry_date`, `notes`, `created_at`, `updated_at`) VALUES
+(1, 20, 'growth', 'Growth', 3000.00, 6, '87874', '2026-06-17', '20_1781697120_76a863af.png', 'pending', NULL, NULL, NULL, '', '2026-06-17 11:52:03', NULL),
+(2, 23, 'growth', 'Growth', 3000.00, 6, '4054505', '2026-06-17', '23_1781697642_44e9f397.PDF', 'active', 1, '2026-06-17 12:02:33', '2026-12-17', 'bwubwuei', '2026-06-17 12:00:42', '2026-06-17 12:02:33');
 
 -- --------------------------------------------------------
 
@@ -1200,6 +1256,32 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `site_settings`
+--
+
+CREATE TABLE `site_settings` (
+  `id` int(11) NOT NULL,
+  `setting_key` varchar(100) NOT NULL,
+  `setting_value` text DEFAULT NULL,
+  `setting_type` enum('text','textarea','image','boolean') NOT NULL DEFAULT 'text',
+  `description` varchar(255) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `site_settings`
+--
+
+INSERT INTO `site_settings` (`id`, `setting_key`, `setting_value`, `setting_type`, `description`, `updated_at`) VALUES
+(1, 'payment_qr_code', 'site/1_1781697256_71da1731.jpeg', 'image', 'QR code image for payment (upload PNG/JPG)', '2026-06-17 11:54:16'),
+(2, 'payment_instructions', '1. Scan QR\r\n2. Complete payment\r\n3. Upload receipt', 'textarea', 'Instructions shown on payment page', '2026-06-17 11:50:41'),
+(3, 'payment_phone', '', 'text', 'Phone number for payment (eSewa/Khalti)', NULL),
+(4, 'site_tagline', 'Connect. Grow. Invest.', 'text', 'Site tagline shown on premium page', NULL),
+(5, 'premium_contact_email', '', 'text', 'Contact email for premium inquiries', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `smart_suggestion_cache`
 --
 
@@ -1263,6 +1345,7 @@ CREATE TABLE `users` (
   `verification_status` varchar(255) NOT NULL DEFAULT 'unverified',
   `verified_at` timestamp NULL DEFAULT NULL,
   `is_admin` tinyint(1) NOT NULL DEFAULT 0,
+  `is_premium` tinyint(1) NOT NULL DEFAULT 0,
   `is_suspended` tinyint(1) NOT NULL DEFAULT 0,
   `daily_request_count` int(11) NOT NULL DEFAULT 0,
   `daily_request_date` date DEFAULT NULL,
@@ -1284,18 +1367,19 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `role`, `account_type`, `phone`, `province`, `district`, `profile_photo`, `company_name`, `bio`, `linkedin_url`, `website_url`, `verification_status`, `verified_at`, `is_admin`, `is_suspended`, `daily_request_count`, `daily_request_date`, `email_verified_at`, `last_login_at`, `failed_login_attempts`, `locked_until`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`, `company_size`, `usage_goal`, `notifications`) VALUES
-(1, 'Admin User', 'admin@investmatch.com', 'entrepreneur', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'verified', '2026-05-29 03:56:21', 1, 0, 0, NULL, '2026-05-29 04:34:10', '2026-06-15 07:07:29', 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', NULL, '2026-05-29 03:56:21', NULL, NULL, NULL, NULL, NULL),
-(2, 'Ramesh Thapa', 'investor@nepal.com', 'investor', 'individual', '+977 9841 234567', 'Bagmati', 'Kathmandu', NULL, 'Thapa Capital', 'Angel investor focused on climate and agri-tech. Previously founded two Nepali SaaS companies.', NULL, NULL, 'verified', '2026-05-29 03:56:21', 0, 0, 0, NULL, '2026-05-29 04:34:10', '2026-06-15 07:07:20', 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', NULL, '2026-05-29 03:56:21', NULL, NULL, NULL, NULL, NULL),
-(3, 'Anjali K.C.', 'anjali@aarohan.com', 'entrepreneur', 'company', '+977 9841 765432', 'Bagmati', 'Kathmandu', NULL, 'Aarohan Kitchens', 'Founder of Aarohan Kitchens - AI-powered cold storage for Nepali farmers.', NULL, NULL, 'verified', '2026-05-29 03:56:21', 0, 0, 0, NULL, '2026-05-29 04:34:10', '2026-06-02 01:13:31', 0, NULL, '$2y$12$hkoF2K0Tlde/m6OJXUCFauB3eFHiRK/SfxchHDcl5.wlvXsXOIPoy', NULL, '2026-05-29 03:56:21', '2026-06-01 15:20:42', NULL, NULL, NULL, NULL),
-(4, 'Sunita Sharma', 'sunita@vc.com', 'investor', 'company', '+977 9841 345678', 'Gandaki', 'Pokhara', NULL, 'Himalayan Seed Fund', 'VC firm investing in AgriTech and CleanTech startups across Nepal.', NULL, NULL, 'verified', '2026-05-29 03:56:21', 0, 0, 0, NULL, '2026-05-29 04:34:10', NULL, 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', NULL, '2026-05-29 03:56:21', NULL, NULL, NULL, NULL, NULL),
-(5, 'Bikash Rana', 'owner@nepal.com', 'business_owner', 'company', '+977 9841 556677', 'Bagmati', 'Kathmandu', NULL, 'Rana Retail Group', 'Second-generation retailer running a profitable supermarket chain in the Kathmandu Valley.', NULL, NULL, 'verified', '2026-05-29 22:15:00', 0, 0, 0, NULL, NULL, '2026-06-02 01:38:14', 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', NULL, '2026-05-29 22:15:00', NULL, NULL, NULL, NULL, NULL),
-(6, 'Maya Gurung', 'franchise@nepal.com', 'franchisor', 'company', '+977 9846 112233', 'Gandaki', 'Pokhara', NULL, 'Himalaya Brews', 'Founder of a fast-growing specialty coffee brand expanding through franchising across Nepal.', NULL, NULL, 'verified', '2026-05-29 22:15:00', 0, 0, 0, NULL, NULL, '2026-06-02 01:38:15', 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', NULL, '2026-05-29 22:15:00', NULL, NULL, NULL, NULL, NULL),
-(7, 'Prakash Joshi', 'advisor@nepal.com', 'advisor', 'company', '+977 9851 998877', 'Bagmati', 'Lalitpur', NULL, 'Joshi & Partners', 'Corporate lawyer and M&A advisor with two decades of cross-border transaction experience.', NULL, NULL, 'verified', '2026-05-29 22:15:00', 0, 0, 0, NULL, NULL, '2026-06-02 01:38:16', 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', NULL, '2026-05-29 22:15:00', NULL, NULL, NULL, NULL, NULL),
-(19, 'R K Block Udhyog', 'rkblockudhyog@gmail.com', 'owner', 'company', NULL, NULL, NULL, NULL, 'R K Block Udhyog', NULL, NULL, NULL, 'verified', '2026-06-11 11:40:41', 0, 0, 0, NULL, NULL, '2026-06-15 04:55:54', 0, NULL, '$2y$10$IWrxMNb9NYCB5hNvZK/kRez0PefjbPa8/ut1yX.EtczrtZRiMcZZa', NULL, '2026-06-09 17:11:26', '2026-06-09 17:11:26', NULL, '1-10', 'sell', 'email'),
-(20, 'Muscle Bank', 'isoftrosolutions@gmail.com', 'business_owner', 'individual', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'verified', '2026-06-11 11:40:39', 0, 0, 0, NULL, '2026-06-11 10:13:32', '2026-06-13 01:29:03', 0, NULL, '$2y$10$VUtJ1sK.Vdq1oSeE/mkVvuM2bJ0JPZrDTi/0HR6x4PSk/2WRp50d6', NULL, '2026-06-11 10:13:32', '2026-06-11 10:13:32', NULL, NULL, 'raise', NULL),
-(21, 'Devbarat Prasad Patel', 'pdewbrath@gmail.com', 'investor', 'individual', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'verified', '2026-06-11 11:40:34', 0, 0, 0, NULL, '2026-06-11 10:56:48', '2026-06-11 11:13:08', 0, NULL, '$2y$10$XAnZ/R5QZs2YgOf.fIXWq.x5ClWSm/86AwYSlpF1YZ64Gbdzddb/.', NULL, '2026-06-11 10:56:48', '2026-06-11 10:56:48', NULL, NULL, 'invest', 'email'),
-(22, 'Asaan Credit Ltd', 'asaancredit@gmail.com', 'investor', 'company', NULL, NULL, NULL, NULL, 'Asaan Capital', NULL, NULL, NULL, 'verified', '2026-06-12 12:01:32', 0, 0, 0, NULL, '2026-06-12 11:06:32', '2026-06-13 12:38:57', 0, NULL, '$2y$10$aFZSjugwS2N8elNeg5s6eu9MwBecGGzfhar3e.1M0I/iELqJdZ7qe', NULL, '2026-06-12 11:06:32', '2026-06-12 11:06:32', NULL, '11-50', 'buy', 'email');
+INSERT INTO `users` (`id`, `name`, `email`, `role`, `account_type`, `phone`, `province`, `district`, `profile_photo`, `company_name`, `bio`, `linkedin_url`, `website_url`, `verification_status`, `verified_at`, `is_admin`, `is_premium`, `is_suspended`, `daily_request_count`, `daily_request_date`, `email_verified_at`, `last_login_at`, `failed_login_attempts`, `locked_until`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`, `company_size`, `usage_goal`, `notifications`) VALUES
+(1, 'Admin User', 'admin@investmatch.com', 'entrepreneur', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'verified', '2026-05-29 03:56:21', 1, 0, 0, 0, NULL, '2026-05-29 04:34:10', '2026-06-17 12:01:54', 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', '$2y$10$o3N2FPIhCUGdrIVuPUUTj.M3F6Rhj2C9CG0YAHfDH3PXMi/kfQGwu', '2026-05-29 03:56:21', NULL, NULL, NULL, NULL, NULL),
+(2, 'Ramesh Thapa', 'investor@nepal.com', 'investor', 'individual', '+977 9841 234567', 'Bagmati', 'Kathmandu', NULL, 'Thapa Capital', 'Angel investor focused on climate and agri-tech. Previously founded two Nepali SaaS companies.', NULL, NULL, 'verified', '2026-05-29 03:56:21', 0, 0, 0, 0, NULL, '2026-05-29 04:34:10', '2026-06-15 07:07:20', 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', NULL, '2026-05-29 03:56:21', NULL, NULL, NULL, NULL, NULL),
+(3, 'Anjali K.C.', 'anjali@aarohan.com', 'entrepreneur', 'company', '+977 9841 765432', 'Bagmati', 'Kathmandu', NULL, 'Aarohan Kitchens', 'Founder of Aarohan Kitchens - AI-powered cold storage for Nepali farmers.', NULL, NULL, 'verified', '2026-05-29 03:56:21', 0, 0, 0, 0, NULL, '2026-05-29 04:34:10', '2026-06-02 01:13:31', 0, NULL, '$2y$12$hkoF2K0Tlde/m6OJXUCFauB3eFHiRK/SfxchHDcl5.wlvXsXOIPoy', NULL, '2026-05-29 03:56:21', '2026-06-01 15:20:42', NULL, NULL, NULL, NULL),
+(4, 'Sunita Sharma', 'sunita@vc.com', 'investor', 'company', '+977 9841 345678', 'Gandaki', 'Pokhara', NULL, 'Himalayan Seed Fund', 'VC firm investing in AgriTech and CleanTech startups across Nepal.', NULL, NULL, 'verified', '2026-05-29 03:56:21', 0, 0, 0, 0, NULL, '2026-05-29 04:34:10', NULL, 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', NULL, '2026-05-29 03:56:21', NULL, NULL, NULL, NULL, NULL),
+(5, 'Bikash Rana', 'owner@nepal.com', 'business_owner', 'company', '+977 9841 556677', 'Bagmati', 'Kathmandu', NULL, 'Rana Retail Group', 'Second-generation retailer running a profitable supermarket chain in the Kathmandu Valley.', NULL, NULL, 'verified', '2026-05-29 22:15:00', 0, 0, 0, 0, NULL, NULL, '2026-06-02 01:38:14', 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', NULL, '2026-05-29 22:15:00', NULL, NULL, NULL, NULL, NULL),
+(6, 'Maya Gurung', 'franchise@nepal.com', 'franchisor', 'company', '+977 9846 112233', 'Gandaki', 'Pokhara', NULL, 'Himalaya Brews', 'Founder of a fast-growing specialty coffee brand expanding through franchising across Nepal.', NULL, NULL, 'verified', '2026-05-29 22:15:00', 0, 0, 0, 0, NULL, NULL, '2026-06-02 01:38:15', 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', NULL, '2026-05-29 22:15:00', NULL, NULL, NULL, NULL, NULL),
+(7, 'Prakash Joshi', 'advisor@nepal.com', 'advisor', 'company', '+977 9851 998877', 'Bagmati', 'Lalitpur', NULL, 'Joshi & Partners', 'Corporate lawyer and M&A advisor with two decades of cross-border transaction experience.', NULL, NULL, 'verified', '2026-05-29 22:15:00', 0, 0, 0, 0, NULL, NULL, '2026-06-02 01:38:16', 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', NULL, '2026-05-29 22:15:00', NULL, NULL, NULL, NULL, NULL),
+(19, 'R K Block Udhyog', 'rkblockudhyog@gmail.com', 'owner', 'company', NULL, NULL, NULL, NULL, 'R K Block Udhyog', NULL, NULL, NULL, 'verified', '2026-06-11 11:40:41', 0, 0, 0, 0, NULL, NULL, '2026-06-17 11:29:03', 0, NULL, '$2y$10$IWrxMNb9NYCB5hNvZK/kRez0PefjbPa8/ut1yX.EtczrtZRiMcZZa', NULL, '2026-06-09 17:11:26', '2026-06-09 17:11:26', NULL, '1-10', 'sell', 'email'),
+(20, 'Muscle Bank', 'isoftrosolutions@gmail.com', 'business_owner', 'individual', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'verified', '2026-06-11 11:40:39', 0, 0, 0, 0, NULL, '2026-06-11 10:13:32', '2026-06-17 11:51:05', 0, NULL, '$2y$10$VUtJ1sK.Vdq1oSeE/mkVvuM2bJ0JPZrDTi/0HR6x4PSk/2WRp50d6', NULL, '2026-06-11 10:13:32', '2026-06-11 10:13:32', NULL, NULL, 'raise', NULL),
+(21, 'Devbarat Prasad Patel', 'pdewbrath@gmail.com', 'investor', 'individual', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'verified', '2026-06-11 11:40:34', 0, 0, 0, 0, NULL, '2026-06-11 10:56:48', '2026-06-11 11:13:08', 0, NULL, '$2y$10$XAnZ/R5QZs2YgOf.fIXWq.x5ClWSm/86AwYSlpF1YZ64Gbdzddb/.', NULL, '2026-06-11 10:56:48', '2026-06-11 10:56:48', NULL, NULL, 'invest', 'email'),
+(22, 'Asaan Credit Ltd', 'asaancredit@gmail.com', 'investor', 'company', NULL, NULL, NULL, NULL, 'Asaan Capital', NULL, NULL, NULL, 'verified', '2026-06-12 12:01:32', 0, 0, 0, 0, NULL, '2026-06-12 11:06:32', '2026-06-13 12:38:57', 0, NULL, '$2y$10$aFZSjugwS2N8elNeg5s6eu9MwBecGGzfhar3e.1M0I/iELqJdZ7qe', NULL, '2026-06-12 11:06:32', '2026-06-12 11:06:32', NULL, '11-50', 'buy', 'email'),
+(23, 'eParcal Nepal', 'eparcalnepal@yahoo.com', 'business_owner', 'company', '+9779848715050', 'Madhesh', 'Rautahat', NULL, 'E Parsal', NULL, NULL, NULL, 'unverified', NULL, 0, 1, 0, 0, NULL, '2026-06-17 11:59:37', NULL, 0, NULL, '$2y$10$7HRoonArKXtp8tji6jU39ux0IZDCTPZ21W03fgjgXqKboEt130ya2', NULL, '2026-06-17 11:59:37', '2026-06-17 11:59:37', NULL, '1-10', 'sell', 'email');
 
 -- --------------------------------------------------------
 
@@ -1574,6 +1658,15 @@ ALTER TABLE `pitch_team_members`
   ADD KEY `pitch_team_members_pitch_id_foreign` (`pitch_id`);
 
 --
+-- Indexes for table `premium_subscriptions`
+--
+ALTER TABLE `premium_subscriptions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_user_id` (`user_id`),
+  ADD KEY `idx_status` (`status`),
+  ADD KEY `idx_expiry` (`expiry_date`);
+
+--
 -- Indexes for table `reports`
 --
 ALTER TABLE `reports`
@@ -1602,6 +1695,14 @@ ALTER TABLE `sessions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `sessions_user_id_index` (`user_id`),
   ADD KEY `sessions_last_activity_index` (`last_activity`);
+
+--
+-- Indexes for table `site_settings`
+--
+ALTER TABLE `site_settings`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `setting_key` (`setting_key`),
+  ADD KEY `idx_key` (`setting_key`);
 
 --
 -- Indexes for table `smart_suggestion_cache`
@@ -1640,7 +1741,7 @@ ALTER TABLE `verification_documents`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
 
 --
 -- AUTO_INCREMENT for table `advisors`
@@ -1664,31 +1765,31 @@ ALTER TABLE `broadcasts`
 -- AUTO_INCREMENT for table `businesses`
 --
 ALTER TABLE `businesses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=325;
 
 --
 -- AUTO_INCREMENT for table `business_assets`
 --
 ALTER TABLE `business_assets`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `business_financials`
 --
 ALTER TABLE `business_financials`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `business_inquiries`
 --
 ALTER TABLE `business_inquiries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `business_media`
 --
 ALTER TABLE `business_media`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `business_photos`
@@ -1700,7 +1801,7 @@ ALTER TABLE `business_photos`
 -- AUTO_INCREMENT for table `business_verifications`
 --
 ALTER TABLE `business_verifications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=202;
 
 --
 -- AUTO_INCREMENT for table `cities`
@@ -1718,7 +1819,7 @@ ALTER TABLE `countries`
 -- AUTO_INCREMENT for table `email_log`
 --
 ALTER TABLE `email_log`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
 
 --
 -- AUTO_INCREMENT for table `email_settings`
@@ -1760,7 +1861,7 @@ ALTER TABLE `homepage_contents`
 -- AUTO_INCREMENT for table `interest_requests`
 --
 ALTER TABLE `interest_requests`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `investor_profiles`
@@ -1778,7 +1879,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `matches`
 --
 ALTER TABLE `matches`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -1796,7 +1897,7 @@ ALTER TABLE `nda_requests`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
 
 --
 -- AUTO_INCREMENT for table `pages`
@@ -1829,6 +1930,12 @@ ALTER TABLE `pitch_team_members`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `premium_subscriptions`
+--
+ALTER TABLE `premium_subscriptions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `reports`
 --
 ALTER TABLE `reports`
@@ -1847,6 +1954,12 @@ ALTER TABLE `sectors`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
+-- AUTO_INCREMENT for table `site_settings`
+--
+ALTER TABLE `site_settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `smart_suggestion_cache`
 --
 ALTER TABLE `smart_suggestion_cache`
@@ -1862,7 +1975,7 @@ ALTER TABLE `states`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `verification_documents`

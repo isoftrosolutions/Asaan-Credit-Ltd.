@@ -132,10 +132,14 @@ if ($user) {
 <script src="<?= APP_URL ?>/assets/header.js?v=<?= filemtime(__DIR__ . '/../assets/header.js') ?>" defer></script>
 <script src="<?= APP_URL ?>/assets/components.js?v=<?= filemtime(__DIR__ . '/../assets/components.js') ?>" defer></script>
 <script>
-const APP_URL = '<?= APP_URL ?>';
-const UNREAD_COUNT = <?= $unreadCount ?>;
-const CURRENT_USER = <?= json_encode($user, JSON_INVALID_UTF8_SUBSTITUTE) ?: 'null' ?>;
-const CSRF_TOKEN = '<?= csrf_token() ?>';
+window.APP_URL = '<?= APP_URL ?>';
+window.UNREAD_COUNT = <?= $unreadCount ?>;
+window.CURRENT_USER = <?= json_encode($user, JSON_INVALID_UTF8_SUBSTITUTE) ?: 'null' ?>;
+window.CSRF_TOKEN = '<?= csrf_token() ?>';
+const APP_URL = window.APP_URL;
+const UNREAD_COUNT = window.UNREAD_COUNT;
+const CURRENT_USER = window.CURRENT_USER;
+const CSRF_TOKEN = window.CSRF_TOKEN;
 document.addEventListener('DOMContentLoaded', function () {
 <?php
 $headerActions = '';

@@ -42,6 +42,7 @@ $routes = [
     '/connections'                  => 'connections/my-connections.php',
     '/connections/send-interest'    => 'connections/send-interest.php',
     '/connections/respond'          => 'connections/respond.php',
+    '/messages'                     => 'pages/messages.php',
     '/notifications'                => 'notifications/index.php',
     '/notifications/mark-read'      => 'notifications/mark-read.php',
     '/notifications/settings'       => 'notifications/settings.php',
@@ -83,6 +84,12 @@ $routes = [
     '/api/upload'                   => 'api/upload.php',
     '/api/send-inquiry'             => 'api/send-inquiry.php',
     '/api/sign-nda'                 => 'api/sign-nda.php',
+    '/api/conversations'            => 'api/conversations.php',
+    '/api/messages'                 => 'api/messages.php',
+    '/api/conversations/mark-read'  => 'api/conversation-mark-read.php',
+    '/api/conversation-unread'      => 'api/conversation-unread.php',
+    '/api/users'                    => 'api/users.php',
+    '/api/messages-poll'            => 'api/messages-poll.php',
 ];
 
 if (preg_match('#^/browse/(businesses|investors|entrepreneurs|franchises)$#', $path, $m)) {

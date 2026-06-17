@@ -24,7 +24,7 @@ define('DB_PORT', '3306');
 // define('DB_PASS', 'J3ssEl.*}@OrYzmy');
 
 // --- Local dev DB ---
-define('DB_NAME', 'invest_match');
+define('DB_NAME', 'asaancapital_assan_capital');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_CHARSET', 'utf8mb4');

@@ -1,0 +1,14 @@
+{
+  "name": "asaan-capital-ws",
+  "version": "1.0.0",
+  "private": true,
+  "description": "WebSocket server for Asaan Capital messaging",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ws": "^8.16.0",
+    "mysql2": "^3.9.0"
+  }
+}

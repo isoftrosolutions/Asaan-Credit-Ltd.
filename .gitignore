@@ -9,3 +9,6 @@
 
 # Locally generated mail logs (MAIL_DRIVER=log writes here)
 /storage/mail/
+
+# Node.js dependencies (ws-server is unused on most hosting)
+ws-server/node_modules/
