@@ -19,7 +19,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'set_premium') {
         db()->prepare('UPDATE users SET is_premium = 1 WHERE id = ?')->execute([$userId]);
         admin_log('set_premium', 'user', $userId, ['email' => $target['email']]);
-        flash_set('success', $target['name'] . ' is now premium.');
+        $mailBody = '<div style="font-family:sans-serif;max-width:600px;margin:20px auto;padding:32px;border:1px solid #eef2f6;border-radius:16px;text-align:center;">
+            <div style="font-size:48px;margin-bottom:16px;">👑</div>
+            <h2 style="color:#6B1D22;margin:0 0 8px;">Welcome to Premium!</h2>
+            <p style="color:#555;margin:0 0 20px;font-size:15px;line-height:1.6;">Congratulations <strong>' . e($target['name']) . '</strong>, your account has been upgraded to Premium. You now have access to owner contact details, financial documents, and more.</p>
+            <a href="' . APP_URL . '/dashboard" style="display:inline-block;padding:12px 28px;background:#6B1D22;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;">Go to Dashboard</a>
+        </div>';
+        EmailService::getInstance()->sendCustomEmail($target['email'], 'You\'re Now Premium — ' . APP_NAME, $mailBody);
+        flash_set('success', $target['name'] . ' is now premium. Email sent.');
     } elseif ($action === 'remove_premium') {
         db()->prepare('UPDATE users SET is_premium = 0 WHERE id = ?')->execute([$userId]);
         admin_log('remove_premium', 'user', $userId, ['email' => $target['email']]);
