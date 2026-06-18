@@ -108,9 +108,6 @@ require __DIR__ . '/../includes/header.php';
   z-index:2;
   width:100%;
 }
-.hp-hero-content {
-  max-width:640px;
-}
 .hp-hero-content h1 {
   color:#fff!important;
 }
@@ -150,21 +147,34 @@ require __DIR__ . '/../includes/header.php';
   border-color:#fff;
 }
 
+.hp-hero-content {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:48px; max-width:100%;
+}
+.hp-hero-left { max-width:640px; flex:1 1 auto; }
+.hp-hero-right { flex-shrink:0; }
+@media (max-width:767px) {
+  .hp-hero-content { flex-direction:column; gap:32px; }
+  .hp-hero-left { max-width:100%; }
+  .hp-hero-right { align-self:center; }
+}
+
 /* ── Hero play button ── */
 .hp-hero-play {
   display:inline-flex; align-items:center; gap:10px;
-  margin-top:24px; padding:12px 28px;
-  background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2);
+  padding:16px 32px;
+  background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.25);
   border-radius:999px; color:#fff; cursor:pointer;
-  font-size:15px; font-weight:600; font-family:inherit;
-  -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
-  transition:background .15s, border-color .15s, transform .15s;
+  font-size:16px; font-weight:600; font-family:inherit;
+  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+  transition:background .2s, border-color .2s, transform .2s, box-shadow .2s;
+  box-shadow:0 0 0 0 rgba(255,0,0,0);
 }
-.hp-hero-play:hover { background:rgba(255,0,0,0.85); border-color:#ff0000; transform:scale(1.03); }
-.hp-hero-play svg { color:#ff0000; transition:color .15s; }
-.hp-hero-play:hover svg { color:#fff; }
-@media (max-width:639px) {
-  .hp-hero-play { width:100%; justify-content:center; }
+.hp-hero-play:hover { background:rgba(255,0,0,0.9); border-color:#ff0000; transform:scale(1.05); box-shadow:0 0 30px rgba(255,0,0,0.3); }
+.hp-hero-play svg { color:#ff0000; width:28px; height:28px; transition:color .2s, transform .2s; }
+.hp-hero-play:hover svg { color:#fff; transform:scale(1.1); }
+@media (max-width:767px) {
+  .hp-hero-play { padding:14px 28px; font-size:15px; }
 }
 
 /* ── Video modal ── */
@@ -493,26 +503,30 @@ require __DIR__ . '/../includes/header.php';
   </div>
   <div class="hp-hero-inner pub-wrap">
     <div class="hp-hero-content">
-      <h1 class="hp-hero-title pub-h1" style="margin-bottom:20px;">
-        <?= $hero_title ?>
-      </h1>
-      <p class="hp-hero-sub pub-lead" style="max-width:560px;">
-        <?= e($hero_subtitle) ?>
-      </p>
-      <div class="hp-hero-actions pub-cta-actions" style="justify-content:flex-start;margin-top:32px;">
-        <?php if (current_user()): ?>
-        <a href="<?= APP_URL ?>/dashboard" class="btn btn-primary">Go to Dashboard</a>
-        <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline">Browse Businesses</a>
-        <?php else: ?>
-        <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">Get Started Now</a>
-        <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline">Explore Businesses</a>
-        <?php endif; ?>
+      <div class="hp-hero-left">
+        <h1 class="hp-hero-title pub-h1" style="margin-bottom:20px;">
+          <?= $hero_title ?>
+        </h1>
+        <p class="hp-hero-sub pub-lead" style="max-width:560px;">
+          <?= e($hero_subtitle) ?>
+        </p>
+        <div class="hp-hero-actions pub-cta-actions" style="justify-content:flex-start;margin-top:32px;">
+          <?php if (current_user()): ?>
+          <a href="<?= APP_URL ?>/dashboard" class="btn btn-primary">Go to Dashboard</a>
+          <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline">Browse Businesses</a>
+          <?php else: ?>
+          <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">Get Started Now</a>
+          <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline">Explore Businesses</a>
+          <?php endif; ?>
+        </div>
       </div>
       <?php if ($hero_video_id): ?>
-      <button type="button" class="hp-hero-play" aria-label="Watch video" onclick="openHeroVideo()">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16V8l8 4-8 4z"/></svg>
-        <span>Watch Video</span>
-      </button>
+      <div class="hp-hero-right">
+        <button type="button" class="hp-hero-play" aria-label="Watch video" onclick="openHeroVideo()">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16V8l8 4-8 4z"/></svg>
+          <span>Watch Video</span>
+        </button>
+      </div>
       <?php endif; ?>
     </div>
   </div>
