@@ -156,20 +156,21 @@ require __DIR__ . '/../includes/header.php';
 
 /* ── Hero play button ── */
 .hp-hero-play {
-  display:inline-flex; align-items:center; gap:8px;
-  padding:14px 24px;
+  display:inline-flex; align-items:center; gap:10px;
+  margin-left:16px; padding:16px 32px;
   background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2);
-  border-radius:10px; color:#fff; cursor:pointer;
-  font-size:1.05rem; font-weight:600; font-family:inherit;
+  border-radius:12px; color:#fff; cursor:pointer;
+  font-size:1.1rem; font-weight:600; font-family:inherit;
   transition:background .15s, border-color .15s, transform .15s;
 }
 .hp-hero-play:hover { background:rgba(255,0,0,0.9); border-color:#ff0000; transform:scale(1.04); }
-.hp-hero-play svg { color:#ff0000; width:20px; height:20px; transition:color .15s; }
+.hp-hero-play svg { color:#ff0000; width:24px; height:24px; transition:color .15s; }
 .hp-hero-play:hover svg { color:#fff; }
 @media (max-width:639px) {
   .hp-hero-actions { flex-direction:column; }
   .hp-hero-actions a,
-  .hp-hero-play { width:100%; text-align:center; justify-content:center; }
+  .hp-hero-play { width:100%; text-align:center; justify-content:center; margin-left:0; }
+  .hp-hero-play { padding:14px 24px; }
 }
 
 /* ── Video modal ── */
