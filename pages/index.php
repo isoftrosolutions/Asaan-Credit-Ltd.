@@ -453,8 +453,13 @@ require __DIR__ . '/../includes/header.php';
         <?= e($hero_subtitle) ?>
       </p>
       <div class="hp-hero-actions pub-cta-actions" style="justify-content:flex-start;margin-top:32px;">
+        <?php if (current_user()): ?>
+        <a href="<?= APP_URL ?>/dashboard" class="btn btn-primary">Go to Dashboard</a>
+        <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline">Browse Businesses</a>
+        <?php else: ?>
         <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">Get Started Now</a>
         <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline">Explore Businesses</a>
+        <?php endif; ?>
       </div>
     </div>
   </div>
