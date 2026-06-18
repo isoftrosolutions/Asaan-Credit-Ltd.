@@ -24,6 +24,7 @@ $routes = [
     '/legal'                        => 'pages/legal.php',
     '/advisor/create'               => 'advisor/create.php',
     '/advisor/edit'                 => 'advisor/edit.php',
+    '/business/download'            => 'business/download.php',
     '/business/create'              => 'business/create.php',
     '/business/edit'                => 'business/edit.php',
     '/upgrade'                      => 'pages/upgrade.php',
@@ -121,7 +122,7 @@ if (preg_match('#^/investor/(\d+)$#', $path, $m)) {
     exit;
 }
 
-if (preg_match('#^/business/([a-z0-9-]+)$#', $path, $m) && !in_array($m[1], ['create', 'edit'], true)) {
+if (preg_match('#^/business/([a-z0-9-]+)$#', $path, $m) && !in_array($m[1], ['create', 'edit', 'download'], true)) {
     if (ctype_digit($m[1])) {
         $_GET['id'] = $m[1];
     } else {

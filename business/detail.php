@@ -55,11 +55,12 @@ $docS = $db->prepare('SELECT * FROM business_documents WHERE business_id = ? ORD
 $docS->execute([$businessId]);
 $documents = $docS->fetchAll();
 // Also include legacy docs uploaded via the old media uploader (business_media)
-$legacyDocs = $db->prepare("SELECT file_url, created_at FROM business_media WHERE business_id = ? AND media_type = 'document'");
+$legacyDocs = $db->prepare("SELECT id, file_url, created_at FROM business_media WHERE business_id = ? AND media_type = 'document'");
 $legacyDocs->execute([$businessId]);
 foreach ($legacyDocs->fetchAll() as $ld) {
     $documents[] = [
         'id' => 0,
+        'media_id' => (int)$ld['id'],
         'original_name' => basename($ld['file_url']),
         'file_path' => $ld['file_url'],
         'file_size' => 0,
@@ -572,8 +573,10 @@ require __DIR__ . '/../includes/layout-public.php';
       <h2 class="stitch-section-title">Documents</h2>
       <?php if ($viewerIsPremium || $userId === $ownerUserId): ?>
       <div class="stitch-doc-links">
-        <?php foreach ($documents as $d): $ext = strtolower(pathinfo($d['original_name'], PATHINFO_EXTENSION)); ?>
-        <a href="<?= upload_url($d['file_path']) ?>" target="_blank" class="stitch-doc-item">
+        <?php foreach ($documents as $d): $ext = strtolower(pathinfo($d['original_name'], PATHINFO_EXTENSION));
+        $dlUrl = $d['id'] > 0 ? APP_URL . '/business/download?id=' . $d['id'] : (($d['media_id'] ?? 0) > 0 ? APP_URL . '/business/download?mid=' . $d['media_id'] : upload_url($d['file_path']));
+        ?>
+        <a href="<?= $dlUrl ?>" class="stitch-doc-item">
           <span class="stitch-doc-icon">
             <i class="fas fa-file-<?= $ext === 'pdf' ? 'pdf' : 'word' ?>"></i>
           </span>
