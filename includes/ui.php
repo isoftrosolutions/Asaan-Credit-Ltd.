@@ -152,6 +152,7 @@ if (!defined('UI_PHP_LOADED')) {
             ['Businesses', '/admin/businesses', 'briefcase'],
             ['Business Verifications', '/admin/business-verifications', 'check'],
             ['Business Inquiries', '/admin/inquiries', 'mail'],
+            ['Contact Messages', '/admin/contact-messages', 'mail'],
             ['Interest Log', '/admin/interest-log', 'share'],
             ['Users', '/admin/users', 'users'],
             ['Pitches', '/admin/pitches', 'tag'],

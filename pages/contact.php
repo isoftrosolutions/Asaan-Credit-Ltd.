@@ -31,7 +31,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $subject = trim($_POST['subject'] ?? '');
     $message = trim($_POST['message'] ?? '');
 
-    if ($name && $email && $subject && $message) {
+    if ($name && filter_var($email, FILTER_VALIDATE_EMAIL) && $subject && $message) {
+        try {
+            db()->prepare('INSERT INTO contact_messages (name, email, subject, message, status, ip_address, user_agent, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())')
+                ->execute([
+                    $name,
+                    $email,
+                    $subject,
+                    $message,
+                    'new',
+                    $_SERVER['REMOTE_ADDR'] ?? null,
+                    mb_substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 255),
+                ]);
+        } catch (Throwable $e) {
+            // Keep email delivery as the fallback if the contact_messages table has not been migrated yet.
+        }
+
         $body = "Name: $name\nEmail: $email\n\n$message";
         $sent = send_mail('info@asaancapital.com', "Contact Form: $subject", $body);
         if ($sent) {
@@ -40,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $formError = 'Failed to send. Please try again later.';
         }
     } else {
-        $formError = 'All fields are required.';
+        $formError = 'All fields are required and email must be valid.';
     }
 }
 
