@@ -224,16 +224,14 @@ require __DIR__ . '/../includes/header.php';
 .hp-card-stagger:nth-child(5) { animation: hpFadeSlide 400ms var(--ease-out-strong) 250ms both; }
 .hp-card-stagger:nth-child(6) { animation: hpFadeSlide 400ms var(--ease-out-strong) 300ms both; }
 
-/* ── Why Asaan Capital section foreground image ── */
-.hp-why-bg-img {
-  position:absolute; bottom:0; right:0; z-index:2;
-  width:40%; max-width:420px; height:auto;
-  border-radius:12px 0 0 0;
-  box-shadow:-4px -4px 24px rgba(0,0,0,0.08);
-  pointer-events:none;
+/* ── Why Asaan Capital section image ── */
+.hp-why-img {
+  display:block; width:100%; max-width:400px; height:auto;
+  margin:0 auto 40px; border-radius:12px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.08);
 }
 @media (max-width:767px) {
-  .hp-why-bg-img { display:none; }
+  .hp-why-img { max-width:100%; margin-bottom:32px; }
 }
 
 /* ── Why Asaan Capital cards ── */
@@ -607,14 +605,14 @@ document.addEventListener('keydown', function(e) {
 </section>
 
 <!-- Why Asaan Capital -->
-<section class="pub-section surface hp-why-section" style="background:#fff;position:relative;overflow:hidden;">
-  <img src="<?= APP_URL ?>/public/uploads/mac_deal_map.jpg" alt="" class="hp-why-bg-img">
-  <div class="pub-wrap" style="max-width:960px;position:relative;z-index:1;">
+<section class="pub-section surface" style="background:#fff;">
+  <div class="pub-wrap" style="max-width:960px;">
     <div class="pub-section-head" style="margin-bottom:48px;">
       <span style="display:inline-block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-primary-vivid);margin-bottom:8px;">Why Asaan Capital</span>
       <h2 class="pub-h2" style="margin-bottom:12px;">Nepal's most trusted business matching platform</h2>
       <p class="pub-text" style="max-width:640px;margin:0 auto;color:var(--dash-ink-soft);">We make it safe, simple, and smart to find the right business partner — whether you're buying, selling, investing, or raising capital.</p>
     </div>
+    <img src="<?= APP_URL ?>/public/uploads/mac_deal_map.jpg" alt="" class="hp-why-img">
     <div class="hp-grid-2" style="display:grid;gap:32px;">
       <div class="hp-why-card">
         <div class="hp-why-icon">
