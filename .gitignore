@@ -12,3 +12,7 @@
 
 # Node.js dependencies (ws-server is unused on most hosting)
 ws-server/node_modules/
+
+# Uploaded payment receipts (runtime user files)
+/public/uploads/payment-receipts/*
+!/public/uploads/payment-receipts/.gitkeep

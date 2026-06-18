@@ -60,7 +60,7 @@ if ($businessId > 0) {
 }
 
 // Check admin
-if (!$canDownload && ($user['role'] ?? '') === 'admin') {
+if (!$canDownload && !empty($user['is_admin'])) {
     $canDownload = true;
 }
 

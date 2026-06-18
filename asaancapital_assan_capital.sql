@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 17, 2026 at 12:17 PM
+-- Generation Time: Jun 18, 2026 at 10:33 AM
 -- Server version: 10.11.18-MariaDB
 -- PHP Version: 8.4.21
 
@@ -80,7 +80,17 @@ INSERT INTO `admin_audit_log` (`id`, `admin_id`, `action`, `target_type`, `targe
 (203, 1, 'delete_business', 'business', 323, NULL, '103.28.86.60', '2026-06-17 10:26:43'),
 (204, 1, 'update_site_settings', 'site_settings', 0, '[\"_csrf\",\"payment_phone\",\"premium_contact_email\",\"payment_instructions\",\"site_tagline\"]', '103.28.86.60', '2026-06-17 11:50:41'),
 (205, 1, 'update_site_settings', 'site_settings', 0, '[\"_csrf\",\"payment_phone\",\"premium_contact_email\",\"payment_instructions\",\"site_tagline\"]', '103.28.86.60', '2026-06-17 11:54:16'),
-(206, 1, 'premium_verified', 'premium_subscription', 2, '{\"user_id\":23,\"plan\":\"growth\",\"amount\":\"3000.00\"}', '120.89.104.206', '2026-06-17 12:02:33');
+(206, 1, 'premium_verified', 'premium_subscription', 2, '{\"user_id\":23,\"plan\":\"growth\",\"amount\":\"3000.00\"}', '120.89.104.206', '2026-06-17 12:02:33'),
+(207, 1, 'premium_verified', 'premium_subscription', 3, '{\"user_id\":20,\"plan\":\"growth\",\"amount\":\"3000.00\"}', '103.28.86.60', '2026-06-17 12:57:57'),
+(208, 1, 'premium_verified', 'premium_subscription', 1, '{\"user_id\":20,\"plan\":\"growth\",\"amount\":\"3000.00\"}', '103.28.86.60', '2026-06-17 12:58:00'),
+(209, 1, 'remove_premium', 'user', 23, '{\"email\":\"eparcalnepal@yahoo.com\"}', '103.28.86.60', '2026-06-17 12:58:14'),
+(210, 1, 'set_premium', 'user', 19, '{\"email\":\"rkblockudhyog@gmail.com\"}', '103.28.86.60', '2026-06-17 12:58:22'),
+(211, 1, 'update_email_settings', 'email_settings', 1, '{\"is_active\":1}', '103.28.86.60', '2026-06-17 16:03:02'),
+(212, 1, 'approve_verification', 'user', 24, '{\"email\":\"nepalcyberfirm@gmail.com\"}', '103.28.86.60', '2026-06-17 16:04:44'),
+(213, 1, 'update_page', 'pages', 1, '{\"slug\":\"about\"}', '103.167.233.237', '2026-06-18 00:34:37'),
+(214, 1, 'create_blog_post', 'blog_post', 4, '{\"title\":\"Vel mollit aliquid a\"}', '103.167.233.237', '2026-06-18 00:39:36'),
+(215, 1, 'create_blog_post', 'blog_post', 5, '{\"title\":\"Vel mollit aliquid a\"}', '103.167.233.237', '2026-06-18 00:39:44'),
+(216, 1, 'premium_verified', 'premium_subscription', 4, '{\"user_id\":25,\"plan\":\"growth\",\"amount\":\"3000.00\"}', '120.89.105.34', '2026-06-18 00:52:22');
 
 -- --------------------------------------------------------
 
@@ -143,7 +153,9 @@ CREATE TABLE `blog_posts` (
 INSERT INTO `blog_posts` (`id`, `title`, `slug`, `excerpt`, `body`, `author`, `status`, `published_at`, `created_at`, `updated_at`) VALUES
 (1, 'How to Value a Small Business in Nepal', 'how-to-value-a-small-business-in-nepal', 'A practical walkthrough of the three methods investors use to value SMEs ΓÇö and how to apply them to a Nepali business.', 'Valuing a business is part science, part judgement. Most buyers and investors lean on three approaches, and the truth usually sits somewhere between them.\n\nThe first is trading comparables: looking at how publicly listed companies in the same sector are priced relative to their earnings (EV/EBITDA). The second is transaction comparables, which uses the prices paid in actual deals for similar private businesses. The third is discounted cash flow, which projects future cash and discounts it back to today.\n\nFor a Nepali SME, comparable multiples are usually the most reliable starting point. Apply a sector multiple to your EBITDA, then adjust for growth and how long you have been operating. Our free calculator does exactly this ΓÇö try it before you talk to any buyer.', 'Asaan Capital', 'published', '2026-05-10 03:15:00', '2026-05-10 03:15:00', '2026-05-10 03:15:00'),
 (2, '5 Things Investors Look For Before They Fund You', '5-things-investors-look-for-before-they-fund-you', 'Capital follows conviction. Here is what convinces a Nepali investor to move from interest to a cheque.', 'Raising money is less about a perfect pitch and more about reducing the investor\'s perceived risk. Five things move the needle more than anything else.\n\nClean financials. If your numbers are organised and believable, you are already ahead of most. Traction. Revenue, repeat customers, or signed contracts speak louder than projections. A clear use of funds. Investors want to know exactly what their money buys and what milestone it unlocks.\n\nA capable team is the fourth ΓÇö people back people. And finally, a realistic valuation. Over-pricing your round is the fastest way to stall a deal. Get these five right and the conversation changes completely.', 'Asaan Capital', 'published', '2026-05-20 03:15:00', '2026-05-20 03:15:00', '2026-05-20 03:15:00'),
-(3, 'Selling Your Business Confidentially: A Short Guide', 'selling-your-business-confidentially-a-short-guide', 'How to find a buyer without tipping off staff, suppliers, and competitors.', 'The biggest fear most owners have when selling is exposure. If word gets out too early, staff get nervous, competitors pounce, and suppliers renegotiate.\n\nThe answer is a staged disclosure. Start with an anonymous profile that shares the shape of the opportunity ΓÇö sector, size, and financial highlights ΓÇö without naming the business. Only when a genuine, verified buyer expresses interest do you reveal your identity, and even then on your terms.\n\nThis is exactly how matching works on our platform: contact details stay private until there is mutual interest. You stay in control of who learns what, and when.', 'Asaan Capital', 'published', '2026-05-28 03:15:00', '2026-05-28 03:15:00', '2026-05-28 03:15:00');
+(3, 'Selling Your Business Confidentially: A Short Guide', 'selling-your-business-confidentially-a-short-guide', 'How to find a buyer without tipping off staff, suppliers, and competitors.', 'The biggest fear most owners have when selling is exposure. If word gets out too early, staff get nervous, competitors pounce, and suppliers renegotiate.\n\nThe answer is a staged disclosure. Start with an anonymous profile that shares the shape of the opportunity ΓÇö sector, size, and financial highlights ΓÇö without naming the business. Only when a genuine, verified buyer expresses interest do you reveal your identity, and even then on your terms.\n\nThis is exactly how matching works on our platform: contact details stay private until there is mutual interest. You stay in control of who learns what, and when.', 'Asaan Capital', 'published', '2026-05-28 03:15:00', '2026-05-28 03:15:00', '2026-05-28 03:15:00'),
+(4, 'Vel mollit aliquid a', 'officiis-unde-sed-nu', 'Vel tempora assumend', '<div>Duis repellendus. Ve.</div>', 'Alias aliquam aspern', 'published', '2026-06-18 00:39:36', '2026-06-18 00:39:36', '2026-06-18 00:39:36'),
+(5, 'Vel mollit aliquid a', 'officiis-unde-sed-nu-2', 'Vel tempora assumend', '<div>Duis repellendus. Ve.</div>', 'Alias aliquam aspern', 'published', '2026-06-18 00:39:44', '2026-06-18 00:39:44', '2026-06-18 00:39:44');
 
 -- --------------------------------------------------------
 
@@ -215,17 +227,17 @@ CREATE TABLE `businesses` (
 --
 
 INSERT INTO `businesses` (`id`, `user_id`, `business_name`, `slug`, `listing_type`, `sector_id`, `province`, `district`, `country_id`, `state_id`, `city_id`, `established_year`, `employee_count`, `legal_entity_type`, `annual_revenue`, `monthly_revenue`, `ebitda_pct`, `asking_price`, `funding_required`, `valuation`, `stake_offered_pct`, `loan_amount`, `loan_interest_pct`, `description`, `overview`, `products_services`, `reason_for_sale`, `assets_included`, `facilities`, `capitalization`, `is_published`, `is_hidden`, `status`, `is_featured`, `views`, `rating`, `created_at`, `updated_at`) VALUES
-(1, 3, 'Enterprise Software Co.', 'enterprise-software-co-1', 'sale', 4, 'Bagmati', 'Kathmandu', 1, 3, 27, 2018, 45, NULL, 120000000.00, NULL, 18.00, 120000000.00, NULL, NULL, NULL, NULL, NULL, 'Cloud B2B SaaS platform serving 200+ clients across 12 countries. Strong recurring revenue with 92% retention rate.', NULL, NULL, 'Founder pursuing new venture in EdTech space', NULL, NULL, NULL, 1, 0, 'approved', 1, 1461, 9.3, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
-(2, 3, 'Manufacturing Unit Expansion', 'manufacturing-unit-expansion-2', 'partial_stake', 7, 'Bagmati', 'Kathmandu', 1, 3, 27, 2015, 120, NULL, 80000000.00, NULL, 12.00, 60000000.00, NULL, NULL, NULL, NULL, NULL, 'Food processing unit with modern equipment. 30% YoY growth. Looking for strategic partner for expansion.', NULL, NULL, 'Seeking capital for new product line', NULL, NULL, NULL, 1, 0, 'approved', 0, 899, 8.1, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
-(3, 3, 'Retail Pharmacy Chain', 'retail-pharmacy-chain-3', 'sale', 8, 'Bagmati', 'Lalitpur', 1, 3, 29, 2010, 30, NULL, 50000000.00, NULL, 15.00, 50000000.00, NULL, NULL, NULL, NULL, NULL, 'Chain of 5 retail pharmacy stores in Kathmandu Valley. Established brand with loyal customer base.', NULL, NULL, 'Owner relocating abroad', NULL, NULL, NULL, 1, 0, 'approved', 0, 679, 7.5, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
+(1, 3, 'Enterprise Software Co.', 'enterprise-software-co-1', 'sale', 4, 'Bagmati', 'Kathmandu', 1, 3, 27, 2018, 45, NULL, 120000000.00, NULL, 18.00, 120000000.00, NULL, NULL, NULL, NULL, NULL, 'Cloud B2B SaaS platform serving 200+ clients across 12 countries. Strong recurring revenue with 92% retention rate.', NULL, NULL, 'Founder pursuing new venture in EdTech space', NULL, NULL, NULL, 1, 0, 'approved', 1, 1466, 9.3, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
+(2, 3, 'Manufacturing Unit Expansion', 'manufacturing-unit-expansion-2', 'partial_stake', 7, 'Bagmati', 'Kathmandu', 1, 3, 27, 2015, 120, NULL, 80000000.00, NULL, 12.00, 60000000.00, NULL, NULL, NULL, NULL, NULL, 'Food processing unit with modern equipment. 30% YoY growth. Looking for strategic partner for expansion.', NULL, NULL, 'Seeking capital for new product line', NULL, NULL, NULL, 1, 0, 'approved', 0, 901, 8.1, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
+(3, 3, 'Retail Pharmacy Chain', 'retail-pharmacy-chain-3', 'sale', 8, 'Bagmati', 'Lalitpur', 1, 3, 29, 2010, 30, NULL, 50000000.00, NULL, 15.00, 50000000.00, NULL, NULL, NULL, NULL, NULL, 'Chain of 5 retail pharmacy stores in Kathmandu Valley. Established brand with loyal customer base.', NULL, NULL, 'Owner relocating abroad', NULL, NULL, NULL, 1, 0, 'approved', 0, 681, 7.5, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
 (4, 4, 'Hotel Equity Stake', 'hotel-equity-stake-4', 'partial_stake', 9, 'Gandaki', 'Pokhara', 1, 4, NULL, 2012, 55, NULL, 35000000.00, NULL, 22.00, 30000000.00, NULL, NULL, NULL, NULL, NULL, 'Boutique hotel in Pokhara with 20 rooms. Strong tourism revenue. Offering 40% equity stake.', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 'approved', 0, 552, 8.6, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
 (5, 4, 'Tech Startup Portfolio', 'tech-startup-portfolio-5', 'sale', 4, 'Bagmati', 'Kathmandu', 1, 3, 27, 2020, 8, NULL, 15000000.00, NULL, 25.00, 25000000.00, NULL, NULL, NULL, NULL, NULL, 'Portfolio of 3 bootstrapped SaaS products with 5,000+ paying users across SEA.', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 'approved', 0, 320, 7.8, '2026-05-29 04:34:11', '2026-05-29 04:34:11'),
-(6, 5, 'Rana Supermart Chain', 'rana-supermart-chain-6', 'sale', 8, 'Bagmati', 'Kathmandu', 1, 3, 27, 2014, 85, NULL, 95000000.00, NULL, 16.00, 90000000.00, NULL, NULL, NULL, NULL, NULL, 'Chain of 6 neighbourhood supermarkets across the Kathmandu Valley.', NULL, NULL, 'Owner consolidating to focus on wholesale distribution', NULL, NULL, NULL, 1, 0, 'approved', 1, 765, 8.4, '2026-05-29 22:15:00', '2026-05-29 22:15:00'),
-(7, 5, 'Himalayan Handicrafts Export', 'himalayan-handicrafts-export-7', 'partial_stake', 13, 'Bagmati', 'Bhaktapur', 1, 3, 23, 2017, 40, NULL, 42000000.00, NULL, 20.00, 30000000.00, NULL, NULL, 30.00, NULL, NULL, 'Export-focused handicraft business shipping to Europe and North America.', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 'approved', 0, 413, 7.9, '2026-05-29 22:15:00', '2026-05-29 22:15:00'),
+(6, 5, 'Rana Supermart Chain', 'rana-supermart-chain-6', 'sale', 8, 'Bagmati', 'Kathmandu', 1, 3, 27, 2014, 85, NULL, 95000000.00, NULL, 16.00, 90000000.00, NULL, NULL, NULL, NULL, NULL, 'Chain of 6 neighbourhood supermarkets across the Kathmandu Valley.', NULL, NULL, 'Owner consolidating to focus on wholesale distribution', NULL, NULL, NULL, 1, 0, 'approved', 1, 767, 8.4, '2026-05-29 22:15:00', '2026-05-29 22:15:00'),
+(7, 5, 'Himalayan Handicrafts Export', 'himalayan-handicrafts-export-7', 'partial_stake', 13, 'Bagmati', 'Bhaktapur', 1, 3, 23, 2017, 40, NULL, 42000000.00, NULL, 20.00, 30000000.00, NULL, NULL, 30.00, NULL, NULL, 'Export-focused handicraft business shipping to Europe and North America.', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 'approved', 0, 414, 7.9, '2026-05-29 22:15:00', '2026-05-29 22:15:00'),
 (14, 1, 'Everest Wellness Pharmacy Chain', 'everest-wellness-pharmacy-chain-14', 'sale', 8, 'Bagmati', 'Kathmandu', 1, 3, 27, 2008, 42, NULL, 72000000.00, NULL, 14.00, 85000000.00, NULL, NULL, NULL, NULL, NULL, 'Chain of 7 pharmacies across Kathmandu Valley with wholesale distribution license. Established supplier relationships with major pharmaceutical companies. Loyal customer base of 15,000+.', NULL, NULL, 'Founder expanding into hospital management', NULL, NULL, NULL, 1, 0, 'approved', 0, 235, 8.0, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
 (15, 1, 'Himalayan General Store & Provisions', 'himalayan-general-store-provisions-15', 'sale', 8, 'Bagmati', 'Lalitpur', 1, 3, 29, 2010, 22, NULL, 35000000.00, NULL, 12.00, 40000000.00, NULL, NULL, NULL, NULL, NULL, 'Full-service general store in a high-traffic residential area of Lalitpur. Stocking groceries, household items, and local specialties. Stable annual growth of 8-10%.', NULL, NULL, 'Owner pursuing franchise opportunity', NULL, NULL, NULL, 1, 0, 'approved', 0, 812, 7.8, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
 (16, 1, 'Organic & Natural Products Boutique', 'organic-natural-products-boutique-16', 'partial_stake', 8, 'Bagmati', 'Kathmandu', 1, 3, 27, 2019, 12, NULL, 15000000.00, NULL, 20.00, 12000000.00, NULL, NULL, NULL, NULL, NULL, 'Specialty retail store offering organic foods, natural cosmetics, and eco-friendly home products. Growing health-conscious customer segment. Seeking partner for 40% equity to fund expansion.', NULL, NULL, 'Expanding to second location, need growth capital', NULL, NULL, NULL, 1, 0, 'approved', 0, 752, 8.5, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(17, 1, 'LearnNepal Online Academy', 'learnnepal-online-academy-17', 'partial_stake', 5, 'Bagmati', 'Kathmandu', 1, 3, 27, 2020, 28, NULL, 22000000.00, NULL, 28.00, 35000000.00, NULL, NULL, NULL, NULL, NULL, 'Online learning platform offering STEM courses for grades 8-12. 8,500+ active students across 35 districts. Offline-capable mobile app. Partnerships with 50+ schools.', NULL, NULL, 'Scaling to include vocational training vertical', NULL, NULL, NULL, 1, 0, 'approved', 1, 325, 9.0, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(17, 1, 'LearnNepal Online Academy', 'learnnepal-online-academy-17', 'partial_stake', 5, 'Bagmati', 'Kathmandu', 1, 3, 27, 2020, 28, NULL, 22000000.00, NULL, 28.00, 35000000.00, NULL, NULL, NULL, NULL, NULL, 'Online learning platform offering STEM courses for grades 8-12. 8,500+ active students across 35 districts. Offline-capable mobile app. Partnerships with 50+ schools.', NULL, NULL, 'Scaling to include vocational training vertical', NULL, NULL, NULL, 1, 0, 'approved', 1, 327, 9.0, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
 (18, 1, 'SkillBridge Vocational Training Center', 'skillbridge-vocational-training-center-18', 'sale', 5, 'Province 1', 'Biratnagar', NULL, NULL, NULL, 2016, 25, NULL, 28000000.00, NULL, 16.00, 45000000.00, NULL, NULL, NULL, NULL, NULL, 'CTEVT-affiliated vocational training center offering IT, hospitality, and healthcare assistant courses. 500+ graduates annually with 85% placement rate. Government-recognized certification.', NULL, NULL, 'Owner retiring, looking for successor', NULL, NULL, NULL, 1, 0, 'approved', 0, 722, 8.1, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
 (19, 1, 'GreenFarm Hydroponics', 'greenfarm-hydroponics-19', 'partial_stake', 1, 'Bagmati', 'Kathmandu', 1, 3, 27, 2021, 15, NULL, 12000000.00, NULL, 30.00, 18000000.00, NULL, NULL, NULL, NULL, NULL, 'Commercial hydroponic farm supplying premium lettuce, herbs, and microgreens to 40+ hotels and restaurants in Kathmandu. Year-round production with 3 greenhouse facilities.', NULL, NULL, 'Seeking capital to build 5 more greenhouse units', NULL, NULL, NULL, 1, 0, 'approved', 0, 845, 8.8, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
 (20, 1, 'Nepal Organic Tea Plantation', 'nepal-organic-tea-plantation-20', 'sale', 1, 'Province 1', 'Ilam', NULL, NULL, NULL, 2005, 60, NULL, 38000000.00, NULL, 20.00, 95000000.00, NULL, NULL, NULL, NULL, NULL, 'Established 25-acre organic tea estate in Ilam producing premium orthodox teas. Exports to 8 countries. Certified organic and Fair Trade. On-site processing facility.', NULL, NULL, 'Founder looking for strategic acquisition partner', NULL, NULL, NULL, 1, 0, 'approved', 0, 246, 9.2, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
@@ -233,14 +245,16 @@ INSERT INTO `businesses` (`id`, `user_id`, `business_name`, `slug`, `listing_typ
 (22, 1, 'Himalayan Pashmina Weaving Mill', 'himalayan-pashmina-weaving-mill-22', 'partial_stake', 7, 'Bagmati', 'Kathmandu', 1, 3, 27, 2009, 55, NULL, 52000000.00, NULL, 22.00, 65000000.00, NULL, NULL, NULL, NULL, NULL, 'Traditional pashmina shawl and scarf manufacturer with 40 handlooms. Exports to luxury retailers in Europe, Japan, and North America. Ethical production certified.', NULL, NULL, 'Seeking investment for digital marketing and US market entry', NULL, NULL, NULL, 1, 0, 'approved', 0, 381, 8.6, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
 (23, 1, 'Everest Bottled Water Co.', 'everest-bottled-water-co-23', 'sale', 7, 'Bagmati', 'Dhulikhel', 1, 3, NULL, 2011, 38, NULL, 45000000.00, NULL, 18.00, 55000000.00, NULL, NULL, NULL, NULL, NULL, 'Premium spring water bottling plant with source at 1,600m elevation. 5-stage purification system. Supplies 20,000+ bottles daily to hotels, offices, and retail outlets.', NULL, NULL, 'Competitive market prompting owner to exit', NULL, NULL, NULL, 1, 0, 'approved', 0, 586, 7.9, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
 (24, 1, 'Newa Momo Kitchen Franchise', 'newa-momo-kitchen-franchise-24', 'loan', 12, 'Bagmati', 'Kathmandu', 1, 3, 27, 2017, 20, NULL, 25000000.00, NULL, 24.00, 15000000.00, NULL, NULL, NULL, NULL, NULL, 'Popular momo chain with 3 outlets in Kathmandu. Famous for authentic Newari-style momos. Strong brand recognition. Looking for loan to open 2 more outlets in Lalitpur.', NULL, NULL, 'Expansion capital for new outlets', NULL, NULL, NULL, 1, 0, 'approved', 0, 791, 8.4, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(25, 1, 'Himalayan Coffee Roasters', 'himalayan-coffee-roasters-25', 'partial_stake', 12, 'Bagmati', 'Lalitpur', 1, 3, 29, 2018, 14, NULL, 18000000.00, NULL, 26.00, 25000000.00, NULL, NULL, NULL, NULL, NULL, 'Specialty coffee roastery sourcing beans from 200+ small farmers in Palpa and Gulmi. Supplies 60+ cafes across Nepal. Single-origin and blend offerings. 35% YoY growth.', NULL, NULL, 'Scaling production capacity and retail presence', NULL, NULL, NULL, 1, 0, 'approved', 1, 403, 9.3, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(25, 1, 'Himalayan Coffee Roasters', 'himalayan-coffee-roasters-25', 'partial_stake', 12, 'Bagmati', 'Lalitpur', 1, 3, 29, 2018, 14, NULL, 18000000.00, NULL, 26.00, 25000000.00, NULL, NULL, NULL, NULL, NULL, 'Specialty coffee roastery sourcing beans from 200+ small farmers in Palpa and Gulmi. Supplies 60+ cafes across Nepal. Single-origin and blend offerings. 35% YoY growth.', NULL, NULL, 'Scaling production capacity and retail presence', NULL, NULL, NULL, 1, 0, 'approved', 1, 405, 9.3, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
 (26, 1, 'Bakery & Patisserie Shop', 'bakery-patisserie-shop-26', 'sale', 12, 'Bagmati', 'Bhaktapur', 1, 3, 23, 2019, 10, NULL, 9500000.00, NULL, 32.00, 15000000.00, NULL, NULL, NULL, NULL, NULL, 'Artisan bakery in heritage area of Bhaktapur producing sourdough, pastries, and celebration cakes. Strong repeat customer base. Equipment and recipes included.', NULL, NULL, 'Owner focusing on food consultancy', NULL, NULL, NULL, 1, 0, 'approved', 0, 977, 8.9, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
-(27, 1, 'NepalCraft Online Marketplace', 'nepalcraft-online-marketplace-27', 'partial_stake', 13, 'Bagmati', 'Kathmandu', 1, 3, 27, 2020, 18, NULL, 28000000.00, NULL, 16.00, 40000000.00, NULL, NULL, NULL, NULL, NULL, 'E-commerce platform connecting Nepali artisans with global buyers. 1,200+ registered sellers, 15,000+ products. Monthly orders: 2,500+. Shipping to 25+ countries.', NULL, NULL, 'Need capital for logistics infrastructure and marketing', NULL, NULL, NULL, 1, 0, 'approved', 0, 314, 8.0, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
+(27, 1, 'NepalCraft Online Marketplace', 'nepalcraft-online-marketplace-27', 'partial_stake', 13, 'Bagmati', 'Kathmandu', 1, 3, 27, 2020, 18, NULL, 28000000.00, NULL, 16.00, 40000000.00, NULL, NULL, NULL, NULL, NULL, 'E-commerce platform connecting Nepali artisans with global buyers. 1,200+ registered sellers, 15,000+ products. Monthly orders: 2,500+. Shipping to 25+ countries.', NULL, NULL, 'Need capital for logistics infrastructure and marketing', NULL, NULL, NULL, 1, 0, 'approved', 0, 315, 8.0, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
 (28, 1, 'FreshGrocery Nepal', 'freshgrocery-nepal-28', 'sale', 13, 'Bagmati', 'Kathmandu', 1, 3, 27, 2021, 25, NULL, 32000000.00, NULL, 10.00, 22000000.00, NULL, NULL, NULL, NULL, NULL, 'Online grocery delivery service covering Kathmandu Valley. 4,000+ SKUs, own warehouse and delivery fleet. 300+ daily orders. 2-hour delivery window.', NULL, NULL, 'Competitive pressure prompting sale to larger player', NULL, NULL, NULL, 1, 0, 'approved', 0, 835, 7.5, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
 (29, 1, 'Shiva Construction & Engineering', 'shiva-construction-engineering-29', 'sale', 14, 'Bagmati', 'Kathmandu', 1, 3, 27, 2007, 120, NULL, 150000000.00, NULL, 12.00, 180000000.00, NULL, NULL, NULL, NULL, NULL, 'Class A construction company with 17 years of project delivery. Completed 35+ commercial and residential projects. Owns heavy equipment fleet. Government-approved contractor.', NULL, NULL, 'Founders approaching retirement age', NULL, NULL, NULL, 1, 0, 'approved', 0, 636, 8.2, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
 (30, 1, 'GreenBuild Materials Supply', 'greenbuild-materials-supply-30', 'sale', 14, 'Bagmati', 'Lalitpur', 1, 3, 29, 2016, 28, NULL, 42000000.00, NULL, 14.00, 35000000.00, NULL, NULL, NULL, NULL, NULL, 'Eco-friendly construction materials supplier offering bamboo panels, recycled aggregates, and energy-efficient blocks. Exclusive distributor for 5 international brands in Nepal.', NULL, NULL, 'Owner shifting focus to architectural consultancy', NULL, NULL, NULL, 1, 0, 'approved', 0, 465, 8.0, '2026-06-08 11:03:52', '2026-06-08 11:03:52'),
 (201, 201, 'R K Block Udhyog', 'r-k-block-udhyog', 'investment', 7, 'Bagmati', 'Kathmandu', NULL, NULL, NULL, NULL, NULL, 'Sole Proprietorship', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Block manufacturing and construction materials supplier. Looking for investment to expand production capacity and purchase new machinery.', '', '', '', '', '', '', 1, 0, 'approved', 0, 22, NULL, '2026-06-17 10:26:17', '2026-06-17 10:26:17'),
-(324, 19, 'R K Block Udhyog', 'r-k-block-udhyog-1', 'business_sale', 7, '', '', 1, 2, 15, 2026, 12, 'Private Limited', 24000000.00, 2000000.00, 25.00, 35000000.00, 35000000.00, 50000000.00, 70.00, NULL, NULL, '\"R K Block Udhyog is a manufacturing business specializing in quality concrete blocks and construction materials, serving residential and commercial construction projects with reliable products and consistent quality.\"', 'R K Block Udhyog is a construction materials manufacturing company specializing in the production of high-quality concrete blocks, paving blocks, and related building materials. The company serves residential, commercial, and infrastructure projects, focusing on product quality, timely delivery, and customer satisfaction. With growing demand in the construction sector, the business has established a reliable market presence and offers significant opportunities for future expansion and increased production capacity.', 'R K Block Udhyog offers a range of construction materials designed for residential, commercial, and infrastructure projects. The main products include concrete blocks (solid and hollow blocks), interlocking/paver blocks, and other cement-based building materials. The company also provides customized block sizes based on project requirements and ensures consistent quality, durability, and timely supply for construction needs.', 'R K Block Udhyog is equipped with essential production facilities required for concrete block manufacturing. The setup includes a block-making machine, molds of different sizes, mixing equipment, curing area, and storage space for raw materials and finished products. The facility is designed to support smooth daily operations, consistent production, and efficient order fulfillment. Basic infrastructure such as water supply, electricity, and transportation access is also available to ensure uninterrupted production.', 'R K Block Udhyog has been established with adequate capital investment to support its production facilities, machinery, raw materials, and operational expenses. The business is funded through the owner’s equity along with reinvested profits from operations. The current capitalization structure is sufficient to maintain daily operations and has the potential for further expansion through additional investment.', 'R K Block Udhyog has been established with adequate capital investment to support its production facilities, machinery, raw materials, and operational expenses. The business is funded through the owner’s equity along with reinvested profits from operations. The current capitalization structure is sufficient to maintain daily operations and has the potential for further expansion through additional investment.', 'R K Block Udhyog has been established with adequate capital investment to support its production facilities, machinery, raw materials, and operational expenses. The business is funded through the owner’s equity along with reinvested profits from operations. The current capitalization structure is sufficient to maintain daily operations and has the potential for further expansion through additional investment.', 1, 0, 'approved', 0, 65, NULL, '2026-06-17 10:41:19', '2026-06-17 11:30:24');
+(324, 19, 'R K Block Udhyog', 'r-k-block-udhyog-1', 'business_sale', 7, '', '', 1, 2, 15, 2026, 12, 'Private Limited', 24000000.00, 2000000.00, 25.00, 35000000.00, 35000000.00, 50000000.00, 70.00, NULL, NULL, '\"R K Block Udhyog is a manufacturing business specializing in quality concrete blocks and construction materials, serving residential and commercial construction projects with reliable products and consistent quality.\"', 'R K Block Udhyog is a construction materials manufacturing company specializing in the production of high-quality concrete blocks, paving blocks, and related building materials. The company serves residential, commercial, and infrastructure projects, focusing on product quality, timely delivery, and customer satisfaction. With growing demand in the construction sector, the business has established a reliable market presence and offers significant opportunities for future expansion and increased production capacity.', 'R K Block Udhyog offers a range of construction materials designed for residential, commercial, and infrastructure projects. The main products include concrete blocks (solid and hollow blocks), interlocking/paver blocks, and other cement-based building materials. The company also provides customized block sizes based on project requirements and ensures consistent quality, durability, and timely supply for construction needs.', 'R K Block Udhyog is equipped with essential production facilities required for concrete block manufacturing. The setup includes a block-making machine, molds of different sizes, mixing equipment, curing area, and storage space for raw materials and finished products. The facility is designed to support smooth daily operations, consistent production, and efficient order fulfillment. Basic infrastructure such as water supply, electricity, and transportation access is also available to ensure uninterrupted production.', 'R K Block Udhyog has been established with adequate capital investment to support its production facilities, machinery, raw materials, and operational expenses. The business is funded through the owner’s equity along with reinvested profits from operations. The current capitalization structure is sufficient to maintain daily operations and has the potential for further expansion through additional investment.', 'R K Block Udhyog has been established with adequate capital investment to support its production facilities, machinery, raw materials, and operational expenses. The business is funded through the owner’s equity along with reinvested profits from operations. The current capitalization structure is sufficient to maintain daily operations and has the potential for further expansion through additional investment.', 'R K Block Udhyog has been established with adequate capital investment to support its production facilities, machinery, raw materials, and operational expenses. The business is funded through the owner’s equity along with reinvested profits from operations. The current capitalization structure is sufficient to maintain daily operations and has the potential for further expansion through additional investment.', 1, 0, 'approved', 0, 77, NULL, '2026-06-17 10:41:19', '2026-06-17 15:34:07'),
+(325, 20, 'Devbarat ji ko business nxidnd', 'devbarat-ji-ko-business-nxidnd', 'asset_sale', 4, '', '', 1, 5, 52, 2001, 58, 'NGO/INGO', 22.00, 5080.00, 123.00, 1238.00, 4080.00, 8115.00, 999.99, NULL, NULL, 'Rcfcfc', 'Rcrc', 'Rcrc', 'Rcrc', 'Rccrrc', '5ctv', '5vtv', 1, 0, 'approved', 0, 30, NULL, '2026-06-17 13:21:42', '2026-06-17 17:27:00'),
+(326, 24, 'Hamilton Christian', 'hamilton-christian', 'franchise', 12, '', '', 1, 4, 2, 2009, 53, 'Private Limited', 70.00, 2.00, 6.00, 520.00, 59.00, 6.00, 41.00, NULL, NULL, 'Laudantium sit ad r', 'Asperiores irure vol', 'Nemo ea tempor ad it', 'Magni eos sapiente n', 'Voluptas ut corrupti', 'Et eos ipsum est dol', 'Ad ea voluptate faci', 1, 0, 'approved', 0, 47, NULL, '2026-06-17 17:28:31', '2026-06-18 10:32:24');
 
 -- --------------------------------------------------------
 
@@ -264,8 +278,29 @@ CREATE TABLE `business_assets` (
 --
 
 INSERT INTO `business_assets` (`id`, `business_id`, `asset_name`, `asset_type`, `estimated_value`, `description`, `created_at`, `updated_at`) VALUES
-(48, 324, 'Machinery & Equipment', 'equipment', 2000000.00, 'sdhfytdjhgfs', '2026-06-17 11:30:24', '2026-06-17 11:30:24'),
-(49, 324, 'Land & Building', 'building', 452354.00, 'xdafhjghsg', '2026-06-17 11:30:24', '2026-06-17 11:30:24');
+(53, 324, 'Machinery & Equipment', 'equipment', 2000000.00, 'sdhfytdjhgfs', '2026-06-17 15:34:07', '2026-06-17 15:34:07'),
+(54, 324, 'Land & Building', 'building', 452354.00, 'xdafhjghsg', '2026-06-17 15:34:07', '2026-06-17 15:34:07'),
+(57, 325, 'H3h3h', 'vehicle', 55.00, 'Fcfc', '2026-06-17 17:27:02', '2026-06-17 17:27:02'),
+(66, 326, 'Angela Hunt', 'equipment', 6.00, 'Qui quod quia ut iru', '2026-06-18 10:32:24', '2026-06-18 10:32:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `business_documents`
+--
+
+CREATE TABLE `business_documents` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `business_id` bigint(20) UNSIGNED NOT NULL,
+  `original_name` varchar(255) NOT NULL,
+  `file_path` varchar(500) NOT NULL,
+  `file_size` int(11) UNSIGNED NOT NULL DEFAULT 0,
+  `file_type` varchar(100) NOT NULL DEFAULT '',
+  `description` varchar(500) DEFAULT NULL,
+  `sort_order` int(11) NOT NULL DEFAULT 0,
+  `download_count` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -290,7 +325,9 @@ CREATE TABLE `business_financials` (
 --
 
 INSERT INTO `business_financials` (`id`, `business_id`, `fiscal_year`, `revenue`, `expenses`, `profit`, `ebitda`, `created_at`, `updated_at`) VALUES
-(24, 324, 2082, 24000000.00, 20000000.00, 40000000.00, 28.00, '2026-06-17 11:30:24', '2026-06-17 11:30:24');
+(27, 324, 2082, 24000000.00, 20000000.00, 40000000.00, 28.00, '2026-06-17 15:34:07', '2026-06-17 15:34:07'),
+(30, 325, 5858, 550.00, 2828.00, 5058.00, 5050.00, '2026-06-17 17:27:02', '2026-06-17 17:27:02'),
+(39, 326, 2000, 29.00, 68.00, 5.00, 81.00, '2026-06-18 10:32:24', '2026-06-18 10:32:24');
 
 -- --------------------------------------------------------
 
@@ -329,7 +366,8 @@ CREATE TABLE `business_media` (
 --
 
 INSERT INTO `business_media` (`id`, `business_id`, `file_url`, `media_type`, `sort_order`, `created_at`, `updated_at`) VALUES
-(12, 324, 'business-photos/19_1781692879_c5dba638.pdf', 'document', 0, '2026-06-17 10:41:19', NULL);
+(12, 324, 'business-photos/19_1781692879_c5dba638.pdf', 'document', 0, '2026-06-17 10:41:19', NULL),
+(14, 325, 'business-photos/20_1781717220_346a3111.png', 'image', 0, '2026-06-17 17:27:02', NULL);
 
 -- --------------------------------------------------------
 
@@ -368,7 +406,8 @@ CREATE TABLE `business_verifications` (
 --
 
 INSERT INTO `business_verifications` (`id`, `business_id`, `email_verified`, `phone_verified`, `identity_verified`, `company_verified`, `verified_at`, `created_at`, `updated_at`) VALUES
-(201, 201, 1, 1, 1, 1, '2026-06-17 10:26:17', '2026-06-17 10:26:17', '2026-06-17 10:26:17');
+(201, 201, 1, 1, 1, 1, '2026-06-17 10:26:17', '2026-06-17 10:26:17', '2026-06-17 10:26:17'),
+(202, 326, 0, 0, 0, 0, NULL, '2026-06-17 17:38:33', '2026-06-17 17:38:33');
 
 -- --------------------------------------------------------
 
@@ -492,6 +531,32 @@ INSERT INTO `cities` (`id`, `state_id`, `name`, `is_active`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `conversations`
+--
+
+CREATE TABLE `conversations` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `conversation_participants`
+--
+
+CREATE TABLE `conversation_participants` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `conversation_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `last_read_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `countries`
 --
 
@@ -550,7 +615,18 @@ INSERT INTO `email_log` (`id`, `recipient`, `subject`, `template_key`, `status`,
 (203, 'admin@investmatch.com', 'Premium Payment Submitted — Muscle Bank', NULL, 'sent', NULL, NULL, '2026-06-17 11:52:03'),
 (204, 'eparcalnepal@yahoo.com', 'Welcome to Asaan Capital ΓÇö eParcal Nepal', 'welcome', 'sent', NULL, NULL, '2026-06-17 11:59:37'),
 (205, 'admin@investmatch.com', 'Premium Payment Submitted — eParcal Nepal', NULL, 'sent', NULL, NULL, '2026-06-17 12:00:43'),
-(206, 'eparcalnepal@yahoo.com', 'Premium Account Activated 🎉', NULL, 'sent', NULL, NULL, '2026-06-17 12:02:33');
+(206, 'eparcalnepal@yahoo.com', 'Premium Account Activated 🎉', NULL, 'sent', NULL, NULL, '2026-06-17 12:02:33'),
+(207, 'admin@investmatch.com', 'Premium Payment Submitted — Muscle Bank', NULL, 'sent', NULL, NULL, '2026-06-17 12:57:07'),
+(208, 'isoftrosolutions@gmail.com', 'Premium Account Activated 🎉', NULL, 'sent', NULL, NULL, '2026-06-17 12:57:57'),
+(209, 'isoftrosolutions@gmail.com', 'Premium Account Activated 🎉', NULL, 'sent', NULL, NULL, '2026-06-17 12:58:00'),
+(210, 'rkblockudhyog@gmail.com', 'You\'re Now Premium — Asaan Capital Ltd', NULL, 'sent', NULL, NULL, '2026-06-17 12:58:23'),
+(211, 'admin@investmatch.com', 'Test Email from Asaan Capital', NULL, 'sent', NULL, NULL, '2026-06-17 16:03:05'),
+(212, 'mind59024@gmail.com', 'Test Email from Asaan Capital', NULL, 'sent', NULL, NULL, '2026-06-17 16:03:13'),
+(213, 'nepalcyberfirm@gmail.com', 'Welcome to Asaan Capital ΓÇö Nepal Cyber Firm', 'welcome', 'sent', NULL, NULL, '2026-06-17 16:04:31'),
+(214, 'nepalcyberfirm@gmail.com', 'Your account has been verified ΓÇö Asaan Capital', 'verification_approved', 'sent', NULL, NULL, '2026-06-17 16:04:44'),
+(215, 'shyamsundarrayyadav729@gmail.com', 'Welcome to Asaan Capital ΓÇö Shyamsundar Yadav', 'welcome', 'sent', NULL, NULL, '2026-06-18 00:49:45'),
+(216, 'admin@asaancapital.com', 'Premium Payment Submitted — Shyamsundar Yadav', NULL, 'sent', NULL, NULL, '2026-06-18 00:51:13'),
+(217, 'shyamsundarrayyadav729@gmail.com', 'Premium Account Activated 🎉', NULL, 'sent', NULL, NULL, '2026-06-18 00:52:22');
 
 -- --------------------------------------------------------
 
@@ -577,7 +653,7 @@ CREATE TABLE `email_settings` (
 --
 
 INSERT INTO `email_settings` (`id`, `smtp_host`, `smtp_port`, `smtp_encryption`, `smtp_username`, `smtp_password`, `from_email`, `from_name`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 'mail.asaancapital.com', 587, 'tls', 'info@asaancapital.com', 'W{~F0+GR4g7&b[u~', 'info@asaancapital.com', 'Asaan Capital Ltd', 1, '2026-06-02 03:02:30', '2026-06-11 10:45:04');
+(1, 'mail.asaancapital.com', 587, 'tls', 'info@asaancapital.com', 'W{~F0+GR4g7&b[u~', 'noreply@asaancapital.com', 'Asaan Capital Ltd', 1, '2026-06-02 03:02:30', '2026-06-17 16:03:02');
 
 -- --------------------------------------------------------
 
@@ -844,6 +920,20 @@ INSERT INTO `matches` (`id`, `interest_request_id`, `user_a_id`, `user_b_id`, `c
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `messages`
+--
+
+CREATE TABLE `messages` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `conversation_id` bigint(20) UNSIGNED NOT NULL,
+  `sender_id` bigint(20) UNSIGNED NOT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `migrations`
 --
 
@@ -891,6 +981,13 @@ CREATE TABLE `nda_requests` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `nda_requests`
+--
+
+INSERT INTO `nda_requests` (`id`, `business_id`, `investor_id`, `signed`, `signed_at`, `created_at`, `updated_at`) VALUES
+(2, 326, 20, 1, '2026-06-17 17:38:33', '2026-06-17 17:38:33', '2026-06-17 17:38:33');
+
 -- --------------------------------------------------------
 
 --
@@ -931,7 +1028,10 @@ INSERT INTO `notifications` (`id`, `user_id`, `type`, `title`, `body`, `action_u
 (201, 201, 'verification', 'Verification Approved', 'Your account has been verified. You now have full access to the platform.', '/dashboard', 0, '2026-06-17 10:26:17', NULL),
 (202, 1, 'interest', 'New Inquiry', 'R K Block Udhyog is interested in Mountain Vista Resort & Spa', '/business/11', 0, '2026-06-17 10:26:17', NULL),
 (203, 201, 'interest', 'New Inquiry', 'Asaan Credit Ltd is interested in R K Block Udhyog', '/business/201', 0, '2026-06-17 10:26:17', NULL),
-(204, 1, 'upgrade', 'Premium Upgrade Request', 'R K Block Udhyog (rkblockudhyog@gmail.com) requested a premium upgrade. Message: c BVNbxv', '/admin/premium?requester_id=19', 0, '2026-06-17 11:31:23', NULL);
+(204, 1, 'upgrade', 'Premium Upgrade Request', 'R K Block Udhyog (rkblockudhyog@gmail.com) requested a premium upgrade. Message: c BVNbxv', '/admin/premium?requester_id=19', 0, '2026-06-17 11:31:23', NULL),
+(205, 1, 'upgrade', 'Premium Upgrade Request', 'Muscle Bank (isoftrosolutions@gmail.com) requested a premium upgrade. Plan: Growth, Amount: NPR 3,000', '/admin/premium-verify', 0, '2026-06-17 12:57:07', NULL),
+(206, 24, 'verification', 'Verification Approved', 'Your account has been verified. You now have full access to the platform.', '/dashboard', 0, '2026-06-17 16:04:44', NULL),
+(207, 1, 'upgrade', 'Premium Upgrade Request', 'Shyamsundar Yadav (shyamsundarrayyadav729@gmail.com) requested a premium upgrade. Plan: Growth, Amount: NPR 3,000', '/admin/premium-verify', 0, '2026-06-18 00:51:13', NULL);
 
 -- --------------------------------------------------------
 
@@ -955,7 +1055,7 @@ CREATE TABLE `pages` (
 --
 
 INSERT INTO `pages` (`id`, `slug`, `title`, `content_html`, `meta_description`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 'about', 'Our Story', '\r\n<div class=\"pub-wrap-narrow\" style=\"padding-top:var(--space-6);padding-bottom:var(--space-8);\">\r\n  <div class=\"breadcrumbs pub-text\" style=\"margin-bottom:var(--space-5);\">\r\n    <a href=\"/\" style=\"color:var(--dash-ink-soft);text-decoration:none;\">Home</a>\r\n    <span style=\"margin:0 0.5rem;\">/</span>\r\n    <span>Our Story</span>\r\n  </div>\r\n\r\n  <h1 class=\"pub-h1\" style=\"margin-bottom:var(--space-2);\">Our Story</h1>\r\n  <p class=\"pub-text-lead\" style=\"font-size:1.2rem;line-height:1.7;color:var(--dash-ink-soft);margin-bottom:var(--space-6);\">\r\n    Nepal\'s trusted marketplace connecting business owners with investors, buyers, and advisors.\r\n  </p>\r\n\r\n  <div class=\"pub-prose\">\r\n    <h2>Who We Are</h2>\r\n    <p>Asaan Capital Ltd is a Kathmandu-based financial services company operating Nepal\'s first dedicated online marketplace for business matching, M&A, and fundraising. We bridge the gap between capital seekers and capital providers — making business transactions <em>asaan</em> (easy).</p>\r\n\r\n    <h2>Our Promise</h2>\r\n    <p>Every listing on our platform is manually verified. Contact details stay private until both parties express mutual interest. We do not facilitate payments or execute transactions — we connect, you close.</p>\r\n\r\n    <h2>Our Reach</h2>\r\n    <p>We serve all seven provinces of Nepal with a growing network of entrepreneurs, investors, franchisors, and advisors across sectors including agriculture, technology, manufacturing, tourism, and services.</p>\r\n\r\n    <h2>Our Journey</h2>\r\n    <div style=\"display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-4);margin:var(--space-6) 0;\">\r\n      <div style=\"background:var(--dash-card);border:1px solid var(--dash-border);border-radius:var(--radius-lg);padding:var(--space-5);text-align:center;\">\r\n        <div style=\"font-size:2rem;font-weight:700;color:var(--dash-primary);\">2024</div>\r\n        <div style=\"font-size:0.9rem;color:var(--dash-ink-soft);\">Platform conceived &amp; built</div>\r\n      </div>\r\n      <div style=\"background:var(--dash-card);border:1px solid var(--dash-border);border-radius:var(--radius-lg);padding:var(--space-5);text-align:center;\">\r\n        <div style=\"font-size:2rem;font-weight:700;color:var(--dash-primary);\">2025</div>\r\n        <div style=\"font-size:0.9rem;color:var(--dash-ink-soft);\">Soft launch + first matches</div>\r\n      </div>\r\n      <div style=\"background:var(--dash-card);border:1px solid var(--dash-border);border-radius:var(--radius-lg);padding:var(--space-5);text-align:center;\">\r\n        <div style=\"font-size:2rem;font-weight:700;color:var(--dash-primary);\">2026</div>\r\n        <div style=\"font-size:0.9rem;color:var(--dash-ink-soft);\">Full platform + nationwide presence</div>\r\n      </div>\r\n    </div>\r\n\r\n    <h2>Our Team</h2>\r\n    <p>We are a small, dedicated team of finance professionals, technologists, and relationship managers based in Bhaktapur, Nepal. We understand the Nepali market because we are part of it.</p>\r\n  </div>\r\n</div>\r\n', 'Learn the story behind Asaan Capital Ltd. Nepal\'s trusted marketplace for business matching, M&A, and fundraising.', 1, '2026-06-10 11:44:12', '2026-06-10 11:44:12'),
+(1, 'about', 'Our Story', '<div><a href=\"/\">Home</a></div><div><strong>/</strong></div><div><strong>Our Story</strong></div><h1>Our Story</h1><div>&nbsp;Nepal\'s trusted marketplace connecting business owners with investors, buyers, and advisors.&nbsp;<br><br></div><div><strong><br>Who We Are<br></strong><br></div><div>Asaan Capital Ltd is a Birgunj -based financial services company operating Nepal\'s first dedicated online marketplace for business matching, M&amp;A, and fundraising. We bridge the gap between capital seekers and capital providers — making business transactions <em>asaan</em> (easy).<br><br></div><div><strong><br>Our Promise<br></strong><br></div><div>Every listing on our platform is manually verified. Contact details stay private until both parties express mutual interest. We do not facilitate payments or execute transactions — we connect, you close.<br><br></div><div><strong><br>Our Reach<br></strong><br></div><div>We serve all seven provinces of Nepal with a growing network of entrepreneurs, investors, franchisors, and advisors across sectors including agriculture, technology, manufacturing, tourism, and services.<br><br></div><div><strong><br>Our Journey<br></strong><br></div><div>2024</div><div>Platform conceived &amp; built</div><div>2025</div><div>Soft launch + first matches</div><div>2026</div><div>Full platform + nationwide presence</div><div><strong><br>Our Team<br></strong><br></div><div>We are a small, dedicated team of finance professionals, technologists, and relationship managers based in Bhaktapur, Nepal. We understand the Nepali market because we are part of it.<br><br></div>', 'Learn the story behind Asaan Capital Ltd. Nepal\'s trusted marketplace for business matching, M&A, and fundraising.', 1, '2026-06-10 11:44:12', '2026-06-18 00:34:37'),
 (2, 'contact', 'Contact Us', '\r\n<div class=\"pub-wrap-narrow\" style=\"padding-top:var(--space-6);padding-bottom:var(--space-8);\">\r\n  <div class=\"breadcrumbs pub-text\" style=\"margin-bottom:var(--space-5);\">\r\n    <a href=\"/\" style=\"color:var(--dash-ink-soft);text-decoration:none;\">Home</a>\r\n    <span style=\"margin:0 0.5rem;\">/</span>\r\n    <span>Contact Us</span>\r\n  </div>\r\n\r\n  <h1 class=\"pub-h1\" style=\"margin-bottom:var(--space-6);\">Contact Us</h1>\r\n\r\n  <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);\">\r\n    <div>\r\n      <form method=\"post\" action=\"/contact\">\r\n        <input type=\"hidden\" name=\"_csrf\" value=\"{{CSRF_TOKEN}}\">\r\n        <div style=\"display:none;\"><input type=\"text\" name=\"website\" tabindex=\"-1\" autocomplete=\"off\"></div>\r\n        <div class=\"input-group\" style=\"margin-bottom:var(--space-4);\">\r\n          <label>Your Name</label>\r\n          <input type=\"text\" name=\"name\" class=\"input\" required>\r\n        </div>\r\n        <div class=\"input-group\" style=\"margin-bottom:var(--space-4);\">\r\n          <label>Email</label>\r\n          <input type=\"email\" name=\"email\" class=\"input\" required>\r\n        </div>\r\n        <div class=\"input-group\" style=\"margin-bottom:var(--space-4);\">\r\n          <label>Subject</label>\r\n          <input type=\"text\" name=\"subject\" class=\"input\" required>\r\n        </div>\r\n        <div class=\"input-group\" style=\"margin-bottom:var(--space-4);\">\r\n          <label>Message</label>\r\n          <textarea name=\"message\" class=\"input\" rows=\"5\" required></textarea>\r\n        </div>\r\n        <button type=\"submit\" class=\"btn btn-primary\" style=\"font-size:1rem;padding:0.75rem 2rem;\">Send Message</button>\r\n      </form>\r\n    </div>\r\n    <div>\r\n      <div style=\"background:var(--dash-card);border:1px solid var(--dash-border);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-4);\">\r\n        <h3 style=\"margin:0 0 var(--space-2);font-size:1rem;\">Office</h3>\r\n        <p style=\"margin:0;color:var(--dash-ink-soft);font-size:0.95rem;\">Madhyapur Thimi Municipality-9<br>Bhaktapur, Nepal</p>\r\n      </div>\r\n      <div style=\"background:var(--dash-card);border:1px solid var(--dash-border);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-4);\">\r\n        <h3 style=\"margin:0 0 var(--space-2);font-size:1rem;\">Phone</h3>\r\n        <p style=\"margin:0;color:var(--dash-ink-soft);font-size:0.95rem;\">+977-9848714990<br>+977-982000470</p>\r\n      </div>\r\n      <div style=\"background:var(--dash-card);border:1px solid var(--dash-border);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-4);\">\r\n        <h3 style=\"margin:0 0 var(--space-2);font-size:1rem;\">Email</h3>\r\n        <p style=\"margin:0;color:var(--dash-ink-soft);font-size:0.95rem;\"><a href=\"mailto:info@asaancapital.com\" style=\"color:var(--dash-primary);\">info@asaancapital.com</a></p>\r\n      </div>\r\n      <div style=\"background:var(--dash-card);border:1px solid var(--dash-border);border-radius:var(--radius-lg);padding:var(--space-5);\">\r\n        <h3 style=\"margin:0 0 var(--space-2);font-size:1rem;\">Hours</h3>\r\n        <p style=\"margin:0;color:var(--dash-ink-soft);font-size:0.95rem;\">Sunday – Friday<br>9:00 AM – 5:00 PM NPT</p>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n', 'Contact Asaan Capital Ltd. Get in touch with Nepal\'s trusted business marketplace.', 1, '2026-06-10 11:44:12', '2026-06-10 11:44:12'),
 (3, 'terms', 'Terms of Service', '\r\n<div class=\"pub-wrap-narrow\" style=\"padding-top:var(--space-6);padding-bottom:var(--space-8);\">\r\n  <div class=\"breadcrumbs pub-text\" style=\"margin-bottom:var(--space-5);\">\r\n    <a href=\"/\" style=\"color:var(--dash-ink-soft);text-decoration:none;\">Home</a>\r\n    <span style=\"margin:0 0.5rem;\">/</span>\r\n    <span>Terms of Service</span>\r\n  </div>\r\n\r\n  <h1 class=\"pub-h1\" style=\"margin-bottom:var(--space-2);\">Terms of Service</h1>\r\n  <p class=\"pub-text\" style=\"color:var(--dash-ink-soft);margin-bottom:var(--space-6);\">Last updated: June 10, 2026</p>\r\n\r\n  <div class=\"pub-prose\">\r\n    <h3>1. Platform Role</h3>\r\n    <p>Asaan Capital Ltd is a discovery and matching platform. We connect business owners, investors, buyers, lenders, franchisors, and advisors. We do not facilitate payments, execute transactions, or provide investment advice. All deals are conducted directly between parties.</p>\r\n\r\n    <h3>2. Eligibility</h3>\r\n    <p>Users must be at least 18 years old. Businesses must be legally registered entities in Nepal. All users must pass manual verification before their profiles go live. We reserve the right to reject any registration without explanation.</p>\r\n\r\n    <h3>3. Verification &amp; Data</h3>\r\n    <p>Verification documents (citizenship, PAN, company registration, VAT/GST certificate) are stored securely and accessible only to platform administrators. Documents are never shared publicly. Standard security measures including SSL encryption are employed throughout the platform.</p>\r\n\r\n    <h3>4. Profile Rules</h3>\r\n    <p>Each user may maintain one active business profile at a time. Profiles must be accurate, current, and not misleading. We prohibit scraping, automated data collection, unsolicited messaging, and any form of spam or solicitation outside the platform\'s intended use.</p>\r\n\r\n    <h3>5. Confidentiality</h3>\r\n    <p>Contact information is revealed only after mutual interest is established through the platform. Users may not share or misuse contact details obtained through the platform. Violation may result in permanent account suspension without refund.</p>\r\n\r\n    <h3>6. Refund Policy</h3>\r\n    <p>Profile activation typically completes within 2 business days. CIM and Valuation Model services have a 25 business day SLA. A 5% processing fee applies in eligible refund cases. No refund for change-of-mind or non-use. Refund requests must be submitted within 3 months via email. Credits process within 5–15 business days.</p>\r\n\r\n    <h3>7. Finder\'s Fee</h3>\r\n    <p>Paid subscription plans include a 1% finder\'s fee payable upon successful transaction completion between matched parties. This fee is due only when a deal closes.</p>\r\n\r\n    <h3>8. Governing Law</h3>\r\n    <p>These terms are governed by the laws of Nepal. Disputes shall be subject to the exclusive jurisdiction of courts in Kathmandu, Nepal.</p>\r\n\r\n    <h3>9. Indemnification</h3>\r\n    <p>Users agree to indemnify and hold Asaan Capital Ltd harmless from any claims arising from their use of the platform, including but not limited to transaction disputes, misrepresentation, or breach of these terms.</p>\r\n  </div>\r\n</div>\r\n', 'Terms of Service for Asaan Capital Ltd — Nepal\'s business matching marketplace.', 1, '2026-06-10 11:44:12', '2026-06-10 11:44:12'),
 (4, 'privacy', 'Privacy Policy', '\r\n<div class=\"pub-wrap-narrow\" style=\"padding-top:var(--space-6);padding-bottom:var(--space-8);\">\r\n  <div class=\"breadcrumbs pub-text\" style=\"margin-bottom:var(--space-5);\">\r\n    <a href=\"/\" style=\"color:var(--dash-ink-soft);text-decoration:none;\">Home</a>\r\n    <span style=\"margin:0 0.5rem;\">/</span>\r\n    <span>Privacy Policy</span>\r\n  </div>\r\n\r\n  <h1 class=\"pub-h1\" style=\"margin-bottom:var(--space-2);\">Privacy Policy</h1>\r\n  <p class=\"pub-text\" style=\"color:var(--dash-ink-soft);margin-bottom:var(--space-6);\">Last updated: June 10, 2026</p>\r\n\r\n  <div class=\"pub-prose\">\r\n    <h3>1. Information We Collect</h3>\r\n    <p>We collect the following information when you register and use our platform:</p>\r\n    <ul>\r\n      <li><strong>Identity data:</strong> full name, email address, phone number, profile photo</li>\r\n      <li><strong>Business data:</strong> company name, registration documents, financial information, business descriptions, PAN/VAT details</li>\r\n      <li><strong>Verification data:</strong> citizenship certificate, company registration certificate, tax clearance, and other verification documents</li>\r\n      <li><strong>Usage data:</strong> pages visited, searches performed, interests expressed, time spent on platform</li>\r\n      <li><strong>Technical data:</strong> IP address, browser type, device information, session data</li>\r\n    </ul>\r\n\r\n    <h3>2. How We Use Your Data</h3>\r\n    <p>Your data is used exclusively for:</p>\r\n    <ul>\r\n      <li>Platform operation and account management</li>\r\n      <li>Matching algorithms that suggest relevant connections</li>\r\n      <li>Identity verification and fraud prevention</li>\r\n      <li>Platform communications (interest requests, matches, notifications)</li>\r\n      <li>Analytics and platform improvement</li>\r\n      <li>Compliance with legal and regulatory obligations</li>\r\n    </ul>\r\n\r\n    <h3>3. Data Sharing</h3>\r\n    <p>We do not sell, rent, or trade your personal data. Limited data is shared only when you express mutual interest with another user — and only to the extent necessary to facilitate the connection. Verification documents are never shared with other users.</p>\r\n\r\n    <h3>4. Data Retention</h3>\r\n    <p>We retain your data for as long as your account is active. After account deletion, we retain backup copies for 90 days for legal compliance, after which all data is permanently deleted.</p>\r\n\r\n    <h3>5. Your Rights</h3>\r\n    <p>You may request access to, correction of, or deletion of your personal data at any time by contacting us at info@asaancapital.com. We will respond within 15 business days.</p>\r\n\r\n    <h3>6. Security</h3>\r\n    <p>We implement SSL/TLS encryption, password hashing (bcrypt), session security measures, and regular security audits. However, no online platform can guarantee absolute security. Users are responsible for maintaining strong, unique passwords.</p>\r\n\r\n    <h3>7. Cookies</h3>\r\n    <p>We use essential session cookies for platform operation. No tracking, advertising, or third-party cookies are used. You may disable cookies in your browser, but some platform features may not function correctly.</p>\r\n\r\n    <h3>8. Contact</h3>\r\n    <p>For privacy-related inquiries, contact:<br>\r\n    Asaan Capital Ltd<br>\r\n    Madhyapur Thimi Municipality-9, Bhaktapur, Nepal<br>\r\n    Email: <a href=\"mailto:info@asaancapital.com\" style=\"color:var(--dash-primary);\">info@asaancapital.com</a></p>\r\n  </div>\r\n</div>\r\n', 'Privacy Policy for Asaan Capital Ltd. How we collect, use, and protect your data.', 1, '2026-06-10 11:44:12', '2026-06-10 11:44:12'),
@@ -1050,7 +1150,7 @@ CREATE TABLE `pitches` (
 
 INSERT INTO `pitches` (`id`, `user_id`, `tagline`, `company_registration_number`, `company_type`, `short_summary`, `product_stage`, `problem_statement`, `solution`, `market_size`, `business_model`, `revenue_model`, `monthly_revenue`, `monthly_users`, `growth_rate`, `customer_retention`, `traction`, `target_customers`, `competitors`, `competitive_advantage`, `funding_amount`, `minimum_investment`, `previous_funding`, `previous_funding_source`, `has_legal_disputes`, `legal_details`, `existing_debt`, `business_type`, `customer_type`, `looking_for`, `investor_involvement`, `open_to_acquisition`, `monthly_burn`, `runway_months`, `relocate_willingness`, `matchmaking_tags`, `equity_offered`, `fund_usage`, `valuation`, `pitch_deck`, `financial_projections`, `pitch_video_url`, `pitch_image`, `stage`, `sector_id`, `is_active`, `is_hidden`, `is_featured`, `completeness_score`, `is_published`, `views`, `created_at`, `updated_at`) VALUES
 (1, 3, 'AI-powered cold storage reducing post-harvest losses for 2,400+ farmers across Nepal.', NULL, NULL, NULL, NULL, '34% of Nepal perishable produce is lost before reaching market due to lack of reliable cold storage. Small farmers lose NPR 18,000-40,000 per season.', 'Low-cost, solar-hybrid smart cold rooms with IoT monitoring and AI demand forecasting. Farmers pay per use via mobile.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2,400 farmers onboarded (Q1 2026)\nNPR 9.2M revenue run-rate\n3 provinces live, 2 more in pipeline\nPartnership with Nepal Agricultural Research Council', NULL, NULL, NULL, 28000000.00, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 12.00, NULL, NULL, NULL, NULL, NULL, NULL, 'Early Revenue', 1, 1, 0, 0, 0, 0, 0, NULL, NULL),
-(2, 3, 'Making quality education accessible in rural areas through AI-powered learning platforms', NULL, NULL, 'EdTech for Rural Nepal - AI-powered learning platform', NULL, 'Rural Nepal lacks access to quality education. 70% of students in rural areas have no access to digital learning.', 'AI-powered mobile learning platform that works offline. Adaptive curriculum in Nepali language.', 'NPR 500 Cr TAM in Nepal alone', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5000000.00, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 15.00, NULL, 33333333.00, NULL, NULL, NULL, NULL, 'seed', 4, 1, 0, 1, 0, 1, 14, '2026-05-29 04:34:33', '2026-05-29 04:34:33');
+(2, 3, 'Making quality education accessible in rural areas through AI-powered learning platforms', NULL, NULL, 'EdTech for Rural Nepal - AI-powered learning platform', NULL, 'Rural Nepal lacks access to quality education. 70% of students in rural areas have no access to digital learning.', 'AI-powered mobile learning platform that works offline. Adaptive curriculum in Nepali language.', 'NPR 500 Cr TAM in Nepal alone', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5000000.00, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 15.00, NULL, 33333333.00, NULL, NULL, NULL, NULL, 'seed', 4, 1, 0, 1, 0, 1, 17, '2026-05-29 04:34:33', '2026-05-29 04:34:33');
 
 -- --------------------------------------------------------
 
@@ -1114,8 +1214,10 @@ CREATE TABLE `premium_subscriptions` (
 --
 
 INSERT INTO `premium_subscriptions` (`id`, `user_id`, `plan_type`, `plan_label`, `amount`, `duration_months`, `transaction_id`, `payment_date`, `receipt_file`, `status`, `activated_by`, `activated_at`, `expiry_date`, `notes`, `created_at`, `updated_at`) VALUES
-(1, 20, 'growth', 'Growth', 3000.00, 6, '87874', '2026-06-17', '20_1781697120_76a863af.png', 'pending', NULL, NULL, NULL, '', '2026-06-17 11:52:03', NULL),
-(2, 23, 'growth', 'Growth', 3000.00, 6, '4054505', '2026-06-17', '23_1781697642_44e9f397.PDF', 'active', 1, '2026-06-17 12:02:33', '2026-12-17', 'bwubwuei', '2026-06-17 12:00:42', '2026-06-17 12:02:33');
+(1, 20, 'growth', 'Growth', 3000.00, 6, '87874', '2026-06-17', '20_1781697120_76a863af.png', 'active', 1, '2026-06-17 12:58:00', '2026-12-17', '', '2026-06-17 11:52:03', '2026-06-17 12:58:00'),
+(2, 23, 'growth', 'Growth', 3000.00, 6, '4054505', '2026-06-17', '23_1781697642_44e9f397.PDF', 'active', 1, '2026-06-17 12:02:33', '2026-12-17', 'bwubwuei', '2026-06-17 12:00:42', '2026-06-17 12:02:33'),
+(3, 20, 'growth', 'Growth', 3000.00, 6, '1206', '2026-06-17', '20_1781701020_4ccc497e.png', 'active', 1, '2026-06-17 12:57:57', '2026-12-17', '', '2026-06-17 12:57:07', '2026-06-17 12:57:57'),
+(4, 25, 'growth', 'Growth', 3000.00, 6, '123', '2026-06-18', '25_1781743869_1bb5710e.png', 'active', 1, '2026-06-18 00:52:22', '2026-12-18', 'date 2026/6/18', '2026-06-18 00:51:13', '2026-06-18 00:52:22');
 
 -- --------------------------------------------------------
 
@@ -1368,18 +1470,20 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `role`, `account_type`, `phone`, `province`, `district`, `profile_photo`, `company_name`, `bio`, `linkedin_url`, `website_url`, `verification_status`, `verified_at`, `is_admin`, `is_premium`, `is_suspended`, `daily_request_count`, `daily_request_date`, `email_verified_at`, `last_login_at`, `failed_login_attempts`, `locked_until`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`, `company_size`, `usage_goal`, `notifications`) VALUES
-(1, 'Admin User', 'admin@investmatch.com', 'entrepreneur', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'verified', '2026-05-29 03:56:21', 1, 0, 0, 0, NULL, '2026-05-29 04:34:10', '2026-06-17 12:01:54', 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', '$2y$10$o3N2FPIhCUGdrIVuPUUTj.M3F6Rhj2C9CG0YAHfDH3PXMi/kfQGwu', '2026-05-29 03:56:21', NULL, NULL, NULL, NULL, NULL),
+(1, 'Admin User', 'admin@asaancapital.com', 'entrepreneur', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'verified', '2026-05-29 03:56:21', 1, 0, 0, 0, NULL, '2026-05-29 04:34:10', '2026-06-18 06:57:39', 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', '$2y$10$V.WPUCfpIPCsF5uQKz6bl./NuhL1RsF0mTnWnYKNQm0nJpAK6LnTC', '2026-05-29 03:56:21', NULL, NULL, NULL, NULL, NULL),
 (2, 'Ramesh Thapa', 'investor@nepal.com', 'investor', 'individual', '+977 9841 234567', 'Bagmati', 'Kathmandu', NULL, 'Thapa Capital', 'Angel investor focused on climate and agri-tech. Previously founded two Nepali SaaS companies.', NULL, NULL, 'verified', '2026-05-29 03:56:21', 0, 0, 0, 0, NULL, '2026-05-29 04:34:10', '2026-06-15 07:07:20', 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', NULL, '2026-05-29 03:56:21', NULL, NULL, NULL, NULL, NULL),
 (3, 'Anjali K.C.', 'anjali@aarohan.com', 'entrepreneur', 'company', '+977 9841 765432', 'Bagmati', 'Kathmandu', NULL, 'Aarohan Kitchens', 'Founder of Aarohan Kitchens - AI-powered cold storage for Nepali farmers.', NULL, NULL, 'verified', '2026-05-29 03:56:21', 0, 0, 0, 0, NULL, '2026-05-29 04:34:10', '2026-06-02 01:13:31', 0, NULL, '$2y$12$hkoF2K0Tlde/m6OJXUCFauB3eFHiRK/SfxchHDcl5.wlvXsXOIPoy', NULL, '2026-05-29 03:56:21', '2026-06-01 15:20:42', NULL, NULL, NULL, NULL),
 (4, 'Sunita Sharma', 'sunita@vc.com', 'investor', 'company', '+977 9841 345678', 'Gandaki', 'Pokhara', NULL, 'Himalayan Seed Fund', 'VC firm investing in AgriTech and CleanTech startups across Nepal.', NULL, NULL, 'verified', '2026-05-29 03:56:21', 0, 0, 0, 0, NULL, '2026-05-29 04:34:10', NULL, 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', NULL, '2026-05-29 03:56:21', NULL, NULL, NULL, NULL, NULL),
 (5, 'Bikash Rana', 'owner@nepal.com', 'business_owner', 'company', '+977 9841 556677', 'Bagmati', 'Kathmandu', NULL, 'Rana Retail Group', 'Second-generation retailer running a profitable supermarket chain in the Kathmandu Valley.', NULL, NULL, 'verified', '2026-05-29 22:15:00', 0, 0, 0, 0, NULL, NULL, '2026-06-02 01:38:14', 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', NULL, '2026-05-29 22:15:00', NULL, NULL, NULL, NULL, NULL),
 (6, 'Maya Gurung', 'franchise@nepal.com', 'franchisor', 'company', '+977 9846 112233', 'Gandaki', 'Pokhara', NULL, 'Himalaya Brews', 'Founder of a fast-growing specialty coffee brand expanding through franchising across Nepal.', NULL, NULL, 'verified', '2026-05-29 22:15:00', 0, 0, 0, 0, NULL, NULL, '2026-06-02 01:38:15', 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', NULL, '2026-05-29 22:15:00', NULL, NULL, NULL, NULL, NULL),
 (7, 'Prakash Joshi', 'advisor@nepal.com', 'advisor', 'company', '+977 9851 998877', 'Bagmati', 'Lalitpur', NULL, 'Joshi & Partners', 'Corporate lawyer and M&A advisor with two decades of cross-border transaction experience.', NULL, NULL, 'verified', '2026-05-29 22:15:00', 0, 0, 0, 0, NULL, NULL, '2026-06-02 01:38:16', 0, NULL, '$2y$12$DcXPLCbxBmPesCuEaLmUH.NIYjmNm3c89OM.7nceYRPaxdTBQlM5S', NULL, '2026-05-29 22:15:00', NULL, NULL, NULL, NULL, NULL),
-(19, 'R K Block Udhyog', 'rkblockudhyog@gmail.com', 'owner', 'company', NULL, NULL, NULL, NULL, 'R K Block Udhyog', NULL, NULL, NULL, 'verified', '2026-06-11 11:40:41', 0, 0, 0, 0, NULL, NULL, '2026-06-17 11:29:03', 0, NULL, '$2y$10$IWrxMNb9NYCB5hNvZK/kRez0PefjbPa8/ut1yX.EtczrtZRiMcZZa', NULL, '2026-06-09 17:11:26', '2026-06-09 17:11:26', NULL, '1-10', 'sell', 'email'),
-(20, 'Muscle Bank', 'isoftrosolutions@gmail.com', 'business_owner', 'individual', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'verified', '2026-06-11 11:40:39', 0, 0, 0, 0, NULL, '2026-06-11 10:13:32', '2026-06-17 11:51:05', 0, NULL, '$2y$10$VUtJ1sK.Vdq1oSeE/mkVvuM2bJ0JPZrDTi/0HR6x4PSk/2WRp50d6', NULL, '2026-06-11 10:13:32', '2026-06-11 10:13:32', NULL, NULL, 'raise', NULL),
+(19, 'R K Block Udhyog', 'rkblockudhyog@gmail.com', 'owner', 'company', NULL, NULL, NULL, NULL, 'R K Block Udhyog', NULL, NULL, NULL, 'verified', '2026-06-11 11:40:41', 0, 1, 0, 0, NULL, NULL, '2026-06-17 15:31:55', 0, NULL, '$2y$10$IWrxMNb9NYCB5hNvZK/kRez0PefjbPa8/ut1yX.EtczrtZRiMcZZa', NULL, '2026-06-09 17:11:26', '2026-06-09 17:11:26', NULL, '1-10', 'sell', 'email'),
+(20, 'Muscle Bank', 'isoftrosolutions@gmail.com', 'business_owner', 'individual', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'verified', '2026-06-11 11:40:39', 0, 1, 0, 0, NULL, '2026-06-11 10:13:32', '2026-06-18 01:08:16', 0, NULL, '$2y$10$VUtJ1sK.Vdq1oSeE/mkVvuM2bJ0JPZrDTi/0HR6x4PSk/2WRp50d6', NULL, '2026-06-11 10:13:32', '2026-06-11 10:13:32', NULL, NULL, 'raise', NULL),
 (21, 'Devbarat Prasad Patel', 'pdewbrath@gmail.com', 'investor', 'individual', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'verified', '2026-06-11 11:40:34', 0, 0, 0, 0, NULL, '2026-06-11 10:56:48', '2026-06-11 11:13:08', 0, NULL, '$2y$10$XAnZ/R5QZs2YgOf.fIXWq.x5ClWSm/86AwYSlpF1YZ64Gbdzddb/.', NULL, '2026-06-11 10:56:48', '2026-06-11 10:56:48', NULL, NULL, 'invest', 'email'),
 (22, 'Asaan Credit Ltd', 'asaancredit@gmail.com', 'investor', 'company', NULL, NULL, NULL, NULL, 'Asaan Capital', NULL, NULL, NULL, 'verified', '2026-06-12 12:01:32', 0, 0, 0, 0, NULL, '2026-06-12 11:06:32', '2026-06-13 12:38:57', 0, NULL, '$2y$10$aFZSjugwS2N8elNeg5s6eu9MwBecGGzfhar3e.1M0I/iELqJdZ7qe', NULL, '2026-06-12 11:06:32', '2026-06-12 11:06:32', NULL, '11-50', 'buy', 'email'),
-(23, 'eParcal Nepal', 'eparcalnepal@yahoo.com', 'business_owner', 'company', '+9779848715050', 'Madhesh', 'Rautahat', NULL, 'E Parsal', NULL, NULL, NULL, 'unverified', NULL, 0, 1, 0, 0, NULL, '2026-06-17 11:59:37', NULL, 0, NULL, '$2y$10$7HRoonArKXtp8tji6jU39ux0IZDCTPZ21W03fgjgXqKboEt130ya2', NULL, '2026-06-17 11:59:37', '2026-06-17 11:59:37', NULL, '1-10', 'sell', 'email');
+(23, 'eParcal Nepal', 'eparcalnepal@yahoo.com', 'business_owner', 'company', '+9779848715050', 'Madhesh', 'Rautahat', NULL, 'E Parsal', NULL, NULL, NULL, 'unverified', NULL, 0, 0, 0, 0, NULL, '2026-06-17 11:59:37', NULL, 0, NULL, '$2y$10$7HRoonArKXtp8tji6jU39ux0IZDCTPZ21W03fgjgXqKboEt130ya2', NULL, '2026-06-17 11:59:37', '2026-06-17 11:59:37', NULL, '1-10', 'sell', 'email'),
+(24, 'Nepal Cyber Firm', 'nepalcyberfirm@gmail.com', 'business_owner', 'individual', '9811144402', 'Gandaki', 'Birgunj', NULL, NULL, NULL, NULL, NULL, 'verified', '2026-06-17 16:04:44', 0, 0, 0, 0, NULL, '2026-06-17 16:04:31', '2026-06-18 10:31:58', 0, NULL, '$2y$10$m0BPLDX8/yOEubaOvk.kX.CjclsQsKGNS16VSpEcr9wxz.SI55VmW', NULL, '2026-06-17 16:04:31', '2026-06-17 16:04:31', NULL, NULL, 'raise', 'email'),
+(25, 'Shyamsundar Yadav', 'shyamsundarrayyadav729@gmail.com', 'investor', 'individual', '9822233304', 'Madhesh', 'Parsa', NULL, NULL, NULL, NULL, NULL, 'unverified', NULL, 0, 1, 0, 0, NULL, '2026-06-18 00:49:45', NULL, 0, NULL, '$2y$10$DM.gsN30oT0NLepTEH0B8.GOTodN6wgo2hnW2lcWGQkVAyf74qzcC', NULL, '2026-06-18 00:49:45', '2026-06-18 00:49:45', NULL, NULL, 'buy', NULL);
 
 -- --------------------------------------------------------
 
@@ -1448,6 +1552,13 @@ ALTER TABLE `business_assets`
   ADD KEY `business_assets_business_id_foreign` (`business_id`);
 
 --
+-- Indexes for table `business_documents`
+--
+ALTER TABLE `business_documents`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_business_id` (`business_id`);
+
+--
 -- Indexes for table `business_financials`
 --
 ALTER TABLE `business_financials`
@@ -1503,6 +1614,20 @@ ALTER TABLE `cache_locks`
 ALTER TABLE `cities`
   ADD PRIMARY KEY (`id`),
   ADD KEY `cities_state_id_foreign` (`state_id`);
+
+--
+-- Indexes for table `conversations`
+--
+ALTER TABLE `conversations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `conversation_participants`
+--
+ALTER TABLE `conversation_participants`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_conversation_user` (`conversation_id`,`user_id`),
+  ADD KEY `idx_user_id` (`user_id`);
 
 --
 -- Indexes for table `countries`
@@ -1599,6 +1724,15 @@ ALTER TABLE `matches`
   ADD KEY `interest_request_id` (`interest_request_id`),
   ADD KEY `user_a_id` (`user_a_id`),
   ADD KEY `user_b_id` (`user_b_id`);
+
+--
+-- Indexes for table `messages`
+--
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_conversation_id` (`conversation_id`),
+  ADD KEY `idx_sender_id` (`sender_id`),
+  ADD KEY `idx_conversation_created` (`conversation_id`,`created_at`);
 
 --
 -- Indexes for table `migrations`
@@ -1741,7 +1875,7 @@ ALTER TABLE `verification_documents`
 -- AUTO_INCREMENT for table `admin_audit_log`
 --
 ALTER TABLE `admin_audit_log`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=217;
 
 --
 -- AUTO_INCREMENT for table `advisors`
@@ -1753,7 +1887,7 @@ ALTER TABLE `advisors`
 -- AUTO_INCREMENT for table `blog_posts`
 --
 ALTER TABLE `blog_posts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `broadcasts`
@@ -1765,19 +1899,25 @@ ALTER TABLE `broadcasts`
 -- AUTO_INCREMENT for table `businesses`
 --
 ALTER TABLE `businesses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=325;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=327;
 
 --
 -- AUTO_INCREMENT for table `business_assets`
 --
 ALTER TABLE `business_assets`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+
+--
+-- AUTO_INCREMENT for table `business_documents`
+--
+ALTER TABLE `business_documents`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `business_financials`
 --
 ALTER TABLE `business_financials`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `business_inquiries`
@@ -1789,7 +1929,7 @@ ALTER TABLE `business_inquiries`
 -- AUTO_INCREMENT for table `business_media`
 --
 ALTER TABLE `business_media`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `business_photos`
@@ -1801,13 +1941,25 @@ ALTER TABLE `business_photos`
 -- AUTO_INCREMENT for table `business_verifications`
 --
 ALTER TABLE `business_verifications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=202;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=203;
 
 --
 -- AUTO_INCREMENT for table `cities`
 --
 ALTER TABLE `cities`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+
+--
+-- AUTO_INCREMENT for table `conversations`
+--
+ALTER TABLE `conversations`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `conversation_participants`
+--
+ALTER TABLE `conversation_participants`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `countries`
@@ -1819,7 +1971,7 @@ ALTER TABLE `countries`
 -- AUTO_INCREMENT for table `email_log`
 --
 ALTER TABLE `email_log`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=218;
 
 --
 -- AUTO_INCREMENT for table `email_settings`
@@ -1882,6 +2034,12 @@ ALTER TABLE `matches`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
@@ -1891,13 +2049,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `nda_requests`
 --
 ALTER TABLE `nda_requests`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=208;
 
 --
 -- AUTO_INCREMENT for table `pages`
@@ -1933,7 +2091,7 @@ ALTER TABLE `pitch_team_members`
 -- AUTO_INCREMENT for table `premium_subscriptions`
 --
 ALTER TABLE `premium_subscriptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `reports`
@@ -1975,7 +2133,7 @@ ALTER TABLE `states`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `verification_documents`
@@ -2019,6 +2177,12 @@ ALTER TABLE `business_assets`
   ADD CONSTRAINT `business_assets_business_id_foreign` FOREIGN KEY (`business_id`) REFERENCES `businesses` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `business_documents`
+--
+ALTER TABLE `business_documents`
+  ADD CONSTRAINT `fk_business_documents_business` FOREIGN KEY (`business_id`) REFERENCES `businesses` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `business_financials`
 --
 ALTER TABLE `business_financials`
@@ -2056,6 +2220,13 @@ ALTER TABLE `cities`
   ADD CONSTRAINT `cities_state_id_foreign` FOREIGN KEY (`state_id`) REFERENCES `states` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `conversation_participants`
+--
+ALTER TABLE `conversation_participants`
+  ADD CONSTRAINT `fk_cp_conversation` FOREIGN KEY (`conversation_id`) REFERENCES `conversations` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_cp_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `franchises`
 --
 ALTER TABLE `franchises`
@@ -2084,6 +2255,13 @@ ALTER TABLE `matches`
   ADD CONSTRAINT `matches_ibfk_1` FOREIGN KEY (`interest_request_id`) REFERENCES `interest_requests` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `matches_ibfk_2` FOREIGN KEY (`user_a_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `matches_ibfk_3` FOREIGN KEY (`user_b_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `messages`
+--
+ALTER TABLE `messages`
+  ADD CONSTRAINT `fk_msg_conversation` FOREIGN KEY (`conversation_id`) REFERENCES `conversations` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_msg_sender` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `nda_requests`
