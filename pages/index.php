@@ -33,9 +33,9 @@ require __DIR__ . '/../includes/header.php';
   --ease-in-out-strong: cubic-bezier(0.77,0,0.175,1);
 }
 @media (min-width:768px) {
-  .hp-hero { min-height:600px; }
-  .hp-hero-inner { padding-top:80px; padding-bottom:80px; }
-  .hp-hero-title { font-size:48px; line-height:56px; }
+  .hp-hero { min-height:85vh; }
+  .hp-hero-inner { padding:120px 0 100px; }
+  .hp-hero-title { font-size:52px; line-height:60px; }
   .hp-hide-mobile { display:block; }
   .hp-show-mobile { display:none; }
   .hp-stats-row { flex-direction:row; }
@@ -47,12 +47,9 @@ require __DIR__ . '/../includes/header.php';
   .hp-gap-48 { gap:48px; }
 }
 @media (max-width:767px) {
-  .hp-hero { min-height:auto; }
-  .hp-hero-inner { padding-top:40px; padding-bottom:40px; }
-  .hp-hero-title { font-size:28px; line-height:34px; }
-  .hp-hero-grid { grid-template-columns:1fr; gap:24px; }
-  .hp-hero-content { order:1; }
-  .hp-hero-visual { order:0; margin-bottom:8px; }
+  .hp-hero { min-height:90svh; }
+  .hp-hero-inner { padding:100px 0 60px; }
+  .hp-hero-title { font-size:30px; line-height:36px; }
   .hp-hero-sub { max-width:100%!important; }
   .hp-hide-mobile { display:none; }
   .hp-show-mobile { display:block; }
@@ -69,6 +66,9 @@ require __DIR__ . '/../includes/header.php';
   .pub-section-head { margin-bottom:32px; }
 }
 @media (max-width:479px) {
+  .hp-hero { min-height:85svh; }
+  .hp-hero-title { font-size:26px; line-height:32px; }
+  .hp-hero-inner { padding:80px 0 48px; }
   .hp-grid-4 { grid-template-columns:1fr; }
 }
 @media (max-width:639px) {
@@ -76,12 +76,77 @@ require __DIR__ . '/../includes/header.php';
   .hp-hero-actions a { width:100%; text-align:center; }
 }
 
-/* ── Hero responsive grid ── */
-.hp-hero-grid {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:48px;
+/* ── Hero background overlay ── */
+.hp-hero {
+  position:relative;
+  overflow:hidden;
+  display:flex;
   align-items:center;
+  background:#0f172a;
+}
+.hp-hero-bg {
+  position:absolute;
+  inset:0;
+  background-image:url('<?= APP_URL ?>/public/uploads/hero-bg.jpg');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+.hp-hero-overlay {
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg, rgba(15,23,42,0.82) 0%, rgba(15,23,42,0.55) 50%, rgba(15,23,42,0.3) 100%);
+}
+@media (max-width:767px) {
+  .hp-hero-overlay {
+    background:linear-gradient(180deg, rgba(15,23,42,0.85) 0%, rgba(15,23,42,0.6) 100%);
+  }
+}
+.hp-hero-inner {
+  position:relative;
+  z-index:2;
+  width:100%;
+}
+.hp-hero-content {
+  max-width:640px;
+}
+.hp-hero-content h1 {
+  color:#fff!important;
+}
+.hp-hero-content .highlight {
+  color:#fbbf24;
+}
+.hp-hero-content .pub-lead {
+  color:rgba(255,255,255,0.8)!important;
+}
+.hp-hero-actions .btn-primary {
+  background:#fbbf24;
+  color:#0f172a;
+  border:none;
+  font-weight:700;
+  padding:14px 36px;
+  font-size:1.05rem;
+  border-radius:10px;
+  box-shadow:0 4px 20px rgba(251,191,36,0.35);
+  transition:transform .15s, box-shadow .15s;
+}
+.hp-hero-actions .btn-primary:hover {
+  transform:translateY(-2px);
+  box-shadow:0 8px 30px rgba(251,191,36,0.45);
+}
+.hp-hero-actions .btn-outline {
+  border:2px solid rgba(255,255,255,0.5);
+  color:#fff!important;
+  background:transparent;
+  padding:14px 36px;
+  font-size:1.05rem;
+  font-weight:600;
+  border-radius:10px;
+  transition:background .15s, border-color .15s;
+}
+.hp-hero-actions .btn-outline:hover {
+  background:rgba(255,255,255,0.1);
+  border-color:#fff;
 }
 
 /* ── Hero entrance stagger ── */
@@ -374,23 +439,22 @@ require __DIR__ . '/../includes/header.php';
 </style>
 <main class="pub-page">
 <!-- Hero Section -->
-<section class="hp-hero" style="position:relative;overflow:hidden;display:flex;align-items:center;background:#fff;">
-  <div class="hp-hero-inner pub-wrap" style="width:100%;position:relative;z-index:10;padding-top:60px;padding-bottom:60px;">
-    <div class="hp-hero-grid">
-      <div class="hp-hero-content">
-        <h1 class="hp-hero-title pub-h1" style="color:var(--dash-ink);margin-bottom:20px;">
-          <?= $hero_title ?>
-        </h1>
-        <p class="hp-hero-sub pub-lead" style="color:var(--dash-ink-soft);max-width:520px;">
-          <?= e($hero_subtitle) ?>
-        </p>
-        <div class="hp-hero-actions pub-cta-actions" style="justify-content:flex-start;margin-top:28px;">
-          <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">Get Started</a>
-          <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline" style="border-color:var(--dash-border);color:var(--dash-ink);background:transparent;">Browse Businesses</a>
-        </div>
-      </div>
-      <div class="hp-hero-visual" style="border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
-        <img src="<?= APP_URL ?>/public/uploads/hero-bg.jpg" alt="" style="width:100%;height:auto;display:block;aspect-ratio:16/10;object-fit:cover;">
+<section class="hp-hero">
+  <div class="hp-hero-bg"></div>
+  <div class="hp-hero-overlay">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 600px 400px at 30% 60%, rgba(251,191,36,0.08) 0%, transparent 70%);"></div>
+  </div>
+  <div class="hp-hero-inner pub-wrap">
+    <div class="hp-hero-content">
+      <h1 class="hp-hero-title pub-h1" style="margin-bottom:20px;">
+        <span class="highlight"><?= $hero_title ?></span>
+      </h1>
+      <p class="hp-hero-sub pub-lead" style="max-width:560px;">
+        <?= e($hero_subtitle) ?>
+      </p>
+      <div class="hp-hero-actions pub-cta-actions" style="justify-content:flex-start;margin-top:32px;">
+        <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">Get Started Now</a>
+        <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline">Explore Businesses</a>
       </div>
     </div>
   </div>
