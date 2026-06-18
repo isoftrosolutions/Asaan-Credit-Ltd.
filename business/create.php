@@ -92,6 +92,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Handle document uploads
+        $docUploadOk = 0;
+        $docUploadAttempts = 0;
         if (!empty($_FILES['documents'])) {
             $docFiles = $_FILES['documents'];
             $allowedDocMime = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
@@ -99,12 +101,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $batchDesc = trim($_POST['document_desc'] ?? '');
             foreach ($docFiles['tmp_name'] as $i => $tmpName) {
                 if ($docFiles['error'][$i] !== UPLOAD_ERR_OK) continue;
+                $docUploadAttempts++;
                 $file = ['name' => $docFiles['name'][$i], 'tmp_name' => $tmpName, 'size' => $docFiles['size'][$i], 'error' => $docFiles['error'][$i]];
                 $filename = handle_upload($file, $allowedDocMime, UPLOAD_MAX_BYTES, $docDestDir);
                 if ($filename) {
                     $mimeType = mime_content_type($docDestDir . '/' . $filename);
                     $db->prepare('INSERT INTO business_documents (business_id, original_name, file_path, file_size, file_type, description, sort_order, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())')
                         ->execute([$businessId, $file['name'], 'business-documents/' . $filename, $file['size'], $mimeType, $batchDesc, $i]);
+                    $docUploadOk++;
                 }
             }
         }
@@ -130,6 +134,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $db->commit();
+
+        if ($docUploadAttempts > 0 && $docUploadOk === 0) {
+            flash_set('warning', 'Documents could not be uploaded. Accepted: PDF, DOC, DOCX up to 10MB each.');
+        } elseif ($docUploadAttempts > $docUploadOk) {
+            flash_set('warning', $docUploadOk . ' of ' . $docUploadAttempts . ' documents uploaded. Some may have been rejected (check format and size).');
+        }
+
         flash_set('success', 'Business listing created successfully.');
         redirect('/business/' . $slug);
     } catch (\Throwable $e) {

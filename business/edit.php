@@ -200,6 +200,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Handle document uploads
+        $docUploadOk = 0;
+        $docUploadAttempts = 0;
         if (!empty($_FILES['documents'])) {
             $docFiles = $_FILES['documents'];
             $allowedDocMime = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
@@ -210,6 +212,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $batchDesc = trim($_POST['document_desc'] ?? '');
             foreach ($docFiles['tmp_name'] as $i => $tmpName) {
                 if ($docFiles['error'][$i] !== UPLOAD_ERR_OK) continue;
+                $docUploadAttempts++;
                 $file = ['name' => $docFiles['name'][$i], 'tmp_name' => $tmpName, 'size' => $docFiles['size'][$i], 'error' => $docFiles['error'][$i]];
                 $filename = handle_upload($file, $allowedDocMime, UPLOAD_MAX_BYTES, $docDestDir);
                 if ($filename) {
@@ -217,6 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $db->prepare('INSERT INTO business_documents (business_id, original_name, file_path, file_size, file_type, description, sort_order, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())')
                         ->execute([$businessId, $file['name'], 'business-documents/' . $filename, $file['size'], $mimeType, $batchDesc, $sortOrder]);
                     $sortOrder++;
+                    $docUploadOk++;
                 }
             }
         }
@@ -242,6 +246,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $db->commit();
+
+        if ($docUploadAttempts > 0 && $docUploadOk === 0) {
+            flash_set('warning', 'Documents could not be uploaded. Accepted: PDF, DOC, DOCX up to 10MB each.');
+        } elseif ($docUploadAttempts > $docUploadOk) {
+            flash_set('warning', $docUploadOk . ' of ' . $docUploadAttempts . ' documents uploaded. Some may have been rejected (check format and size).');
+        }
+
         flash_set('success', 'Business listing updated successfully.');
         redirect('/business/' . $slug);
     } catch (\Throwable $e) {
@@ -1010,8 +1021,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     input.addEventListener('change', function() {
-        if (this.files) addFiles(this.files);
+        if (!this.files || !this.files.length) return;
+        var selectedFiles = Array.from(this.files);
         this.value = '';
+        addFiles(selectedFiles);
     });
 
     dropzone.addEventListener('click', function() { input.click(); });
@@ -1088,8 +1101,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     input.addEventListener('change', function() {
-        if (this.files) addFiles(this.files);
+        if (!this.files || !this.files.length) return;
+        var selectedFiles = Array.from(this.files);
         this.value = '';
+        addFiles(selectedFiles);
     });
 
     dropzone.addEventListener('click', function() { input.click(); });
