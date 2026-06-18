@@ -4,7 +4,7 @@ function injectFooter() {
 
   const year = new Date().getFullYear();
   root.innerHTML = `
-    <footer style="background:#0f0f0f;color:rgba(255,255,255,0.55);padding:56px 24px 32px;margin-top:80px;">
+    <footer style="background:#073152;color:rgba(255,255,255,0.55);padding:56px 24px 32px;margin-top:80px;">
       <div style="max-width:1200px;margin:0 auto;">
         <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:48px;margin-bottom:40px;">
           <div>

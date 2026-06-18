@@ -4,7 +4,7 @@
 <?php endif; ?>
 <?php if (empty($hidePublicFooter)): ?>
 <noscript>
-  <footer style="background:var(--dash-ink);color:rgba(255,255,255,0.7);padding:40px 24px;text-align:center;font-size:14px;">
+  <footer style="background:#073152;color:rgba(255,255,255,0.7);padding:40px 24px;text-align:center;font-size:14px;">
     <p style="margin:0;">&copy; <?= date('Y') ?> Asaan Capital Ltd. All rights reserved.</p>
     <nav style="margin-top:12px;display:flex;gap:16px;justify-content:center;">
       <a href="<?= APP_URL ?>/about" style="color:rgba(255,255,255,0.8);text-decoration:none;">About</a>
