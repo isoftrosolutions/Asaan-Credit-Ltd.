@@ -91,6 +91,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
+        // Handle document uploads
+        if (!empty($_FILES['documents'])) {
+            $docFiles = $_FILES['documents'];
+            $allowedDocMime = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+            $docDestDir = upload_path('business-documents');
+            $batchDesc = trim($_POST['document_desc'] ?? '');
+            foreach ($docFiles['tmp_name'] as $i => $tmpName) {
+                if ($docFiles['error'][$i] !== UPLOAD_ERR_OK) continue;
+                $file = ['name' => $docFiles['name'][$i], 'tmp_name' => $tmpName, 'size' => $docFiles['size'][$i], 'error' => $docFiles['error'][$i]];
+                $filename = handle_upload($file, $allowedDocMime, UPLOAD_MAX_BYTES, $docDestDir);
+                if ($filename) {
+                    $mimeType = mime_content_type($docDestDir . '/' . $filename);
+                    $db->prepare('INSERT INTO business_documents (business_id, original_name, file_path, file_size, file_type, description, sort_order, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())')
+                        ->execute([$businessId, $file['name'], 'business-documents/' . $filename, $file['size'], $mimeType, $batchDesc, $i]);
+                }
+            }
+        }
+
         // Handle assets
         if (!empty($_POST['asset_name'])) {
             $aStmt = $db->prepare('INSERT INTO business_assets (business_id, asset_name, asset_type, estimated_value, description, created_at, updated_at) VALUES (?, ?, ?, ?, ?, NOW(), NOW())');
@@ -383,6 +401,19 @@ require __DIR__ . '/../includes/layout-dashboard.php';
                 <label>Upload Images, Videos, or Documents</label>
                 <input type="file" name="media[]" class="input" multiple accept="image/jpeg,image/png,image/webp,video/mp4,application/pdf">
                 <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Max 2MB per file. JPEG, PNG, WebP, MP4, PDF accepted.</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom:1.5rem;">
+            <h4>Documents <span style="font-weight:400;font-size:0.8rem;color:var(--color-text-muted);">(premium — shared with investors)</span></h4>
+            <div class="input-group">
+                <label>Upload PDF, Word Documents</label>
+                <input type="file" name="documents[]" class="input" multiple accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Max 10MB per file. PDF, DOC, DOCX accepted. Visible to premium investors after NDA.</p>
+            </div>
+            <div class="input-group" style="margin-top:8px;">
+                <label>Description <span style="font-weight:400;color:var(--color-text-muted);">(optional)</span></label>
+                <input type="text" name="document_desc" class="input" placeholder="e.g. Financial Statement 2024">
             </div>
         </div>
     </div>

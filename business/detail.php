@@ -51,6 +51,10 @@ $finS = $db->prepare('SELECT * FROM business_financials WHERE business_id = ? OR
 $finS->execute([$businessId]);
 $financialItems = $finS->fetchAll();
 
+$docS = $db->prepare('SELECT * FROM business_documents WHERE business_id = ? ORDER BY sort_order');
+$docS->execute([$businessId]);
+$documents = $docS->fetchAll();
+
 $verS = $db->prepare('SELECT * FROM business_verifications WHERE business_id = ?');
 $verS->execute([$businessId]);
 $verification = $verS->fetch();
@@ -161,7 +165,7 @@ if ($business['annual_revenue']) {
 $extraSchema = '<script type="application/ld+json">' . json_encode($businessSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>';
 $firstImg = $images[0] ?? null;
 $ogImage = $firstImg ? upload_url($firstImg['file_url']) : '';
-$hasDocs = !empty(array_filter($mediaItems, fn($m) => $m['media_type'] === 'document'));
+$hasDocs = !empty($documents) || !empty(array_filter($mediaItems, fn($m) => $m['media_type'] === 'document'));
 
 require __DIR__ . '/../includes/layout-public.php';
 ?>
@@ -578,12 +582,23 @@ require __DIR__ . '/../includes/layout-public.php';
         <?php endif; ?>
       </div>
 
-      <?php if ($hasDocs): ?>
+      <?php if (!empty($documents)): ?>
       <div class="stitch-doc-links">
-        <?php foreach ($mediaItems as $m): if ($m['media_type'] !== 'document') continue; ?>
-        <a href="<?= upload_url($m['file_url']) ?>" target="_blank">
-          <i class="fas fa-file-alt" style="font-size:15px;"></i>
-          <?= e($m['original_name'] ?: 'Document') ?>
+        <?php foreach ($documents as $d): $ext = strtolower(pathinfo($d['original_name'], PATHINFO_EXTENSION)); ?>
+        <a href="<?= upload_url($d['file_path']) ?>" target="_blank" class="stitch-doc-item">
+          <span class="stitch-doc-icon">
+            <i class="fas fa-file-<?= $ext === 'pdf' ? 'pdf' : 'word' ?>"></i>
+          </span>
+          <span class="stitch-doc-info">
+            <span class="stitch-doc-name"><?= e($d['original_name']) ?></span>
+            <span class="stitch-doc-meta">
+              <?php if ($d['description']): ?><?= e($d['description']) ?> &middot; <?php endif; ?>
+              <?php if ($d['file_size']): ?><?= number_format($d['file_size'] / 1024, 1) ?> KB &middot; <?php endif; ?>
+              <?= strtoupper($ext) ?>
+              <?php if ($d['download_count']): ?> &middot; <?= (int)$d['download_count'] ?> downloads<?php endif; ?>
+            </span>
+          </span>
+          <span class="stitch-doc-dl"><i class="fas fa-download"></i></span>
         </a>
         <?php endforeach; ?>
       </div>

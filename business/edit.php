@@ -33,6 +33,10 @@ $mediaItems = db()->prepare('SELECT * FROM business_media WHERE business_id = ? 
 $mediaItems->execute([$businessId]);
 $mediaItems = $mediaItems->fetchAll();
 
+$documents = db()->prepare('SELECT * FROM business_documents WHERE business_id = ? ORDER BY sort_order');
+$documents->execute([$businessId]);
+$documents = $documents->fetchAll();
+
 $assets = db()->prepare('SELECT * FROM business_assets WHERE business_id = ? ORDER BY id');
 $assets->execute([$businessId]);
 $assets = $assets->fetchAll();
@@ -132,6 +136,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $mimeType = mime_content_type($destDir . '/' . $filename);
                     $mediaType = str_starts_with($mimeType, 'video') ? 'video' : (str_starts_with($mimeType, 'application') ? 'document' : 'image');
                     $db->prepare('INSERT INTO business_media (business_id, file_url, media_type, sort_order, created_at) VALUES (?, ?, ?, ?, NOW())')->execute([$businessId, 'business-photos/' . $filename, $mediaType, $sortOrder]);
+                    $sortOrder++;
+                }
+            }
+        }
+
+        // Handle document delete
+        if (!empty($_POST['delete_document'])) {
+            $deleteDocIds = array_map('intval', $_POST['delete_document']);
+            $placeholders = implode(',', array_fill(0, count($deleteDocIds), '?'));
+            $delDocStmt = $db->prepare("SELECT file_path FROM business_documents WHERE id IN ($placeholders) AND business_id = ?");
+            $delDocStmt->execute(array_merge($deleteDocIds, [$businessId]));
+            $toDelete = $delDocStmt->fetchAll();
+            $db->prepare("DELETE FROM business_documents WHERE id IN ($placeholders) AND business_id = ?")->execute(array_merge($deleteDocIds, [$businessId]));
+            $docDir = upload_path('business-documents');
+            foreach ($toDelete as $d) {
+                $path = $docDir . '/' . basename($d['file_path']);
+                if (file_exists($path)) unlink($path);
+            }
+        }
+
+        // Handle document uploads
+        if (!empty($_FILES['documents'])) {
+            $docFiles = $_FILES['documents'];
+            $allowedDocMime = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+            $docDestDir = upload_path('business-documents');
+            $maxSortStmt = $db->prepare('SELECT COALESCE(MAX(sort_order), 0) FROM business_documents WHERE business_id = ?');
+            $maxSortStmt->execute([$businessId]);
+            $sortOrder = (int)$maxSortStmt->fetchColumn();
+            $batchDesc = trim($_POST['document_desc'] ?? '');
+            foreach ($docFiles['tmp_name'] as $i => $tmpName) {
+                if ($docFiles['error'][$i] !== UPLOAD_ERR_OK) continue;
+                $file = ['name' => $docFiles['name'][$i], 'tmp_name' => $tmpName, 'size' => $docFiles['size'][$i], 'error' => $docFiles['error'][$i]];
+                $filename = handle_upload($file, $allowedDocMime, UPLOAD_MAX_BYTES, $docDestDir);
+                if ($filename) {
+                    $mimeType = mime_content_type($docDestDir . '/' . $filename);
+                    $db->prepare('INSERT INTO business_documents (business_id, original_name, file_path, file_size, file_type, description, sort_order, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())')
+                        ->execute([$businessId, $file['name'], 'business-documents/' . $filename, $file['size'], $mimeType, $batchDesc, $sortOrder]);
                     $sortOrder++;
                 }
             }
@@ -594,6 +635,62 @@ require __DIR__ . '/../includes/layout-dashboard.php';
         </div>
       </div>
 
+      <!-- ═══ Documents ═══ -->
+      <div class="edit-section">
+        <div class="edit-section-header" onclick="this.parentElement.classList.toggle('collapsed')">
+          <h3>Documents <span style="font-weight:400;font-size:12px;color:var(--dash-ink-soft);">(premium, behind NDA)</span></h3>
+          <span class="sec-toggle">▼</span>
+        </div>
+        <div class="edit-section-body">
+          <?php if (!empty($documents)): ?>
+          <div style="margin-bottom:14px;">
+            <h4 style="font-size:13px;font-weight:600;margin:0 0 8px;color:var(--dash-ink);">Uploaded Documents</h4>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+              <?php foreach ($documents as $d): ?>
+              <label class="edit-media-item" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--dash-border);border-radius:8px;cursor:pointer;background:var(--color-bg-soft);">
+                <input type="checkbox" name="delete_document[]" value="<?= $d['id'] ?>" style="accent-color:var(--color-error);">
+                <div>
+                  <span style="font-size:12px;font-weight:600;color:var(--dash-ink);display:block;">
+                    <?php
+                    $ext = strtolower(pathinfo($d['original_name'], PATHINFO_EXTENSION));
+                    $icon = $ext === 'pdf' ? 'file-pdf' : 'file-word';
+                    ?>
+                    <i class="fas fa-<?= $icon ?>" style="margin-right:4px;color:var(--color-primary);"></i>
+                    <?= e($d['original_name']) ?>
+                  </span>
+                  <span style="font-size:11px;color:var(--dash-ink-soft);">
+                    <?= $d['file_size'] ? number_format($d['file_size'] / 1024, 1) . ' KB' : '' ?>
+                    <?= $d['description'] ? ' — ' . e($d['description']) : '' ?>
+                  </span>
+                </div>
+              </label>
+              <?php endforeach; ?>
+            </div>
+            <p style="font-size:11px;color:var(--color-error);margin-top:6px;">Check a document and save to delete it.</p>
+          </div>
+          <?php endif; ?>
+
+          <div class="input">
+            <label>Add New Documents</label>
+            <div class="upload-dropzone" id="docDropzone">
+              <div class="upload-dropzone-content">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="36" height="36">
+                  <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                </svg>
+                <p>Drop documents here or click to browse</p>
+                <span>PDF, DOC, DOCX up to 10MB each</span>
+              </div>
+              <input type="file" name="documents[]" id="docInput" multiple accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden>
+            </div>
+            <div class="upload-preview" id="docPreview"></div>
+          </div>
+          <div class="input" style="margin-top:8px;">
+            <label>Description <span style="font-weight:400;font-size:11px;color:var(--dash-ink-soft);">(optional — applies to all new docs)</span></label>
+            <input type="text" name="document_desc" class="input" placeholder="e.g. Financial Statement 2024" style="font-size:13px;">
+          </div>
+        </div>
+      </div>
+
       <!-- ═══ Media & Publish ═══ -->
       <div class="edit-section">
         <div class="edit-section-header" onclick="this.parentElement.classList.toggle('collapsed')">
@@ -834,6 +931,84 @@ document.addEventListener('DOMContentLoaded', function() {
                 icon.textContent = f.type.includes('pdf') ? 'PDF' : 'VID';
                 div.appendChild(icon);
             }
+            var name = document.createElement('span');
+            name.className = 'upload-preview-name';
+            name.textContent = f.name;
+            div.appendChild(name);
+            var remove = document.createElement('button');
+            remove.type = 'button';
+            remove.className = 'upload-preview-remove';
+            remove.innerHTML = '&times;';
+            remove.setAttribute('aria-label', 'Remove ' + f.name);
+            remove.onclick = function() {
+                fileList.splice(idx, 1);
+                syncInput();
+                showPreviews();
+            };
+            div.appendChild(remove);
+            preview.appendChild(div);
+        });
+    }
+
+    function syncInput() {
+        var dt = new DataTransfer();
+        fileList.forEach(function(f) { dt.items.add(f); });
+        input.files = dt.files;
+    }
+
+    function addFiles(files) {
+        for (var i = 0; i < files.length; i++) {
+            fileList.push(files[i]);
+        }
+        syncInput();
+        showPreviews();
+    }
+
+    input.addEventListener('change', function() {
+        if (this.files) addFiles(this.files);
+        this.value = '';
+    });
+
+    dropzone.addEventListener('click', function() { input.click(); });
+
+    dropzone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.add('drag-over');
+    });
+
+    dropzone.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove('drag-over');
+    });
+
+    dropzone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove('drag-over');
+        if (e.dataTransfer.files) addFiles(e.dataTransfer.files);
+    });
+})();
+
+// Document drag & drop upload preview
+(function() {
+    var dropzone = document.getElementById('docDropzone');
+    var input = document.getElementById('docInput');
+    var preview = document.getElementById('docPreview');
+    var fileList = [];
+
+    function showPreviews() {
+        preview.innerHTML = '';
+        fileList.forEach(function(f, idx) {
+            var div = document.createElement('div');
+            div.className = 'upload-preview-item';
+            var ext = f.name.split('.').pop().toLowerCase();
+            var icon = ext === 'pdf' ? 'PDF' : 'DOC';
+            var iconEl = document.createElement('div');
+            iconEl.className = 'upload-preview-icon';
+            iconEl.textContent = icon;
+            div.appendChild(iconEl);
             var name = document.createElement('span');
             name.className = 'upload-preview-name';
             name.textContent = f.name;

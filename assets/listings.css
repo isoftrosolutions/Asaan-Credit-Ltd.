@@ -1819,23 +1819,35 @@
 
 .stitch-doc-links {
   display: flex;
+  flex-direction: column;
   gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 12px;
+  margin-top: 14px;
 }
-.stitch-doc-links a {
-  display: inline-flex;
+.stitch-doc-item {
+  display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  background: var(--ds-soft);
-  border-radius: var(--radius-sm);
-  font-size: var(--ds-small);
-  color: var(--ds-text-secondary);
+  gap: 14px;
+  padding: 12px 16px;
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border);
+  border-radius: var(--ds-radius);
   text-decoration: none;
-  transition: background .2s;
+  transition: border-color .2s, box-shadow .2s;
 }
-.stitch-doc-links a:hover { background: var(--ds-border); }
+.stitch-doc-item:hover { border-color: var(--color-primary); box-shadow: 0 2px 8px rgba(107,29,34,0.08); }
+.stitch-doc-icon {
+  width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+  background: rgba(107,29,34,0.08); border-radius: 8px; flex-shrink: 0;
+  font-size: 18px; color: var(--color-primary);
+}
+.stitch-doc-info { flex: 1; min-width: 0; }
+.stitch-doc-name { display: block; font-weight: 600; font-size: 13px; color: var(--ds-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stitch-doc-meta { display: block; font-size: 11px; color: var(--ds-text-tertiary); margin-top: 2px; }
+.stitch-doc-dl {
+  width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+  border-radius: 6px; color: var(--ds-text-tertiary); transition: background .2s, color .2s; flex-shrink: 0;
+}
+.stitch-doc-item:hover .stitch-doc-dl { background: var(--color-primary); color: #fff; }
 
 /* ─── Reason for Sale ─── */
 .stitch-reason-card {
