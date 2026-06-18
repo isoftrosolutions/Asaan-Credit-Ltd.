@@ -1,6 +1,9 @@
 # Local dev scratch
 /1.png
 
+# Local config (contains production DB credentials)
+/config/config.php
+
 # Local SQL dump
 /_dump.sql
 

@@ -28,14 +28,17 @@ if ($user) {
   <meta property="og:description" content="<?= e($pageDescription ?? 'Asaan Capital Ltd - Financial & Investment Services. The premium marketplace for buying, selling, franchising, and funding SMEs.') ?>">
   <meta property="og:url" content="<?= APP_URL . $_SERVER['REQUEST_URI'] ?>">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="<?= e($ogImage ?? APP_URL . '/og-image.png') ?>">
+  <meta property="og:image" content="<?= e($ogImage ?? APP_URL . '/public/uploads/hero-bg.jpg') ?>">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<?= e($pageTitle ?? APP_NAME) ?>">
+  <meta name="twitter:description" content="<?= e($pageDescription ?? 'Asaan Capital Ltd - Financial & Investment Services. The premium marketplace for buying, selling, franchising, and funding SMEs.') ?>">
+  <meta name="twitter:image" content="<?= e($ogImage ?? APP_URL . '/og-image.png') ?>">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Asaan Capital Ltd",
-    "description": "Financial & Investment Services",
+    "description": "Nepal's premium marketplace for buying, selling, and investing in businesses",
     "url": "https://asaancapital.com",
     "logo": "https://asaancapital.com/assets/asaan-capital-logo-header.png",
     "address": {
@@ -82,6 +85,7 @@ if ($user) {
   <?= $extraSchema ?? '' ?>
   <link rel="icon" type="image/png" href="<?= APP_URL ?>/favicon.png">
   <link rel="shortcut icon" href="<?= APP_URL ?>/favicon.png">
+  <link rel="apple-touch-icon" href="<?= APP_URL ?>/favicon.png">
   <style>html.scroll-smooth { scroll-behavior: smooth; }</style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

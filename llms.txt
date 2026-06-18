@@ -1,0 +1,25 @@
+# Asaan Capital Ltd
+> Nepal's premier marketplace for buying, selling, and investing in businesses.
+
+## About
+Asaan Capital Ltd connects verified business owners with qualified investors, buyers, and franchise partners in Nepal.
+
+## Key pages
+- Home: https://asaancapital.com/
+- About: https://asaancapital.com/about
+- Browse Businesses: https://asaancapital.com/browse/businesses
+- Browse Investors: https://asaancapital.com/browse/investors
+- Browse Franchises: https://asaancapital.com/browse/franchises
+- Browse Entrepreneurs: https://asaancapital.com/browse/entrepreneurs
+- How It Works: https://asaancapital.com/how-it-works
+- Pricing: https://asaancapital.com/pricing
+- Blog: https://asaancapital.com/blog
+- Contact: https://asaancapital.com/contact
+- Support / FAQ: https://asaancapital.com/support
+
+## Social
+- Facebook: https://facebook.com/asaancapital
+- Instagram: https://instagram.com/asaancapital
+- X: https://x.com/asaancapital
+- YouTube: https://youtube.com/@asaancapital
+- LinkedIn: https://linkedin.com/company/asaancapital

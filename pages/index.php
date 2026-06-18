@@ -23,6 +23,7 @@ $faqs = db()->query("SELECT * FROM faqs WHERE is_active=1 ORDER BY sort_order LI
 $featured_investors = db()->query("SELECT u.id, u.name, u.company_name, u.province, u.district, u.profile_photo, u.bio, u.account_type, u.is_premium, u.created_at, ip.total_capital_deployed, ip.past_investments, ip.preferred_sectors, ip.ticket_min, ip.ticket_max FROM users u JOIN investor_profiles ip ON ip.user_id = u.id WHERE u.role = 'investor' AND u.verification_status = 'verified' ORDER BY u.is_premium DESC, u.last_login_at DESC LIMIT 8")->fetchAll();
 
 $pageTitle = APP_NAME_LONG;
+$pageDescription = 'Nepal\'s #1 marketplace for buying, selling, and investing in businesses. Connect with 44,000+ verified investors and 67,500+ business owners.';
 $forcePublicHeader = true; // home keeps the public marketing nav even when logged in
 require __DIR__ . '/../includes/header.php';
 ?>
@@ -745,6 +746,32 @@ $pitchStages = ['idea'=>'Idea', 'prototype'=>'Prototype', 'early_traction'=>'Ear
     </div>
   </div>
 </section>
+<?php endif; ?>
+
+<?php if (!empty($faqs)): ?>
+<?php
+$faqSchema = '<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [';
+$first = true;
+foreach ($faqs as $f) {
+  if (!$first) $faqSchema .= ',';
+  $first = false;
+  $question = str_replace('"', '\\"', $f['question']);
+  $answer = str_replace('"', '\\"', strip_tags($f['answer']));
+  $faqSchema .= '{
+    "@type": "Question",
+    "name": "' . $question . '",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "' . $answer . '"
+    }
+  }';
+}
+$faqSchema .= ']}</script>';
+echo $faqSchema;
+?>
 <?php endif; ?>
 
 <!-- FAQ -->

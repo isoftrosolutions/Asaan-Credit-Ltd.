@@ -140,14 +140,6 @@ class EmailService {
     }
 
     private function resolveTemplate(string $key): ?array {
-        try {
-            $stmt = db()->prepare("SELECT subject, body FROM email_templates WHERE template_key = ? AND is_active = 1 LIMIT 1");
-            $stmt->execute([$key]);
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($row && isset($row['body'])) return $row;
-        } catch (\Throwable $e) {
-        }
-
         if ($this->templates && isset($this->templates[$key])) {
             $tpl = $this->templates[$key];
             $body = $tpl['body'] ?? $tpl['content_html'] ?? null;

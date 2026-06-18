@@ -115,4 +115,34 @@
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
   </url>
+  <url>
+    <loc>https://asaancapital.com/contact</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://asaancapital.com/press</loc>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://asaancapital.com/testimonials</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://asaancapital.com/careers</loc>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://asaancapital.com/industry-watch</loc>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://asaancapital.com/pitch/2</loc>
+    <priority>0.6</priority>
+    <changefreq>weekly</changefreq>
+  </url>
 </urlset>

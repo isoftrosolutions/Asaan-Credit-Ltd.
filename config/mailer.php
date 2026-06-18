@@ -46,14 +46,6 @@ function send_verification_rejected_email(string $to, string $userName, string $
 }
 
 function get_email_template(string $key): ?array {
-    try {
-        $stmt = db()->prepare("SELECT subject, body FROM email_templates WHERE template_key = ? AND is_active = 1 LIMIT 1");
-        $stmt->execute([$key]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row) return $row;
-    } catch (\PDOException $e) {
-    }
-
     $templates = include __DIR__ . '/email_templates.php';
     if (isset($templates[$key])) {
         $tpl = $templates[$key];
