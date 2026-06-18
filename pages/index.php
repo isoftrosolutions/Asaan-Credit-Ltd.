@@ -13,6 +13,7 @@ $stats_businesses = $homepage['stats_businesses'] ?? '67,500+';
 $stats_investors = $homepage['stats_investors'] ?? '44,000+';
 $stats_matches = $homepage['stats_matches'] ?? '12,800+';
 $stats_deal_value = $homepage['stats_deal_value'] ?? 'NPR 850 Cr+';
+$hero_video_id = $homepage['hero_video_id'] ?? '';
 
 $featured_biz = db()->query("SELECT * FROM businesses WHERE status='approved' AND is_featured=1 ORDER BY rating DESC LIMIT 6")->fetchAll();
 $recent_biz = db()->query("SELECT * FROM businesses WHERE status='approved' ORDER BY created_at DESC LIMIT 6")->fetchAll();
@@ -148,6 +149,52 @@ require __DIR__ . '/../includes/header.php';
   background:rgba(255,255,255,0.1);
   border-color:#fff;
 }
+
+/* ── Hero play button ── */
+.hp-hero-play {
+  display:inline-flex; align-items:center; gap:10px;
+  margin-top:24px; padding:12px 28px;
+  background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2);
+  border-radius:999px; color:#fff; cursor:pointer;
+  font-size:15px; font-weight:600; font-family:inherit;
+  -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
+  transition:background .15s, border-color .15s, transform .15s;
+}
+.hp-hero-play:hover { background:rgba(255,0,0,0.85); border-color:#ff0000; transform:scale(1.03); }
+.hp-hero-play svg { color:#ff0000; transition:color .15s; }
+.hp-hero-play:hover svg { color:#fff; }
+@media (max-width:639px) {
+  .hp-hero-play { width:100%; justify-content:center; }
+}
+
+/* ── Video modal ── */
+.hp-video-modal {
+  display:none; position:fixed; inset:0; z-index:9999;
+  background:rgba(0,0,0,0.85);
+  align-items:center; justify-content:center;
+  padding:24px;
+  -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+}
+.hp-video-modal-inner {
+  position:relative; width:100%; max-width:900px;
+  background:#000; border-radius:16px; overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+.hp-video-wrap {
+  position:relative; width:100%; padding-bottom:56.25%;
+}
+.hp-video-wrap iframe {
+  position:absolute; inset:0; width:100%; height:100%;
+}
+.hp-video-close {
+  position:absolute; top:12px; right:16px; z-index:10;
+  background:rgba(0,0,0,0.5); border:none; color:#fff;
+  font-size:28px; line-height:1; width:36px; height:36px;
+  border-radius:50%; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:background .15s;
+}
+.hp-video-close:hover { background:rgba(255,0,0,0.8); }
 
 /* ── Hero entrance stagger ── */
 .hp-hero-content { animation: hpFadeSlide 600ms var(--ease-out-strong) both; }
@@ -461,9 +508,46 @@ require __DIR__ . '/../includes/header.php';
         <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline">Explore Businesses</a>
         <?php endif; ?>
       </div>
+      <?php if ($hero_video_id): ?>
+      <button type="button" class="hp-hero-play" aria-label="Watch video" onclick="openHeroVideo()">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16V8l8 4-8 4z"/></svg>
+        <span>Watch Video</span>
+      </button>
+      <?php endif; ?>
     </div>
   </div>
 </section>
+
+<!-- Video Modal -->
+<div class="hp-video-modal" id="heroVideoModal" onclick="closeHeroVideo(event)">
+  <div class="hp-video-modal-inner">
+    <button type="button" class="hp-video-close" onclick="closeHeroVideo()" aria-label="Close video">&times;</button>
+    <div class="hp-video-wrap">
+      <iframe id="heroVideoIframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+function openHeroVideo() {
+  var modal = document.getElementById('heroVideoModal');
+  var iframe = document.getElementById('heroVideoIframe');
+  iframe.src = 'https://www.youtube-nocookie.com/embed/<?= e($hero_video_id) ?>?rel=0&autoplay=1';
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeHeroVideo(e) {
+  if (e && e.target !== e.currentTarget) return;
+  var modal = document.getElementById('heroVideoModal');
+  var iframe = document.getElementById('heroVideoIframe');
+  iframe.src = '';
+  modal.style.display = '';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeHeroVideo();
+});
+</script>
 
 <!-- Stats Bar -->
 <section class="pub-section surface tight" style="border-bottom:1px solid var(--dash-border);">
