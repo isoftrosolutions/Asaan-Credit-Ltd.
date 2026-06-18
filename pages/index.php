@@ -1168,8 +1168,16 @@ function initMarquee(id) {
   // Detect if we're on a touch device
   var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
+  function getCards() {
+    var cards = track.querySelectorAll('.pub-card, .fb-card, .fb-ref-card');
+    if (cards.length) return cards;
+    return Array.prototype.filter.call(track.children, function(child) {
+      return child.nodeType === 1 && child.tagName.toLowerCase() !== 'style';
+    });
+  }
+
   function getScrollAmount() {
-    var cards = track.querySelectorAll('.pub-card, .fb-card, .fb-ref-card, .pitch-scroll > *, [class*="hp-marquee-track"] > *');
+    var cards = getCards();
     if (cards.length < 2) return 280;
     var tr = track.getBoundingClientRect();
     for (var i = 0; i < cards.length; i++) {
@@ -1265,10 +1273,12 @@ function initMarquee(id) {
     startAutoScroll();
   }, { passive: true });
 
-  // Only auto-scroll if overflow
-  if (track.scrollWidth > track.clientWidth + 2) {
-    startAutoScroll();
-  }
+  // Only auto-scroll if overflow after layout has settled.
+  requestAnimationFrame(function() {
+    if (track.scrollWidth > track.clientWidth + 2) {
+      startAutoScroll();
+    }
+  });
 }
 
 initMarquee('bizMarquee');
