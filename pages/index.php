@@ -608,7 +608,7 @@ document.addEventListener('keydown', function(e) {
 
 <!-- Why Asaan Capital -->
 <section class="pub-section surface hp-why-section" style="background:#fff;position:relative;overflow:hidden;">
-  <img src="<?= APP_URL ?>/public/uploads/why-bg.jpg" alt="" class="hp-why-bg-img">
+  <img src="<?= APP_URL ?>/public/uploads/mac_deal_map.jpg" alt="" class="hp-why-bg-img">
   <div class="pub-wrap" style="max-width:960px;position:relative;z-index:1;">
     <div class="pub-section-head" style="margin-bottom:48px;">
       <span style="display:inline-block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-primary-vivid);margin-bottom:8px;">Why Asaan Capital</span>
