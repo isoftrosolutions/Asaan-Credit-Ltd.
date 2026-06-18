@@ -224,23 +224,16 @@ require __DIR__ . '/../includes/header.php';
 .hp-card-stagger:nth-child(5) { animation: hpFadeSlide 400ms var(--ease-out-strong) 250ms both; }
 .hp-card-stagger:nth-child(6) { animation: hpFadeSlide 400ms var(--ease-out-strong) 300ms both; }
 
-/* ── Why Asaan Capital section bg ── */
-.hp-why-section {
-  position:relative; overflow:hidden;
+/* ── Why Asaan Capital section foreground image ── */
+.hp-why-bg-img {
+  position:absolute; bottom:0; right:0; z-index:0;
+  width:45%; max-width:500px; height:auto;
+  opacity:0.12; pointer-events:none;
+  -webkit-mask-image:linear-gradient(to left, #000 40%, transparent 100%);
+  mask-image:linear-gradient(to left, #000 40%, transparent 100%);
 }
-.hp-why-section::before {
-  content:''; position:absolute; inset:0; z-index:0;
-  background-image:url('<?= APP_URL ?>/public/uploads/why-bg.jpg');
-  background-size:cover; background-position:center;
-  background-attachment:fixed;
-}
-.hp-why-section::after {
-  content:''; position:absolute; inset:0; z-index:1;
-  background:rgba(255,255,255,0.92);
-}
-.hp-why-section .pub-wrap { position:relative; z-index:2; }
 @media (max-width:767px) {
-  .hp-why-section::before { background-attachment:scroll; }
+  .hp-why-bg-img { width:70%; opacity:0.08; }
 }
 
 /* ── Why Asaan Capital cards ── */
@@ -614,8 +607,9 @@ document.addEventListener('keydown', function(e) {
 </section>
 
 <!-- Why Asaan Capital -->
-<section class="pub-section surface hp-why-section">
-  <div class="pub-wrap" style="max-width:960px;">
+<section class="pub-section surface hp-why-section" style="background:#fff;position:relative;overflow:hidden;">
+  <img src="<?= APP_URL ?>/public/uploads/why-bg.jpg" alt="" class="hp-why-bg-img">
+  <div class="pub-wrap" style="max-width:960px;position:relative;z-index:1;">
     <div class="pub-section-head" style="margin-bottom:48px;">
       <span style="display:inline-block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-primary-vivid);margin-bottom:8px;">Why Asaan Capital</span>
       <h2 class="pub-h2" style="margin-bottom:12px;">Nepal's most trusted business matching platform</h2>
