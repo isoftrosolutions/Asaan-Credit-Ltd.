@@ -161,7 +161,6 @@ if ($user) {
         . '<span class="notification-badge" aria-hidden="true"' . $badgeStyle . '>' . $badgeText . '</span></a>'
         . '<a href="' . APP_URL . '/dashboard" class="header-user" aria-label="' . e($userName) . ' — go to dashboard">'
         . '<div class="avatar avatar-sm" aria-hidden="true">' . e($initial) . '</div>'
-        . (!empty($user['is_premium']) ? '<span class="premium-badge" title="Premium"><i class="fas fa-crown"></i></span>' : '')
         . '<span class="header-user-name">' . e($userName) . '</span></a>';
 } elseif (!empty($onboardingPage)) {
     $headerActions = '<a href="' . APP_URL . '/login" class="btn btn-sm btn-outline">Log in</a>';
