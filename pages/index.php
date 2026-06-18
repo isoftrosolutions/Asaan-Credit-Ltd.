@@ -226,12 +226,13 @@ require __DIR__ . '/../includes/header.php';
 
 /* ── Why Asaan Capital section image ── */
 .hp-why-img {
-  display:block; width:100%; max-width:400px; height:auto;
-  margin:0 auto 40px; border-radius:12px;
-  box-shadow:0 4px 20px rgba(0,0,0,0.08);
+  display:block; width:100%; height:auto;
+  margin-bottom:48px; border-radius:16px;
+  aspect-ratio:16/9; object-fit:cover;
+  box-shadow:0 4px 24px rgba(0,0,0,0.1);
 }
 @media (max-width:767px) {
-  .hp-why-img { max-width:100%; margin-bottom:32px; }
+  .hp-why-img { border-radius:12px; margin-bottom:32px; }
 }
 
 /* ── Why Asaan Capital cards ── */
