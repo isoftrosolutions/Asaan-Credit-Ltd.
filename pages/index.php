@@ -224,6 +224,25 @@ require __DIR__ . '/../includes/header.php';
 .hp-card-stagger:nth-child(5) { animation: hpFadeSlide 400ms var(--ease-out-strong) 250ms both; }
 .hp-card-stagger:nth-child(6) { animation: hpFadeSlide 400ms var(--ease-out-strong) 300ms both; }
 
+/* ── Why Asaan Capital section bg ── */
+.hp-why-section {
+  position:relative; overflow:hidden;
+}
+.hp-why-section::before {
+  content:''; position:absolute; inset:0; z-index:0;
+  background-image:url('<?= APP_URL ?>/public/uploads/why-bg.jpg');
+  background-size:cover; background-position:center;
+  background-attachment:fixed;
+}
+.hp-why-section::after {
+  content:''; position:absolute; inset:0; z-index:1;
+  background:rgba(255,255,255,0.92);
+}
+.hp-why-section .pub-wrap { position:relative; z-index:2; }
+@media (max-width:767px) {
+  .hp-why-section::before { background-attachment:scroll; }
+}
+
 /* ── Why Asaan Capital cards ── */
 .hp-why-card {
   display:flex;
@@ -595,7 +614,7 @@ document.addEventListener('keydown', function(e) {
 </section>
 
 <!-- Why Asaan Capital -->
-<section class="pub-section surface" style="background:#fff;">
+<section class="pub-section surface hp-why-section">
   <div class="pub-wrap" style="max-width:960px;">
     <div class="pub-section-head" style="margin-bottom:48px;">
       <span style="display:inline-block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-primary-vivid);margin-bottom:8px;">Why Asaan Capital</span>
