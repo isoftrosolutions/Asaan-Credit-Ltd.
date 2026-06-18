@@ -46,12 +46,17 @@ require __DIR__ . '/../includes/header.php';
       By <?= e($post['author']) ?><?= $post['published_at'] ? ' &middot; ' . e(date('M j, Y', strtotime($post['published_at']))) : '' ?>
     </div>
 
-    <div class="pub-prose">
-      <?php foreach (preg_split('/\n\s*\n/', trim($post['body'])) as $para): ?>
-        <?php if (trim($para) !== ''): ?>
-        <p><?= nl2br(e(trim($para))) ?></p>
-        <?php endif; ?>
-      <?php endforeach; ?>
+    <div class="pub-prose trix-content">
+      <?php
+      $body = $post['body'];
+      if ($body !== strip_tags($body)) {
+          echo $body;
+      } else {
+          foreach (preg_split('/\n\s*\n/', trim($body)) as $para) {
+              if (trim($para) !== '') echo '<p>' . nl2br(e(trim($para))) . '</p>';
+          }
+      }
+      ?>
     </div>
 
     <div style="margin-top:var(--space-8);padding-top:var(--space-5);border-top:1px solid var(--dash-border);">

@@ -24,6 +24,8 @@ $forcePublicHeader = true;
 require __DIR__ . '/../includes/header.php';
 ?>
 <main class="pub-page">
-  <?= $page['content_html'] ?>
+  <div class="pub-wrap-narrow trix-content" style="padding-top:var(--space-6);padding-bottom:var(--space-8);">
+    <?= $page['content_html'] ?>
+  </div>
 </main>
 <?php require __DIR__ . '/../includes/footer.php'; ?>

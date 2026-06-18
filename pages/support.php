@@ -117,8 +117,15 @@ require __DIR__ . '/../includes/header.php';
         <span><?= e($faq['question']) ?></span>
         <span class="pub-faq-icon">+</span>
       </div>
-      <div class="pub-faq-a faq-answer" style="display:<?= $first ? 'block' : 'none' ?>;">
-        <?= e($faq['answer']) ?>
+      <div class="pub-faq-a faq-answer trix-content" style="display:<?= $first ? 'block' : 'none' ?>;">
+        <?php
+        $answer = $faq['answer'];
+        if ($answer !== strip_tags($answer)) {
+            echo $answer;
+        } else {
+            echo '<p>' . nl2br(e($answer)) . '</p>';
+        }
+        ?>
       </div>
     </div>
     <?php $first = false; ?>

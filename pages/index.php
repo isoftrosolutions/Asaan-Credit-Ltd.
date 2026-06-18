@@ -761,7 +761,14 @@ $pitchStages = ['idea'=>'Idea', 'prototype'=>'Prototype', 'early_traction'=>'Ear
         <span class="faq-icon">+</span>
       </div>
       <div class="faq-answer">
-        <div class="faq-answer-inner"><?= e($faq['answer']) ?></div>
+        <div class="faq-answer-inner trix-content"><?php
+          $answer = $faq['answer'];
+          if ($answer !== strip_tags($answer)) {
+              echo $answer;
+          } else {
+              echo '<p>' . nl2br(e($answer)) . '</p>';
+          }
+        ?></div>
       </div>
     </div>
     <?php $first = false; endforeach; ?>
