@@ -848,6 +848,7 @@ function initMarquee(id) {
   var rightArrow = marquee.querySelector('.fb-arrow-right, .hp-marquee-arrow-right');
   var interval = null;
   var isPaused = false;
+  var dir = 1; // 1 = forward (right), -1 = backward (left)
 
   function getScrollAmount() {
     var cards = track.querySelectorAll('.pub-card, .fb-card, .fb-ref-card');
@@ -865,8 +866,10 @@ function initMarquee(id) {
   function scrollNext() {
     if (isPaused) return;
     var maxScroll = track.scrollWidth - track.clientWidth;
-    var next = track.scrollLeft + getScrollAmount();
+    var amt = getScrollAmount();
+    var next = track.scrollLeft + (dir * amt);
     if (next >= maxScroll - 10) next = 0;
+    if (next <= 0) next = 0;
     track.scrollTo({ left: next, behavior: 'smooth' });
   }
 
@@ -874,6 +877,10 @@ function initMarquee(id) {
     var prev = track.scrollLeft - getScrollAmount();
     if (prev <= 0) prev = 0;
     track.scrollTo({ left: prev, behavior: 'smooth' });
+  }
+
+  function flipDir() {
+    dir = dir === 1 ? -1 : 1;
   }
 
   function startAutoScroll() {
@@ -885,8 +892,8 @@ function initMarquee(id) {
     if (interval) { clearInterval(interval); interval = null; }
   }
 
-  if (leftArrow) leftArrow.addEventListener('click', function() { stopAutoScroll(); scrollPrev(); });
-  if (rightArrow) rightArrow.addEventListener('click', function() { stopAutoScroll(); scrollNext(); });
+  if (leftArrow) leftArrow.addEventListener('click', function() { stopAutoScroll(); flipDir(); scrollNext(); });
+  if (rightArrow) rightArrow.addEventListener('click', function() { stopAutoScroll(); flipDir(); scrollNext(); });
 
   marquee.addEventListener('mouseenter', function() { isPaused = true; });
   marquee.addEventListener('mouseleave', function() { isPaused = false; });
@@ -909,6 +916,7 @@ function initMarquee(id) {
       if (diff > 0) scrollNext();
       else scrollPrev();
     }
+    flipDir();
     startAutoScroll();
   }, { passive: true });
 
