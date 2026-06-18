@@ -235,7 +235,7 @@ require __DIR__ . '/../includes/layout-public.php';
       </div>
 
       <div class="stitch-hero-actions">
-        <button class="stitch-btn stitch-btn-primary" onclick="<?php if ($viewerIsPremium || $userId === $ownerUserId || ($user && str_contains($user['role'] ?? '', 'investor'))): ?>document.getElementById('interest-modal').classList.add('open')<?php else: ?>location.href='<?= APP_URL ?>/upgrade'<?php endif; ?>">
+        <button class="stitch-btn stitch-btn-primary" onclick="<?php if ($viewerIsPremium || $userId === $ownerUserId): ?>document.getElementById('interest-modal').classList.add('open')<?php else: ?>location.href='<?= APP_URL ?>/upgrade'<?php endif; ?>">
           <i class="fas fa-envelope" style="font-size:16px;"></i>
           Contact Seller
         </button>
@@ -692,6 +692,11 @@ require __DIR__ . '/../includes/layout-public.php';
         <a href="<?= APP_URL ?>/business/edit.php?id=<?= $businessId ?>" class="stitch-sidebar-cta">Edit Listing</a>
         <?php elseif ($viewerIsPremium || $hasInquired || $hasMatch): ?>
         <button class="stitch-sidebar-cta" onclick="alert('Name: <?= e($business['owner_name']) ?>\nEmail: <?= e($business['owner_email']) ?>\nPhone: <?= e($business['owner_phone'] ?? '—') ?>')">View Contact Details</button>
+        <?php elseif ($user && str_contains($user['role'] ?? '', 'investor')): ?>
+        <button class="stitch-sidebar-cta" onclick="document.getElementById('interest-modal').classList.add('open')" style="border-color:var(--color-primary);color:var(--color-primary);">
+          <i class="fas fa-paper-plane" style="font-size:13px;"></i> Send Proposal
+        </button>
+        <a href="<?= APP_URL ?>/upgrade" class="stitch-sidebar-cta" style="display:block;text-align:center;margin-top:6px;">Unlock Contact — Go Premium</a>
         <?php else: ?>
         <a href="<?= APP_URL ?>/upgrade" class="stitch-sidebar-cta" style="display:block;text-align:center;">Unlock Contact — Go Premium</a>
         <?php endif; ?>
