@@ -74,7 +74,8 @@ require __DIR__ . '/../includes/header.php';
 }
 @media (max-width:639px) {
   .hp-hero-actions { flex-direction:column; }
-  .hp-hero-actions a { width:100%; text-align:center; }
+  .hp-hero-actions a,
+  .hp-hero-play { width:100%; text-align:center; justify-content:center; }
 }
 
 /* ── Hero background overlay ── */
@@ -147,34 +148,28 @@ require __DIR__ . '/../includes/header.php';
   border-color:#fff;
 }
 
-.hp-hero-content {
-  display:flex; align-items:center; justify-content:space-between;
-  gap:48px; max-width:100%;
-}
-.hp-hero-left { max-width:640px; flex:1 1 auto; }
-.hp-hero-right { flex-shrink:0; }
+.hp-hero-content { max-width:100%; }
+.hp-hero-left { max-width:640px; }
 @media (max-width:767px) {
-  .hp-hero-content { flex-direction:column; gap:32px; }
   .hp-hero-left { max-width:100%; }
-  .hp-hero-right { align-self:center; }
 }
 
 /* ── Hero play button ── */
 .hp-hero-play {
-  display:inline-flex; align-items:center; gap:10px;
-  padding:16px 32px;
-  background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.25);
-  border-radius:999px; color:#fff; cursor:pointer;
-  font-size:16px; font-weight:600; font-family:inherit;
-  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
-  transition:background .2s, border-color .2s, transform .2s, box-shadow .2s;
-  box-shadow:0 0 0 0 rgba(255,0,0,0);
+  display:inline-flex; align-items:center; gap:8px;
+  padding:14px 24px;
+  background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2);
+  border-radius:10px; color:#fff; cursor:pointer;
+  font-size:1.05rem; font-weight:600; font-family:inherit;
+  transition:background .15s, border-color .15s, transform .15s;
 }
-.hp-hero-play:hover { background:rgba(255,0,0,0.9); border-color:#ff0000; transform:scale(1.05); box-shadow:0 0 30px rgba(255,0,0,0.3); }
-.hp-hero-play svg { color:#ff0000; width:28px; height:28px; transition:color .2s, transform .2s; }
-.hp-hero-play:hover svg { color:#fff; transform:scale(1.1); }
-@media (max-width:767px) {
-  .hp-hero-play { padding:14px 28px; font-size:15px; }
+.hp-hero-play:hover { background:rgba(255,0,0,0.9); border-color:#ff0000; transform:scale(1.04); }
+.hp-hero-play svg { color:#ff0000; width:20px; height:20px; transition:color .15s; }
+.hp-hero-play:hover svg { color:#fff; }
+@media (max-width:639px) {
+  .hp-hero-actions { flex-direction:column; }
+  .hp-hero-actions a,
+  .hp-hero-play { width:100%; text-align:center; justify-content:center; }
 }
 
 /* ── Video modal ── */
@@ -518,16 +513,13 @@ require __DIR__ . '/../includes/header.php';
           <a href="<?= APP_URL ?>/onboarding" class="btn btn-primary">Get Started Now</a>
           <a href="<?= APP_URL ?>/browse/businesses" class="btn btn-outline">Explore Businesses</a>
           <?php endif; ?>
+          <?php if ($hero_video_id): ?>
+          <button type="button" class="hp-hero-play" aria-label="Watch video" onclick="openHeroVideo()">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16V8l8 4-8 4z"/></svg>
+            <span>Watch</span>
+          </button>
+          <?php endif; ?>
         </div>
-      </div>
-      <?php if ($hero_video_id): ?>
-      <div class="hp-hero-right">
-        <button type="button" class="hp-hero-play" aria-label="Watch video" onclick="openHeroVideo()">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16V8l8 4-8 4z"/></svg>
-          <span>Watch Video</span>
-        </button>
-      </div>
-      <?php endif; ?>
     </div>
   </div>
 </section>
