@@ -388,6 +388,29 @@
         document.getElementById('btn-back').addEventListener('click', function () {
             goToStep(currentStep - 1);
         });
+
+        form.addEventListener('submit', function (e) {
+            if (currentStep === 4) {
+                var agree = form.querySelector('[name="agree"]');
+                if (!agree || !agree.checked) {
+                    e.preventDefault();
+                    var overlay = document.createElement('div');
+                    overlay.className = 'modal-overlay';
+                    overlay.onclick = function (ev) { if (ev.target === overlay) overlay.remove(); };
+                    overlay.innerHTML =
+                        '<div class="modal-content" style="max-width:420px;text-align:center;">' +
+                            '<button class="modal-close" onclick="this.closest(\'.modal-overlay\').remove()">&times;</button>' +
+                            '<div style="margin:1rem 0 0.5rem;">' +
+                                '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>' +
+                            '</div>' +
+                            '<h3 style="margin:0 0 0.5rem;">Terms & Conditions Required</h3>' +
+                            '<p style="color:var(--dash-ink-soft);font-size:0.9rem;margin:0 0 1.5rem;">Please agree to the Terms of Service and Privacy Policy before creating your account.</p>' +
+                            '<button class="btn btn-primary" onclick="this.closest(\'.modal-overlay\').remove()">Got it</button>' +
+                        '</div>';
+                    document.body.appendChild(overlay);
+                }
+            }
+        });
     }
 
     if (document.readyState === 'loading') {
