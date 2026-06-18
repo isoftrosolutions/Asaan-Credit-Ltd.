@@ -23,6 +23,27 @@ $faqs = db()->query("SELECT * FROM faqs WHERE is_active=1 ORDER BY sort_order LI
 
 $featured_investors = db()->query("SELECT u.id, u.name, u.company_name, u.province, u.district, u.profile_photo, u.bio, u.account_type, u.is_premium, u.created_at, ip.total_capital_deployed, ip.past_investments, ip.preferred_sectors, ip.ticket_min, ip.ticket_max FROM users u JOIN investor_profiles ip ON ip.user_id = u.id WHERE u.role = 'investor' AND u.verification_status = 'verified' ORDER BY u.is_premium DESC, u.last_login_at DESC LIMIT 8")->fetchAll();
 
+$fallback_investor_partners = [
+    ['name' => 'Summit Growth Capital', 'type' => 'Investor Network', 'logo' => null, 'initials' => 'SG', 'accent' => '#98202A'],
+    ['name' => 'Nexus Investment Advisors', 'type' => 'Advisory Partner', 'logo' => null, 'initials' => 'NI', 'accent' => '#12304A'],
+    ['name' => 'Himalayan Angel Circle', 'type' => 'Angel Investor Group', 'logo' => null, 'initials' => 'HA', 'accent' => '#1E7A4D'],
+    ['name' => 'Kathmandu Capital Partners', 'type' => 'Investment Partner', 'logo' => null, 'initials' => 'KC', 'accent' => '#6B1D22'],
+    ['name' => 'Everest Venture Network', 'type' => 'Venture Partner', 'logo' => null, 'initials' => 'EV', 'accent' => '#3b6281'],
+    ['name' => 'Lumbini Growth Fund', 'type' => 'Growth Investor', 'logo' => null, 'initials' => 'LG', 'accent' => '#B45309'],
+];
+
+$investor_partners = [];
+try {
+    $investor_partners = db()->query("SELECT name, partner_type AS type, logo_path AS logo, initials, accent_color AS accent FROM investor_partners WHERE is_active = 1 ORDER BY sort_order ASC, id ASC")->fetchAll();
+} catch (Throwable $e) {
+    $investor_partners = [];
+}
+
+if (empty($investor_partners)) {
+    $investor_partners = $fallback_investor_partners;
+}
+$investor_partner_loop = array_merge($investor_partners, $investor_partners);
+
 $pageTitle = APP_NAME_LONG;
 $pageDescription = 'Nepal\'s #1 marketplace for buying, selling, and investing in businesses. Connect with 44,000+ verified investors and 67,500+ business owners.';
 $forcePublicHeader = true; // home keeps the public marketing nav even when logged in
@@ -506,6 +527,99 @@ require __DIR__ . '/../includes/header.php';
   min-height:44px;
 }
 
+.hp-investor-partners {
+  overflow:hidden;
+  border-top:1px solid var(--dash-border);
+  border-bottom:1px solid var(--dash-border);
+}
+.hp-investor-marquee {
+  position:relative;
+  overflow:hidden;
+  margin-top:32px;
+  border:1px solid var(--dash-border);
+  border-radius:var(--dash-radius-card);
+  background:var(--dash-card);
+  box-shadow:var(--dash-shadow);
+  padding:16px 0;
+}
+.hp-investor-marquee::before,
+.hp-investor-marquee::after {
+  content:"";
+  position:absolute;
+  top:0;
+  width:88px;
+  height:100%;
+  z-index:2;
+  pointer-events:none;
+}
+.hp-investor-marquee::before {
+  left:0;
+  background:linear-gradient(90deg, var(--dash-card), rgba(255,255,255,0));
+}
+.hp-investor-marquee::after {
+  right:0;
+  background:linear-gradient(270deg, var(--dash-card), rgba(255,255,255,0));
+}
+.hp-investor-marquee-track {
+  display:flex;
+  width:max-content;
+  gap:16px;
+  animation:hpInvestorMarquee 28s linear infinite;
+}
+.hp-investor-marquee:hover .hp-investor-marquee-track {
+  animation-play-state:paused;
+}
+.hp-investor-logo-tile {
+  width:178px;
+  min-height:110px;
+  flex:0 0 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:1px solid var(--dash-border);
+  border-radius:14px;
+  background:#fff;
+  padding:16px;
+}
+.hp-investor-logo-mark {
+  width:52px;
+  height:52px;
+  border-radius:14px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-family:var(--font-heading);
+  font-size:1rem;
+  font-weight:800;
+}
+.hp-investor-logo-img {
+  max-width:120px;
+  max-height:52px;
+  object-fit:contain;
+}
+.hp-investor-logo-name {
+  max-width:140px;
+  color:var(--dash-ink);
+  font-size:.78rem;
+  font-weight:700;
+  text-align:center;
+  line-height:1.25;
+}
+.hp-investor-logo-type {
+  color:var(--dash-ink-soft);
+  font-size:.68rem;
+  font-weight:600;
+  text-align:center;
+  line-height:1.2;
+}
+@keyframes hpInvestorMarquee {
+  from { transform:translateX(-50%); }
+  to { transform:translateX(0); }
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion:reduce) {
   *, *::before, *::after {
@@ -514,6 +628,7 @@ require __DIR__ . '/../includes/header.php';
     transition-duration:0.01ms !important;
   }
   .hp-card-stagger { opacity:1; transform:none; }
+  .hp-investor-marquee-track { animation:none; transform:translateX(0); flex-wrap:wrap; justify-content:center; }
 }
 </style>
 <main class="pub-page">
@@ -1036,6 +1151,39 @@ $pitchStages = ['idea'=>'Idea', 'prototype'=>'Prototype', 'early_traction'=>'Ear
   </div>
 </section>
 <?php endif; ?>
+
+<!-- Investor Partners -->
+<section class="pub-section surface hp-investor-partners">
+  <div class="pub-wrap">
+    <div class="pub-section-head">
+      <span class="pub-eyebrow">Investor Network</span>
+      <h2 class="pub-h2" style="margin-bottom:16px;">Our Investor Partners</h2>
+      <p class="pub-text">Trusted investor groups, advisors, and capital partners connected with the <?= e(APP_NAME_LONG) ?> ecosystem.</p>
+    </div>
+  </div>
+  <div class="hp-investor-marquee" aria-label="Investor partner logo marquee">
+    <div class="hp-investor-marquee-track">
+      <?php foreach ($investor_partner_loop as $partner): ?>
+        <?php
+          $partnerName = $partner['name'] ?? '';
+          $partnerType = $partner['type'] ?? '';
+          $partnerLogo = $partner['logo'] ?? '';
+          $partnerInitials = $partner['initials'] ?: mb_strtoupper(mb_substr($partnerName, 0, 2));
+          $partnerAccent = $partner['accent'] ?: '#98202A';
+        ?>
+        <div class="hp-investor-logo-tile">
+          <?php if (!empty($partnerLogo)): ?>
+            <img class="hp-investor-logo-img" src="<?= e(upload_url($partnerLogo)) ?>" alt="<?= e($partnerName) ?> logo">
+          <?php else: ?>
+            <span class="hp-investor-logo-mark" style="background:<?= e($partnerAccent) ?>;"><?= e($partnerInitials) ?></span>
+          <?php endif; ?>
+          <span class="hp-investor-logo-name"><?= e($partnerName) ?></span>
+          <?php if ($partnerType): ?><span class="hp-investor-logo-type"><?= e($partnerType) ?></span><?php endif; ?>
+        </div>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
 
 <?php if (!empty($faqs)): ?>
 <?php

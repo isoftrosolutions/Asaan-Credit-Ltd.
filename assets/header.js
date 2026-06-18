@@ -59,6 +59,7 @@ const ADMIN_LINKS = [
   ['Email Templates', '/admin/email-templates', 'document'],
   ['Email Log', '/admin/email-log', 'mail'],
   ['FAQs', '/admin/faqs', 'bell'],
+  ['Investor Partners', '/admin/investor-partners', 'users'],
   ['Blog', '/admin/blog', 'document'],
   ['Homepage', '/admin/homepage', 'settings'],
 ];
@@ -67,7 +68,6 @@ const PUBLIC_NAV = [
   ['Home', '/'],
   ['Investor & Entrepreneur', '/browse/businesses'],
   ['About Us', '/about'],
-  ['Our Partners', '/our-partners'],
   ['Blog', '/blog'],
   ['Contact', '/contact'],
 ];

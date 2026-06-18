@@ -167,6 +167,7 @@ if (!defined('UI_PHP_LOADED')) {
             ['Email Templates', '/admin/email-templates', 'document'],
             ['Email Log', '/admin/email-log', 'mail'],
             ['FAQs', '/admin/faqs', 'bell'],
+            ['Investor Partners', '/admin/investor-partners', 'users'],
             ['Blog', '/admin/blog', 'document'],
             ['Homepage', '/admin/homepage', 'settings'],
         ];
