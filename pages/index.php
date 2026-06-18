@@ -612,7 +612,7 @@ document.addEventListener('keydown', function(e) {
       <h2 class="pub-h2" style="margin-bottom:12px;">Nepal's most trusted business matching platform</h2>
       <p class="pub-text" style="max-width:640px;margin:0 auto;color:var(--dash-ink-soft);">We make it safe, simple, and smart to find the right business partner — whether you're buying, selling, investing, or raising capital.</p>
     </div>
-    <img src="<?= APP_URL ?>/public/uploads/mac_deal_map.jpg" alt="" class="hp-why-img">
+    <img src="<?= APP_URL ?>/public/uploads/2.png" alt="" class="hp-why-img">
     <div class="hp-grid-2" style="display:grid;gap:32px;">
       <div class="hp-why-card">
         <div class="hp-why-icon">
