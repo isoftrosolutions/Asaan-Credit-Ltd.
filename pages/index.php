@@ -447,7 +447,7 @@ require __DIR__ . '/../includes/header.php';
   <div class="hp-hero-inner pub-wrap">
     <div class="hp-hero-content">
       <h1 class="hp-hero-title pub-h1" style="margin-bottom:20px;">
-        <span class="highlight"><?= $hero_title ?></span>
+        <?= $hero_title ?>
       </h1>
       <p class="hp-hero-sub pub-lead" style="max-width:560px;">
         <?= e($hero_subtitle) ?>
