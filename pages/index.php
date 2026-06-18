@@ -720,6 +720,15 @@ $ltLabels = ['full_sale'=>'Business for Sale', 'partial_sale'=>'Stake Sale', 'se
   <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
     <div style="display:flex;gap:48px;align-items:flex-start;flex-direction:column;" class="fb-ref-row">
       <!-- Left Column -->
+      <div style="width:100%;display:flex;flex-direction:column;justify-content:center;" class="fb-ref-right">
+        <h2 style="font-family:var(--font-heading);font-size:28px;font-weight:700;color:var(--color-primary);margin:0 0 4px;">Businesses for Sale in Nepal</h2>
+        <h3 style="font-family:var(--font-heading);font-size:18px;font-weight:600;color:var(--color-secondary);margin:0 0 12px;">Pre-screened businesses for sale across Nepal.</h3>
+        <p style="font-size:16px;line-height:1.7;color:var(--dash-ink-soft);margin:0 0 28px;">
+          Explore pre-screened businesses for sale across Nepal. Find verified businesses looking for full sale, partial stake sale, investment, or business loans. Asaan Capital helps investors, buyers, and entrepreneurs discover trusted opportunities with confidence.
+        </p>
+        <a href="<?= APP_URL ?>/browse/businesses" style="display:inline-block;background:rgba(107,29,34,0.12);color:var(--color-primary);padding:14px 32px;border-radius:8px;font-size:16px;font-weight:700;text-decoration:none;transition:background .2s,transform .15s;align-self:flex-start;" class="fb-ref-cta">View All Businesses</a>
+      </div>
+      <!-- Right Column -->
       <div style="width:100%;position:relative;" class="fb-ref-left" id="bizMarquee">
         <!-- Carousel Arrows -->
         <div class="fb-ref-arrows">
@@ -787,15 +796,6 @@ $ltLabels = ['full_sale'=>'Business for Sale', 'partial_sale'=>'Stake Sale', 'se
           </div>
           <?php endforeach; ?>
         </div>
-      </div>
-      <!-- Right Column -->
-      <div style="width:100%;display:flex;flex-direction:column;justify-content:center;" class="fb-ref-right">
-        <h2 style="font-family:var(--font-heading);font-size:28px;font-weight:700;color:var(--color-primary);margin:0 0 4px;">Businesses for Sale in Nepal</h2>
-        <h3 style="font-family:var(--font-heading);font-size:18px;font-weight:600;color:var(--color-secondary);margin:0 0 12px;">Pre-screened businesses for sale across Nepal.</h3>
-        <p style="font-size:16px;line-height:1.7;color:var(--dash-ink-soft);margin:0 0 28px;">
-          Explore pre-screened businesses for sale across Nepal. Find verified businesses looking for full sale, partial stake sale, investment, or business loans. Asaan Capital helps investors, buyers, and entrepreneurs discover trusted opportunities with confidence.
-        </p>
-        <a href="<?= APP_URL ?>/browse/businesses" style="display:inline-block;background:rgba(107,29,34,0.12);color:var(--color-primary);padding:14px 32px;border-radius:8px;font-size:16px;font-weight:700;text-decoration:none;transition:background .2s,transform .15s;align-self:flex-start;" class="fb-ref-cta">View All Businesses</a>
       </div>
     </div>
   </div>
@@ -865,6 +865,15 @@ $pitchStages = ['idea'=>'Idea', 'prototype'=>'Prototype', 'early_traction'=>'Ear
   <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
     <div style="display:flex;gap:48px;align-items:flex-start;flex-direction:column;" class="fb-ref-row">
       <!-- Left Column -->
+      <div style="width:100%;display:flex;flex-direction:column;justify-content:center;" class="fb-ref-right">
+        <h2 style="font-family:var(--font-heading);font-size:28px;font-weight:700;color:var(--color-secondary);margin:0 0 4px;"><?= $pitchSectionTitle ?></h2>
+        <h3 style="font-family:var(--font-heading);font-size:18px;font-weight:600;color:var(--color-primary);margin:0 0 12px;">Pre-verified entrepreneurs seeking capital for growth.</h3>
+        <p style="font-size:16px;line-height:1.7;color:var(--dash-ink-soft);margin:0 0 28px;">
+          Discover pre-verified entrepreneurs and startups from Nepal seeking investment. Each pitch is reviewed by our analysts. Connect directly with founders building the next generation of Nepali businesses.
+        </p>
+        <a href="<?= APP_URL ?>/browse/entrepreneurs" style="display:inline-block;background:rgba(30,72,102,0.12);color:var(--color-secondary);padding:14px 32px;border-radius:8px;font-size:16px;font-weight:700;text-decoration:none;transition:background .2s,transform .15s;align-self:flex-start;" onmouseover="this.style.background='rgba(30,72,102,0.2)'" onmouseout="this.style.background='rgba(30,72,102,0.12)'">View All Pitches</a>
+      </div>
+      <!-- Right Column -->
       <div style="width:100%;position:relative;" class="fb-ref-left" id="pitchMarquee">
         <!-- Carousel Arrows -->
         <div class="fb-ref-arrows">
@@ -929,15 +938,6 @@ $pitchStages = ['idea'=>'Idea', 'prototype'=>'Prototype', 'early_traction'=>'Ear
           <?php endforeach; ?>
         </div>
       </div>
-      <!-- Right Column -->
-      <div style="width:100%;display:flex;flex-direction:column;justify-content:center;" class="fb-ref-right">
-        <h2 style="font-family:var(--font-heading);font-size:28px;font-weight:700;color:var(--color-secondary);margin:0 0 4px;"><?= $pitchSectionTitle ?></h2>
-        <h3 style="font-family:var(--font-heading);font-size:18px;font-weight:600;color:var(--color-primary);margin:0 0 12px;">Pre-verified entrepreneurs seeking capital for growth.</h3>
-        <p style="font-size:16px;line-height:1.7;color:var(--dash-ink-soft);margin:0 0 28px;">
-          Discover pre-verified entrepreneurs and startups from Nepal seeking investment. Each pitch is reviewed by our analysts. Connect directly with founders building the next generation of Nepali businesses.
-        </p>
-        <a href="<?= APP_URL ?>/browse/entrepreneurs" style="display:inline-block;background:rgba(30,72,102,0.12);color:var(--color-secondary);padding:14px 32px;border-radius:8px;font-size:16px;font-weight:700;text-decoration:none;transition:background .2s,transform .15s;align-self:flex-start;" onmouseover="this.style.background='rgba(30,72,102,0.2)'" onmouseout="this.style.background='rgba(30,72,102,0.12)'">View All Pitches</a>
-      </div>
     </div>
   </div>
 </section>
@@ -948,7 +948,15 @@ $pitchStages = ['idea'=>'Idea', 'prototype'=>'Prototype', 'early_traction'=>'Ear
 <section style="background:var(--dash-card);padding:64px 0;">
   <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
     <div style="display:flex;gap:48px;align-items:flex-start;flex-direction:column;" class="fb-ref-row">
-      <!-- Left Column -->
+      <div style="width:100%;display:flex;flex-direction:column;justify-content:center;" class="fb-ref-right">
+        <h2 style="font-family:var(--font-heading);font-size:28px;font-weight:700;color:var(--color-secondary);margin:0 0 4px;">Qualified Investors &amp; Buyers</h2>
+        <h3 style="font-family:var(--font-heading);font-size:18px;font-weight:600;color:var(--color-primary);margin:0 0 12px;">Verified investors actively looking for opportunities in Nepal.</h3>
+        <p style="font-size:16px;line-height:1.7;color:var(--dash-ink-soft);margin:0 0 28px;">
+          Browse our network of verified investors, from individual angel investors to venture capital firms and private equity groups. Each investor has been reviewed and has a track record of deploying capital in Nepali businesses.
+        </p>
+        <a href="<?= APP_URL ?>/browse/investors" style="display:inline-block;background:rgba(30,72,102,0.12);color:var(--color-secondary);padding:14px 32px;border-radius:8px;font-size:16px;font-weight:700;text-decoration:none;transition:background .2s,transform .15s;align-self:flex-start;" onmouseover="this.style.background='rgba(30,72,102,0.2)'" onmouseout="this.style.background='rgba(30,72,102,0.12)'">View All Investors</a>
+      </div>
+      <!-- Right Column -->
       <div style="width:100%;position:relative;" class="fb-ref-left" id="investorMarquee">
         <div class="fb-ref-arrows">
           <button class="fb-arrow fb-arrow-left" type="button" aria-label="Previous" style="position:absolute;left:-20px;top:50%;transform:translateY(-50%);z-index:10;width:40px;height:40px;border-radius:50%;border:1px solid var(--dash-border);background:#fff;display:flex;align-items:center;justify-content:center;color:var(--color-primary);box-shadow:var(--dash-shadow);cursor:pointer;transition:background .2s;">
@@ -1023,14 +1031,6 @@ $pitchStages = ['idea'=>'Idea', 'prototype'=>'Prototype', 'early_traction'=>'Ear
           </div>
           <?php endforeach; ?>
         </div>
-      </div>
-      <div style="width:100%;display:flex;flex-direction:column;justify-content:center;" class="fb-ref-right">
-        <h2 style="font-family:var(--font-heading);font-size:28px;font-weight:700;color:var(--color-secondary);margin:0 0 4px;">Qualified Investors &amp; Buyers</h2>
-        <h3 style="font-family:var(--font-heading);font-size:18px;font-weight:600;color:var(--color-primary);margin:0 0 12px;">Verified investors actively looking for opportunities in Nepal.</h3>
-        <p style="font-size:16px;line-height:1.7;color:var(--dash-ink-soft);margin:0 0 28px;">
-          Browse our network of verified investors, from individual angel investors to venture capital firms and private equity groups. Each investor has been reviewed and has a track record of deploying capital in Nepali businesses.
-        </p>
-        <a href="<?= APP_URL ?>/browse/investors" style="display:inline-block;background:rgba(30,72,102,0.12);color:var(--color-secondary);padding:14px 32px;border-radius:8px;font-size:16px;font-weight:700;text-decoration:none;transition:background .2s,transform .15s;align-self:flex-start;" onmouseover="this.style.background='rgba(30,72,102,0.2)'" onmouseout="this.style.background='rgba(30,72,102,0.12)'">View All Investors</a>
       </div>
     </div>
   </div>
