@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $db = db();
             $db->beginTransaction();
 
-            $stmt = $db->prepare("INSERT INTO users (name, email, password, account_type, role, company_name, phone, province, district, verification_status, email_verified_at, company_size, usage_goal, notifications, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'unverified', NOW(), ?, ?, ?, NOW(), NOW())");
+            $stmt = $db->prepare("INSERT INTO users (name, email, password, account_type, role, company_name, phone, province, district, verification_status, email_verified_at, company_size, usage_goal, notifications, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'verified', NOW(), ?, ?, ?, NOW(), NOW())");
             $stmt->execute([$name, $email, $hash, $accountType, $role, $company ?: null, $phone ?: null, $province ?: null, $district ?: null, $size ?: null, $goal, $notify ?: null]);
             $userId = $db->lastInsertId();
 
@@ -81,8 +81,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $_SESSION['user'] = db()->query("SELECT * FROM users WHERE id = $userId")->fetch();
 
-            flash_set('success', 'Your account has been created! An admin will review and verify your account shortly.');
-            redirect('/dashboard');
+            if ($role === 'investor') {
+                flash_set('success', 'Account created! Now complete your investor profile to start matching with opportunities.');
+                redirect('/investor/profile-create');
+            } else {
+                flash_set('success', 'Your account has been created successfully!');
+                redirect('/dashboard');
+            }
         } catch (PDOException $e) {
             $db->rollBack();
             if ($e->getCode() == 23000) {
