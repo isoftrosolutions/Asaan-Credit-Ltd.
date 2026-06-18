@@ -65,7 +65,7 @@ ui_page_header(
 
 <?php if (empty($pitches)): ?>
   <div class="dash-panel">
-    <?php ui_empty_state(['icon' => 'chart', 'title' => 'No pitches yet', 'text' => 'Create your first pitch to start connecting with investors.', 'ctaHref' => APP_URL . '/entrepreneur/pitch-create', 'ctaLabel' => 'Create pitch']); ?>
+    <?php ui_empty_state(['icon' => 'sparkles', 'title' => 'Create your first pitch', 'text' => 'Share your business idea with thousands of verified investors ready to fund the next big thing in Nepal.', 'ctaHref' => APP_URL . '/entrepreneur/pitch-create', 'ctaLabel' => 'Create your pitch']); ?>
   </div>
 <?php else: ?>
 
@@ -79,7 +79,7 @@ ui_page_header(
 </div>
 
 <?php ui_section_header('Your pitches'); ?>
-<div class="dash-panel">
+<div class="dash-panel dash-enter">
   <div class="dash-table-wrap">
     <table class="dash-table">
       <thead><tr>
@@ -91,9 +91,9 @@ ui_page_header(
         <tr>
           <td>
             <?php if (!empty($p['pitch_image'])): ?>
-              <img src="<?= APP_URL . $p['pitch_image'] ?>" alt="" style="width:48px;height:36px;object-fit:cover;border-radius:4px;">
+              <img src="<?= APP_URL . $p['pitch_image'] ?>" alt="" class="dash-pitch-thumb">
             <?php else: ?>
-              <div style="width:48px;height:36px;background:var(--color-bg-soft);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--color-text-muted);"><i class="fas fa-chart"></i></div>
+              <div class="dash-pitch-thumb-placeholder"><i class="fas fa-chart-line"></i></div>
             <?php endif; ?>
           </td>
           <td>
@@ -117,35 +117,30 @@ ui_page_header(
 </div>
 
 <?php if (!empty($interestRequests)): ?>
-  <?php ui_section_header('Recent interest requests'); ?>
-  <div class="dash-panel">
-    <div class="dash-table-wrap">
-      <table class="dash-table">
-        <thead><tr>
-          <th>Investor</th><th>Pitch</th><th>Message</th><th>Date</th><th class="ta-right">Respond</th>
-        </tr></thead>
-        <tbody>
-        <?php foreach ($interestRequests as $ir): ?>
-          <tr>
-            <td>
-              <span class="t-strong"><?= e($ir['sender_name']) ?></span><br>
-              <span class="t-muted"><?= e(ucfirst(str_replace('_', ' ', $ir['sender_role'] ?? ''))) ?></span>
-            </td>
-            <td><?= e(mb_substr($ir['pitch_tagline'], 0, 40)) ?>&hellip;</td>
-            <td class="t-muted"><?= e($ir['message'] ?? '—') ?></td>
-            <td class="t-muted"><?= date_human($ir['created_at']) ?></td>
-            <td class="ta-right">
-              <form method="POST" action="<?= APP_URL ?>/connections/respond" class="dash-table-actions">
-                <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
-                <input type="hidden" name="request_id" value="<?= $ir['id'] ?>">
-                <button type="submit" name="action" value="accept" class="btn btn-primary btn-sm">Accept</button>
-                <button type="submit" name="action" value="reject" class="btn btn-outline btn-sm" onclick="return confirm('Decline this interest request?')">Decline</button>
-              </form>
-            </td>
-          </tr>
-        <?php endforeach; ?>
-        </tbody>
-      </table>
+  <?php ui_section_header('Interest requests'); ?>
+  <div class="dash-panel dash-enter">
+    <div class="dash-ir-list">
+      <?php foreach ($interestRequests as $ir): ?>
+      <div class="dash-ir-item">
+        <div class="dash-ir-main">
+          <div class="dash-ir-name"><?= e($ir['sender_name']) ?></div>
+          <div class="dash-ir-role"><?= e(ucfirst(str_replace('_', ' ', $ir['sender_role'] ?? ''))) ?></div>
+          <div class="dash-ir-pitch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <?= e(mb_substr($ir['pitch_tagline'], 0, 40)) ?>&hellip;</div>
+          <?php if (!empty($ir['message'])): ?>
+          <div class="dash-ir-message"><?= e($ir['message']) ?></div>
+          <?php endif; ?>
+          <div class="dash-ir-date"><?= date_human($ir['created_at']) ?></div>
+        </div>
+        <div class="dash-ir-actions">
+          <form method="POST" action="<?= APP_URL ?>/connections/respond">
+            <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
+            <input type="hidden" name="request_id" value="<?= $ir['id'] ?>">
+            <button type="submit" name="action" value="accept" class="btn btn-primary btn-sm" style="width:100%;">Accept</button>
+            <button type="submit" name="action" value="reject" class="btn btn-outline btn-sm" style="width:100%;" onclick="return confirm('Decline this interest request?')">Decline</button>
+          </form>
+        </div>
+      </div>
+      <?php endforeach; ?>
     </div>
   </div>
 <?php endif; ?>
