@@ -690,8 +690,8 @@ require __DIR__ . '/../includes/layout-public.php';
 
         <?php if ($userId && $userId === $ownerUserId): ?>
         <a href="<?= APP_URL ?>/business/edit.php?id=<?= $businessId ?>" class="stitch-sidebar-cta">Edit Listing</a>
-        <?php elseif ($viewerIsPremium || $hasInquired || $hasMatch): ?>
-        <button class="stitch-sidebar-cta" onclick="alert('Name: <?= e($business['owner_name']) ?>\nEmail: <?= e($business['owner_email']) ?>\nPhone: <?= e($business['owner_phone'] ?? '—') ?>')">View Contact Details</button>
+        <?php elseif ($viewerIsPremium): ?>
+        <button class="stitch-sidebar-cta" onclick="document.getElementById('contact-modal').classList.add('open')">View Contact Details</button>
         <?php elseif ($user && str_contains($user['role'] ?? '', 'investor')): ?>
         <button class="stitch-sidebar-cta" onclick="document.getElementById('interest-modal').classList.add('open')" style="border-color:var(--color-primary);color:var(--color-primary);">
           <i class="fas fa-paper-plane" style="font-size:13px;"></i> Send Proposal
@@ -963,6 +963,33 @@ require __DIR__ . '/../includes/layout-public.php';
     <p style="margin-bottom:16px;color:var(--color-text-muted);font-size:0.875rem;">Please sign in to contact the seller.</p>
     <a href="<?= APP_URL ?>/login" class="stitch-btn-primary" style="display:block;text-align:center;">Sign In</a>
     <?php endif; ?>
+  </div>
+</div>
+
+<!-- Contact Details -->
+<div id="contact-modal" class="stitch-overlay" onclick="if(event.target===this)this.classList.remove('open')" role="dialog" aria-modal="true">
+  <div class="stitch-overlay-content" onclick="event.stopImmediatePropagation()" style="max-width:400px;">
+    <div class="stitch-overlay-header">
+      <h3>Contact Details</h3>
+      <button class="stitch-overlay-close" onclick="document.getElementById('contact-modal').classList.remove('open')">&times;</button>
+    </div>
+    <div style="padding:24px;">
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div>
+          <span style="font-size:11px;text-transform:uppercase;font-weight:600;color:var(--color-text-muted);letter-spacing:0.05em;">Name</span>
+          <p style="font-size:15px;font-weight:600;margin:4px 0 0;"><?= e($business['owner_name']) ?></p>
+        </div>
+        <div>
+          <span style="font-size:11px;text-transform:uppercase;font-weight:600;color:var(--color-text-muted);letter-spacing:0.05em;">Email</span>
+          <p style="font-size:15px;margin:4px 0 0;"><?= e($business['owner_email']) ?></p>
+        </div>
+        <div>
+          <span style="font-size:11px;text-transform:uppercase;font-weight:600;color:var(--color-text-muted);letter-spacing:0.05em;">Phone</span>
+          <p style="font-size:15px;margin:4px 0 0;"><?= e($business['owner_phone'] ?? '—') ?></p>
+        </div>
+      </div>
+      <button class="stitch-btn-primary" style="width:100%;margin-top:20px;border:none;border-radius:8px;padding:10px;font-size:14px;font-weight:600;cursor:pointer;" onclick="document.getElementById('contact-modal').classList.remove('open')">Close</button>
+    </div>
   </div>
 </div>
 
