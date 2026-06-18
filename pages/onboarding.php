@@ -84,6 +84,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($role === 'investor') {
                 flash_set('success', 'Account created! Now complete your investor profile to start matching with opportunities.');
                 redirect('/investor/profile-create');
+            } elseif ($role === 'entrepreneur') {
+                flash_set('success', 'Account created! Now create your first pitch to attract investors.');
+                redirect('/entrepreneur/pitch-create');
             } else {
                 flash_set('success', 'Your account has been created successfully!');
                 redirect('/dashboard');
@@ -207,6 +210,7 @@ require __DIR__ . '/../includes/header.php';
             <select id="role" name="role" required>
             <option value="">Select a role</option>
             <option value="owner" <?= ($_POST['role'] ?? '') === 'owner' ? 'selected' : '' ?>>Founder / Owner</option>
+            <option value="entrepreneur" <?= ($_POST['role'] ?? '') === 'entrepreneur' ? 'selected' : '' ?>>Entrepreneur</option>
             <option value="investor" <?= ($_POST['role'] ?? '') === 'investor' ? 'selected' : '' ?>>Investor</option>
           </select>
           <span class="field-error"><?= e($errors['role'] ?? '') ?></span>

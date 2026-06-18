@@ -58,6 +58,17 @@ function canAccessPremiumFeature(?array $u = null): bool {
     return isPremium($u);
 }
 
+function canCreatePitch(?array $u = null): bool {
+    $u ??= current_user();
+    if (!$u) return false;
+    $userId = (int)$u['id'];
+    $stmt = db()->prepare('SELECT COUNT(*) FROM pitches WHERE user_id = ?');
+    $stmt->execute([$userId]);
+    $count = (int)$stmt->fetchColumn();
+    $maxAllowed = isPremium($u) ? 10 : 3;
+    return $count < $maxAllowed;
+}
+
 function require_login(): void {
     if (!current_user()) {
         $_SESSION['_flash_error'] = 'Please log in to continue.';

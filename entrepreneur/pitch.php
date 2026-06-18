@@ -24,8 +24,9 @@ if (!$pitch) {
 
 $db->prepare('UPDATE pitches SET views = views + 1 WHERE id = ?')->execute([$pitchId]);
 
-$hasMatch = false;
 $ownerUserId = (int)$pitch['owner_id'];
+$viewerIsPremium = $user && (!empty($user['is_premium']) || !empty($user['is_admin']) || $userId === $ownerUserId);
+$hasMatch = false;
 
 if ($user) {
     $userId = (int)$user['id'];
@@ -261,7 +262,13 @@ require __DIR__ . '/../includes/layout-public.php';
                 <div class="sidebar-label"><?= $pitch['equity_offered'] ? 'for ' . e($pitch['equity_offered']) . '% equity' : 'Funding Ask' ?></div>
                 <?php endif; ?>
 
+                <?php if ($viewerIsPremium): ?>
                 <button class="btn-contact" onclick="document.getElementById('interest-modal').classList.add('open')">Contact Entrepreneur</button>
+                <?php elseif ($user): ?>
+                <a href="<?= APP_URL ?>/upgrade" class="btn-contact" style="display:block;text-align:center;text-decoration:none;">Unlock Contact — Go Premium</a>
+                <?php else: ?>
+                <button class="btn-contact" onclick="document.getElementById('interest-modal').classList.add('open')">Contact Entrepreneur</button>
+                <?php endif; ?>
 
                 <div class="sidebar-social-proof">
                     <strong><?= number_format(rand(5, 30)) ?> investors</strong> viewed this pitch this month
@@ -287,7 +294,11 @@ require __DIR__ . '/../includes/layout-public.php';
                 </div>
 
                 <?php if ($pitch['pitch_deck']): ?>
-                <a href="<?= APP_URL ?>/public/uploads/pitch-decks/<?= e($pitch['pitch_deck']) ?>" class="btn btn-secondary" style="width:100%;display:block;text-align:center;text-decoration:none;margin-top:1rem;" target="_blank">Download Pitch Deck (PDF)</a>
+                  <?php if ($viewerIsPremium): ?>
+                  <a href="<?= APP_URL ?>/public/uploads/pitch-decks/<?= e($pitch['pitch_deck']) ?>" class="btn btn-secondary" style="width:100%;display:block;text-align:center;text-decoration:none;margin-top:1rem;" target="_blank">Download Pitch Deck (PDF)</a>
+                  <?php else: ?>
+                  <a href="<?= APP_URL ?>/upgrade" class="btn btn-secondary" style="width:100%;display:block;text-align:center;text-decoration:none;margin-top:1rem;">Upgrade to Download Pitch Deck</a>
+                  <?php endif; ?>
                 <?php endif; ?>
 
                 <div style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid var(--color-border);font-size:0.75rem;color:var(--color-text-muted);">

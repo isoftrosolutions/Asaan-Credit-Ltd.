@@ -6,6 +6,11 @@ require_role(ROLE_ENTREPRENEUR);
 $user = current_user();
 $userId = (int)$user['id'];
 
+if (!canCreatePitch($user)) {
+    flash_set('error', 'You have reached the maximum number of pitches. Upgrade to Premium to create more.');
+    redirect('/entrepreneur/dashboard');
+}
+
 $sectors = db()->query('SELECT id, name FROM sectors WHERE is_active = 1 ORDER BY name')->fetchAll();
 
 $stages = ['idea', 'seed', 'early', 'growth', 'expansion', 'pre_ipo'];
