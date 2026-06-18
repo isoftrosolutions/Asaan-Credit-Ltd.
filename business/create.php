@@ -409,7 +409,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
             <div class="input-group">
                 <label>Upload PDF, Word Documents</label>
                 <input type="file" name="documents[]" class="input" multiple accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
-                <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Max 10MB per file. PDF, DOC, DOCX accepted. Visible to premium investors after NDA.</p>
+                <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Max 10MB per file. PDF, DOC, DOCX accepted. Visible to premium investors only.</p>
             </div>
             <div class="input-group" style="margin-top:8px;">
                 <label>Description <span style="font-weight:400;color:var(--color-text-muted);">(optional)</span></label>

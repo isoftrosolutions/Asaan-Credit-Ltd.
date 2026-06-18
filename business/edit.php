@@ -638,7 +638,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
       <!-- ═══ Documents ═══ -->
       <div class="edit-section">
         <div class="edit-section-header" onclick="this.parentElement.classList.toggle('collapsed')">
-          <h3>Documents <span style="font-weight:400;font-size:12px;color:var(--dash-ink-soft);">(premium, behind NDA)</span></h3>
+          <h3>Documents <span style="font-weight:400;font-size:12px;color:var(--dash-ink-soft);">(premium only)</span></h3>
           <span class="sec-toggle">▼</span>
         </div>
         <div class="edit-section-body">

@@ -70,7 +70,7 @@ require __DIR__ . '/../includes/header.php';
       <div class="pub-card">
         <span class="pub-badge" style="margin-bottom:var(--space-3);">Step 4 — By Week 3–4</span>
         <div class="pub-card-title">Share Documents</div>
-        <p class="pub-card-text">Share confidential documents with serious buyers after mutual NDA. Conduct management discussions.</p>
+        <p class="pub-card-text">Share confidential documents with serious buyers. Conduct management discussions.</p>
       </div>
       <div class="pub-card">
         <span class="pub-badge" style="margin-bottom:var(--space-3);">Step 5 — By Month 3</span>
@@ -111,8 +111,8 @@ require __DIR__ . '/../includes/header.php';
       </div>
       <div class="pub-card">
         <span class="pub-badge info" style="margin-bottom:var(--space-3);">Step 4 — By Week 3–4</span>
-        <div class="pub-card-title">NDA &amp; Documents</div>
-        <p class="pub-card-text">Sign NDA through platform. Access confidential financial documents and data room.</p>
+        <div class="pub-card-title">Access Documents</div>
+        <p class="pub-card-text">Premium members can access confidential financial documents and data room.</p>
       </div>
       <div class="pub-card">
         <span class="pub-badge info" style="margin-bottom:var(--space-3);">Step 5 — By Month 3</span>

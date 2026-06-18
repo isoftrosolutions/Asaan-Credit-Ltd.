@@ -751,41 +751,6 @@
 .ds-doc-card-info .name { font-size: var(--ds-small); font-weight: 600; color: var(--ds-text); }
 .ds-doc-card-info .desc { font-size: var(--ds-label); color: var(--ds-muted); }
 
-.ds-nda-banner {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 20px;
-  background: var(--ds-soft);
-  border-radius: var(--ds-radius-sm);
-  margin-top: 16px;
-  flex-wrap: wrap;
-}
-
-.ds-nda-banner-text { flex: 1; min-width: 0; }
-.ds-nda-banner-text h4 { margin: 0 0 2px; font-size: var(--ds-body); font-weight: 700; }
-.ds-nda-banner-text p { margin: 0; font-size: var(--ds-small); color: var(--ds-text-secondary); }
-
-.ds-btn-nda {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--ds-primary);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: var(--ds-small);
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-  transition: background 0.2s;
-  white-space: nowrap;
-}
-
-.ds-btn-nda:hover { background: #0D4B74; }
-.ds-btn-nda.signed { background: var(--ds-success); cursor: default; }
-
 /* ─── Reason For Sale ─── */
 .ds-reason {
   font-size: var(--ds-body);
@@ -1766,56 +1731,6 @@
 @media (max-width: 767px) {
   .stitch-highlights-grid { grid-template-columns: repeat(2, 1fr); }
 }
-
-/* ─── Documents & NDA ─── */
-.stitch-nda-card {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  background: var(--ds-surface);
-  border: 1px solid var(--ds-border);
-  border-radius: var(--ds-radius);
-  padding: 24px 28px;
-  box-shadow: var(--ds-shadow);
-  flex-wrap: wrap;
-}
-
-.stitch-nda-text { flex: 1; min-width: 200px; }
-.stitch-nda-text p { margin: 0 0 12px; font-size: var(--ds-body); color: var(--ds-text-secondary); }
-
-.stitch-doc-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-.stitch-doc-list span {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: var(--ds-small);
-  color: var(--ds-text-secondary);
-  opacity: .6;
-}
-
-.stitch-nda-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--color-primary);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 14px 28px;
-  font-size: var(--ds-small);
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all .2s;
-  white-space: nowrap;
-  text-decoration: none;
-}
-.stitch-nda-btn:hover { background: #4A1317; transform: translateY(-1px); }
-.stitch-nda-btn.signed { background: var(--ds-success); cursor: default; }
 
 .stitch-doc-links {
   display: flex;

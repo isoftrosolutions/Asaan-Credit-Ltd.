@@ -67,13 +67,6 @@ $inqS = $db->prepare('SELECT COUNT(*) FROM business_inquiries WHERE business_id 
 $inqS->execute([$businessId]);
 $inquiryCount = (int)$inqS->fetchColumn();
 
-$ndaSigned = false;
-if ($userId) {
-    $ndaS = $db->prepare('SELECT signed FROM nda_requests WHERE business_id = ? AND investor_id = ? AND signed = 1 LIMIT 1');
-    $ndaS->execute([$businessId, $userId]);
-    $ndaSigned = (bool)$ndaS->fetchColumn();
-}
-
 $hasInquired = false;
 if ($userId) {
     $inqC = $db->prepare('SELECT id FROM business_inquiries WHERE business_id = ? AND user_id = ? LIMIT 1');
@@ -558,31 +551,11 @@ require __DIR__ . '/../includes/layout-public.php';
     </section>
     <?php endif; ?>
 
-    <!-- ── Documents & NDA ── -->
-    <?php if ($userId && $userId === $ownerUserId || $viewerIsPremium): ?>
+    <!-- ── Documents ── -->
+    <?php if (!empty($documents)): ?>
     <section class="stitch-section">
-      <h2 class="stitch-section-title">Documents &amp; NDA</h2>
-      <div class="stitch-nda-card">
-        <div class="stitch-nda-text">
-          <p>Sign a Non-Disclosure Agreement to access detailed documents and financial information.</p>
-          <div class="stitch-doc-list">
-            <span><i class="fas fa-file-alt" style="font-size:15px;"></i> Financial Statements</span>
-            <span><i class="fas fa-file-alt" style="font-size:15px;"></i> Customer Contracts</span>
-            <span><i class="fas fa-file-alt" style="font-size:15px;"></i> Business Plan</span>
-          </div>
-        </div>
-        <?php if ($userId): ?>
-          <?php if ($ndaSigned): ?>
-          <span class="stitch-nda-btn signed">NDA Signed</span>
-          <?php else: ?>
-          <button class="stitch-nda-btn" onclick="signNda(<?= $businessId ?>, this)">Sign NDA to Unlock</button>
-          <?php endif; ?>
-        <?php else: ?>
-        <a href="<?= APP_URL ?>/login" class="stitch-nda-btn">Sign NDA to Unlock</a>
-        <?php endif; ?>
-      </div>
-
-      <?php if (!empty($documents)): ?>
+      <h2 class="stitch-section-title">Documents</h2>
+      <?php if ($viewerIsPremium || $userId === $ownerUserId): ?>
       <div class="stitch-doc-links">
         <?php foreach ($documents as $d): $ext = strtolower(pathinfo($d['original_name'], PATHINFO_EXTENSION)); ?>
         <a href="<?= upload_url($d['file_path']) ?>" target="_blank" class="stitch-doc-item">
@@ -602,16 +575,14 @@ require __DIR__ . '/../includes/layout-public.php';
         </a>
         <?php endforeach; ?>
       </div>
-      <?php endif; ?>
-    </section>
-    <?php else: ?>
-    <section class="stitch-section">
-      <div class="stitch-nda-card" style="text-align:center;padding:32px;">
+      <?php else: ?>
+      <div class="stitch-doc-card" style="text-align:center;padding:32px;">
         <i class="fas fa-file-alt" style="font-size:36px;color:var(--color-text-muted);margin-bottom:12px;display:block;"></i>
         <h3 style="margin:0 0 8px;font-size:16px;">Documents are Premium</h3>
         <p style="font-size:13px;color:var(--color-text-muted);margin:0 0 16px;">Upgrade to a premium account to access financial statements, contracts, and reports.</p>
         <a href="<?= APP_URL ?>/upgrade" class="stitch-btn-primary" style="display:inline-block;font-size:13px;padding:8px 20px;text-decoration:none;">Upgrade to Premium</a>
       </div>
+      <?php endif; ?>
     </section>
     <?php endif; ?>
 
@@ -850,7 +821,6 @@ require __DIR__ . '/../includes/layout-public.php';
         </div>
         <div class="stitch-card-body">
           <ul>
-            <li><i class="fas fa-check" style="font-size:13px;"></i> NDA protection</li>
             <li><i class="fas fa-check" style="font-size:13px;"></i> Secure data room</li>
             <li><i class="fas fa-check" style="font-size:13px;"></i> Confidential inquiries</li>
           </ul>
@@ -992,21 +962,6 @@ require __DIR__ . '/../includes/layout-public.php';
     </div>
   </div>
 </div>
-
-<script>
-function signNda(businessId, btn) {
-  fetch('<?= APP_URL ?>/api/sign-nda.php', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    body: 'business_id=' + businessId + '&_csrf=<?= csrf_token() ?>'
-  }).then(function(r) { return r.json(); }).then(function(d) {
-    if (d.ok) {
-      btn.outerHTML = '<span class="stitch-nda-btn signed">NDA Signed</span>';
-    } else {
-      alert(d.error || 'Failed to sign NDA');
-    }
-  }).catch(function() { alert('Error signing NDA'); });
-}
 
 document.addEventListener('DOMContentLoaded', function() {
   var saveBtn = document.getElementById('saveBtn');
