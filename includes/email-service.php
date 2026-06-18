@@ -216,11 +216,28 @@ class EmailService {
             $mail->CharSet    = 'UTF-8';
 
             $mail->setFrom($cfg['from_email'], $cfg['from_name']);
+            $mail->addReplyTo($cfg['from_email'], $cfg['from_name']);
             $mail->addAddress($to);
+
+            $domain = $cfg['domain'] ?? 'asaancapital.com';
+            $msgId  = time() . '.' . bin2hex(random_bytes(8)) . '@' . $domain;
+            $mail->MessageID = '<' . $msgId . '>';
+            $mail->addCustomHeader('X-Mailer', 'AsaanCapital Mailer/1.0');
+            $mail->addCustomHeader('X-Priority', '3');
+
+            $mail->Sender = $cfg['from_email'];
+
             $mail->isHTML(true);
             $mail->Subject = $subject;
             $mail->Body    = $body;
             $mail->AltBody = self::htmlToText($body);
+
+            // DKIM — configure paths when keys are generated
+            // $mail->DKIM_domain      = $domain;
+            // $mail->DKIM_private     = '/path/to/dkim/private.key';
+            // $mail->DKIM_selector    = 'default';
+            // $mail->DKIM_passphrase  = '';
+            // $mail->DKIM_identity    = $mail->From;
 
             $mail->send();
             return ['success' => true, 'error' => null];
@@ -273,6 +290,7 @@ class EmailService {
             'password'   => defined('SMTP_PASS') ? SMTP_PASS : '',
             'from_email' => defined('MAIL_FROM') ? MAIL_FROM : 'noreply@asaancapital.com',
             'from_name'  => defined('MAIL_FROM_NAME') ? MAIL_FROM_NAME : 'Asaan Capital Ltd',
+            'domain'     => defined('MAIL_DOMAIN') ? MAIL_DOMAIN : 'asaancapital.com',
             'active'     => (defined('SMTP_USER') && SMTP_USER !== '' && defined('SMTP_PASS') && SMTP_PASS !== ''),
         ];
 

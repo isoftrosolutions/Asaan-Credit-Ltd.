@@ -36,17 +36,18 @@ define('UPLOAD_MAX_BYTES', 10485760);
 define('UPLOAD_MAX_BYTES_PHOTO', 2097152);
 define('UPLOAD_ALLOWED_MIME', 'application/pdf,image/jpeg,image/png,image/webp');
 
-// MAIL_DRIVER: 'smtp' to send via Gmail/SMTP, 'log' to write emails to storage/mail/.
-// When 'smtp' is selected but SMTP_USER/SMTP_PASS are blank, the mailer falls
+// MAIL_DRIVER: 'smtp' to send via SMTP server, 'log' to write emails to storage/mail/.
+// When 'smtp' is selected but no SMTP credentials are found, the mailer falls
 // back to the log driver automatically so the app never errors during local dev.
+// Live SMTP credentials are loaded from the `email_settings` DB table (admin UI).
+// The constants below are fallback defaults only.
 define('MAIL_DRIVER', 'smtp');
 define('MAIL_FROM', 'noreply@asaancapital.com');
 define('MAIL_FROM_NAME', 'Asaan Capital Ltd');
+define('MAIL_DOMAIN', 'asaancapital.com');
 
-// --- SMTP (Gmail) ---
-// SMTP_USER = your full Gmail address, SMTP_PASS = a Gmail "App Password"
-// (Google Account → Security → 2-Step Verification → App passwords).
-define('SMTP_HOST', 'smtp.gmail.com');
+// --- SMTP fallback (used only when email_settings DB table is empty) ---
+define('SMTP_HOST', 'mail.asaancapital.com');
 define('SMTP_PORT', 587);
 define('SMTP_ENCRYPTION', 'tls');   // 'tls' (port 587) or 'ssl' (port 465)
 define('SMTP_USER', '');
