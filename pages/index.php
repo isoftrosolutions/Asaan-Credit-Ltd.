@@ -1345,9 +1345,13 @@ function initMarquee(id) {
   function scrollNext() {
     if (isPaused) return;
     var maxScroll = track.scrollWidth - track.clientWidth;
+    if (maxScroll <= 2) return;
+    if (track.scrollLeft >= maxScroll - 10) {
+      track.scrollTo({ left: 0, behavior: 'smooth' });
+      return;
+    }
     var amt = getScrollAmount();
-    var next = track.scrollLeft + amt;
-    if (next >= maxScroll - 10) next = 0;
+    var next = Math.min(track.scrollLeft + amt, maxScroll);
     track.scrollTo({ left: next, behavior: 'smooth' });
   }
 

@@ -77,6 +77,7 @@ $routes = [
     '/admin/pages/edit'             => 'admin/content/page-edit.php',
     '/admin/blog'                   => 'admin/content/blog.php',
     '/admin/blog/edit'              => 'admin/content/blog-edit.php',
+    '/admin/blog/image-upload'      => 'admin/blog-image-upload.php',
     '/admin/homepage'               => 'admin/content/homepage.php',
     '/admin/email-settings'         => 'admin/email-settings.php',
     '/admin/site-settings'          => 'admin/site-settings.php',

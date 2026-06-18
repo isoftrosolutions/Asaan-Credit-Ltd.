@@ -160,4 +160,31 @@ if (!$p) {
 </div>
 
 <script src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+<script>
+document.addEventListener('trix-attachment-add', function(event) {
+  var attachment = event.attachment;
+  if (!attachment.file) return;
+
+  var form = new FormData();
+  form.append('file', attachment.file);
+  form.append('<?= CSRF_TOKEN_NAME ?>', '<?= csrf_token() ?>');
+
+  fetch('<?= APP_URL ?>/admin/blog/image-upload', {
+    method: 'POST',
+    body: form,
+    credentials: 'same-origin'
+  })
+    .then(function(response) {
+      if (!response.ok) throw new Error('Upload failed');
+      return response.json();
+    })
+    .then(function(data) {
+      attachment.setAttributes({ url: data.url, href: data.url });
+    })
+    .catch(function() {
+      attachment.remove();
+      alert('Image upload failed. Please use JPG, PNG, or WebP under 3MB.');
+    });
+});
+</script>
 <?php require __DIR__ . '/../../includes/footer.php'; ?>
