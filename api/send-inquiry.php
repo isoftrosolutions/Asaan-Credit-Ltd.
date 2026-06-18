@@ -69,9 +69,9 @@ try {
     ]);
     $notifyStmt->execute([
         $userId,
-        'Inquiry Sent',
-        'Your inquiry for ' . $business['business_name'] . ' was sent to the business owner.',
-        '/connections'
+        'Proposal Sent',
+        'Your proposal for ' . $business['business_name'] . ' has been sent. Check Messages for the conversation.',
+        '/messages'
     ]);
 
     send_interest_received_email(
@@ -84,6 +84,42 @@ try {
         $message ?: 'No message provided.'
     );
 
+    // Create or reuse a conversation and insert the first message.
+    $ownerId = (int)$business['user_id'];
+    $convStmt = $db->prepare('
+        SELECT c.id FROM conversations c
+        JOIN conversation_participants cp1 ON cp1.conversation_id = c.id AND cp1.user_id = ?
+        JOIN conversation_participants cp2 ON cp2.conversation_id = c.id AND cp2.user_id = ?
+        LIMIT 1
+    ');
+    $convStmt->execute([$userId, $ownerId]);
+    $existingConv = $convStmt->fetch();
+
+    if ($existingConv) {
+        $conversationId = (int)$existingConv['id'];
+        $msgStmt = $db->prepare('INSERT INTO messages (conversation_id, sender_id, message, created_at) VALUES (?, ?, ?, NOW())');
+        $msgStmt->execute([$conversationId, $userId, $message]);
+        $db->prepare('UPDATE conversations SET updated_at = NOW() WHERE id = ?')->execute([$conversationId]);
+    } else {
+        $convInsert = $db->prepare('INSERT INTO conversations () VALUES ()');
+        $convInsert->execute();
+        $conversationId = (int)$db->lastInsertId();
+
+        $partStmt = $db->prepare('INSERT INTO conversation_participants (conversation_id, user_id, last_read_at) VALUES (?, ?, NOW()), (?, ?, NULL)');
+        $partStmt->execute([$conversationId, $userId, $conversationId, $ownerId]);
+
+        $msgStmt = $db->prepare('INSERT INTO messages (conversation_id, sender_id, message, created_at) VALUES (?, ?, ?, NOW())');
+        $msgStmt->execute([$conversationId, $userId, $message]);
+    }
+
+    // Notify the owner about the new message.
+    $notifyStmt->execute([
+        $ownerId,
+        'New Message',
+        ($buyer['name'] ?? 'A user') . ' sent you a proposal about ' . $business['business_name'],
+        '/messages'
+    ]);
+
     $db->commit();
 } catch (\Throwable $e) {
     if ($db->inTransaction()) {
@@ -94,5 +130,5 @@ try {
     redirect('/business/' . ($business['slug'] ?: $business['id']));
 }
 
-flash_set('success', 'Your inquiry has been sent to the seller.');
-redirect('/business/' . ($business['slug'] ?: $business['id']));
+flash_set('success', 'Your proposal has been sent. Check your Messages for the conversation.');
+redirect('/messages');
