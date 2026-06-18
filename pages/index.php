@@ -412,10 +412,11 @@ require __DIR__ . '/../includes/header.php';
   position:fixed; bottom:0; left:0; right:0;
   z-index:55; height:64px;
   padding-bottom:env(safe-area-inset-bottom,0);
-  background:#fff; border-top:1px solid var(--dash-border);
+  background:rgba(255,255,255,0.92);
+  border-top:1px solid var(--dash-border);
   box-shadow:0 -2px 16px rgba(0,0,0,0.06);
-  -webkit-backdrop-filter:blur(12px);
-  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(16px);
+  backdrop-filter:blur(16px);
 }
 @media (max-width:768px) {
   .hp-bottom-nav { display: flex; }
@@ -423,19 +424,34 @@ require __DIR__ . '/../includes/header.php';
 }
 .hp-bottom-nav-inner {
   display:flex; align-items:center; justify-content:space-around;
-  height:100%; max-width:600px; margin:0 auto;
+  height:100%; max-width:500px; margin:0 auto;
+  padding:0 4px;
 }
 .hp-bottom-nav-item {
-  display:flex; flex-direction:column; align-items:center; gap:2px;
-  text-decoration:none; color:var(--dash-ink-soft); font-size:10px; font-weight:600;
-  padding:4px 12px; border-radius:8px; transition:color 150ms, background 150ms;
-  white-space:nowrap; min-width:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:1px; flex:1; min-height:44px;
+  text-decoration:none;
+  color:var(--dash-ink-soft);
+  font-size:10px; font-weight:600;
+  border-radius:8px;
+  transition:color 150ms, background 150ms;
   -webkit-tap-highlight-color:transparent;
+  position:relative;
 }
 .hp-bottom-nav-item:active { background:var(--color-bg-soft); }
 .hp-bottom-nav-item.active { color:var(--color-primary-vivid); }
-.hp-bottom-nav-item.active svg { stroke:var(--color-primary-vivid); }
-.hp-bottom-nav-item svg { width:22px; height:22px; display:block; transition:stroke 150ms; }
+.hp-bottom-nav-item.active::after {
+  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:20px; height:3px; border-radius:0 0 3px 3px;
+  background:var(--color-primary-vivid);
+}
+.hp-bottom-nav-item .material-symbols-outlined {
+  font-size:24px; transition:font-variation-settings 150ms;
+  font-variation-settings:'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+.hp-bottom-nav-item.active .material-symbols-outlined {
+  font-variation-settings:'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+}
 
 /* ── Mobile refinements ── */
 @media (max-width:767px) {
@@ -1082,37 +1098,37 @@ echo $faqSchema;
 </section>
 </main>
 
-<?php $navIsLoggedIn = $user ? true : false; ?>
+<?php $navIsLoggedIn = (bool)current_user(); ?>
 <nav class="hp-bottom-nav" id="bottomNav" aria-label="Mobile navigation">
   <div class="hp-bottom-nav-inner">
     <a href="<?= APP_URL ?>/" class="hp-bottom-nav-item active">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10"/></svg>
+      <span class="material-symbols-outlined" aria-hidden="true">home</span>
       <span>Home</span>
     </a>
     <a href="<?= APP_URL ?>/browse/businesses" class="hp-bottom-nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+      <span class="material-symbols-outlined" aria-hidden="true">storefront</span>
       <span>Browse</span>
     </a>
     <?php if ($navIsLoggedIn): ?>
     <a href="<?= APP_URL ?>/connections" class="hp-bottom-nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      <span class="material-symbols-outlined" aria-hidden="true">diversity_3</span>
       <span>Network</span>
     </a>
     <a href="<?= APP_URL ?>/notifications" class="hp-bottom-nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      <span class="material-symbols-outlined" aria-hidden="true">notifications</span>
       <span>Alerts</span>
     </a>
     <a href="<?= APP_URL ?>/dashboard" class="hp-bottom-nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span class="material-symbols-outlined" aria-hidden="true">person</span>
       <span>Profile</span>
     </a>
     <?php else: ?>
     <a href="<?= APP_URL ?>/login" class="hp-bottom-nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+      <span class="material-symbols-outlined" aria-hidden="true">login</span>
       <span>Login</span>
     </a>
     <a href="<?= APP_URL ?>/onboarding" class="hp-bottom-nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+      <span class="material-symbols-outlined" aria-hidden="true">person_add</span>
       <span>Join</span>
     </a>
     <?php endif; ?>
