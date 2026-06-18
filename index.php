@@ -9,6 +9,7 @@ $routes = [
     '/login'                        => 'auth/login.php',
     '/logout'                       => 'auth/logout.php',
     '/verify-email'                 => 'auth/verify-email.php',
+    '/verify-email-otp'             => 'auth/verify-email-otp.php',
     '/forgot-password'              => 'auth/forgot-password.php',
     '/reset-password'               => 'auth/reset-password.php',
     '/change-password'              => 'auth/change-password.php',

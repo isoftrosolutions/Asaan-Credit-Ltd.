@@ -36,6 +36,30 @@ return [
         </div>',
     ],
 
+    'email_otp' => [
+        'name'      => 'Email Verification OTP',
+        'subject'   => 'Verify your email - Asaan Capital',
+        'variables' => ['user_name', 'otp_code'],
+        'body'      => '<div style="font-family:\'Inter\',\'Helvetica Neue\',sans-serif;max-width:600px;margin:20px auto;padding:40px;border:1px solid #eef2f6;border-radius:24px;color:#2a2a2a;background:#ffffff;box-shadow:0 10px 30px rgba(0,0,0,0.02);">
+            <div style="text-align:center;margin-bottom:32px;">
+                <span style="font-size:28px;font-weight:900;color:#1E4866;letter-spacing:-0.5px;">Asaan<span style="color:#98202A;">Capital</span></span>
+            </div>
+            <div style="text-align:center;margin-bottom:32px;">
+                <h2 style="color:#1E4866;font-size:26px;font-weight:800;margin:0;letter-spacing:-0.5px;">Verify Your Email</h2>
+                <p style="color:#5A5A5A;margin-top:8px;font-size:15px;">Use the code below to activate your account.</p>
+            </div>
+            <p style="font-size:16px;margin-bottom:24px;line-height:1.6;">Hello <strong style="color:#1E4866;">{{user_name}}</strong>,</p>
+            <p style="font-size:15px;margin-bottom:28px;line-height:1.6;color:#5A5A5A;">Welcome to Asaan Capital. Please use the following verification code to confirm your email address. This code expires in <strong>5 minutes</strong>.</p>
+            <div style="text-align:center;margin:32px 0;padding:28px;background:#F8F8F8;border-radius:16px;border:2px dashed #1E4866;letter-spacing:8px;">
+                <span style="font-size:36px;font-weight:900;color:#1E4866;font-family:monospace;">{{otp_code}}</span>
+            </div>
+            <p style="font-size:14px;color:#C3C6C5;margin-bottom:32px;text-align:center;">If you did not create this account, please ignore this email.</p>
+            <div style="border-top:1px solid #ECECEC;padding-top:24px;text-align:center;">
+                <p style="margin:0;font-size:13px;color:#5A5A5A;">Asaan Capital Ltd — Kathmandu, Nepal</p>
+            </div>
+        </div>',
+    ],
+
     'password_reset' => [
         'name'      => 'Password Reset',
         'subject'   => 'Reset your password - Asaan Capital',

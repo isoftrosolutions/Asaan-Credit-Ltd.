@@ -71,26 +71,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $db = db();
             $db->beginTransaction();
 
-            $stmt = $db->prepare("INSERT INTO users (name, email, password, account_type, role, company_name, phone, province, district, verification_status, email_verified_at, company_size, usage_goal, notifications, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'verified', NOW(), ?, ?, ?, NOW(), NOW())");
+            $stmt = $db->prepare("INSERT INTO users (name, email, password, account_type, role, company_name, phone, province, district, verification_status, email_verified_at, company_size, usage_goal, notifications, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'unverified', NULL, ?, ?, ?, NOW(), NOW())");
             $stmt->execute([$name, $email, $hash, $accountType, $role, $company ?: null, $phone ?: null, $province ?: null, $district ?: null, $size ?: null, $goal, $notify ?: null]);
-            $userId = $db->lastInsertId();
+            $userId = (int)$db->lastInsertId();
+
+            $otp = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+            $db->prepare('DELETE FROM password_reset_tokens WHERE email = ? AND type = ?')->execute([$email, 'email']);
+            $db->prepare('INSERT INTO password_reset_tokens (email, token, type, created_at) VALUES (?, ?, ?, NOW())')->execute([$email, reset_token_hash($otp), 'email']);
 
             $db->commit();
 
-            send_welcome_email($email, $name, $role);
+            send_email_otp_email($email, $otp);
 
-            $_SESSION['user'] = db()->query("SELECT * FROM users WHERE id = $userId")->fetch();
+            $_SESSION['pending_user_id'] = $userId;
+            $_SESSION['pending_email'] = $email;
 
-            if ($role === 'investor') {
-                flash_set('success', 'Account created! Now complete your investor profile to start matching with opportunities.');
-                redirect('/investor/profile-create');
-            } elseif ($role === 'entrepreneur') {
-                flash_set('success', 'Account created! Now create your first pitch to attract investors.');
-                redirect('/entrepreneur/pitch-create');
-            } else {
-                flash_set('success', 'Your account has been created successfully!');
-                redirect('/dashboard');
-            }
+            flash_set('info', 'Please verify your email to activate your account.');
+            redirect('/verify-email-otp');
         } catch (PDOException $e) {
             $db->rollBack();
             if ($e->getCode() == 23000) {

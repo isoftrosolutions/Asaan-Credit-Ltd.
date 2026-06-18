@@ -25,6 +25,21 @@ function send_password_reset_email(string $to, string $otpCode): bool {
     return email_service()->sendPasswordResetEmail($to, $otpCode);
 }
 
+function send_email_otp_email(string $to, string $otpCode): bool {
+    $tpl = get_email_template('email_otp');
+    if (!$tpl) return false;
+    $userName = 'User';
+    try {
+        $stmt = db()->prepare('SELECT name FROM users WHERE email = ?');
+        $stmt->execute([$to]);
+        $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+        $userName = $userData['name'] ?? 'User';
+    } catch (\Throwable $e) {}
+    $subject = replace_placeholders($tpl['subject'], ['user_name' => $userName]);
+    $body = replace_placeholders($tpl['body'], ['user_name' => $userName, 'otp_code' => $otpCode]);
+    return send_mail($to, $subject, $body);
+}
+
 function send_welcome_email(string $to, string $userName, string $role): bool {
     return email_service()->sendWelcomeEmail($to, $userName, $role);
 }
