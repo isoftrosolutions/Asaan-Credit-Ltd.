@@ -13,7 +13,7 @@ $stats_businesses = $homepage['stats_businesses'] ?? '67,500+';
 $stats_investors = $homepage['stats_investors'] ?? '44,000+';
 $stats_matches = $homepage['stats_matches'] ?? '12,800+';
 $stats_deal_value = $homepage['stats_deal_value'] ?? 'NPR 850 Cr+';
-$hero_video_id = $homepage['hero_video_id'] ?? '';
+$hero_video_id = $homepage['hero_video_id'] ?? '0tBqqpuhmvk';
 
 $featured_biz = db()->query("SELECT * FROM businesses WHERE status='approved' AND is_featured=1 ORDER BY rating DESC LIMIT 6")->fetchAll();
 $recent_biz = db()->query("SELECT * FROM businesses WHERE status='approved' ORDER BY created_at DESC LIMIT 6")->fetchAll();
