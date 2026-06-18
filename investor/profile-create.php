@@ -26,6 +26,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $preferredGeography = !empty($_POST['preferred_geography']) ? json_encode($_POST['preferred_geography']) : null;
     $references = trim($_POST['references'] ?? '');
 
+    $profilePhoto = null;
+    if (!empty($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === UPLOAD_ERR_OK) {
+        $allowedMime = ['image/jpeg', 'image/png', 'image/webp'];
+        $destDir = upload_path('profile-photos');
+        $uploaded = handle_upload($_FILES['profile_photo'], $allowedMime, UPLOAD_MAX_BYTES_PHOTO, $destDir);
+        if ($uploaded) {
+            $profilePhoto = '/public/uploads/profile-photos/' . $uploaded;
+            $stmt = db()->prepare('UPDATE users SET profile_photo = ? WHERE id = ?');
+            $stmt->execute([$profilePhoto, $userId]);
+        }
+    }
+
     $stmt = db()->prepare('
         INSERT INTO investor_profiles (user_id, past_investments, portfolio_companies, total_capital_deployed, preferred_sectors, preferred_stages, ticket_min, ticket_max, preferred_geography, `references`, created_at, updated_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
@@ -59,7 +71,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
   <h2 style="margin-bottom:0.25rem;">Investor / Buyer Profile</h2>
   <p style="color:var(--color-text-muted); margin-bottom:1.5rem;">Define your investment mandate and get matched with opportunities.</p>
 
-  <form method="POST" class="form-steps" novalidate style="padding:0;">
+  <form method="POST" class="form-steps" novalidate style="padding:0;" enctype="multipart/form-data">
     <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
 
     <div class="form-step-progress" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3">
@@ -114,6 +126,14 @@ require __DIR__ . '/../includes/layout-dashboard.php';
           <div class="input-group" style="grid-column:1/-1;">
             <label>LinkedIn / Website URL</label>
             <input type="url" name="linkedin_url" class="input" value="<?= e(old('linkedin_url', $user['linkedin_url'] ?? '')) ?>" placeholder="https://linkedin.com/in/yourprofile">
+          </div>
+          <div class="input-group" style="grid-column:1/-1;">
+            <label>Profile Photo</label>
+            <input type="file" name="profile_photo" class="input" accept="image/jpeg,image/png,image/webp" onchange="previewProfilePhoto(this)">
+            <div id="profile-photo-preview" style="margin-top:0.5rem;display:none;">
+              <img src="" alt="Preview" style="width:120px;height:120px;object-fit:cover;border-radius:50%;border:1px solid var(--dash-border);">
+            </div>
+            <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Max 2MB. JPEG, PNG, WebP.</p>
           </div>
           <div class="input-group" style="grid-column:1/-1;">
             <label>Bio</label>
@@ -213,6 +233,17 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 
 <script src="<?= APP_URL ?>/assets/form-steps.js"></script>
 <script>
+function previewProfilePhoto(input) {
+    var preview = document.getElementById('profile-photo-preview');
+    var img = preview.querySelector('img');
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) { img.src = e.target.result; preview.style.display = 'block'; };
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        preview.style.display = 'none';
+    }
+}
 function initPreferenceTags() {
   document.querySelectorAll('.preference-tag').forEach(function(tag) {
     tag.addEventListener('click', function() {

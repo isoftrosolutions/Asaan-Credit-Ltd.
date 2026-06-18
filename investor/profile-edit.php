@@ -39,6 +39,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ');
     $stmt->execute([$pastInvestments, $portfolioCompanies, $totalCapitalDeployed, $preferredSectors, $preferredStages, $ticketMin, $ticketMax, $preferredGeography, $references, $userId]);
 
+    if (!empty($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === UPLOAD_ERR_OK) {
+        $allowedMime = ['image/jpeg', 'image/png', 'image/webp'];
+        $destDir = upload_path('profile-photos');
+        $uploaded = handle_upload($_FILES['profile_photo'], $allowedMime, UPLOAD_MAX_BYTES_PHOTO, $destDir);
+        if ($uploaded) {
+            $photoPath = '/public/uploads/profile-photos/' . $uploaded;
+            $stmt = db()->prepare('UPDATE users SET profile_photo = ? WHERE id = ?');
+            $stmt->execute([$photoPath, $userId]);
+        }
+    }
+
     $stmt = db()->prepare('UPDATE users SET bio = ?, linkedin_url = ? WHERE id = ?');
     $stmt->execute([trim($_POST['bio'] ?? ''), trim($_POST['linkedin_url'] ?? ''), $userId]);
 
@@ -62,7 +73,7 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 ui_page_header('Edit Investor Profile', 'Keep your profile current to get sharper matches.');
 ?>
 <div class="dash-panel dash-panel-pad dash-form">
-  <form method="POST" class="form-steps" novalidate style="padding:0;">
+  <form method="POST" class="form-steps" novalidate style="padding:0;" enctype="multipart/form-data">
     <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
 
     <div class="form-step-progress" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3">
@@ -117,6 +128,20 @@ ui_page_header('Edit Investor Profile', 'Keep your profile current to get sharpe
           <div class="input-group" style="grid-column:1/-1;">
             <label>LinkedIn / Website</label>
             <input type="url" name="linkedin_url" class="input" value="<?= e($user['linkedin_url'] ?? '') ?>">
+          </div>
+          <div class="input-group" style="grid-column:1/-1;">
+            <label>Profile Photo</label>
+            <input type="file" name="profile_photo" class="input" accept="image/jpeg,image/png,image/webp" onchange="previewProfilePhoto(this)">
+            <div id="profile-photo-preview" style="margin-top:0.5rem;display:none;">
+              <img src="" alt="Preview" style="width:120px;height:120px;object-fit:cover;border-radius:50%;border:1px solid var(--dash-border);">
+            </div>
+            <?php if (!empty($user['profile_photo'])): ?>
+            <div class="profile-photo-current" style="margin-top:0.5rem;display:flex;align-items:center;gap:0.75rem;">
+              <img src="<?= upload_url($user['profile_photo']) ?>" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:50%;border:1px solid var(--dash-border);">
+              <span style="font-size:0.85rem;color:var(--color-text-muted);">Current photo</span>
+            </div>
+            <?php endif; ?>
+            <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Max 2MB. JPEG, PNG, WebP. Uploading a new photo replaces the current one.</p>
           </div>
           <div class="input-group" style="grid-column:1/-1;">
             <label>Bio</label>
@@ -224,6 +249,17 @@ ui_page_header('Edit Investor Profile', 'Keep your profile current to get sharpe
 
 <script src="<?= APP_URL ?>/assets/form-steps.js"></script>
 <script>
+function previewProfilePhoto(input) {
+    var preview = document.getElementById('profile-photo-preview');
+    var img = preview.querySelector('img');
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) { img.src = e.target.result; preview.style.display = 'block'; };
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        preview.style.display = 'none';
+    }
+}
 function initPreferenceTags() {
   document.querySelectorAll('.preference-tag').forEach(function(tag) {
     tag.addEventListener('click', function() {
