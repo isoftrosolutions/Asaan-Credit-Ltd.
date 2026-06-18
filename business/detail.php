@@ -235,7 +235,7 @@ require __DIR__ . '/../includes/layout-public.php';
       </div>
 
       <div class="stitch-hero-actions">
-        <button class="stitch-btn stitch-btn-primary" onclick="<?php if ($viewerIsPremium || $userId === $ownerUserId): ?>document.getElementById('interest-modal').classList.add('open')<?php else: ?>location.href='<?= APP_URL ?>/upgrade'<?php endif; ?>">
+        <button class="stitch-btn stitch-btn-primary" onclick="<?php if ($viewerIsPremium || $userId === $ownerUserId || ($user && str_contains($user['role'] ?? '', 'investor'))): ?>document.getElementById('interest-modal').classList.add('open')<?php else: ?>location.href='<?= APP_URL ?>/upgrade'<?php endif; ?>">
           <i class="fas fa-envelope" style="font-size:16px;"></i>
           Contact Seller
         </button>
