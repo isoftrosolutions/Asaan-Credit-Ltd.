@@ -978,6 +978,7 @@ require __DIR__ . '/../includes/layout-public.php';
   </div>
 </div>
 
+<script>
 document.addEventListener('DOMContentLoaded', function() {
   var saveBtn = document.getElementById('saveBtn');
   if (saveBtn && !saveBtn.hasAttribute('data-toggled')) {
