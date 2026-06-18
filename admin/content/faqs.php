@@ -77,16 +77,6 @@ $faqs = $stmt->fetchAll();
   trix-toolbar .trix-button:hover { background: rgba(107, 29, 34, 0.08); }
   trix-toolbar .trix-button.trix-active { background: rgba(107, 29, 34, 0.15); color: var(--color-primary); }
   trix-toolbar .trix-button-group:not(:first-child) { margin-left: 6px; }
-  .faq-edit-panel {
-    background: var(--dash-card);
-    border: 1px solid var(--dash-border);
-    border-radius: var(--dash-radius-card);
-    box-shadow: var(--dash-shadow-hover);
-    padding: var(--space-4);
-    min-width: 380px;
-    max-width: 90vw;
-    margin-top: 6px;
-  }
 </style>
 
 <div class="dash-pagehead">
@@ -147,38 +137,7 @@ $faqs = $stmt->fetchAll();
             <input type="hidden" name="id" value="<?= $f['id'] ?>">
             <button type="submit" class="btn btn-sm btn-outline"><?= $f['is_active'] ? 'Deactivate' : 'Activate' ?></button>
           </form>
-          <details style="display:inline-block;position:relative;">
-            <summary class="btn btn-sm btn-outline" style="cursor:pointer;display:inline-flex;">Edit</summary>
-            <div class="faq-edit-panel" style="position:absolute;right:0;top:100%;z-index:10;">
-              <form method="post" style="display:flex;flex-direction:column;gap:var(--space-3);">
-                <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
-                <input type="hidden" name="action" value="edit">
-                <input type="hidden" name="id" value="<?= $f['id'] ?>">
-                <div class="input-group" style="margin:0;">
-                  <label style="font-size:0.82rem;">Question</label>
-                  <input type="text" name="question" class="input" value="<?= e($f['question']) ?>" style="font-size:0.85rem;" required>
-                </div>
-                <div class="input-group" style="margin:0;">
-                  <label style="font-size:0.82rem;">Answer</label>
-                  <input type="hidden" id="edit-answer-<?= $f['id'] ?>" name="answer" value="<?= e($f['answer']) ?>">
-                  <trix-editor input="edit-answer-<?= $f['id'] ?>" style="min-height:140px;"></trix-editor>
-                </div>
-                <div style="display:flex;gap:var(--space-3);align-items:flex-end;">
-                  <div class="input-group" style="margin:0;">
-                    <label style="font-size:0.82rem;">Order</label>
-                    <input type="number" name="sort_order" class="input" value="<?= $f['sort_order'] ?>" style="font-size:0.85rem;width:70px;">
-                  </div>
-                  <button type="submit" class="btn btn-sm btn-primary">Save</button>
-                </div>
-              </form>
-              <form method="post" style="margin-top:var(--space-3);padding-top:var(--space-3);border-top:1px solid var(--dash-border);">
-                <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
-                <input type="hidden" name="action" value="delete">
-                <input type="hidden" name="id" value="<?= $f['id'] ?>">
-                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this FAQ permanently?')">Delete</button>
-              </form>
-            </div>
-          </details>
+          <a href="/admin/faqs/edit?id=<?= $f['id'] ?>" class="btn btn-sm btn-outline" style="text-decoration:none;">Edit</a>
         </span>
       </td>
     </tr>

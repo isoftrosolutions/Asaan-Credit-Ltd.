@@ -114,16 +114,6 @@ $posts = db()->query('SELECT * FROM blog_posts ORDER BY COALESCE(published_at, c
   trix-toolbar .trix-button:hover { background: rgba(107, 29, 34, 0.08); }
   trix-toolbar .trix-button.trix-active { background: rgba(107, 29, 34, 0.15); color: var(--color-primary); }
   trix-toolbar .trix-button-group:not(:first-child) { margin-left: 6px; }
-  .blog-edit-panel {
-    background: var(--dash-card);
-    border: 1px solid var(--dash-border);
-    border-radius: var(--dash-radius-card);
-    box-shadow: var(--dash-shadow-hover);
-    padding: var(--space-4);
-    min-width: 420px;
-    max-width: 90vw;
-    margin-top: 6px;
-  }
 </style>
 
 <div class="dash-pagehead">
@@ -208,55 +198,7 @@ $posts = db()->query('SELECT * FROM blog_posts ORDER BY COALESCE(published_at, c
             <input type="hidden" name="id" value="<?= $p['id'] ?>">
             <button type="submit" class="btn btn-sm btn-outline"><?= $p['status'] === 'published' ? 'Unpublish' : 'Publish' ?></button>
           </form>
-          <details style="display:inline-block;position:relative;">
-            <summary class="btn btn-sm btn-outline" style="cursor:pointer;display:inline-flex;">Edit</summary>
-            <div class="blog-edit-panel" style="position:absolute;right:0;top:100%;z-index:10;">
-              <form method="post" style="display:flex;flex-direction:column;gap:var(--space-3);">
-                <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
-                <input type="hidden" name="action" value="edit">
-                <input type="hidden" name="id" value="<?= $p['id'] ?>">
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);">
-                  <div class="input-group" style="margin:0;">
-                    <label style="font-size:0.82rem;">Title</label>
-                    <input type="text" name="title" class="input" value="<?= e($p['title']) ?>" style="font-size:0.85rem;" required>
-                  </div>
-                  <div class="input-group" style="margin:0;">
-                    <label style="font-size:0.82rem;">Slug</label>
-                    <input type="text" name="slug" class="input" value="<?= e($p['slug']) ?>" style="font-size:0.85rem;">
-                  </div>
-                </div>
-                <div class="input-group" style="margin:0;">
-                  <label style="font-size:0.82rem;">Excerpt</label>
-                  <textarea name="excerpt" class="input" rows="2" style="font-size:0.85rem;"><?= e($p['excerpt']) ?></textarea>
-                </div>
-                <div class="input-group" style="margin:0;">
-                  <label style="font-size:0.82rem;">Body</label>
-                  <input type="hidden" id="edit-body-<?= $p['id'] ?>" name="body" value="<?= e($p['body']) ?>">
-                  <trix-editor input="edit-body-<?= $p['id'] ?>" style="min-height:180px;"></trix-editor>
-                </div>
-                <div style="display:flex;gap:0.5rem;align-items:flex-end;">
-                  <div class="input-group" style="margin:0;flex:1;">
-                    <label style="font-size:0.82rem;">Author</label>
-                    <input type="text" name="author" class="input" value="<?= e($p['author']) ?>" style="font-size:0.85rem;">
-                  </div>
-                  <div class="input-group" style="margin:0;">
-                    <label style="font-size:0.82rem;">Status</label>
-                    <select name="status" class="input" style="font-size:0.85rem;">
-                      <option value="draft"<?= $p['status'] === 'draft' ? ' selected' : '' ?>>Draft</option>
-                      <option value="published"<?= $p['status'] === 'published' ? ' selected' : '' ?>>Published</option>
-                    </select>
-                  </div>
-                  <button type="submit" class="btn btn-sm btn-primary">Save</button>
-                </div>
-              </form>
-              <form method="post" style="margin-top:var(--space-3);padding-top:var(--space-3);border-top:1px solid var(--dash-border);">
-                <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
-                <input type="hidden" name="action" value="delete">
-                <input type="hidden" name="id" value="<?= $p['id'] ?>">
-                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this post permanently?')">Delete</button>
-              </form>
-            </div>
-          </details>
+          <a href="/admin/blog/edit?id=<?= $p['id'] ?>" class="btn btn-sm btn-outline" style="text-decoration:none;">Edit</a>
         </span>
       </td>
     </tr>

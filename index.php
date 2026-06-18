@@ -65,9 +65,13 @@ $routes = [
     '/admin/broadcast'              => 'admin/broadcast.php',
 
     '/admin/sectors'                => 'admin/content/sectors.php',
+    '/admin/sectors/edit'           => 'admin/content/sector-edit.php',
     '/admin/faqs'                   => 'admin/content/faqs.php',
+    '/admin/faqs/edit'              => 'admin/content/faq-edit.php',
     '/admin/pages'                  => 'admin/content/pages.php',
+    '/admin/pages/edit'             => 'admin/content/page-edit.php',
     '/admin/blog'                   => 'admin/content/blog.php',
+    '/admin/blog/edit'              => 'admin/content/blog-edit.php',
     '/admin/homepage'               => 'admin/content/homepage.php',
     '/admin/email-settings'         => 'admin/email-settings.php',
     '/admin/site-settings'          => 'admin/site-settings.php',

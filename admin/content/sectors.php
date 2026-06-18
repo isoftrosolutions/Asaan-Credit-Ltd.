@@ -118,25 +118,7 @@ $sectors = $stmt->fetchAll();
             <input type="hidden" name="id" value="<?= $s['id'] ?>">
             <button type="submit" class="btn btn-sm btn-outline"><?= $s['is_active'] ? 'Deactivate' : 'Activate' ?></button>
           </form>
-          <details style="display:inline-block;position:relative;">
-            <summary class="btn btn-sm btn-outline" style="cursor:pointer;display:inline-flex;">Edit</summary>
-            <div style="position:absolute;right:0;top:100%;z-index:10;background:var(--dash-card);border:1px solid var(--dash-border);border-radius:var(--dash-radius-card);box-shadow:var(--dash-shadow-hover);padding:var(--space-4);min-width:320px;margin-top:4px;">
-              <form method="post" style="display:flex;flex-direction:column;gap:var(--space-3);">
-                <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
-                <input type="hidden" name="action" value="edit">
-                <input type="hidden" name="id" value="<?= $s['id'] ?>">
-                <div class="input-group" style="margin:0;">
-                  <label style="font-size:0.82rem;">Name</label>
-                  <input type="text" name="name" class="input" value="<?= e($s['name']) ?>" style="font-size:0.85rem;" required>
-                </div>
-                <div class="input-group" style="margin:0;">
-                  <label style="font-size:0.82rem;">Slug</label>
-                  <input type="text" name="slug" class="input" value="<?= e($s['slug']) ?>" style="font-size:0.85rem;">
-                </div>
-                <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
-              </form>
-            </div>
-          </details>
+          <a href="/admin/sectors/edit?id=<?= $s['id'] ?>" class="btn btn-sm btn-outline" style="text-decoration:none;">Edit</a>
         </span>
       </td>
     </tr>

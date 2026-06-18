@@ -118,23 +118,6 @@ ui_page_header('Manage Pages', '<strong>' . count($pages) . '</strong> pages');
   }
   .meta-counter.warning { color: var(--dash-warning); }
   .meta-counter.danger { color: var(--dash-error); }
-  .page-edit-panel {
-    position: absolute;
-    right: 0;
-    top: 100%;
-    z-index: 10;
-    background: var(--dash-card);
-    border: 1px solid var(--dash-border);
-    border-radius: var(--dash-radius-card);
-    box-shadow: var(--dash-shadow-hover);
-    padding: var(--space-5);
-    width: 760px;
-    max-width: 92vw;
-    margin-top: 4px;
-  }
-  @media (max-width: 768px) {
-    .page-edit-panel { width: 90vw; right: -40px; }
-  }
 </style>
 
 <div class="dash-panel dash-panel-pad" style="margin-bottom:var(--space-5);">
@@ -191,53 +174,8 @@ ui_page_header('Manage Pages', '<strong>' . count($pages) . '</strong> pages');
       <td class="t-muted"><?= date_human($p['updated_at']) ?></td>
       <td class="ta-right">
         <span class="dash-table-actions">
-          <details style="display:inline-block;position:relative;">
-            <summary class="btn btn-sm btn-outline" style="cursor:pointer;display:inline-flex;">Edit</summary>
-            <div class="page-edit-panel">
-              <form method="post">
-                <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
-                <input type="hidden" name="action" value="update">
-                <input type="hidden" name="id" value="<?= $p['id'] ?>">
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
-                  <div class="input-group">
-                    <label>Page title</label>
-                    <input type="text" name="title" class="input" value="<?= e($p['title']) ?>" required>
-                  </div>
-                  <div class="input-group">
-                    <label>URL slug</label>
-                    <input type="text" name="slug" class="input" value="<?= e($p['slug']) ?>" required>
-                    <span style="font-size:0.75rem;color:var(--dash-ink-soft);">e.g. about, contact, terms</span>
-                  </div>
-                </div>
-                <div class="input-group">
-                  <label>Meta description</label>
-                  <input type="text" name="meta_description" class="input" value="<?= e($p['meta_description'] ?? '') ?>" maxlength="320" id="meta-<?= $p['id'] ?>">
-                  <div class="meta-counter" id="meta-counter-<?= $p['id'] ?>">0 / 320 characters</div>
-                </div>
-                <div class="input-group">
-                  <label style="display:flex;align-items:center;gap:8px;">
-                    <input type="checkbox" name="is_active" value="1" <?= $p['is_active'] ? 'checked' : '' ?>>
-                    Active <span style="font-weight:400;color:var(--dash-ink-soft);font-size:0.82rem;">— visitors can see this page</span>
-                  </label>
-                </div>
-                <div class="input-group">
-                  <label>Page content</label>
-                  <input type="hidden" id="edit-content-<?= $p['id'] ?>" name="content_html" value="<?= e($p['content_html']) ?>">
-                  <trix-editor input="edit-content-<?= $p['id'] ?>" placeholder="Edit your page content here…"></trix-editor>
-                </div>
-                <div style="display:flex;gap:var(--space-3);align-items:center;">
-                  <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
-                  <a href="/<?= e($p['slug']) ?>" target="_blank" class="btn btn-sm btn-outline" style="text-decoration:none;">Preview page</a>
-                </div>
-              </form>
-              <form method="post" style="margin-top:var(--space-3);padding-top:var(--space-3);border-top:1px solid var(--dash-border);" onsubmit="return confirm('Delete this page permanently? This cannot be undone.');">
-                <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
-                <input type="hidden" name="action" value="delete">
-                <input type="hidden" name="id" value="<?= $p['id'] ?>">
-                <button type="submit" class="btn btn-sm btn-danger">Delete this page</button>
-              </form>
-            </div>
-          </details>
+          <a href="/admin/pages/edit?id=<?= $p['id'] ?>" class="btn btn-sm btn-outline" style="text-decoration:none;">Edit</a>
+          <a href="/<?= e($p['slug']) ?>" target="_blank" class="btn btn-sm btn-outline" style="text-decoration:none;">View</a>
         </span>
       </td>
     </tr>
@@ -249,23 +187,4 @@ ui_page_header('Manage Pages', '<strong>' . count($pages) . '</strong> pages');
 <?php endif; ?>
 
 <script src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
-<script>
-(function() {
-  document.querySelectorAll('[id^="meta-"]').forEach(function(input) {
-    if (!input.id.startsWith('meta-')) return;
-    var id = input.id.replace('meta-', '');
-    var counter = document.getElementById('meta-counter-' + id);
-    if (!counter) return;
-    function update() {
-      var len = input.value.length;
-      counter.textContent = len + ' / 320 characters';
-      counter.className = 'meta-counter';
-      if (len > 280) counter.classList.add('warning');
-      if (len > 310) counter.classList.add('danger');
-    }
-    input.addEventListener('input', update);
-    update();
-  });
-})();
-</script>
 <?php require __DIR__ . '/../../includes/footer.php'; ?>
