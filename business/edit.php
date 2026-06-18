@@ -105,6 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $assetsIncluded = trim($_POST['assets_included'] ?? '');
     $facilities = trim($_POST['facilities'] ?? '');
     $capitalization = trim($_POST['capitalization'] ?? '');
+    $videoUrl = trim($_POST['video_url'] ?? '');
     $status = $_POST['status'] ?? 'draft';
     if (!in_array($status, ['draft', 'pending', 'approved', 'rejected', 'sold'], true)) {
         $status = 'draft';
@@ -121,8 +122,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $db->beginTransaction();
     try {
-        $updateStmt = $db->prepare('UPDATE businesses SET business_name = ?, slug = ?, listing_type = ?, sector_id = ?, country_id = ?, state_id = ?, city_id = ?, province = ?, district = ?, established_year = ?, employee_count = ?, legal_entity_type = ?, monthly_revenue = ?, annual_revenue = ?, ebitda_pct = ?, asking_price = ?, funding_required = ?, stake_offered_pct = ?, valuation = ?, loan_amount = ?, loan_interest_pct = ?, description = ?, overview = ?, products_services = ?, reason_for_sale = ?, assets_included = ?, facilities = ?, capitalization = ?, status = ?, is_published = ?, updated_at = NOW() WHERE id = ? AND user_id = ?');
-        $updateStmt->execute([$businessName, $slug, $listingType, $sectorId, $countryId, $stateId, $cityId, $province, $district, $establishedYear, $employeeCount, $legalEntityType, $monthlyRevenue, $annualRevenue, $ebitdaPct, $askingPrice, $fundingRequired, $stakeOfferedPct, $valuation, $loanAmount, $loanInterestPct, $description, $overview, $productsServices, $reasonForSale, $assetsIncluded, $facilities, $capitalization, $status, $isPublished, $businessId, $userId]);
+        $updateStmt = $db->prepare('UPDATE businesses SET business_name = ?, slug = ?, listing_type = ?, sector_id = ?, country_id = ?, state_id = ?, city_id = ?, province = ?, district = ?, established_year = ?, employee_count = ?, legal_entity_type = ?, monthly_revenue = ?, annual_revenue = ?, ebitda_pct = ?, asking_price = ?, funding_required = ?, stake_offered_pct = ?, valuation = ?, video_url = ?, loan_amount = ?, loan_interest_pct = ?, description = ?, overview = ?, products_services = ?, reason_for_sale = ?, assets_included = ?, facilities = ?, capitalization = ?, status = ?, is_published = ?, updated_at = NOW() WHERE id = ? AND user_id = ?');
+        $updateStmt->execute([$businessName, $slug, $listingType, $sectorId, $countryId, $stateId, $cityId, $province, $district, $establishedYear, $employeeCount, $legalEntityType, $monthlyRevenue, $annualRevenue, $ebitdaPct, $askingPrice, $fundingRequired, $stakeOfferedPct, $valuation, $videoUrl, $loanAmount, $loanInterestPct, $description, $overview, $productsServices, $reasonForSale, $assetsIncluded, $facilities, $capitalization, $status, $isPublished, $businessId, $userId]);
 
         if (!empty($_POST['delete_media'])) {
             $deleteIds = array_map('intval', $_POST['delete_media']);
@@ -791,6 +792,11 @@ require __DIR__ . '/../includes/layout-dashboard.php';
           </div>
 
           <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--dash-border);">
+            <div class="input" style="margin-bottom:16px;">
+              <label>YouTube / Vimeo Video URL <span style="font-weight:400;font-size:12px;color:var(--dash-ink-soft);">(optional)</span></label>
+              <input type="url" name="video_url" class="input" value="<?= e($business['video_url'] ?? '') ?>" placeholder="https://www.youtube.com/watch?v=...">
+              <p style="font-size:11px;color:var(--dash-ink-soft);margin-top:4px;">Link a pitch video from YouTube or Vimeo.</p>
+            </div>
             <div class="edit-grid">
               <div class="input">
                 <label>Status</label>

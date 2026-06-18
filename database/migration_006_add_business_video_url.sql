@@ -1,0 +1,1 @@
+ALTER TABLE businesses ADD COLUMN video_url VARCHAR(255) DEFAULT NULL AFTER valuation;

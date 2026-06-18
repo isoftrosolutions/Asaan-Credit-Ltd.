@@ -56,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $assetsIncluded = trim($_POST['assets_included'] ?? '');
     $facilities = trim($_POST['facilities'] ?? '');
     $capitalization = trim($_POST['capitalization'] ?? '');
+    $videoUrl = trim($_POST['video_url'] ?? '');
     $status = 'approved';
     $isPublished = 1;
 
@@ -68,8 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $db->beginTransaction();
     try {
-        $stmt = $db->prepare('INSERT INTO businesses (user_id, business_name, slug, listing_type, sector_id, country_id, state_id, city_id, province, district, established_year, employee_count, legal_entity_type, monthly_revenue, annual_revenue, ebitda_pct, asking_price, funding_required, stake_offered_pct, valuation, description, overview, products_services, reason_for_sale, assets_included, facilities, capitalization, status, is_published, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())');
-        $stmt->execute([$userId, $businessName, $slug, $listingType, $sectorId, $countryId, $stateId, $cityId, $province, $district, $establishedYear, $employeeCount, $legalEntityType, $monthlyRevenue, $annualRevenue, $ebitdaPct, $askingPrice, $fundingRequired, $stakeOfferedPct, $valuation, $description, $overview, $productsServices, $reasonForSale, $assetsIncluded, $facilities, $capitalization, $status, $isPublished]);
+        $stmt = $db->prepare('INSERT INTO businesses (user_id, business_name, slug, listing_type, sector_id, country_id, state_id, city_id, province, district, established_year, employee_count, legal_entity_type, monthly_revenue, annual_revenue, ebitda_pct, asking_price, funding_required, stake_offered_pct, valuation, video_url, description, overview, products_services, reason_for_sale, assets_included, facilities, capitalization, status, is_published, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())');
+        $stmt->execute([$userId, $businessName, $slug, $listingType, $sectorId, $countryId, $stateId, $cityId, $province, $district, $establishedYear, $employeeCount, $legalEntityType, $monthlyRevenue, $annualRevenue, $ebitdaPct, $askingPrice, $fundingRequired, $stakeOfferedPct, $valuation, $videoUrl, $description, $overview, $productsServices, $reasonForSale, $assetsIncluded, $facilities, $capitalization, $status, $isPublished]);
         $businessId = (int)$db->lastInsertId();
 
         // Handle media upload
@@ -406,12 +407,17 @@ require __DIR__ . '/../includes/layout-dashboard.php';
 
     <!-- Step 5: Media -->
     <div class="step-panel" data-step="5" style="display:none">
-<div class="card" style="margin-bottom:1.5rem;">
+        <div class="card" style="margin-bottom:1.5rem;">
             <h4>Photos &amp; Media</h4>
             <div class="input-group">
                 <label>Upload Images, Videos, or Documents</label>
                 <input type="file" name="media[]" class="input" multiple accept="image/jpeg,image/png,image/webp,video/mp4,application/pdf">
                 <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Max 2MB per file. JPEG, PNG, WebP, MP4, PDF accepted.</p>
+            </div>
+            <div class="input-group" style="margin-top:12px;">
+                <label>YouTube / Vimeo Video URL <span style="font-weight:400;color:var(--color-text-muted);">(optional)</span></label>
+                <input type="url" name="video_url" class="input" value="<?= e(old('video_url')) ?>" placeholder="https://www.youtube.com/watch?v=...">
+                <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.25rem;">Link a pitch video from YouTube or Vimeo.</p>
             </div>
         </div>
 

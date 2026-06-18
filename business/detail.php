@@ -367,6 +367,26 @@ require __DIR__ . '/../includes/layout-public.php';
       <?php endif; ?>
     </section>
 
+    <!-- ── Video ── -->
+    <?php if (!empty($business['video_url'])):
+        $videoUrl = $business['video_url'];
+        $embedHtml = '';
+        if (preg_match('/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $videoUrl, $m)) {
+            $embedHtml = '<iframe width="100%" height="390" src="https://www.youtube-nocookie.com/embed/' . e($m[1]) . '?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:var(--radius-md);"></iframe>';
+        } elseif (preg_match('/vimeo\.com\/(\d+)/', $videoUrl, $m)) {
+            $embedHtml = '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/' . e($m[1]) . '?badge=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:var(--radius-md);"></iframe></div>';
+        }
+        ?>
+    <section class="stitch-section">
+      <h2 class="stitch-section-title">Business Video</h2>
+      <?php if ($embedHtml): ?>
+      <div style="max-width:640px;"><?= $embedHtml ?></div>
+      <?php else: ?>
+      <p><a href="<?= e($videoUrl) ?>" target="_blank" rel="noopener"><?= e($videoUrl) ?></a></p>
+      <?php endif; ?>
+    </section>
+    <?php endif; ?>
+
     <!-- ── Business Overview ── -->
     <?php if ($business['overview'] || $business['description']): ?>
     <section class="stitch-section">
