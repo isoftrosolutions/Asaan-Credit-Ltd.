@@ -54,6 +54,21 @@ $financialItems = $finS->fetchAll();
 $docS = $db->prepare('SELECT * FROM business_documents WHERE business_id = ? ORDER BY sort_order');
 $docS->execute([$businessId]);
 $documents = $docS->fetchAll();
+// Also include legacy docs uploaded via the old media uploader (business_media)
+$legacyDocs = $db->prepare("SELECT file_url, created_at FROM business_media WHERE business_id = ? AND media_type = 'document'");
+$legacyDocs->execute([$businessId]);
+foreach ($legacyDocs->fetchAll() as $ld) {
+    $documents[] = [
+        'id' => 0,
+        'original_name' => basename($ld['file_url']),
+        'file_path' => $ld['file_url'],
+        'file_size' => 0,
+        'file_type' => 'application/pdf',
+        'description' => '',
+        'download_count' => 0,
+        'created_at' => $ld['created_at'],
+    ];
+}
 
 $verS = $db->prepare('SELECT * FROM business_verifications WHERE business_id = ?');
 $verS->execute([$businessId]);
