@@ -503,6 +503,14 @@ require __DIR__ . '/../includes/header.php';
   </div>
   <div class="hp-hero-inner pub-wrap">
     <div class="hp-hero-content">
+      <?php if ($hero_video_id): ?>
+      <div class="hp-hero-right">
+        <button type="button" class="hp-hero-play" aria-label="Watch video" onclick="openHeroVideo()">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16V8l8 4-8 4z"/></svg>
+          <span>Watch Video</span>
+        </button>
+      </div>
+      <?php endif; ?>
       <div class="hp-hero-left">
         <h1 class="hp-hero-title pub-h1" style="margin-bottom:20px;">
           <?= $hero_title ?>
@@ -520,14 +528,6 @@ require __DIR__ . '/../includes/header.php';
           <?php endif; ?>
         </div>
       </div>
-      <?php if ($hero_video_id): ?>
-      <div class="hp-hero-right">
-        <button type="button" class="hp-hero-play" aria-label="Watch video" onclick="openHeroVideo()">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16V8l8 4-8 4z"/></svg>
-          <span>Watch Video</span>
-        </button>
-      </div>
-      <?php endif; ?>
     </div>
   </div>
 </section>
