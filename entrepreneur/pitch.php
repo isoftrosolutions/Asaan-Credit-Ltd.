@@ -200,10 +200,24 @@ require __DIR__ . '/../includes/layout-public.php';
     <?php if ($pitch['pitch_video_url']):
         $videoUrl = $pitch['pitch_video_url'];
         $embedHtml = '';
-        if (preg_match('/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $videoUrl, $m)) {
-            $embedHtml = '<iframe width="100%" height="390" src="https://www.youtube-nocookie.com/embed/' . e($m[1]) . '?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:var(--radius-md);"></iframe>';
-        } elseif (preg_match('/vimeo\.com\/(\d+)/', $videoUrl, $m)) {
-            $embedHtml = '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/' . e($m[1]) . '?badge=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:var(--radius-md);"></iframe></div>';
+
+        $parts = parse_url($videoUrl);
+        $host = $parts['host'] ?? '';
+        if (preg_match('/(?:youtube\.com|youtu\.be)/i', $host)) {
+            $vidId = '';
+            if (preg_match('/(?:youtu\.be\/|shorts\/|live\/|embed\/)([a-zA-Z0-9_-]{11})/', $videoUrl, $m)) {
+                $vidId = $m[1];
+            } elseif (($parts['query'] ?? '')) {
+                parse_str($parts['query'], $q);
+                $vidId = $q['v'] ?? '';
+            }
+            if ($vidId) {
+                $embedHtml = '<iframe width="100%" height="390" src="https://www.youtube-nocookie.com/embed/' . e($vidId) . '?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:var(--radius-md);"></iframe>';
+            }
+        } elseif (preg_match('/vimeo\.com/i', $host)) {
+            if (preg_match('/vimeo\.com\/(\d+)/', $videoUrl, $m)) {
+                $embedHtml = '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/' . e($m[1]) . '?badge=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:var(--radius-md);"></iframe></div>';
+            }
         }
         ?>
     <section class="stitch-section">
