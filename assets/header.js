@@ -67,6 +67,7 @@ const PUBLIC_NAV = [
   ['Home', '/'],
   ['Investor & Entrepreneur', '/browse/businesses'],
   ['About Us', '/about'],
+  ['Our Partners', '/our-partners'],
   ['Blog', '/blog'],
   ['Contact', '/contact'],
 ];

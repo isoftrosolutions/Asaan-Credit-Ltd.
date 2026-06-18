@@ -118,6 +118,7 @@ if ($user) {
             <a href="<?= APP_URL ?>/" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Home</a>
             <a href="<?= APP_URL ?>/browse/businesses" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Investor & Entrepreneur</a>
             <a href="<?= APP_URL ?>/about" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">About Us</a>
+            <a href="<?= APP_URL ?>/our-partners" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Our Partners</a>
             <a href="<?= APP_URL ?>/blog" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Blog</a>
             <a href="<?= APP_URL ?>/contact" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Contact</a>
           </nav>

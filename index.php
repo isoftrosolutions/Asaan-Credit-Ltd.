@@ -17,6 +17,7 @@ $routes = [
     '/contact'                      => 'pages/contact.php',
     '/careers'                      => 'pages/careers.php',
     '/press'                        => 'pages/press.php',
+    '/our-partners'                 => 'pages/our-partners.php',
     '/testimonials'                 => 'pages/testimonials.php',
     '/blog'                         => 'pages/blog.php',
     '/industry-watch'               => 'pages/industry-watch.php',
