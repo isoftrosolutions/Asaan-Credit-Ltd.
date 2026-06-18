@@ -27,6 +27,7 @@ define('DB_PORT', '3306');
 define('DB_NAME', 'asaancapital_assan_capital');
 define('DB_USER', 'root');
 define('DB_PASS', '');
+
 define('DB_CHARSET', 'utf8mb4');
 
 define('SESSION_LIFETIME', 1800);

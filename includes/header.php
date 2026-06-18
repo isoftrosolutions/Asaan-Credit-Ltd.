@@ -28,7 +28,7 @@ if ($user) {
   <meta property="og:description" content="<?= e($pageDescription ?? 'Asaan Capital Ltd - Financial & Investment Services. The premium marketplace for buying, selling, franchising, and funding SMEs.') ?>">
   <meta property="og:url" content="<?= APP_URL . $_SERVER['REQUEST_URI'] ?>">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="<?= e($ogImage ?: APP_URL . '/og-image.png') ?>">
+  <meta property="og:image" content="<?= e($ogImage ?? APP_URL . '/og-image.png') ?>">
   <meta name="twitter:card" content="summary_large_image">
   <script type="application/ld+json">
   {
