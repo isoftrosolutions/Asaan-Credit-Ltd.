@@ -13,7 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($action === 'create') {
         $name = trim($_POST['name'] ?? '');
-        $slug = $_POST['slug'] ?? generate_slug($name);
+        $slug = $_POST['slug'] ?? '';
+        if (!$slug) $slug = generate_slug($name);
         if ($name) {
             db()->prepare('INSERT INTO sectors (name, slug, is_active) VALUES (?, ?, 1)')->execute([$name, $slug]);
             admin_log('create_sector', 'sector', null, ['name' => $name, 'slug' => $slug]);
@@ -22,7 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($action === 'edit') {
         $id = (int)($_POST['id'] ?? 0);
         $name = trim($_POST['name'] ?? '');
-        $slug = $_POST['slug'] ?? generate_slug($name);
+        $slug = $_POST['slug'] ?? '';
+        if (!$slug) $slug = generate_slug($name);
         if ($id && $name) {
             db()->prepare('UPDATE sectors SET name = ?, slug = ? WHERE id = ?')->execute([$name, $slug, $id]);
             admin_log('edit_sector', 'sector', $id);
@@ -46,59 +48,131 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $stmt = db()->query('SELECT * FROM sectors ORDER BY name ASC');
 $sectors = $stmt->fetchAll();
 ?>
-<h2>Manage Sectors</h2>
-<div class="card" style="max-width:500px;">
-  <h4>Add New Sector</h4>
-  <form method="post">
-    <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
-    <input type="hidden" name="action" value="create">
-    <div class="input-group">
-      <label>Name</label>
-      <input type="text" name="name" class="input" required>
-    </div>
-    <div class="input-group">
-      <label>Slug (leave blank to auto-generate)</label>
-      <input type="text" name="slug" class="input" placeholder="auto-generated">
-    </div>
-    <button type="submit" class="btn btn-sm btn-primary">Create</button>
-  </form>
+<style>
+  .slug-preview {
+    font-size: 0.78rem;
+    color: var(--dash-ink-soft);
+    margin-top: 4px;
+    min-height: 1.2em;
+  }
+  .slug-preview code {
+    background: var(--dash-bg);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 0.82rem;
+  }
+</style>
+
+<div class="dash-pagehead">
+  <div class="dash-pagehead-text">
+    <h1 class="dash-pagehead-title">Manage Sectors</h1>
+    <p class="dash-pagehead-sub"><strong><?= count($sectors) ?></strong> sectors — used to categorize businesses, pitches, and investor preferences</p>
+  </div>
 </div>
-<div class="card" style="margin-top:1rem;">
-  <table style="width:100%;">
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <th style="text-align:left;padding:8px;">ID</th>
-      <th style="text-align:left;padding:8px;">Name</th>
-      <th style="text-align:left;padding:8px;">Slug</th>
-      <th style="padding:8px;">Active</th>
-      <th style="padding:8px;">Actions</th>
-    </tr>
+
+<div class="dash-panel dash-panel-pad" style="margin-bottom:var(--space-5);">
+  <details>
+    <summary style="cursor:pointer;font-weight:600;font-size:0.95rem;color:var(--dash-primary);padding:4px 0;">+ Add new sector</summary>
+    <form method="post" style="margin-top:var(--space-4);max-width:480px;">
+      <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
+      <input type="hidden" name="action" value="create">
+      <div class="input-group">
+        <label>Sector name</label>
+        <input type="text" name="name" class="input" id="sector-name" required placeholder="e.g. Artificial Intelligence">
+      </div>
+      <div class="input-group">
+        <label>URL slug <span style="font-weight:400;color:var(--dash-ink-soft);">(leave blank to auto-generate from name)</span></label>
+        <input type="text" name="slug" class="input" id="sector-slug" placeholder="auto-generated">
+        <div class="slug-preview" id="slug-preview">URL: <code>../browse?category=<span id="slug-text"></span></code></div>
+      </div>
+      <button type="submit" class="btn btn-sm btn-primary">Create sector</button>
+    </form>
+  </details>
+</div>
+
+<?php if (empty($sectors)): ?>
+<div class="dash-panel">
+  <?php ui_empty_state(['icon' => 'tag', 'title' => 'No sectors yet', 'text' => 'Sectors help organize listings on the platform. Add your first sector above.']); ?>
+</div>
+<?php else: ?>
+<div class="dash-panel">
+  <div class="dash-table-wrap">
+    <table class="dash-table">
+      <thead><tr>
+        <th style="width:60px;">ID</th><th>Name</th><th>Slug</th><th style="width:80px;" class="ta-center">Active</th><th style="width:220px;" class="ta-right">Actions</th>
+      </tr></thead>
+      <tbody>
     <?php foreach ($sectors as $s): ?>
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <td style="padding:10px 8px;"><?= $s['id'] ?></td>
-      <td style="padding:10px 8px;font-weight:600;"><?= e($s['name']) ?></td>
-      <td style="padding:10px 8px;"><code><?= e($s['slug']) ?></code></td>
-      <td style="padding:10px 8px;"><?= $s['is_active'] ? '<span style="color:var(--color-success);">Yes</span>' : '<span style="color:var(--color-error);">No</span>' ?></td>
-      <td style="padding:10px 8px;">
-        <form method="post" style="display:inline;">
-          <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
-          <input type="hidden" name="action" value="toggle">
-          <input type="hidden" name="id" value="<?= $s['id'] ?>">
-          <button type="submit" class="btn btn-sm btn-outline"><?= $s['is_active'] ? 'Deactivate' : 'Activate' ?></button>
-        </form>
-        <details style="display:inline;vertical-align:middle;">
-          <summary style="font-size:0.8rem;cursor:pointer;color:var(--color-primary-vivid);display:inline;margin-left:0.25rem;">Edit</summary>
-          <form method="post" style="margin-top:0.25rem;">
+    <tr>
+      <td class="t-muted"><?= $s['id'] ?></td>
+      <td><span class="t-strong"><?= e($s['name']) ?></span></td>
+      <td><code><?= e($s['slug']) ?></code></td>
+      <td class="ta-center">
+        <span class="dash-pill <?= $s['is_active'] ? 'published' : 'draft' ?>"><?= $s['is_active'] ? 'Active' : 'Inactive' ?></span>
+      </td>
+      <td class="ta-right">
+        <span class="dash-table-actions">
+          <form method="post" style="display:inline;">
             <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
-            <input type="hidden" name="action" value="edit">
+            <input type="hidden" name="action" value="toggle">
             <input type="hidden" name="id" value="<?= $s['id'] ?>">
-            <input type="text" name="name" class="input" value="<?= e($s['name']) ?>" style="font-size:0.8rem;padding:4px 8px;width:180px;" required>
-            <input type="text" name="slug" class="input" value="<?= e($s['slug']) ?>" style="font-size:0.8rem;padding:4px 8px;width:150px;">
-            <button type="submit" class="btn btn-sm btn-primary">Save</button>
+            <button type="submit" class="btn btn-sm btn-outline"><?= $s['is_active'] ? 'Deactivate' : 'Activate' ?></button>
           </form>
-        </details>
+          <details style="display:inline-block;position:relative;">
+            <summary class="btn btn-sm btn-outline" style="cursor:pointer;display:inline-flex;">Edit</summary>
+            <div style="position:absolute;right:0;top:100%;z-index:10;background:var(--dash-card);border:1px solid var(--dash-border);border-radius:var(--dash-radius-card);box-shadow:var(--dash-shadow-hover);padding:var(--space-4);min-width:320px;margin-top:4px;">
+              <form method="post" style="display:flex;flex-direction:column;gap:var(--space-3);">
+                <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
+                <input type="hidden" name="action" value="edit">
+                <input type="hidden" name="id" value="<?= $s['id'] ?>">
+                <div class="input-group" style="margin:0;">
+                  <label style="font-size:0.82rem;">Name</label>
+                  <input type="text" name="name" class="input" value="<?= e($s['name']) ?>" style="font-size:0.85rem;" required>
+                </div>
+                <div class="input-group" style="margin:0;">
+                  <label style="font-size:0.82rem;">Slug</label>
+                  <input type="text" name="slug" class="input" value="<?= e($s['slug']) ?>" style="font-size:0.85rem;">
+                </div>
+                <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
+              </form>
+            </div>
+          </details>
+        </span>
       </td>
     </tr>
     <?php endforeach; ?>
-  </table>
+      </tbody>
+    </table>
+  </div>
 </div>
+<?php endif; ?>
+
+<script>
+(function() {
+  var nameInput = document.getElementById('sector-name');
+  var slugInput = document.getElementById('sector-slug');
+  var slugText = document.getElementById('slug-text');
+  if (nameInput && slugInput && slugText) {
+    var origSlug = slugInput.value;
+    nameInput.addEventListener('input', function() {
+      if (slugInput.value === '' || slugInput.value === origSlug || slugInput.dataset.auto === '1') {
+        var slug = nameInput.value.toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+        slugInput.value = slug;
+        slugInput.dataset.auto = '1';
+        slugText.textContent = slug;
+      }
+    });
+    slugInput.addEventListener('input', function() {
+      slugInput.dataset.auto = '';
+      slugText.textContent = slugInput.value || nameInput.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    });
+    slugInput.addEventListener('focus', function() {
+      if (slugInput.dataset.auto === '1') slugInput.select();
+    });
+    nameInput.dispatchEvent(new Event('input'));
+  }
+})();
+</script>
 <?php require __DIR__ . '/../../includes/footer.php'; ?>

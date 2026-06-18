@@ -19,11 +19,13 @@ $items = $db->prepare('
     SELECT sl.listing_type, sl.listing_id, sl.created_at,
            b.business_name, b.asking_price, b.annual_revenue,
            p.tagline, p.funding_amount, p.equity_offered,
-           f.brand_name, f.franchise_fee
+           f.brand_name, f.franchise_fee,
+           iu.name AS investor_name, iu.account_type AS investor_type
     FROM saved_listings sl
     LEFT JOIN businesses b ON sl.listing_type = \'business\' AND sl.listing_id = b.id
     LEFT JOIN pitches p ON sl.listing_type = \'pitch\' AND sl.listing_id = p.id
     LEFT JOIN franchises f ON sl.listing_type = \'franchise\' AND sl.listing_id = f.id
+    LEFT JOIN users iu ON sl.listing_type = \'investor\' AND sl.listing_id = iu.id
     WHERE sl.user_id = ?
     ORDER BY sl.created_at DESC
 ');
@@ -51,6 +53,11 @@ foreach ($rows as $row) {
             $title = e($row['brand_name'] ?? 'Untitled Franchise');
             $info = 'Fee: ' . money($row['franchise_fee'] ?? 0);
             $typeLabel = 'Franchise';
+            break;
+        case 'investor':
+            $title = e($row['investor_name'] ?? 'Untitled Investor');
+            $info = $row['investor_type'] ? e($row['investor_type']) : '';
+            $typeLabel = 'Investor';
             break;
         default:
             continue 2;

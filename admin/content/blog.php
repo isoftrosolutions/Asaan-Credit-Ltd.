@@ -47,7 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 flash_set('success', 'Post created.');
             } else {
                 $slug = blog_unique_slug($slug, $id);
-                // Set published_at the first time a post goes live.
                 $cur = db()->prepare('SELECT published_at FROM blog_posts WHERE id = ?');
                 $cur->execute([$id]);
                 $existingPub = $cur->fetchColumn();
@@ -87,97 +86,186 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $posts = db()->query('SELECT * FROM blog_posts ORDER BY COALESCE(published_at, created_at) DESC, id DESC')->fetchAll();
 ?>
-<h2>Manage Blog</h2>
-<div class="card" style="max-width:680px;">
-  <h4>Add New Post</h4>
-  <form method="post">
-    <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
-    <input type="hidden" name="action" value="create">
-    <div class="input-group">
-      <label>Title</label>
-      <input type="text" name="title" class="input" required>
-    </div>
-    <div class="input-group">
-      <label>Slug <span style="font-weight:400;color:var(--color-text-muted);">(optional — auto-generated from title)</span></label>
-      <input type="text" name="slug" class="input" placeholder="my-post-title">
-    </div>
-    <div class="input-group">
-      <label>Excerpt <span style="font-weight:400;color:var(--color-text-muted);">(short summary for cards)</span></label>
-      <textarea name="excerpt" class="input" rows="2" style="resize:vertical;"></textarea>
-    </div>
-    <div class="input-group">
-      <label>Body <span style="font-weight:400;color:var(--color-text-muted);">(plain text; blank line = new paragraph)</span></label>
-      <textarea name="body" class="input" rows="8" required style="resize:vertical;"></textarea>
-    </div>
-    <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-      <div class="input-group" style="flex:1;min-width:160px;">
-        <label>Author</label>
-        <input type="text" name="author" class="input" value="Asaan Capital">
-      </div>
-      <div class="input-group" style="flex:1;min-width:160px;">
-        <label>Status</label>
-        <select name="status" class="input">
-          <option value="draft">Draft</option>
-          <option value="published">Published</option>
-        </select>
-      </div>
-    </div>
-    <button type="submit" class="btn btn-sm btn-primary">Create</button>
-  </form>
+<link rel="stylesheet" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+<style>
+  trix-editor {
+    min-height: 240px;
+    max-height: 500px;
+    overflow-y: auto;
+    border-radius: var(--dash-radius-ctl);
+    border: 1px solid var(--dash-border);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  trix-editor:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(107, 29, 34, 0.1);
+    outline: none;
+  }
+  trix-toolbar {
+    border: 1px solid var(--dash-border);
+    border-bottom: none;
+    border-radius: var(--dash-radius-ctl) var(--dash-radius-ctl) 0 0;
+    background: var(--dash-bg);
+    padding: 4px 8px;
+  }
+  trix-toolbar .trix-button-group { border: none; margin-bottom: 0; }
+  trix-toolbar .trix-button { border: none; border-radius: 4px; height: 2.2em; }
+  trix-toolbar .trix-button:hover { background: rgba(107, 29, 34, 0.08); }
+  trix-toolbar .trix-button.trix-active { background: rgba(107, 29, 34, 0.15); color: var(--color-primary); }
+  trix-toolbar .trix-button-group:not(:first-child) { margin-left: 6px; }
+  .blog-edit-panel {
+    background: var(--dash-card);
+    border: 1px solid var(--dash-border);
+    border-radius: var(--dash-radius-card);
+    box-shadow: var(--dash-shadow-hover);
+    padding: var(--space-4);
+    min-width: 420px;
+    max-width: 90vw;
+    margin-top: 6px;
+  }
+</style>
+
+<div class="dash-pagehead">
+  <div class="dash-pagehead-text">
+    <h1 class="dash-pagehead-title">Manage Blog</h1>
+    <p class="dash-pagehead-sub"><strong><?= count($posts) ?></strong> posts</p>
+  </div>
 </div>
 
-<div class="card" style="margin-top:1rem;">
-  <table style="width:100%;">
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <th style="text-align:left;padding:8px;">Title</th>
-      <th style="padding:8px;">Status</th>
-      <th style="padding:8px;">Published</th>
-      <th style="padding:8px;">Actions</th>
-    </tr>
+<div class="dash-panel dash-panel-pad" style="margin-bottom:var(--space-5);">
+  <details>
+    <summary style="cursor:pointer;font-weight:600;font-size:0.95rem;color:var(--dash-primary);padding:4px 0;">+ Write new post</summary>
+    <form method="post" style="margin-top:var(--space-4);">
+      <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
+      <input type="hidden" name="action" value="create">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+        <div class="input-group">
+          <label>Post title</label>
+          <input type="text" name="title" class="input" required placeholder="e.g. How to Value Your Business">
+        </div>
+        <div class="input-group">
+          <label>URL slug <span style="font-weight:400;color:var(--dash-ink-soft);">(auto-generated from title if left blank)</span></label>
+          <input type="text" name="slug" class="input" placeholder="leave blank to auto-generate">
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Excerpt <span style="font-weight:400;color:var(--dash-ink-soft);">(short summary shown on blog listing cards)</span></label>
+        <textarea name="excerpt" class="input" rows="2" style="resize:vertical;" placeholder="A brief preview of what this post is about…"></textarea>
+      </div>
+      <div class="input-group">
+        <label>Post body</label>
+        <input type="hidden" id="create-body" name="body">
+        <trix-editor input="create-body" placeholder="Start writing your blog post here…"></trix-editor>
+      </div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end;">
+        <div class="input-group" style="flex:1;min-width:160px;">
+          <label>Author</label>
+          <input type="text" name="author" class="input" value="Asaan Capital">
+        </div>
+        <div class="input-group" style="flex:1;min-width:160px;">
+          <label>Status</label>
+          <select name="status" class="input">
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <button type="submit" class="btn btn-primary">Create post</button>
+        </div>
+      </div>
+    </form>
+  </details>
+</div>
+
+<?php if (empty($posts)): ?>
+<div class="dash-panel">
+  <?php ui_empty_state(['icon' => 'document', 'title' => 'No blog posts yet', 'text' => 'Write your first post using the form above.']); ?>
+</div>
+<?php else: ?>
+<div class="dash-panel">
+  <div class="dash-table-wrap">
+    <table class="dash-table">
+      <thead><tr>
+        <th>Title</th><th class="ta-center">Status</th><th class="ta-center">Published</th><th class="ta-right">Actions</th>
+      </tr></thead>
+      <tbody>
     <?php foreach ($posts as $p): ?>
-    <tr style="border-bottom:1px solid var(--color-border);">
-      <td style="padding:10px 8px;font-weight:600;">
-        <?= e($p['title']) ?>
-        <div style="font-weight:400;font-size:0.75rem;color:var(--color-text-muted);">/blog/<?= e($p['slug']) ?></div>
+    <tr>
+      <td>
+        <span class="t-strong"><?= e($p['title']) ?></span>
+        <div class="t-muted">/blog/<?= e($p['slug']) ?></div>
       </td>
-      <td style="padding:10px 8px;text-align:center;"><?= $p['status'] === 'published' ? '<span style="color:var(--color-success);">Published</span>' : '<span style="color:var(--color-text-muted);">Draft</span>' ?></td>
-      <td style="padding:10px 8px;text-align:center;font-size:0.8rem;color:var(--color-text-muted);"><?= $p['published_at'] ? e(date('M j, Y', strtotime($p['published_at']))) : '—' ?></td>
-      <td style="padding:10px 8px;white-space:nowrap;">
-        <form method="post" style="display:inline;">
-          <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
-          <input type="hidden" name="action" value="toggle">
-          <input type="hidden" name="id" value="<?= $p['id'] ?>">
-          <button type="submit" class="btn btn-sm btn-outline"><?= $p['status'] === 'published' ? 'Unpublish' : 'Publish' ?></button>
-        </form>
-        <details style="display:inline;vertical-align:middle;">
-          <summary style="font-size:0.8rem;cursor:pointer;color:var(--color-primary-vivid);display:inline;margin-left:0.25rem;">Edit</summary>
-          <form method="post" style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0.4rem;min-width:340px;">
+      <td class="ta-center">
+        <span class="dash-pill <?= $p['status'] === 'published' ? 'published' : 'draft' ?>"><?= $p['status'] === 'published' ? 'Published' : 'Draft' ?></span>
+      </td>
+      <td class="t-muted ta-center"><?= $p['published_at'] ? e(date('M j, Y', strtotime($p['published_at']))) : '—' ?></td>
+      <td class="ta-right">
+        <span class="dash-table-actions">
+          <form method="post" style="display:inline;">
             <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
-            <input type="hidden" name="action" value="edit">
+            <input type="hidden" name="action" value="toggle">
             <input type="hidden" name="id" value="<?= $p['id'] ?>">
-            <input type="text" name="title" class="input" value="<?= e($p['title']) ?>" style="font-size:0.85rem;" required>
-            <input type="text" name="slug" class="input" value="<?= e($p['slug']) ?>" style="font-size:0.85rem;">
-            <textarea name="excerpt" class="input" rows="2" style="font-size:0.85rem;"><?= e($p['excerpt']) ?></textarea>
-            <textarea name="body" class="input" rows="6" style="font-size:0.85rem;" required><?= e($p['body']) ?></textarea>
-            <div style="display:flex;gap:0.5rem;">
-              <input type="text" name="author" class="input" value="<?= e($p['author']) ?>" style="font-size:0.85rem;flex:1;">
-              <select name="status" class="input" style="font-size:0.85rem;width:130px;">
-                <option value="draft"<?= $p['status'] === 'draft' ? ' selected' : '' ?>>Draft</option>
-                <option value="published"<?= $p['status'] === 'published' ? ' selected' : '' ?>>Published</option>
-              </select>
-            </div>
-            <button type="submit" class="btn btn-sm btn-primary">Save</button>
+            <button type="submit" class="btn btn-sm btn-outline"><?= $p['status'] === 'published' ? 'Unpublish' : 'Publish' ?></button>
           </form>
-        </details>
-        <form method="post" style="display:inline;">
-          <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
-          <input type="hidden" name="action" value="delete">
-          <input type="hidden" name="id" value="<?= $p['id'] ?>">
-          <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this post?')">Delete</button>
-        </form>
+          <details style="display:inline-block;position:relative;">
+            <summary class="btn btn-sm btn-outline" style="cursor:pointer;display:inline-flex;">Edit</summary>
+            <div class="blog-edit-panel" style="position:absolute;right:0;top:100%;z-index:10;">
+              <form method="post" style="display:flex;flex-direction:column;gap:var(--space-3);">
+                <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
+                <input type="hidden" name="action" value="edit">
+                <input type="hidden" name="id" value="<?= $p['id'] ?>">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);">
+                  <div class="input-group" style="margin:0;">
+                    <label style="font-size:0.82rem;">Title</label>
+                    <input type="text" name="title" class="input" value="<?= e($p['title']) ?>" style="font-size:0.85rem;" required>
+                  </div>
+                  <div class="input-group" style="margin:0;">
+                    <label style="font-size:0.82rem;">Slug</label>
+                    <input type="text" name="slug" class="input" value="<?= e($p['slug']) ?>" style="font-size:0.85rem;">
+                  </div>
+                </div>
+                <div class="input-group" style="margin:0;">
+                  <label style="font-size:0.82rem;">Excerpt</label>
+                  <textarea name="excerpt" class="input" rows="2" style="font-size:0.85rem;"><?= e($p['excerpt']) ?></textarea>
+                </div>
+                <div class="input-group" style="margin:0;">
+                  <label style="font-size:0.82rem;">Body</label>
+                  <input type="hidden" id="edit-body-<?= $p['id'] ?>" name="body" value="<?= e($p['body']) ?>">
+                  <trix-editor input="edit-body-<?= $p['id'] ?>" style="min-height:180px;"></trix-editor>
+                </div>
+                <div style="display:flex;gap:0.5rem;align-items:flex-end;">
+                  <div class="input-group" style="margin:0;flex:1;">
+                    <label style="font-size:0.82rem;">Author</label>
+                    <input type="text" name="author" class="input" value="<?= e($p['author']) ?>" style="font-size:0.85rem;">
+                  </div>
+                  <div class="input-group" style="margin:0;">
+                    <label style="font-size:0.82rem;">Status</label>
+                    <select name="status" class="input" style="font-size:0.85rem;">
+                      <option value="draft"<?= $p['status'] === 'draft' ? ' selected' : '' ?>>Draft</option>
+                      <option value="published"<?= $p['status'] === 'published' ? ' selected' : '' ?>>Published</option>
+                    </select>
+                  </div>
+                  <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                </div>
+              </form>
+              <form method="post" style="margin-top:var(--space-3);padding-top:var(--space-3);border-top:1px solid var(--dash-border);">
+                <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="id" value="<?= $p['id'] ?>">
+                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this post permanently?')">Delete</button>
+              </form>
+            </div>
+          </details>
+        </span>
       </td>
     </tr>
     <?php endforeach; ?>
-  </table>
+      </tbody>
+    </table>
+  </div>
 </div>
+<?php endif; ?>
+
+<script src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 <?php require __DIR__ . '/../../includes/footer.php'; ?>
