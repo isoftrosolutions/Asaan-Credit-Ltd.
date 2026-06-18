@@ -36,6 +36,23 @@ $mediaItems = $mediaItems->fetchAll();
 $documents = db()->prepare('SELECT * FROM business_documents WHERE business_id = ? ORDER BY sort_order');
 $documents->execute([$businessId]);
 $documents = $documents->fetchAll();
+// Legacy docs from old media uploader
+$legacyDocS = db()->prepare("SELECT id, file_url, created_at FROM business_media WHERE business_id = ? AND media_type = 'document'");
+$legacyDocS->execute([$businessId]);
+foreach ($legacyDocS->fetchAll() as $ld) {
+    $documents[] = [
+        'id' => $ld['id'],
+        'is_legacy' => true,
+        'original_name' => basename($ld['file_url']),
+        'file_path' => $ld['file_url'],
+        'file_size' => 0,
+        'file_type' => 'application/pdf',
+        'description' => '',
+        'sort_order' => 0,
+        'download_count' => 0,
+        'created_at' => $ld['created_at'],
+    ];
+}
 
 $assets = db()->prepare('SELECT * FROM business_assets WHERE business_id = ? ORDER BY id');
 $assets->execute([$businessId]);
@@ -143,16 +160,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Handle document delete
         if (!empty($_POST['delete_document'])) {
-            $deleteDocIds = array_map('intval', $_POST['delete_document']);
-            $placeholders = implode(',', array_fill(0, count($deleteDocIds), '?'));
-            $delDocStmt = $db->prepare("SELECT file_path FROM business_documents WHERE id IN ($placeholders) AND business_id = ?");
-            $delDocStmt->execute(array_merge($deleteDocIds, [$businessId]));
-            $toDelete = $delDocStmt->fetchAll();
-            $db->prepare("DELETE FROM business_documents WHERE id IN ($placeholders) AND business_id = ?")->execute(array_merge($deleteDocIds, [$businessId]));
-            $docDir = upload_path('business-documents');
-            foreach ($toDelete as $d) {
-                $path = $docDir . '/' . basename($d['file_path']);
-                if (file_exists($path)) unlink($path);
+            $docDeleteIds = [];
+            $mediaDeleteIds = [];
+            foreach ($_POST['delete_document'] as $val) {
+                if (str_starts_with($val, 'm_')) {
+                    $mediaDeleteIds[] = (int)substr($val, 2);
+                } elseif (str_starts_with($val, 'd_')) {
+                    $docDeleteIds[] = (int)substr($val, 2);
+                } else {
+                    $docDeleteIds[] = (int)$val;
+                }
+            }
+
+            if ($docDeleteIds) {
+                $placeholders = implode(',', array_fill(0, count($docDeleteIds), '?'));
+                $delDocStmt = $db->prepare("SELECT file_path FROM business_documents WHERE id IN ($placeholders) AND business_id = ?");
+                $delDocStmt->execute(array_merge($docDeleteIds, [$businessId]));
+                $toDelete = $delDocStmt->fetchAll();
+                $db->prepare("DELETE FROM business_documents WHERE id IN ($placeholders) AND business_id = ?")->execute(array_merge($docDeleteIds, [$businessId]));
+                $docDir = upload_path('business-documents');
+                foreach ($toDelete as $d) {
+                    $path = $docDir . '/' . basename($d['file_path']);
+                    if (file_exists($path)) unlink($path);
+                }
+            }
+
+            if ($mediaDeleteIds) {
+                $placeholders = implode(',', array_fill(0, count($mediaDeleteIds), '?'));
+                $delMediaStmt = $db->prepare("SELECT file_url FROM business_media WHERE id IN ($placeholders) AND business_id = ? AND media_type = 'document'");
+                $delMediaStmt->execute(array_merge($mediaDeleteIds, [$businessId]));
+                $mediaToDelete = $delMediaStmt->fetchAll();
+                $db->prepare("DELETE FROM business_media WHERE id IN ($placeholders) AND business_id = ? AND media_type = 'document'")->execute(array_merge($mediaDeleteIds, [$businessId]));
+                $mediaDir = upload_path('business-photos');
+                foreach ($mediaToDelete as $d) {
+                    $path = $mediaDir . '/' . basename($d['file_url']);
+                    if (file_exists($path)) unlink($path);
+                }
             }
         }
 
@@ -646,24 +689,26 @@ require __DIR__ . '/../includes/layout-dashboard.php';
           <div style="margin-bottom:14px;">
             <h4 style="font-size:13px;font-weight:600;margin:0 0 8px;color:var(--dash-ink);">Uploaded Documents</h4>
             <div style="display:flex;flex-wrap:wrap;gap:8px;">
-              <?php foreach ($documents as $d): ?>
-              <label class="edit-media-item" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--dash-border);border-radius:8px;cursor:pointer;background:var(--color-bg-soft);">
-                <input type="checkbox" name="delete_document[]" value="<?= $d['id'] ?>" style="accent-color:var(--color-error);">
-                <div>
-                  <span style="font-size:12px;font-weight:600;color:var(--dash-ink);display:block;">
-                    <?php
-                    $ext = strtolower(pathinfo($d['original_name'], PATHINFO_EXTENSION));
-                    $icon = $ext === 'pdf' ? 'file-pdf' : 'file-word';
-                    ?>
-                    <i class="fas fa-<?= $icon ?>" style="margin-right:4px;color:var(--color-primary);"></i>
-                    <?= e($d['original_name']) ?>
-                  </span>
-                  <span style="font-size:11px;color:var(--dash-ink-soft);">
-                    <?= $d['file_size'] ? number_format($d['file_size'] / 1024, 1) . ' KB' : '' ?>
-                    <?= $d['description'] ? ' — ' . e($d['description']) : '' ?>
-                  </span>
-                </div>
-              </label>
+              <?php foreach ($documents as $d):
+                     $isLegacy = isset($d['is_legacy']);
+                     $checkboxVal = $isLegacy ? 'm_' . $d['id'] : 'd_' . $d['id'];
+                     $ext = strtolower(pathinfo($d['original_name'], PATHINFO_EXTENSION));
+                     $icon = $ext === 'pdf' ? 'file-pdf' : 'file-word';
+                   ?>
+               <label class="edit-media-item" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--dash-border);border-radius:8px;cursor:pointer;background:var(--color-bg-soft);">
+                 <input type="checkbox" name="delete_document[]" value="<?= $checkboxVal ?>" style="accent-color:var(--color-error);">
+                 <div>
+                   <span style="font-size:12px;font-weight:600;color:var(--dash-ink);display:block;">
+                     <i class="fas fa-<?= $icon ?>" style="margin-right:4px;color:var(--color-primary);"></i>
+                     <?= e($d['original_name']) ?>
+                   </span>
+                   <span style="font-size:11px;color:var(--dash-ink-soft);">
+                     <?= $d['file_size'] ? number_format($d['file_size'] / 1024, 1) . ' KB' : '' ?>
+                     <?php if ($d['description']): ?> — <?= e($d['description']) ?><?php endif; ?>
+                     <?php if ($isLegacy): ?> <span style="color:var(--dash-ink-softest);margin-left:4px;">(legacy)</span><?php endif; ?>
+                   </span>
+                 </div>
+               </label>
               <?php endforeach; ?>
             </div>
             <p style="font-size:11px;color:var(--color-error);margin-top:6px;">Check a document and save to delete it.</p>
