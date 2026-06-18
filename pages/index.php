@@ -47,12 +47,16 @@ require __DIR__ . '/../includes/header.php';
   .hp-gap-48 { gap:48px; }
 }
 @media (max-width:767px) {
-  .hp-hero { min-height:500px; }
-  .hp-hero-inner { padding-top:48px; padding-bottom:48px; }
-  .hp-hero-title { font-size:32px; line-height:38px; }
+  .hp-hero { min-height:auto; }
+  .hp-hero-inner { padding-top:40px; padding-bottom:40px; }
+  .hp-hero-title { font-size:28px; line-height:34px; }
+  .hp-hero-grid { grid-template-columns:1fr; gap:24px; }
+  .hp-hero-content { order:1; }
+  .hp-hero-visual { order:0; margin-bottom:8px; }
+  .hp-hero-sub { max-width:100%!important; }
   .hp-hide-mobile { display:none; }
   .hp-show-mobile { display:block; }
-  .hp-stats-row { flex-direction:column; }
+  .hp-stats-row { flex-direction:column; gap:12px; }
   .hp-grid-2 { grid-template-columns:1fr; }
   .hp-grid-3 { grid-template-columns:1fr; }
   .hp-grid-4 { grid-template-columns:repeat(2,1fr); }
@@ -60,6 +64,9 @@ require __DIR__ . '/../includes/header.php';
   .hp-biz-cards { grid-template-columns:1fr; }
   .hp-gap-48 { gap:24px; }
   .hp-stats-divider { display:none; }
+  .pub-section { padding:40px 0; }
+  section[style*="padding:64px"] { padding:40px 0!important; }
+  .pub-section-head { margin-bottom:32px; }
 }
 @media (max-width:479px) {
   .hp-grid-4 { grid-template-columns:1fr; }
@@ -67,6 +74,14 @@ require __DIR__ . '/../includes/header.php';
 @media (max-width:639px) {
   .hp-hero-actions { flex-direction:column; }
   .hp-hero-actions a { width:100%; text-align:center; }
+}
+
+/* ── Hero responsive grid ── */
+.hp-hero-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:48px;
+  align-items:center;
 }
 
 /* ── Hero entrance stagger ── */
@@ -90,6 +105,43 @@ require __DIR__ . '/../includes/header.php';
 .hp-card-stagger:nth-child(4) { animation: hpFadeSlide 400ms var(--ease-out-strong) 200ms both; }
 .hp-card-stagger:nth-child(5) { animation: hpFadeSlide 400ms var(--ease-out-strong) 250ms both; }
 .hp-card-stagger:nth-child(6) { animation: hpFadeSlide 400ms var(--ease-out-strong) 300ms both; }
+
+/* ── Why Asaan Capital cards ── */
+.hp-why-card {
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+}
+.hp-why-icon {
+  width:48px;
+  height:48px;
+  border-radius:12px;
+  background:rgba(107,29,34,0.08);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.hp-why-card h3 {
+  font-size:16px;
+  font-weight:700;
+  color:var(--dash-ink);
+  margin:0 0 4px;
+}
+.hp-why-card p {
+  font-size:14px;
+  line-height:1.6;
+  color:var(--dash-ink-soft);
+  margin:0;
+}
+@media (max-width:480px) {
+  .hp-why-card { flex-direction:column; }
+  .hp-why-icon { width:40px; height:40px; }
+}
+@media (max-width:767px) {
+  .hp-why-card h3 { font-size:15px; }
+  .hp-why-card p { font-size:13px; }
+}
 
 /* ── Clickable cards: active press ── */
 .pub-card, .pub-feature, .faq-item, [class*="hp-card-stagger"] {
@@ -228,6 +280,7 @@ require __DIR__ . '/../includes/header.php';
 @media (max-width:900px) {
   .fb-arrow { display:none!important; }
   .fb-ref-arrows { display:none; }
+  .fb-ref-row { gap:24px!important; }
 }
 
 /* right column responsive */
@@ -240,8 +293,11 @@ require __DIR__ . '/../includes/header.php';
   display:none;
   position:fixed; bottom:0; left:0; right:0;
   z-index:55; height:64px;
+  padding-bottom:env(safe-area-inset-bottom,0);
   background:#fff; border-top:1px solid var(--dash-border);
   box-shadow:0 -2px 16px rgba(0,0,0,0.06);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
 }
 @media (max-width:768px) {
   .hp-bottom-nav { display: flex; }
@@ -254,11 +310,57 @@ require __DIR__ . '/../includes/header.php';
 .hp-bottom-nav-item {
   display:flex; flex-direction:column; align-items:center; gap:2px;
   text-decoration:none; color:var(--dash-ink-soft); font-size:10px; font-weight:600;
-  padding:4px 12px; border-radius:8px; transition:color 150ms;
+  padding:4px 12px; border-radius:8px; transition:color 150ms, background 150ms;
   white-space:nowrap; min-width:0;
+  -webkit-tap-highlight-color:transparent;
 }
+.hp-bottom-nav-item:active { background:var(--color-bg-soft); }
 .hp-bottom-nav-item.active { color:var(--color-primary-vivid); }
-.hp-bottom-nav-item svg { width:22px; height:22px; display:block; }
+.hp-bottom-nav-item.active svg { stroke:var(--color-primary-vivid); }
+.hp-bottom-nav-item svg { width:22px; height:22px; display:block; transition:stroke 150ms; }
+
+/* ── Mobile refinements ── */
+@media (max-width:767px) {
+  .hp-hero-title .highlight { display:inline; }
+  .pub-h2 { font-size:1.5rem!important; line-height:1.3!important; }
+  .pub-lead { font-size:0.95rem!important; }
+  .pub-statstrip { gap:8px!important; }
+  .pub-statstrip-item p { font-size:0.85rem!important; }
+  .pub-statstrip-num { font-size:1.15rem!important; }
+  .pub-statstrip-label { font-size:0.75rem!important; }
+  .fb-ref-card { padding:16px!important; }
+  .fb-ref-card h3 { font-size:16px!important; }
+  .fb-ref-right h2 { font-size:22px!important; }
+  .fb-ref-right h3 { font-size:15px!important; }
+  .fb-ref-right p { font-size:14px!important; }
+  .hp-dual-card { padding:20px!important; }
+  .hp-dual-card h3 { font-size:22px!important; }
+  .hp-dual-card p { font-size:14px!important; }
+  .pub-cta h2 { font-size:22px!important; }
+  .pub-cta p { font-size:14px!important; }
+  .pub-cta-actions { flex-direction:column; gap:12px; }
+  .pub-cta-actions a { width:100%; text-align:center; }
+  .pub-wrap { padding:0 16px; }
+  .faq-item { padding:12px!important; }
+  .faq-header { font-size:14px!important; }
+}
+
+@media (max-width:480px) {
+  .hp-hero-title { font-size:24px!important; line-height:30px!important; }
+  .hp-grid-4 { grid-template-columns:1fr; }
+  .pub-feature { padding:20px!important; }
+}
+
+/* ── Inline container padding on mobile ── */
+@media (max-width:767px) {
+  div[style*="padding:0 24px"] { padding-left:16px!important; padding-right:16px!important; }
+}
+
+/* ── Tap target boost ── */
+.hp-bottom-nav-item { min-height:44px; }
+.btn, .pub-cta-actions a, .fb-ref-btn, [class*="hp-bottom-nav"] a {
+  min-height:44px;
+}
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion:reduce) {
@@ -274,7 +376,7 @@ require __DIR__ . '/../includes/header.php';
 <!-- Hero Section -->
 <section class="hp-hero" style="position:relative;overflow:hidden;display:flex;align-items:center;background:#fff;">
   <div class="hp-hero-inner pub-wrap" style="width:100%;position:relative;z-index:10;padding-top:60px;padding-bottom:60px;">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;">
+    <div class="hp-hero-grid">
       <div class="hp-hero-content">
         <h1 class="hp-hero-title pub-h1" style="color:var(--dash-ink);margin-bottom:20px;">
           <?= $hero_title ?>
@@ -324,59 +426,59 @@ require __DIR__ . '/../includes/header.php';
       <h2 class="pub-h2" style="margin-bottom:12px;">Nepal's most trusted business matching platform</h2>
       <p class="pub-text" style="max-width:640px;margin:0 auto;color:var(--dash-ink-soft);">We make it safe, simple, and smart to find the right business partner — whether you're buying, selling, investing, or raising capital.</p>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
-      <div style="display:flex;gap:16px;align-items:flex-start;">
-        <div style="width:48px;height:48px;border-radius:12px;background:rgba(107,29,34,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+    <div class="hp-grid-2" style="display:grid;gap:32px;">
+      <div class="hp-why-card">
+        <div class="hp-why-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         </div>
         <div>
-          <h3 style="font-size:16px;font-weight:700;color:var(--dash-ink);margin:0 0 4px;">Every profile is verified</h3>
-          <p style="font-size:14px;line-height:1.6;color:var(--dash-ink-soft);margin:0;">All businesses, investors, and advisors are manually screened before they go live. No bots, no fake listings.</p>
+          <h3>Every profile is verified</h3>
+          <p>All businesses, investors, and advisors are manually screened before they go live. No bots, no fake listings.</p>
         </div>
       </div>
-      <div style="display:flex;gap:16px;align-items:flex-start;">
-        <div style="width:48px;height:48px;border-radius:12px;background:rgba(107,29,34,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="hp-why-card">
+        <div class="hp-why-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
         </div>
         <div>
-          <h3 style="font-size:16px;font-weight:700;color:var(--dash-ink);margin:0 0 4px;">Your privacy is protected</h3>
-          <p style="font-size:14px;line-height:1.6;color:var(--dash-ink-soft);margin:0;">Contact details stay hidden until both sides express mutual interest. You control who sees your information.</p>
+          <h3>Your privacy is protected</h3>
+          <p>Contact details stay hidden until both sides express mutual interest. You control who sees your information.</p>
         </div>
       </div>
-      <div style="display:flex;gap:16px;align-items:flex-start;">
-        <div style="width:48px;height:48px;border-radius:12px;background:rgba(107,29,34,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="hp-why-card">
+        <div class="hp-why-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
         </div>
         <div>
-          <h3 style="font-size:16px;font-weight:700;color:var(--dash-ink);margin:0 0 4px;">Fair & transparent process</h3>
-          <p style="font-size:14px;line-height:1.6;color:var(--dash-ink-soft);margin:0;">No hidden fees. Clear pricing, straightforward matching, and a 1% finder's fee only when a deal closes.</p>
+          <h3>Fair & transparent process</h3>
+          <p>No hidden fees. Clear pricing, straightforward matching, and a 1% finder's fee only when a deal closes.</p>
         </div>
       </div>
-      <div style="display:flex;gap:16px;align-items:flex-start;">
-        <div style="width:48px;height:48px;border-radius:12px;background:rgba(107,29,34,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="hp-why-card">
+        <div class="hp-why-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
         </div>
         <div>
-          <h3 style="font-size:16px;font-weight:700;color:var(--dash-ink);margin:0 0 4px;">Active, engaged network</h3>
-          <p style="font-size:14px;line-height:1.6;color:var(--dash-ink-soft);margin:0;">Thousands of verified investors, business owners, and advisors across all seven provinces of Nepal.</p>
+          <h3>Active, engaged network</h3>
+          <p>Thousands of verified investors, business owners, and advisors across all seven provinces of Nepal.</p>
         </div>
       </div>
-      <div style="display:flex;gap:16px;align-items:flex-start;">
-        <div style="width:48px;height:48px;border-radius:12px;background:rgba(107,29,34,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="hp-why-card">
+        <div class="hp-why-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         </div>
         <div>
-          <h3 style="font-size:16px;font-weight:700;color:var(--dash-ink);margin:0 0 4px;">Trusted by industry leaders</h3>
-          <p style="font-size:14px;line-height:1.6;color:var(--dash-ink-soft);margin:0;">Partnered with leading business organizations, financial advisors, and industry associations across Nepal.</p>
+          <h3>Trusted by industry leaders</h3>
+          <p>Partnered with leading business organizations, financial advisors, and industry associations across Nepal.</p>
         </div>
       </div>
-      <div style="display:flex;gap:16px;align-items:flex-start;">
-        <div style="width:48px;height:48px;border-radius:12px;background:rgba(107,29,34,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="hp-why-card">
+        <div class="hp-why-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
         </div>
         <div>
-          <h3 style="font-size:16px;font-weight:700;color:var(--dash-ink);margin:0 0 4px;">Built for Nepal</h3>
-          <p style="font-size:14px;line-height:1.6;color:var(--dash-ink-soft);margin:0;">Designed specifically for the Nepali market. Local knowledge, local regulations, and local support.</p>
+          <h3>Built for Nepal</h3>
+          <p>Designed specifically for the Nepali market. Local knowledge, local regulations, and local support.</p>
         </div>
       </div>
     </div>
@@ -525,7 +627,7 @@ $ltLabels = ['full_sale'=>'Business for Sale', 'partial_sale'=>'Stake Sale', 'se
 <section class="pub-section surface">
   <div class="pub-wrap">
     <div class="hp-grid-2 hp-gap-48" style="display:grid;">
-      <div style="position:relative;overflow:hidden;border-radius:12px;padding:24px;background:#ffdad933;border:1px solid #ffb3b2;">
+      <div class="hp-dual-card" style="position:relative;overflow:hidden;border-radius:12px;padding:20px;background:#ffdad933;border:1px solid #ffb3b2;">
         <div style="position:relative;z-index:10;">
           <h3 class="pub-h2" style="margin-bottom:16px;color:var(--color-primary);">For Investors</h3>
           <p class="pub-text" style="margin-bottom:24px;max-width:400px;">
@@ -543,7 +645,7 @@ $ltLabels = ['full_sale'=>'Business for Sale', 'partial_sale'=>'Stake Sale', 'se
           </ul>
         </div>
       </div>
-      <div style="position:relative;overflow:hidden;border-radius:12px;padding:24px;background:#f5e6e6;border:1px solid #e0c5c5;">
+      <div class="hp-dual-card" style="position:relative;overflow:hidden;border-radius:12px;padding:20px;background:#f5e6e6;border:1px solid #e0c5c5;">
         <div style="position:relative;z-index:10;">
           <h3 class="pub-h2" style="margin-bottom:16px;color:var(--color-primary);">For Entrepreneurs</h3>
           <p class="pub-text" style="margin-bottom:24px;max-width:400px;">
@@ -865,7 +967,7 @@ document.querySelectorAll('.faq-header').forEach(function(header) {
   });
 });
 
-// Marquee auto-scroll
+// Marquee auto-scroll with improved touch/swipe
 function initMarquee(id) {
   var track = document.getElementById(id + 'Track');
   var marquee = document.getElementById(id);
@@ -875,11 +977,13 @@ function initMarquee(id) {
   var rightArrow = marquee.querySelector('.fb-arrow-right, .hp-marquee-arrow-right');
   var interval = null;
   var isPaused = false;
-  var dir = 1; // 1 = forward (right), -1 = backward (left)
+
+  // Detect if we're on a touch device
+  var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
   function getScrollAmount() {
-    var cards = track.querySelectorAll('.pub-card, .fb-card, .fb-ref-card');
-    if (cards.length < 2) return 320;
+    var cards = track.querySelectorAll('.pub-card, .fb-card, .fb-ref-card, .pitch-scroll > *, [class*="hp-marquee-track"] > *');
+    if (cards.length < 2) return 280;
     var tr = track.getBoundingClientRect();
     for (var i = 0; i < cards.length; i++) {
       var cr = cards[i].getBoundingClientRect();
@@ -887,67 +991,94 @@ function initMarquee(id) {
         return Math.max(cr.left - tr.left, 100);
       }
     }
-    return cards[0].offsetWidth + 16;
+    var first = cards[0];
+    return first ? first.offsetWidth + 16 : 280;
+  }
+
+  function scrollTo(left) {
+    track.scrollTo({ left: left, behavior: 'smooth' });
   }
 
   function scrollNext() {
     if (isPaused) return;
     var maxScroll = track.scrollWidth - track.clientWidth;
     var amt = getScrollAmount();
-    var next = track.scrollLeft + (dir * amt);
+    var next = track.scrollLeft + amt;
     if (next >= maxScroll - 10) next = 0;
-    if (next <= 0) next = 0;
     track.scrollTo({ left: next, behavior: 'smooth' });
   }
 
   function scrollPrev() {
     var prev = track.scrollLeft - getScrollAmount();
-    if (prev <= 0) prev = 0;
+    if (prev < 0) prev = 0;
     track.scrollTo({ left: prev, behavior: 'smooth' });
-  }
-
-  function flipDir() {
-    dir = dir === 1 ? -1 : 1;
   }
 
   function startAutoScroll() {
     stopAutoScroll();
-    interval = setInterval(scrollNext, 3500);
+    interval = setInterval(scrollNext, 4000);
   }
 
   function stopAutoScroll() {
     if (interval) { clearInterval(interval); interval = null; }
   }
 
-  if (leftArrow) leftArrow.addEventListener('click', function() { stopAutoScroll(); flipDir(); scrollNext(); });
-  if (rightArrow) rightArrow.addEventListener('click', function() { stopAutoScroll(); flipDir(); scrollNext(); });
+  // Arrow clicks: scroll one card, restart timer
+  if (leftArrow) {
+    leftArrow.addEventListener('click', function(e) {
+      e.stopPropagation();
+      stopAutoScroll();
+      scrollPrev();
+      setTimeout(startAutoScroll, 5000);
+    });
+  }
+  if (rightArrow) {
+    rightArrow.addEventListener('click', function(e) {
+      e.stopPropagation();
+      stopAutoScroll();
+      scrollNext();
+      setTimeout(startAutoScroll, 5000);
+    });
+  }
 
-  marquee.addEventListener('mouseenter', function() { isPaused = true; });
-  marquee.addEventListener('mouseleave', function() { isPaused = false; });
+  // Pause on hover (desktop only)
+  if (!isTouchDevice) {
+    marquee.addEventListener('mouseenter', function() { isPaused = true; });
+    marquee.addEventListener('mouseleave', function() { isPaused = false; });
+  }
 
-  // Touch swipe
-  var startX = 0;
-  var isDragging = false;
+  // Touch swipe with passive handlers
+  var startX = 0, startY = 0, isDragging = false;
 
   track.addEventListener('touchstart', function(e) {
     startX = e.touches[0].clientX;
-    isDragging = true;
+    startY = e.touches[0].clientY;
+    isDragging = false;
     stopAutoScroll();
   }, { passive: true });
 
+  track.addEventListener('touchmove', function(e) {
+    if (!startX) return;
+    var dx = Math.abs(e.touches[0].clientX - startX);
+    var dy = Math.abs(e.touches[0].clientY - startY);
+    // Only activate if horizontal swipe dominates
+    if (dx > dy && dx > 10) {
+      isDragging = true;
+    }
+  }, { passive: true });
+
   track.addEventListener('touchend', function(e) {
-    if (!isDragging) return;
+    if (!isDragging) { startAutoScroll(); return; }
     isDragging = false;
     var diff = startX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) {
+    if (Math.abs(diff) > 50) {
       if (diff > 0) scrollNext();
       else scrollPrev();
     }
-    flipDir();
     startAutoScroll();
   }, { passive: true });
 
-  // Only auto-scroll if cards overflow the container
+  // Only auto-scroll if overflow
   if (track.scrollWidth > track.clientWidth + 2) {
     startAutoScroll();
   }
