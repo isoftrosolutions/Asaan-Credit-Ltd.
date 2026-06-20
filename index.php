@@ -1,6 +1,15 @@
 <?php
 require __DIR__ . '/config/bootstrap.php';
 
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization');
+    header('Access-Control-Max-Age: 86400');
+    http_response_code(204);
+    exit;
+}
+
 $path = $_GET['_path'] ?? '';
 $path = '/' . trim(parse_url($path, PHP_URL_PATH), '/');
 
@@ -100,7 +109,32 @@ $routes = [
     '/api/conversation-unread'      => 'api/conversation-unread.php',
     '/api/users'                    => 'api/users.php',
     '/api/messages-poll'            => 'api/messages-poll.php',
+
+    '/api/auth/register'            => 'api/auth-register.php',
+    '/api/auth/login'               => 'api/auth-login.php',
+    '/api/auth/logout'              => 'api/auth-logout.php',
+    '/api/auth/me'                  => 'api/auth-me.php',
+    '/api/auth/forgot-password'     => 'api/auth-forgot-password.php',
+    '/api/auth/reset-password'      => 'api/auth-reset-password.php',
+    '/api/auth/verify-email'        => 'api/auth-verify-email.php',
+    '/api/auth/resend-otp'          => 'api/auth-resend-otp.php',
+    '/api/businesses'               => 'api/businesses.php',
+    '/api/investors'                => 'api/investors.php',
+    '/api/pitches'                  => 'api/pitches.php',
+    '/api/franchises'               => 'api/franchises.php',
+    '/api/business'                 => 'api/business-detail.php',
+    '/api/investor'                 => 'api/investor-detail.php',
+    '/api/pitch'                    => 'api/pitch-detail.php',
+    '/api/franchise'                => 'api/franchise-detail.php',
+    '/api/search'                   => 'api/search.php',
+    '/api/sectors'                  => 'api/sectors.php',
 ];
+
+if (preg_match('#^/api/blog(/|$)#', $path)) {
+    $_GET['_path'] = $path;
+    require __DIR__ . '/api/blog.php';
+    exit;
+}
 
 if (preg_match('#^/browse/(businesses|investors|entrepreneurs|franchises)$#', $path, $m)) {
     $file = 'discover/' . $m[1] . '.php';

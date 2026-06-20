@@ -6,6 +6,7 @@
 
 # Local SQL dump
 /_dump.sql
+/asaancapital_assan_capital*.sql
 
 # Design source bundles
 *.zip
@@ -19,3 +20,6 @@ ws-server/node_modules/
 # Uploaded payment receipts (runtime user files)
 /public/uploads/payment-receipts/*
 !/public/uploads/payment-receipts/.gitkeep
+
+# Mobile app (separate Expo project, has its own git)
+/mobile-app/

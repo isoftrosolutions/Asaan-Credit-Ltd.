@@ -1,17 +1,23 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
-require_login();
+cors_headers();
 
-csrf_check();
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    json_error('Method not allowed', 405);
+}
 
-$businessId = (int)($_POST['business_id'] ?? 0);
-$message = mb_substr(trim($_POST['message'] ?? ''), 0, 1000);
-$buyer = current_user();
+$input = get_json_input();
+$inputPost = $_POST ?: [];
+
+$businessId = (int)($input['business_id'] ?? $inputPost['business_id'] ?? 0);
+$message = mb_substr(trim($input['message'] ?? $inputPost['message'] ?? ''), 0, 1000);
+
+$user = require_api_auth();
+$buyer = $user;
 $userId = (int)$buyer['id'];
 
 if ($businessId < 1) {
-    flash_set('error', 'Invalid business.');
-    redirect_back();
+    json_error('Invalid business.');
 }
 
 $db = db();
@@ -27,13 +33,11 @@ $stmt->execute([$businessId]);
 $business = $stmt->fetch();
 
 if (!$business) {
-    flash_set('error', 'Business not found.');
-    redirect_back();
+    json_error('Business not found.', 404);
 }
 
 if ((int)$business['user_id'] === $userId) {
-    flash_set('error', 'You cannot send an inquiry to your own business.');
-    redirect('/business/' . ($business['slug'] ?: $business['id']));
+    json_error('You cannot send an inquiry to your own business.');
 }
 
 try {
@@ -44,8 +48,7 @@ try {
     $pendingCheck->execute([$businessId, $userId, (int)$business['user_id']]);
     if ($pendingCheck->fetch()) {
         $db->rollBack();
-        flash_set('info', 'You already have a pending request for this business.');
-        redirect('/business/' . ($business['slug'] ?: $business['id']));
+        json_error('You already have a pending request for this business.', 409);
     }
 
     // Save archive inquiry for admin/reporting history.
@@ -125,10 +128,8 @@ try {
     if ($db->inTransaction()) {
         $db->rollBack();
     }
-    flash_set('error', 'Something went wrong. Please try again.');
     if (DEBUG_MODE) error_log('send-inquiry error: ' . $e->getMessage());
-    redirect('/business/' . ($business['slug'] ?: $business['id']));
+    json_error('Something went wrong. Please try again.', 500);
 }
 
-flash_set('success', 'Your proposal has been sent. Check your Messages for the conversation.');
-redirect('/messages');
+json_success(['message' => 'Your proposal has been sent.', 'conversation_id' => $conversationId ?? null]);
