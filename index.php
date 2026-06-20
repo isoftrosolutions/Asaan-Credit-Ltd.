@@ -124,10 +124,14 @@ $routes = [
     '/api/franchises'               => 'api/franchises.php',
     '/api/business'                 => 'api/business-detail.php',
     '/api/investor'                 => 'api/investor-detail.php',
+    '/api/investor/profile'         => 'api/investor-profile-update.php',
+    '/api/investor/preferences'     => 'api/investor-preferences-update.php',
     '/api/pitch'                    => 'api/pitch-detail.php',
     '/api/franchise'                => 'api/franchise-detail.php',
     '/api/search'                   => 'api/search.php',
     '/api/sectors'                  => 'api/sectors.php',
+    '/api/notifications-list'       => 'api/notifications-list.php',
+    '/api/faqs'                     => 'api/faqs.php',
 ];
 
 if (preg_match('#^/api/blog(/|$)#', $path)) {

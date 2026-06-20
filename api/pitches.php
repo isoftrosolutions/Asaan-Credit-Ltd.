@@ -2,6 +2,15 @@
 require __DIR__ . '/../config/bootstrap.php';
 cors_headers();
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require __DIR__ . '/pitches-create.php';
+    exit;
+}
+if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+    require __DIR__ . '/pitches-update.php';
+    exit;
+}
+
 $page = max(1, (int)($_GET['page'] ?? 1));
 $perPage = min(50, max(1, (int)($_GET['per_page'] ?? 12)));
 
