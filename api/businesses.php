@@ -72,7 +72,14 @@ $countStmt = db()->prepare("SELECT COUNT(*) FROM businesses b WHERE $whereClause
 $countStmt->execute($params);
 $meta = api_paginate($countStmt, $page, $perPage);
 
-$sql = "SELECT b.*, s.name as sector_name
+$sql = "SELECT b.*, s.name as sector_name,
+            (
+                SELECT bm.file_url
+                FROM business_media bm
+                WHERE bm.business_id = b.id AND bm.media_type = 'image'
+                ORDER BY bm.sort_order ASC, bm.id ASC
+                LIMIT 1
+            ) as image_url
         FROM businesses b
         LEFT JOIN sectors s ON b.sector_id = s.id
         WHERE $whereClause

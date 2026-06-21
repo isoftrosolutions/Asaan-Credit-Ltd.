@@ -9,8 +9,15 @@ if ($method === 'GET') {
     if (!$user) {
         json_error('Authentication required.', 401);
     }
+    $hasActivePremium = hasActiveSubscription((int)$user['id']);
+    $isPremium = !empty($user['is_premium']) || $hasActivePremium;
+    if ($isPremium !== !empty($user['is_premium'])) {
+        db()->prepare('UPDATE users SET is_premium = ? WHERE id = ?')->execute([$isPremium ? 1 : 0, (int)$user['id']]);
+        $user['is_premium'] = $isPremium ? 1 : 0;
+    }
     $safeFields = ['id', 'name', 'email', 'role', 'account_type', 'phone', 'province', 'district', 'profile_photo', 'verification_status', 'is_premium', 'is_admin', 'usage_goal', 'email_verified_at', 'company_name', 'company_size', 'created_at'];
     $safeUser = array_intersect_key($user, array_flip($safeFields));
+    $safeUser['is_premium'] = $isPremium ? 1 : 0;
     json_success($safeUser);
 }
 

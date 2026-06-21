@@ -15,7 +15,14 @@ $results = [];
 $meta = ['query' => $q, 'type' => $type];
 
 if ($type === 'all' || $type === 'businesses') {
-    $sql = "SELECT b.id, b.business_name as name, b.slug, b.province, b.district, b.asking_price, b.listing_type, 'business' as listing_type_label, b.created_at
+    $sql = "SELECT b.id, b.business_name as name, b.slug, b.province, b.district, b.asking_price, b.listing_type, 'business' as listing_type_label, b.created_at,
+                (
+                    SELECT bm.file_url
+                    FROM business_media bm
+                    WHERE bm.business_id = b.id AND bm.media_type = 'image'
+                    ORDER BY bm.sort_order ASC, bm.id ASC
+                    LIMIT 1
+                ) as image_url
             FROM businesses b WHERE b.status = 'approved' AND b.is_hidden = 0 AND (b.business_name LIKE ? OR b.description LIKE ? OR b.province LIKE ?)
             LIMIT ?";
     $stmt = db()->prepare($sql);
@@ -34,7 +41,7 @@ if ($type === 'all' || $type === 'investors') {
 }
 
 if ($type === 'all' || $type === 'pitches') {
-    $sql = "SELECT p.id, p.tagline as title, p.funding_amount, p.stage, p.sector_id, s.name as sector_name, p.created_at
+    $sql = "SELECT p.id, p.tagline as title, p.funding_amount, p.stage, p.sector_id, s.name as sector_name, p.pitch_image, p.created_at
             FROM pitches p LEFT JOIN sectors s ON p.sector_id = s.id
             WHERE p.is_published = 1 AND p.is_hidden = 0 AND (p.tagline LIKE ? OR p.short_summary LIKE ? OR p.problem_statement LIKE ? OR p.solution LIKE ?)
             LIMIT ?";
