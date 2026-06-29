@@ -33,7 +33,7 @@ require __DIR__ . '/../includes/header.php';
           <span class="pub-eyebrow">Company Overview</span>
           <h2 class="pub-h2" style="margin-bottom:16px;">Who We Are</h2>
           <p class="pub-text" style="font-size:1rem;margin-bottom:16px;">
-            <strong>Asaan Capital Ltd</strong> is a Birgunj-based financial services company and the operator of Nepal's first dedicated online marketplace for business matching, M&A, and fundraising. We bridge the gap between capital seekers and capital providers — making business transactions <em>asaan</em> (easy).
+            <strong>Asaan Capital Ltd</strong> is a Bhaktapur-based financial services company and the operator of Nepal's first dedicated online marketplace for business matching, M&A, and fundraising. We bridge the gap between capital seekers and capital providers — making business transactions <em>asaan</em> (easy).
           </p>
           <p class="pub-text" style="font-size:1rem;margin-bottom:16px;">
             Registered and regulated in Nepal, we serve a growing network of entrepreneurs, investors, franchisors, and advisors across all seven provinces. Our platform provides end-to-end solutions including <strong>Investment Advisory, Business Valuation, Due Diligence, Capital Raising, and Corporate Advisory</strong>.
