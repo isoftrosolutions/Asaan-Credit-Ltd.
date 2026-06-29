@@ -24,6 +24,7 @@ $routes = [
     '/change-password'              => 'auth/change-password.php',
     '/about'                        => 'pages/about.php',
     '/services'                     => 'pages/services.php',
+    '/team'                         => 'pages/team.php',
     '/contact'                      => 'pages/contact.php',
     '/careers'                      => 'pages/careers.php',
     '/press'                        => 'pages/press.php',
