@@ -87,6 +87,8 @@ $routes = [
     '/admin/blog'                   => 'admin/content/blog.php',
     '/admin/blog/edit'              => 'admin/content/blog-edit.php',
     '/admin/blog/image-upload'      => 'admin/blog-image-upload.php',
+    '/admin/careers'                => 'admin/content/careers.php',
+    '/admin/careers/edit'           => 'admin/content/career-edit.php',
     '/admin/homepage'               => 'admin/content/homepage.php',
     '/admin/email-settings'         => 'admin/email-settings.php',
     '/admin/site-settings'          => 'admin/site-settings.php',
@@ -150,6 +152,12 @@ if (preg_match('#^/browse/(businesses|investors|entrepreneurs|franchises)$#', $p
 
 if (preg_match('#^/search$#', $path)) {
     require __DIR__ . '/discover/search.php';
+    exit;
+}
+
+if (preg_match('#^/careers/([a-z0-9-]+)$#', $path, $m)) {
+    $_GET['slug'] = $m[1];
+    require __DIR__ . '/pages/job-detail.php';
     exit;
 }
 
