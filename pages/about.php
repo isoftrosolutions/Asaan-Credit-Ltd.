@@ -174,7 +174,7 @@ require __DIR__ . '/../includes/header.php';
       <div class="pub-grid cols-3" style="gap:32px;">
         <?php $team = [
           ['Devbarat Patel', 'CEO & Founder', '10+ years in investment advisory, business valuation, and strategic financial consulting. Leading Asaan Capital\'s vision for a transparent investment ecosystem in Nepal.', '9848714990'],
-          ['Shyamsundar Yadav', 'Managing Partner', '8+ years of experience in business development, M&A advisory, and client relationship management across multiple sectors.', '9848714991'],
+          ['Shyam Sundar Yadav', 'Managing Partner', '8+ years of experience in business development, M&A advisory, and client relationship management across multiple sectors.', '9848714991'],
           ['Rabin Thapa', 'Head of Advisory', '12+ years in corporate finance, project finance, and due diligence. Previously served at leading financial institutions in Nepal.', '9848714992'],
         ]; foreach ($team as $t): ?>
         <div style="text-align:center;">

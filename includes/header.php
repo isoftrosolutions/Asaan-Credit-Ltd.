@@ -116,10 +116,11 @@ if ($user) {
         </div>
           <nav style="display:flex;gap:24px;">
             <a href="<?= APP_URL ?>/" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Home</a>
-            <a href="<?= APP_URL ?>/browse/businesses" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Investor & Entrepreneur</a>
             <a href="<?= APP_URL ?>/about" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">About Us</a>
-            <a href="<?= APP_URL ?>/blog" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Blog</a>
-            <a href="<?= APP_URL ?>/contact" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Contact</a>
+            <a href="<?= APP_URL ?>/services" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Services</a>
+            <a href="<?= APP_URL ?>/portfolio" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Portfolio</a>
+            <a href="<?= APP_URL ?>/blog" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">News & Insights</a>
+            <a href="<?= APP_URL ?>/contact" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Contact Us</a>
           </nav>
         <div style="margin-left:auto;display:flex;gap:8px;">
           <a href="<?= APP_URL ?>/login" style="padding:8px 16px;border:1px solid var(--dash-border);border-radius:8px;text-decoration:none;color:var(--dash-ink);font-weight:500;">Log in</a>
