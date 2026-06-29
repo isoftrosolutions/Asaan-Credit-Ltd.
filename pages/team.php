@@ -5,6 +5,12 @@ $pageTitle = 'Team — ' . APP_NAME_LONG;
 $pageDescription = 'Meet the leadership team at Asaan Capital Ltd — experienced professionals dedicated to investment advisory, business valuation, and financial services in Nepal.';
 $forcePublicHeader = true;
 
+$members = [];
+try {
+    $stmt = db()->query("SELECT * FROM team_members WHERE is_active = 1 ORDER BY sort_order ASC, id ASC");
+    $members = $stmt->fetchAll();
+} catch (\Throwable $e) {}
+
 $breadcrumbSchema = '<script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -45,30 +51,35 @@ require __DIR__ . '/../includes/header.php';
 
 <section class="pub-section">
   <div class="pub-wrap">
+    <?php if (empty($members)): ?>
+      <div class="pub-card" style="padding:var(--space-8) var(--space-5);text-align:center;">
+        <span class="material-symbols-outlined" style="font-size:48px;color:var(--dash-ink-soft);margin-bottom:var(--space-3);">groups</span>
+        <h3 class="pub-h3" style="margin-bottom:var(--space-2);">Team information coming soon</h3>
+        <p class="pub-text">We're building our team page. Check back shortly.</p>
+      </div>
+    <?php else: ?>
     <div class="tm-grid">
-      <?php $team = [
-        ['Shyam Sundar Yadav', 'CEO & Founder', 'Visionary leader with extensive experience in business development, M&A advisory, and strategic financial consulting. Driving Asaan Capital\'s mission to transform Nepal\'s investment landscape.', '9848714991', null],
-        ['Devbarat Patel', 'Managing Partner', '8+ years in investment advisory, business valuation, and client relationship management. Committed to delivering transparent and innovative financial solutions.', '9848714990', null],
-        ['Rabin Thapa', 'Head of Advisory', '12+ years in corporate finance, project finance, and due diligence. Previously served at leading financial institutions in Nepal.', '9848714992', null],
-      ]; foreach ($team as $t): ?>
+      <?php foreach ($members as $m):
+        $initial = mb_strtoupper(mb_substr($m['name'], 0, 1));
+      ?>
       <div class="tm-card">
         <div class="tm-avatar-wrap">
-          <?php if ($t[4]): ?>
-            <img src="<?= e($t[4]) ?>" alt="<?= e($t[0]) ?>">
+          <?php if ($m['photo']): ?>
+            <img src="<?= APP_URL ?>/public/uploads/team/<?= e($m['photo']) ?>" alt="<?= e($m['name']) ?>">
           <?php else: ?>
-            <?php $initial = mb_strtoupper(mb_substr($t[0], 0, 1)); ?>
             <div class="tm-avatar-placeholder"><?= $initial ?></div>
           <?php endif; ?>
         </div>
-        <div class="tm-name"><?= e($t[0]) ?></div>
-        <div class="tm-role"><?= e($t[1]) ?></div>
-        <div class="tm-bio"><?= e($t[2]) ?></div>
-        <?php if ($t[3]): ?>
-        <div class="tm-phone"><a href="tel:<?= e($t[3]) ?>"><i class="fas fa-phone"></i> <?= e($t[3]) ?></a></div>
+        <div class="tm-name"><?= e($m['name']) ?></div>
+        <div class="tm-role"><?= e($m['position']) ?></div>
+        <?php if ($m['bio']): ?><div class="tm-bio"><?= e($m['bio']) ?></div><?php endif; ?>
+        <?php if ($m['phone']): ?>
+        <div class="tm-phone"><a href="tel:<?= e($m['phone']) ?>"><i class="fas fa-phone"></i> <?= e($m['phone']) ?></a></div>
         <?php endif; ?>
       </div>
       <?php endforeach; ?>
     </div>
+    <?php endif; ?>
   </div>
 </section>
 

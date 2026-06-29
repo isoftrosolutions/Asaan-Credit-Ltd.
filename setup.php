@@ -6,6 +6,12 @@ if (!is_dir($dir)) {
 } else {
     echo "$dir already exists\n";
 }
+$teamDir = __DIR__ . '/public/uploads/team';
+if (!is_dir($teamDir)) {
+    mkdir($teamDir, 0755, true);
+    echo "Created $teamDir\n";
+}
+
 $resumeDir = __DIR__ . '/public/uploads/resumes';
 if (!is_dir($resumeDir)) {
     mkdir($resumeDir, 0755, true);
