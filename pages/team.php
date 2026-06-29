@@ -47,8 +47,8 @@ require __DIR__ . '/../includes/header.php';
   <div class="pub-wrap">
     <div class="tm-grid">
       <?php $team = [
-        ['Devbarat Patel', 'CEO & Founder', '10+ years in investment advisory, business valuation, and strategic financial consulting. Leading Asaan Capital\'s vision for a transparent investment ecosystem in Nepal.', '9848714990', null],
-        ['Shyam Sundar Yadav', 'Managing Partner', '8+ years of experience in business development, M&A advisory, and client relationship management across multiple sectors.', '9848714991', null],
+        ['Shyam Sundar Yadav', 'CEO & Founder', 'Visionary leader with extensive experience in business development, M&A advisory, and strategic financial consulting. Driving Asaan Capital\'s mission to transform Nepal\'s investment landscape.', '9848714991', null],
+        ['Devbarat Patel', 'Managing Partner', '8+ years in investment advisory, business valuation, and client relationship management. Committed to delivering transparent and innovative financial solutions.', '9848714990', null],
         ['Rabin Thapa', 'Head of Advisory', '12+ years in corporate finance, project finance, and due diligence. Previously served at leading financial institutions in Nepal.', '9848714992', null],
       ]; foreach ($team as $t): ?>
       <div class="tm-card">
