@@ -32,6 +32,12 @@ $db->prepare('UPDATE businesses SET views = views + 1 WHERE id = ?')->execute([$
 $mediaS = $db->prepare('SELECT * FROM business_media WHERE business_id = ? ORDER BY sort_order');
 $mediaS->execute([$businessId]);
 $mediaItems = $mediaS->fetchAll();
+foreach ($mediaItems as &$mediaItem) {
+    if (!empty($mediaItem['file_url'])) {
+        $mediaItem['url'] = upload_url($mediaItem['file_url']);
+    }
+}
+unset($mediaItem);
 
 $assetS = $db->prepare('SELECT * FROM business_assets WHERE business_id = ? ORDER BY id');
 $assetS->execute([$businessId]);

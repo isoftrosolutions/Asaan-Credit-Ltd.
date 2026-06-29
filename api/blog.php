@@ -8,6 +8,9 @@ $slug = '';
 if (preg_match('#^/api/blog/([a-z0-9-]+)$#', $path, $m)) {
     $slug = $m[1];
 }
+if ($slug === '' && isset($_GET['slug'])) {
+    $slug = trim((string)$_GET['slug']);
+}
 
 if ($slug !== '') {
     $stmt = db()->prepare("SELECT * FROM blog_posts WHERE slug = ? AND status='published' LIMIT 1");
