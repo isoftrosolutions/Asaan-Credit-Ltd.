@@ -1,7 +1,12 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 
-$pageTitle = 'About Us — ' . APP_NAME_LONG;
+$pageTitle = 'About Us — ' . APP_NAME_LONG; ?><style>
+@media (max-width:640px) {
+  .about-founded-badge { position:static !important; margin-top:24px; display:inline-flex; gap:6px; align-items:baseline; padding:12px 20px !important; }
+  .about-founded-badge div:first-child { font-size:1.4rem !important; }
+}
+</style><?php 
 $pageDescription = 'Asaan Capital Ltd is Nepal\'s leading financial advisory and investment company. Learn our story, mission, values, and how we empower businesses and investors.';
 $forcePublicHeader = true;
 require __DIR__ . '/../includes/header.php';
@@ -23,7 +28,7 @@ require __DIR__ . '/../includes/header.php';
   <!-- ─── COMPANY OVERVIEW ─── -->
   <section class="pub-section">
     <div class="pub-wrap">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;">
+      <div class="pub-grid cols-2" style="gap:48px;align-items:center;">
         <div>
           <span class="pub-eyebrow">Company Overview</span>
           <h2 class="pub-h2" style="margin-bottom:16px;">Who We Are</h2>
@@ -39,7 +44,7 @@ require __DIR__ . '/../includes/header.php';
         </div>
         <div style="position:relative;">
           <img src="<?= APP_URL ?>/assets/about-team.jpg" alt="Asaan Capital Team" style="width:100%;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.12);display:block;">
-          <div style="position:absolute;bottom:-24px;right:-24px;background:var(--color-primary);color:#fff;padding:20px 28px;border-radius:16px;text-align:center;box-shadow:0 8px 30px rgba(107,29,34,.3);">
+          <div class="about-founded-badge" style="position:absolute;bottom:-24px;right:-24px;background:var(--color-primary);color:#fff;padding:20px 28px;border-radius:16px;text-align:center;box-shadow:0 8px 30px rgba(107,29,34,.3);">
             <div style="font-family:var(--font-heading);font-weight:800;font-size:2rem;line-height:1;">2024</div>
             <div style="font-size:.8rem;opacity:.85;">Founded</div>
           </div>
@@ -51,7 +56,7 @@ require __DIR__ . '/../includes/header.php';
   <!-- ─── MISSION & VISION ─── -->
   <section class="pub-section tint">
     <div class="pub-wrap">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+      <div class="pub-grid cols-2" style="gap:32px;">
         <div style="background:var(--dash-card);border:1px solid var(--dash-border);border-radius:20px;padding:40px;box-shadow:var(--dash-shadow);">
           <div style="display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:16px;background:rgba(107,29,34,.1);color:var(--color-primary);margin-bottom:20px;">
             <span class="material-symbols-outlined" style="font-size:28px;">visibility</span>
