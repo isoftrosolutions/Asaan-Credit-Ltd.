@@ -118,7 +118,6 @@ if ($user) {
             <a href="<?= APP_URL ?>/" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Home</a>
             <a href="<?= APP_URL ?>/about" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">About Us</a>
             <a href="<?= APP_URL ?>/services" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Services</a>
-            <a href="<?= APP_URL ?>/portfolio" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Portfolio</a>
             <a href="<?= APP_URL ?>/blog" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">News & Insights</a>
             <a href="<?= APP_URL ?>/contact" style="color:var(--dash-ink);text-decoration:none;font-weight:500;">Contact Us</a>
           </nav>
