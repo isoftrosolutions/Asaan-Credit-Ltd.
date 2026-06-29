@@ -90,6 +90,7 @@ require __DIR__ . '/../includes/header.php';
           ['workspace_premium', 'Professionalism', 'Excellence in service delivery with a client-first mindset.'],
           ['lightbulb', 'Innovation', 'Leveraging modern technology and creative thinking for better outcomes.'],
           ['diversity_3', 'Client First', 'Your goals are our priority. Every solution is tailored to your needs.'],
+          ['stars', 'Excellence', 'We pursue the highest quality in every service, every interaction, every time.'],
           ['award_star', 'Accountability', 'We take ownership and deliver on our commitments, every time.'],
         ]; foreach ($values as $v): ?>
         <div class="pub-feature">
@@ -115,6 +116,7 @@ require __DIR__ . '/../includes/header.php';
           ['trending_up', 'Investment Advisory', 'Strategic investment guidance and portfolio solutions for individuals and institutions.'],
           ['account_balance', 'Business Valuation', 'Accurate, data-driven valuations for M&A, fundraising, and strategic planning.'],
           ['search_insights', 'Due Diligence', 'Comprehensive financial, legal, and operational due diligence services.'],
+          ['finance', 'Financial Consulting', 'Expert financial analysis, planning, and strategic guidance for businesses of all sizes.'],
           ['payments', 'Capital Raising', 'Equity, debt, and hybrid capital raising through our extensive investor network.'],
           ['merge_type', 'M&A Advisory', 'End-to-end merger and acquisition advisory from identification to closure.'],
           ['savings', 'Project Finance', 'Structured finance solutions for infrastructure, energy, and development projects.'],
@@ -155,6 +157,33 @@ require __DIR__ . '/../includes/header.php';
           <div class="pub-feature-ico"><span class="material-symbols-outlined"><?= $r[0] ?></span></div>
           <div class="pub-feature-title"><?= $r[1] ?></div>
           <div class="pub-feature-text"><?= $r[2] ?></div>
+        </div>
+        <?php endforeach; ?>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── OUR LEADERSHIP ─── -->
+  <section class="pub-section">
+    <div class="pub-wrap">
+      <div class="pub-section-head">
+        <span class="pub-eyebrow">Our Leadership</span>
+        <h2 class="pub-h2">Meet Our Team</h2>
+        <p class="pub-lead">Experienced professionals dedicated to your financial success.</p>
+      </div>
+      <div class="pub-grid cols-3" style="gap:32px;">
+        <?php $team = [
+          ['Devbarat Patel', 'CEO & Founder', '10+ years in investment advisory, business valuation, and strategic financial consulting. Leading Asaan Capital\'s vision for a transparent investment ecosystem in Nepal.', '9848714990'],
+          ['Shyamsundar Yadav', 'Managing Partner', '8+ years of experience in business development, M&A advisory, and client relationship management across multiple sectors.', '9848714991'],
+          ['Rabin Thapa', 'Head of Advisory', '12+ years in corporate finance, project finance, and due diligence. Previously served at leading financial institutions in Nepal.', '9848714992'],
+        ]; foreach ($team as $t): ?>
+        <div style="text-align:center;">
+          <div style="width:100%;aspect-ratio:1;border-radius:20px;background:var(--dash-bg);border:1px solid var(--dash-border);overflow:hidden;margin-bottom:16px;display:flex;align-items:center;justify-content:center;">
+            <img src="<?= APP_URL ?>/assets/business-founder-owner-empty.png" alt="<?= $t[0] ?>" style="width:70%;height:70%;object-fit:contain;opacity:.6;">
+          </div>
+          <h4 style="font-family:var(--font-heading);font-weight:700;font-size:1.05rem;color:var(--dash-ink);margin:0 0 4px;"><?= $t[0] ?></h4>
+          <span class="pub-badge" style="margin-bottom:10px;"><?= $t[1] ?></span>
+          <p class="pub-text" style="font-size:.85rem;margin:8px 0 0;max-width:280px;margin-left:auto;margin-right:auto;"><?= $t[2] ?></p>
         </div>
         <?php endforeach; ?>
       </div>
