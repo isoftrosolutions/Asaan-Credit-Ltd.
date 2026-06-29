@@ -23,6 +23,7 @@ $routes = [
     '/reset-password'               => 'auth/reset-password.php',
     '/change-password'              => 'auth/change-password.php',
     '/about'                        => 'pages/about.php',
+    '/services'                     => 'pages/services.php',
     '/contact'                      => 'pages/contact.php',
     '/careers'                      => 'pages/careers.php',
     '/press'                        => 'pages/press.php',
