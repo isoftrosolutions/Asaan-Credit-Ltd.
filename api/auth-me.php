@@ -18,6 +18,16 @@ if ($method === 'GET') {
     $safeFields = ['id', 'name', 'email', 'role', 'account_type', 'phone', 'province', 'district', 'profile_photo', 'verification_status', 'is_premium', 'is_admin', 'usage_goal', 'email_verified_at', 'company_name', 'company_size', 'created_at'];
     $safeUser = array_intersect_key($user, array_flip($safeFields));
     $safeUser['is_premium'] = $isPremium ? 1 : 0;
+    $subscription = null;
+    if ($isPremium) {
+        $subStmt = db()->prepare("SELECT plan_type, plan_label, amount, duration_months, status, expiry_date, created_at FROM premium_subscriptions WHERE user_id = ? AND status = 'active' ORDER BY id DESC LIMIT 1");
+        $subStmt->execute([(int)$user['id']]);
+        $sub = $subStmt->fetch();
+        if ($sub) {
+            $subscription = $sub;
+        }
+    }
+    $safeUser['subscription'] = $subscription;
     json_success($safeUser);
 }
 
