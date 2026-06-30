@@ -63,4 +63,11 @@ db()->prepare("DELETE FROM password_reset_tokens WHERE email = ? AND type = ?")-
 db()->prepare('UPDATE users SET failed_login_attempts = 0, locked_until = NULL WHERE email = ?')->execute([$email]);
 db()->commit();
 
+$stmt = db()->prepare("SELECT id FROM users WHERE email = ?");
+$stmt->execute([$email]);
+$userData = $stmt->fetch();
+if ($userData) {
+    db()->prepare("DELETE FROM user_api_tokens WHERE user_id = ?")->execute([(int)$userData['id']]);
+}
+
 json_success(['message' => 'Password reset successfully.']);

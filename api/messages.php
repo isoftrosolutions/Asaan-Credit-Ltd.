@@ -1,10 +1,8 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
-require_login();
+cors_headers();
 
-header('Content-Type: application/json');
-
-$user = current_user();
+$user = require_api_auth();
 $userId = (int)$user['id'];
 $db = db();
 $method = $_SERVER['REQUEST_METHOD'];
@@ -14,18 +12,13 @@ if ($method === 'GET') {
     $before = (int)($_GET['before'] ?? 0);
 
     if ($conversationId < 1) {
-        http_response_code(400);
-        echo json_encode(['success' => false, 'error' => 'conversation_id required']);
-        exit;
+        json_error('conversation_id required');
     }
 
-    // Verify user is a participant
     $stmt = $db->prepare('SELECT id FROM conversation_participants WHERE conversation_id = ? AND user_id = ?');
     $stmt->execute([$conversationId, $userId]);
     if (!$stmt->fetch()) {
-        http_response_code(403);
-        echo json_encode(['success' => false, 'error' => 'Not a participant']);
-        exit;
+        json_error('Not a participant', 403);
     }
 
     if ($before > 0) {
@@ -51,24 +44,17 @@ if ($method === 'GET') {
     }
 
     $messages = $stmt->fetchAll();
-
-    echo json_encode(['success' => true, 'messages' => $messages]);
-    exit;
+    json_success(['messages' => $messages]);
 }
 
 if ($method === 'POST') {
-    csrf_check();
-
     $conversationId = (int)($_POST['conversation_id'] ?? 0);
     $message = mb_substr(trim($_POST['message'] ?? ''), 0, 5000);
 
     if ($conversationId < 1 || $message === '') {
-        http_response_code(400);
-        echo json_encode(['success' => false, 'error' => 'conversation_id and message required']);
-        exit;
+        json_error('conversation_id and message required');
     }
 
-    // Verify user is a participant
     $stmt = $db->prepare('
         SELECT cp.conversation_id, cp2.user_id AS recipient_id, u.name AS recipient_name
         FROM conversation_participants cp
@@ -80,9 +66,7 @@ if ($method === 'POST') {
     $conv = $stmt->fetch();
 
     if (!$conv) {
-        http_response_code(403);
-        echo json_encode(['success' => false, 'error' => 'Not a participant']);
-        exit;
+        json_error('Not a participant', 403);
     }
 
     $recipientId = (int)$conv['recipient_id'];
@@ -93,21 +77,16 @@ if ($method === 'POST') {
         $stmt->execute([$conversationId, $userId, $message]);
         $messageId = (int)$db->lastInsertId();
 
-        // Update conversation timestamp
         $db->prepare('UPDATE conversations SET updated_at = NOW() WHERE id = ?')->execute([$conversationId]);
 
-        echo json_encode([
-            'success' => true,
+        json_success([
             'message_id' => $messageId,
             'created_at' => date('Y-m-d H:i:s'),
         ]);
     } catch (\Throwable $e) {
-        http_response_code(500);
-        echo json_encode(['success' => false, 'error' => 'Failed to send message']);
         if (DEBUG_MODE) error_log('messages send error: ' . $e->getMessage());
+        json_error('Failed to send message', 500);
     }
-    exit;
 }
 
-http_response_code(405);
-echo json_encode(['success' => false, 'error' => 'Method not allowed']);
+json_error('Method not allowed', 405);

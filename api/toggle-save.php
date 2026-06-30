@@ -1,29 +1,22 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
-require_login();
-csrf_check();
+cors_headers();
 
-$user = current_user();
+$user = require_api_auth();
 $userId = (int)$user['id'];
-$listingType = $_POST['listing_type'] ?? '';
-$listingId = (int)($_POST['listing_id'] ?? 0);
+$input = get_json_input();
+
+$listingType = $input['listing_type'] ?? '';
+$listingId = (int)($input['listing_id'] ?? 0);
 
 $validTypes = ['business', 'pitch', 'franchise'];
 if (!in_array($listingType, $validTypes, true)) {
-    http_response_code(400);
-    header('Content-Type: application/json');
-    echo json_encode(['error' => 'Invalid listing type.']);
-    exit;
+    json_error('Invalid listing type.');
 }
 
 if ($listingId < 1) {
-    http_response_code(400);
-    header('Content-Type: application/json');
-    echo json_encode(['error' => 'Invalid listing ID.']);
-    exit;
+    json_error('Invalid listing ID.');
 }
-
-header('Content-Type: application/json');
 
 $db = db();
 $stmt = $db->prepare('SELECT id FROM saved_listings WHERE user_id = ? AND listing_type = ? AND listing_id = ?');
@@ -32,9 +25,9 @@ $existing = $stmt->fetch();
 
 if ($existing) {
     $db->prepare('DELETE FROM saved_listings WHERE id = ?')->execute([$existing['id']]);
-    echo json_encode(['saved' => false]);
+    json_success(['saved' => false]);
 } else {
     $db->prepare('INSERT INTO saved_listings (user_id, listing_type, listing_id, created_at) VALUES (?, ?, ?, NOW())')
        ->execute([$userId, $listingType, $listingId]);
-    echo json_encode(['saved' => true]);
+    json_success(['saved' => true]);
 }

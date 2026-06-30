@@ -1,18 +1,15 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
-require_login();
+cors_headers();
 
-header('Content-Type: application/json; charset=utf-8');
-
-$userId = (int)current_user()['id'];
+$user = require_api_auth();
+$userId = (int)$user['id'];
 $db = db();
 
-// Quick count mode
 if (isset($_GET['count'])) {
     $stmt = $db->prepare('SELECT COUNT(*) FROM saved_listings WHERE user_id = ?');
     $stmt->execute([$userId]);
-    echo json_encode(['count' => (int)$stmt->fetchColumn()]);
-    exit;
+    json_success(['count' => (int)$stmt->fetchColumn()]);
 }
 
 $items = $db->prepare('
@@ -35,28 +32,28 @@ $rows = $items->fetchAll();
 $result = [];
 foreach ($rows as $row) {
     $type = $row['listing_type'];
-    $url = APP_URL . '/' . $type . '/' . (int)$row['listing_id'];
+    $url = $type . '/' . (int)$row['listing_id'];
 
     switch ($type) {
         case 'business':
-            $title = e($row['business_name'] ?? 'Untitled Business');
+            $title = $row['business_name'] ?? 'Untitled Business';
             $info = money($row['annual_revenue'] ?? 0) . ' revenue &middot; ' . money($row['asking_price'] ?? 0) . ' asking';
             $typeLabel = 'Business';
             break;
         case 'pitch':
-            $title = e($row['tagline'] ?? 'Untitled Pitch');
+            $title = $row['tagline'] ?? 'Untitled Pitch';
             $info = 'Seeking ' . money($row['funding_amount'] ?? 0);
-            if (!empty($row['equity_offered'])) $info .= ' &middot; ' . e($row['equity_offered']) . '% equity';
+            if (!empty($row['equity_offered'])) $info .= ' &middot; ' . $row['equity_offered'] . '% equity';
             $typeLabel = 'Pitch';
             break;
         case 'franchise':
-            $title = e($row['brand_name'] ?? 'Untitled Franchise');
+            $title = $row['brand_name'] ?? 'Untitled Franchise';
             $info = 'Fee: ' . money($row['franchise_fee'] ?? 0);
             $typeLabel = 'Franchise';
             break;
         case 'investor':
-            $title = e($row['investor_name'] ?? 'Untitled Investor');
-            $info = $row['investor_type'] ? e($row['investor_type']) : '';
+            $title = $row['investor_name'] ?? 'Untitled Investor';
+            $info = $row['investor_type'] ?? '';
             $typeLabel = 'Investor';
             break;
         default:
@@ -69,8 +66,8 @@ foreach ($rows as $row) {
         'title'     => $title,
         'info'      => $info,
         'url'       => $url,
-        'since'     => date_human($row['created_at']),
+        'since'     => $row['created_at'],
     ];
 }
 
-echo json_encode(['count' => count($result), 'items' => $result]);
+json_success(['count' => count($result), 'items' => $result]);

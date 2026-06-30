@@ -1,10 +1,8 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
-require_login();
+cors_headers();
 
-header('Content-Type: application/json');
-
-$user = current_user();
+$user = require_api_auth();
 $userId = (int)$user['id'];
 $db = db();
 
@@ -23,4 +21,4 @@ $stmt = $db->prepare('
 $stmt->execute([$userId, $userId]);
 $total = (int)$stmt->fetchColumn();
 
-echo json_encode(['success' => true, 'count' => $total]);
+json_success(['count' => $total]);

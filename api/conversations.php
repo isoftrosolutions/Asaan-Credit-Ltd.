@@ -1,10 +1,8 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
-require_login();
+cors_headers();
 
-header('Content-Type: application/json');
-
-$user = current_user();
+$user = require_api_auth();
 $userId = (int)$user['id'];
 $db = db();
 $method = $_SERVER['REQUEST_METHOD'];
@@ -39,21 +37,17 @@ if ($method === 'GET') {
     $stmt->execute([$userId, $userId, $userId]);
     $conversations = $stmt->fetchAll();
 
-    echo json_encode(['success' => true, 'conversations' => $conversations]);
-    exit;
+    json_success(['conversations' => $conversations]);
 }
 
 if ($method === 'POST') {
-    csrf_check();
+    $input = get_json_input();
+    $otherId = (int)($input['user_id'] ?? 0);
 
-    $otherId = (int)(($_POST['user_id'] ?? $_GET['user_id'] ?? 0));
     if ($otherId < 1 || $otherId === $userId) {
-        http_response_code(400);
-        echo json_encode(['success' => false, 'error' => 'Invalid user']);
-        exit;
+        json_error('Invalid user');
     }
 
-    // Check if conversation already exists
     $stmt = $db->prepare('
         SELECT c.id FROM conversations c
         JOIN conversation_participants cp1 ON cp1.conversation_id = c.id AND cp1.user_id = ?
@@ -64,11 +58,9 @@ if ($method === 'POST') {
     $existing = $stmt->fetch();
 
     if ($existing) {
-        echo json_encode(['success' => true, 'conversation_id' => (int)$existing['id'], 'existing' => true]);
-        exit;
+        json_success(['conversation_id' => (int)$existing['id'], 'existing' => true]);
     }
 
-    // Check they have a connection (interest sent, even pending)
     $connCheck = $db->prepare('
         SELECT id FROM interest_requests
         WHERE ((sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?))
@@ -77,9 +69,7 @@ if ($method === 'POST') {
     ');
     $connCheck->execute([$userId, $otherId, $otherId, $userId]);
     if (!$connCheck->fetch()) {
-        http_response_code(403);
-        echo json_encode(['success' => false, 'error' => 'No connection exists with this user']);
-        exit;
+        json_error('No connection exists with this user', 403);
     }
 
     try {
@@ -94,15 +84,12 @@ if ($method === 'POST') {
 
         $db->commit();
 
-        echo json_encode(['success' => true, 'conversation_id' => $conversationId, 'existing' => false]);
+        json_success(['conversation_id' => $conversationId, 'existing' => false]);
     } catch (\Throwable $e) {
         if ($db->inTransaction()) $db->rollBack();
-        http_response_code(500);
-        echo json_encode(['success' => false, 'error' => 'Failed to create conversation']);
         if (DEBUG_MODE) error_log('conversations create error: ' . $e->getMessage());
+        json_error('Failed to create conversation', 500);
     }
-    exit;
 }
 
-http_response_code(405);
-echo json_encode(['success' => false, 'error' => 'Method not allowed']);
+json_error('Method not allowed', 405);

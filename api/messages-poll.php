@@ -1,10 +1,8 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
-require_login();
+cors_headers();
 
-header('Content-Type: application/json');
-
-$user = current_user();
+$user = require_api_auth();
 $userId = (int)$user['id'];
 $db = db();
 
@@ -12,18 +10,13 @@ $conversationId = (int)($_GET['conversation_id'] ?? 0);
 $since = $_GET['since'] ?? '';
 
 if ($conversationId < 1) {
-    http_response_code(400);
-    echo json_encode(['success' => false, 'error' => 'conversation_id required']);
-    exit;
+    json_error('conversation_id required');
 }
 
-// Verify user is a participant
 $stmt = $db->prepare('SELECT id FROM conversation_participants WHERE conversation_id = ? AND user_id = ?');
 $stmt->execute([$conversationId, $userId]);
 if (!$stmt->fetch()) {
-    http_response_code(403);
-    echo json_encode(['success' => false, 'error' => 'Not a participant']);
-    exit;
+    json_error('Not a participant', 403);
 }
 
 if ($since) {
@@ -49,9 +42,8 @@ if ($since) {
 
 $messages = $stmt->fetchAll();
 
-// If no since param, reverse so oldest first
 if (!$since) {
     $messages = array_reverse($messages);
 }
 
-echo json_encode(['success' => true, 'messages' => $messages]);
+json_success(['messages' => $messages]);
