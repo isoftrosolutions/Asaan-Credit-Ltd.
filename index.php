@@ -111,6 +111,7 @@ $routes = [
     '/api/connections'              => 'api/connections.php',
     '/api/connections/respond'      => 'api/connections-respond.php',
     '/api/admin/stats'              => 'api/admin-stats.php',
+    '/api/report'                   => 'api/report.php',
     '/api/sign-nda'                 => 'api/sign-nda.php',
     '/api/conversations'            => 'api/conversations.php',
     '/api/messages'                 => 'api/messages.php',

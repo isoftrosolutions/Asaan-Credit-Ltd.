@@ -9,6 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $input = get_json_input();
 $inputPost = $_POST ?: [];
 
+// CSRF check for form submissions (not API JSON calls)
+if (!empty($inputPost)) {
+    csrf_check();
+}
+
 $businessId = (int)($input['business_id'] ?? $inputPost['business_id'] ?? 0);
 $message = mb_substr(trim($input['message'] ?? $inputPost['message'] ?? ''), 0, 1000);
 

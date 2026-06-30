@@ -48,8 +48,13 @@ if ($method === 'GET') {
 }
 
 if ($method === 'POST') {
-    $conversationId = (int)($_POST['conversation_id'] ?? 0);
-    $message = mb_substr(trim($_POST['message'] ?? ''), 0, 5000);
+    $input = $_POST;
+    $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
+    if (strpos($contentType, 'application/json') !== false) {
+        $input = get_json_input();
+    }
+    $conversationId = (int)($input['conversation_id'] ?? 0);
+    $message = mb_substr(trim($input['message'] ?? ''), 0, 5000);
 
     if ($conversationId < 1 || $message === '') {
         json_error('conversation_id and message required');

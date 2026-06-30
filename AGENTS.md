@@ -12,15 +12,16 @@
 - App runs at `http://localhost/assan` (auto-detected via `HTTP_HOST` in `config/config.php`)
 - Local DB: `asaancapital_assan_capital`, root user, no password. Uncomment local creds + set `DEBUG_MODE=true`
 - `config/config.php` is in `.gitignore` — local changes never committed
-- Create upload directories: `php setup.php` (creates `public/uploads/business-documents/`)
+- Create upload directories: `php setup.php` (creates `public/uploads/business-documents/`, `public/uploads/team/`, `public/uploads/resumes/`). Safe to re-run.
 - No live-reload; hard-refresh (Ctrl+F5) after changes
 - **README is stale** — references `invest_match` DB + non-existent `database/schema-extensions.sql`/`seed.sql`. Full schema is in the root SQL dump file. Migrations are in `database/migration_NNN_*.sql`
+- **Lint**: `php -l path/to/file.php` for PHP files. Mobile app has its own lint/typecheck (`npm run lint`, `npm run ts:check` in `mobile-app/`)
 
 ## Routing
 
 - `.htaccess` rewrites all non-file requests to `index.php?_path=...`
-- Flat `$routes` array in `index.php:7-103` + regex patterns for `/browse/*`, `/blog/*`, `/investor/N`, `/business/{id|slug}`, `/pitch/N`, `/franchise/N` (lines 105-150)
-- Business detail routing at `index.php:130-138`: accepts numeric `id` or slug, excludes literal paths `create|edit|download`
+- Flat `$routes` array in `index.php:16-141` + regex patterns for `/browse/*`, `/blog/*`, `/investor/N`, `/business/{id|slug}`, `/pitch/N`, `/franchise/N` (lines 143-200)
+- Business detail routing at `index.php:180-188`: accepts numeric `id` or slug, excludes literal paths `create|edit|download`
 - CMS-driven slugs (e.g. `/terms`, `/privacy`) that match `[a-z0-9-]+` fall through to `pages/page-cms.php` (line 162)
 - Pages accessed directly (not routed) load `bootstrap.php` themselves with the re-entry guard `BOOTSTRAP_LOADED` — e.g. `pages/index.php`, `pages/404.php`
 
@@ -29,11 +30,12 @@
 - `config/bootstrap.php` loads config → session → DB → helpers → CSRF → flash → auth → mailer → upload in order; if path starts with `api/`, also loads `api/helpers.php`
 - `db()` singleton (PDO, `ERRMODE_EXCEPTION`, `FETCH_ASSOC`, real prepared statements)
 - Escape HTML: `e()` alias for `htmlspecialchars`
-- Redirect: `redirect($path)` (prepends `APP_URL`)
+- Redirect: `redirect($path)` (prepends `APP_URL`); `redirect_back()` uses `$_SERVER['HTTP_REFERER']`
 - Current user: `current_user()` returns `$_SESSION['user']` or null; auto-refreshes session from DB and checks premium expiry on every call
-- Auth guards: `require_login()`, `require_role($role)`, `require_admin()`, `require_verified()`, `require_premium()`
+- Auth guards: `require_login()`, `require_role($role)` (accepts string or array), `require_admin()`, `require_verified()`, `require_premium()`
 - File uploads: `handle_upload()` in `config/upload.php`, MIME-sniffed, EXIF-stripped via GD
-- `money(N)` → `रू 1,000` (NPR); `date_human()` → relative time; `generate_slug()` → URL-safe slug
+- `money(N)` → `रू 1,000` (NPR); `date_human()` → relative time; `generate_slug()` → URL-safe slug; `public_base_url()` → dynamic request base URL (used in emails)
+- `old($key)` → flashed old input value; `site_setting($key)` → DB `site_settings` table value
 - Pagination: `paginate()` helper + `render_pagination()` HTML builder; expects a `PDOStatement` for count query
 
 ## Layout system
@@ -42,8 +44,9 @@
 - `includes/layout-dashboard.php` — sidebar + topbar shell. Sets `$dashChrome = true`.
 - `includes/footer.php` — closes `</main></div>` if `$dashChrome`; injects `injectFooter()` JS if not `$hidePublicFooter`
 - Page-specific SEO: set `$pageTitle`, `$pageDescription` before including header
-- Two header rendering modes: JS-injected React-style header (default, via `assets/header.js`) vs `$useStitchHeader` server-rendered variant (`includes/stitch-header.php`). Dashboard pages use `$dashChrome` and skip JS injection.
-- Dashboard links in JS (`assets/header.js:7-80`) must mirror `includes/ui.php`
+- Two public header rendering modes: default JS-injected via `assets/header.js` (set `$useStitchHeader = false`) vs server-rendered `$useStitchHeader` variant (`includes/stitch-header.php`). Dashboard pages use `$dashChrome` and skip JS injection entirely.
+- `$hidePublicFooter = true` suppresses the JS-injected public footer (used on dashboards).
+- Dashboard links in JS (`assets/header.js:7-44`) must mirror `includes/ui.php`
 
 ## Email system
 

@@ -70,7 +70,6 @@ const PUBLIC_NAV = [
   ['About Us', '/about'],
   ['Services', '/services'],
   ['Investment Opportunities', '/browse/businesses'],
-  ['Team', '/team'],
   ['News & Insights', '/blog'],
   ['Careers', '/careers'],
   ['Contact Us', '/contact'],

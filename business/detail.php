@@ -984,15 +984,50 @@ require __DIR__ . '/../includes/layout-public.php';
       <button class="stitch-overlay-close" onclick="document.getElementById('interest-modal').classList.remove('open')">&times;</button>
     </div>
     <?php if ($userId): ?>
-    <form method="POST" action="<?= APP_URL ?>/api/send-inquiry">
+    <form id="inquiry-form" method="POST" action="<?= APP_URL ?>/api/send-inquiry">
       <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
       <input type="hidden" name="business_id" value="<?= $businessId ?>">
       <div class="stitch-field">
         <label for="inquiry-message">Message</label>
         <textarea id="inquiry-message" name="message" rows="4" placeholder="Introduce yourself and explain your interest in this business..."></textarea>
       </div>
-      <button type="submit" class="stitch-btn-primary" style="width:100%">Send Inquiry</button>
+      <div id="inquiry-status" style="margin-bottom:12px;"></div>
+      <button type="submit" id="inquiry-submit" class="stitch-btn-primary" style="width:100%">Send Inquiry</button>
     </form>
+    <script>
+    document.getElementById('inquiry-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var form = this;
+      var btn = document.getElementById('inquiry-submit');
+      var status = document.getElementById('inquiry-status');
+      var origText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      status.innerHTML = '';
+      var formData = new FormData(form);
+      fetch(form.action, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: formData,
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(res) {
+        if (res.success) {
+          status.innerHTML = '<span style="color:var(--color-success);font-size:0.875rem;font-weight:600;">Inquiry sent! Redirecting...</span>';
+          setTimeout(function() { window.location.href = '<?= APP_URL ?>/messages'; }, 1200);
+        } else {
+          status.innerHTML = '<span style="color:var(--color-error);font-size:0.875rem;">' + (res.error || 'Something went wrong.') + '</span>';
+          btn.disabled = false;
+          btn.textContent = origText;
+        }
+      })
+      .catch(function() {
+        status.innerHTML = '<span style="color:var(--color-error);font-size:0.875rem;">Network error. Please try again.</span>';
+        btn.disabled = false;
+        btn.textContent = origText;
+      });
+    });
+    </script>
     <?php else: ?>
     <p style="margin-bottom:16px;color:var(--color-text-muted);font-size:0.875rem;">Please sign in to contact the seller.</p>
     <a href="<?= APP_URL ?>/login" class="stitch-btn-primary" style="display:block;text-align:center;">Sign In</a>
