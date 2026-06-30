@@ -19,6 +19,7 @@ $province     = trim($input['province'] ?? '');
 $district     = trim($input['district'] ?? '');
 $goal         = $input['goal'] ?? '';
 $size         = $input['size'] ?? '';
+$notifications = $input['notifications'] ?? '';
 
 if ($name === '') {
     json_error('Full name is required.');
@@ -42,12 +43,12 @@ try {
     $db = db();
     $db->beginTransaction();
 
-    $stmt = $db->prepare("INSERT INTO users (name, email, password, account_type, role, company_name, phone, province, district, verification_status, email_verified_at, company_size, usage_goal, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'unverified', NULL, ?, ?, NOW(), NOW())");
+    $stmt = $db->prepare("INSERT INTO users (name, email, password, account_type, role, company_name, phone, province, district, verification_status, email_verified_at, company_size, usage_goal, notifications, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'unverified', NULL, ?, ?, ?, NOW(), NOW())");
     $stmt->execute([
         $name, $email, password_hash($password, PASSWORD_BCRYPT),
         $accountType, $role, $company ?: null, $phone ?: null,
         $province ?: null, $district ?: null,
-        $size ?: null, $goal ?: null
+        $size ?: null, $goal ?: null, $notifications ?: null
     ]);
     $userId = (int)$db->lastInsertId();
 
