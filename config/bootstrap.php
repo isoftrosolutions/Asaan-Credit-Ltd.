@@ -10,7 +10,9 @@ require __DIR__ . '/flash.php';
 require __DIR__ . '/auth.php';
 require __DIR__ . '/mailer.php';
 require __DIR__ . '/upload.php';
-if (isset($_GET['_path']) && str_starts_with($_GET['_path'], 'api/')) {
+$isApi = (isset($_GET['_path']) && str_starts_with($_GET['_path'], 'api/'))
+      || (isset($_SERVER['SCRIPT_NAME']) && str_contains($_SERVER['SCRIPT_NAME'], '/api/'));
+if ($isApi) {
     require __DIR__ . '/../api/helpers.php';
 }
 session_init();
