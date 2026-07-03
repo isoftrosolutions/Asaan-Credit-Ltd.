@@ -66,13 +66,13 @@ const ADMIN_LINKS = [
 ];
 
 const PUBLIC_NAV = [
-  ['Home', '/'],
-  ['About Us', '/about'],
-  ['Services', '/services'],
-  ['Investment Opportunities', '/browse/businesses'],
-  ['News & Insights', '/blog'],
-  ['Careers', '/careers'],
-  ['Contact Us', '/contact'],
+  ['Home', '/', 'home'],
+  ['About Us', '/about', 'users'],
+  ['Services', '/services', 'briefcase'],
+  ['Investment Opportunities', '/browse/businesses', 'chart'],
+  ['News & Insights', '/blog', 'document'],
+  ['Careers', '/careers', 'user'],
+  ['Contact Us', '/contact', 'message'],
 ];
 
 /* ---- helpers ---- */
