@@ -2513,9 +2513,10 @@
   }
 
   .stitch-nav {
+    display: none;
     position: fixed;
     top: 0;
-    right: -300px;
+    right: 0;
     width: 280px;
     height: 100vh;
     background: var(--ds-surface);
@@ -2525,12 +2526,16 @@
     gap: 16px;
     z-index: 600;
     box-shadow: -4px 0 20px rgba(0,0,0,0.1);
-    transition: right .3s ease;
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform .3s ease, visibility .3s ease;
     overflow-y: auto;
   }
 
   .stitch-nav.open {
-    right: 0;
+    display: flex;
+    transform: translateX(0);
+    visibility: visible;
   }
 
   .stitch-nav-links {

@@ -375,6 +375,11 @@ require __DIR__ . '/../includes/header.php';
   .fb-ref-right { width:35%!important; }
 }
 
+.fb-ref-left {
+  overflow:hidden;
+  max-width:100%;
+}
+
 /* card */
 .fb-ref-card {
   background:#fff; border-radius:8px;
@@ -395,6 +400,7 @@ require __DIR__ . '/../includes/header.php';
 /* carousel track — always flex for auto-scroll */
 .fb-track {
   display:flex; gap:16px; overflow-x:auto;
+  max-width:100%;
   scroll-snap-type:x mandatory; scroll-behavior:smooth;
   padding:4px 0;
   -ms-overflow-style:none; scrollbar-width:none;
@@ -437,52 +443,7 @@ require __DIR__ . '/../includes/header.php';
   .fb-ref-right { order:-1; margin-bottom:8px; }
 }
 
-/* ── Mobile bottom nav ── */
-.hp-bottom-nav {
-  display:none;
-  position:fixed; bottom:0; left:0; right:0;
-  z-index:55; height:64px;
-  padding-bottom:env(safe-area-inset-bottom,0);
-  background:rgba(255,255,255,0.92);
-  border-top:1px solid var(--dash-border);
-  box-shadow:0 -2px 16px rgba(0,0,0,0.06);
-  -webkit-backdrop-filter:blur(16px);
-  backdrop-filter:blur(16px);
-}
-@media (max-width:768px) {
-  .hp-bottom-nav { display: flex; }
-  .pub-page { padding-bottom: 64px; }
-}
-.hp-bottom-nav-inner {
-  display:flex; align-items:center; justify-content:space-around;
-  height:100%; max-width:500px; margin:0 auto;
-  padding:0 4px;
-}
-.hp-bottom-nav-item {
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:1px; flex:1; min-height:44px;
-  text-decoration:none;
-  color:var(--dash-ink-soft);
-  font-size:10px; font-weight:600;
-  border-radius:8px;
-  transition:color 150ms, background 150ms;
-  -webkit-tap-highlight-color:transparent;
-  position:relative;
-}
-.hp-bottom-nav-item:active { background:var(--color-bg-soft); }
-.hp-bottom-nav-item.active { color:var(--color-primary-vivid); }
-.hp-bottom-nav-item.active::after {
-  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
-  width:20px; height:3px; border-radius:0 0 3px 3px;
-  background:var(--color-primary-vivid);
-}
-.hp-bottom-nav-item .material-symbols-outlined {
-  font-size:24px; transition:font-variation-settings 150ms;
-  font-variation-settings:'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-}
-.hp-bottom-nav-item.active .material-symbols-outlined {
-  font-variation-settings:'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
-}
+
 
 /* ── Mobile refinements ── */
 @media (max-width:767px) {
@@ -522,8 +483,7 @@ require __DIR__ . '/../includes/header.php';
 }
 
 /* ── Tap target boost ── */
-.hp-bottom-nav-item { min-height:44px; }
-.btn, .pub-cta-actions a, .fb-ref-btn, [class*="hp-bottom-nav"] a {
+.btn, .pub-cta-actions a, .fb-ref-btn {
   min-height:44px;
 }
 
@@ -1257,42 +1217,7 @@ echo $faqSchema;
 </section>
 </main>
 
-<?php $navIsLoggedIn = (bool)current_user(); ?>
-<nav class="hp-bottom-nav" id="bottomNav" aria-label="Mobile navigation">
-  <div class="hp-bottom-nav-inner">
-    <a href="<?= APP_URL ?>/" class="hp-bottom-nav-item active">
-      <span class="material-symbols-outlined" aria-hidden="true">home</span>
-      <span>Home</span>
-    </a>
-    <a href="<?= APP_URL ?>/browse/businesses" class="hp-bottom-nav-item">
-      <span class="material-symbols-outlined" aria-hidden="true">storefront</span>
-      <span>Browse</span>
-    </a>
-    <?php if ($navIsLoggedIn): ?>
-    <a href="<?= APP_URL ?>/connections" class="hp-bottom-nav-item">
-      <span class="material-symbols-outlined" aria-hidden="true">diversity_3</span>
-      <span>Network</span>
-    </a>
-    <a href="<?= APP_URL ?>/notifications" class="hp-bottom-nav-item">
-      <span class="material-symbols-outlined" aria-hidden="true">notifications</span>
-      <span>Alerts</span>
-    </a>
-    <a href="<?= APP_URL ?>/dashboard" class="hp-bottom-nav-item">
-      <span class="material-symbols-outlined" aria-hidden="true">person</span>
-      <span>Profile</span>
-    </a>
-    <?php else: ?>
-    <a href="<?= APP_URL ?>/login" class="hp-bottom-nav-item">
-      <span class="material-symbols-outlined" aria-hidden="true">login</span>
-      <span>Login</span>
-    </a>
-    <a href="<?= APP_URL ?>/onboarding" class="hp-bottom-nav-item">
-      <span class="material-symbols-outlined" aria-hidden="true">person_add</span>
-      <span>Join</span>
-    </a>
-    <?php endif; ?>
-  </div>
-</nav>
+
 
 <script>
 // FAQ accordion
@@ -1437,17 +1362,6 @@ initMarquee('bizMarquee');
 initMarquee('pitchMarquee');
 initMarquee('investorMarquee');
 
-// Bottom nav active state
-(function() {
-  var cur = window.location.pathname;
-  if (cur.indexOf('/assan') === 0) cur = cur.replace(/^\/assan/, '') || '/';
-  document.querySelectorAll('.hp-bottom-nav-item').forEach(function(a) {
-    var href = a.getAttribute('href').replace(/^.*\/\/[^\/]+/, '');
-    if (cur === href || (href !== '/' && cur.indexOf(href) === 0)) {
-      a.classList.add('active');
-    }
-  });
-})();
 </script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>

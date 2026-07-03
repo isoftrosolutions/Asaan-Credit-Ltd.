@@ -247,7 +247,7 @@
    MOBILE SLIDE-OUT MENU
    ============================================================ */
 .mobile-panel {
-  display: flex;
+  display: none;
   flex-direction: column;
   position: fixed;
   inset: 0;
@@ -259,6 +259,7 @@
 }
 
 .mobile-panel.open {
+  display: flex;
   transform: translateX(0);
   visibility: visible;
 }

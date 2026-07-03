@@ -1,18 +1,8 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 
-$stmt = db()->prepare("SELECT * FROM pages WHERE slug = 'contact' AND is_active = 1 LIMIT 1");
-$stmt->execute();
-$page = $stmt->fetch();
-
-if (!$page) {
-    http_response_code(404);
-    require __DIR__ . '/404.php';
-    exit;
-}
-
-$pageTitle = $page['title'] . ' — ' . APP_NAME_LONG;
-$pageDescription = $page['meta_description'] ?? $page['title'];
+$pageTitle = 'Contact Us — ' . APP_NAME_LONG;
+$pageDescription = 'Get in touch with Asaan Capital Ltd. Send us a message and we\'ll get back to you.';
 $forcePublicHeader = true;
 
 $formSent = false;
@@ -44,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     mb_substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 255),
                 ]);
         } catch (Throwable $e) {
-            // Keep email delivery as the fallback if the contact_messages table has not been migrated yet.
         }
 
         $body = "Name: $name\nEmail: $email\n\n$message";
@@ -62,26 +51,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require __DIR__ . '/../includes/header.php';
 ?>
 <main class="pub-page">
-  <?php
-  $html = $page['content_html'];
+  <div class="pub-wrap-narrow" style="padding-top:var(--space-6);padding-bottom:var(--space-8);">
 
-  if ($formSent) {
-      $html = str_replace(
-          '</form>',
-          '<div style="padding:1rem;background:rgba(16,185,129,.1);color:var(--dash-success);border-radius:var(--radius-md);margin-bottom:1rem;font-weight:600;">Thank you! Your message has been sent.</div></form>',
-          $html
-      );
-  } elseif ($formError) {
-      $html = str_replace(
-          '</form>',
-          '<div style="padding:1rem;background:rgba(239,68,68,.1);color:var(--color-error);border-radius:var(--radius-md);margin-bottom:1rem;font-weight:600;">' . e($formError) . '</div></form>',
-          $html
-      );
-  }
+    <div class="breadcrumbs pub-text" style="margin-bottom:var(--space-5);">
+      <a href="/" style="color:var(--dash-ink-soft);text-decoration:none;">Home</a>
+      <span style="margin:0 0.5rem;">/</span>
+      <span>Contact Us</span>
+    </div>
 
-  $html = str_replace('{{CSRF_TOKEN}}', csrf_token(), $html);
+    <h1 class="pub-h1" style="margin-bottom:var(--space-6);">Contact Us</h1>
 
-  echo $html;
-  ?>
+    <div class="pub-grid cols-2">
+      <div>
+        <?php if ($formSent): ?>
+          <div class="contact-alert success">Thank you! Your message has been sent.</div>
+        <?php elseif ($formError): ?>
+          <div class="contact-alert error"><?= e($formError) ?></div>
+        <?php endif; ?>
+
+        <form method="post" action="/contact">
+          <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
+          <div style="display:none;"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+          <div class="input-group" style="margin-bottom:var(--space-4);">
+            <label>Your Name</label>
+            <input type="text" name="name" class="input" required>
+          </div>
+          <div class="input-group" style="margin-bottom:var(--space-4);">
+            <label>Email</label>
+            <input type="email" name="email" class="input" required>
+          </div>
+          <div class="input-group" style="margin-bottom:var(--space-4);">
+            <label>Subject</label>
+            <input type="text" name="subject" class="input" required>
+          </div>
+          <div class="input-group" style="margin-bottom:var(--space-4);">
+            <label>Message</label>
+            <textarea name="message" class="input" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="font-size:1rem;padding:0.75rem 2rem;">Send Message</button>
+        </form>
+      </div>
+
+      <div class="contact-info-stack">
+        <div class="contact-info-card">
+          <h3>Office</h3>
+          <p>Madhyapur Thimi Municipality-9<br>Bhaktapur, Nepal</p>
+        </div>
+        <div class="contact-info-card">
+          <h3>Phone</h3>
+          <p>+977-9848714990<br>+977-982000470</p>
+        </div>
+        <div class="contact-info-card">
+          <h3>Email</h3>
+          <p><a href="mailto:info@asaancapital.com">info@asaancapital.com</a></p>
+        </div>
+        <div class="contact-info-card">
+          <h3>Hours</h3>
+          <p>Sunday – Friday<br>9:00 AM – 5:00 PM NPT</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </main>
 <?php require __DIR__ . '/../includes/footer.php'; ?>

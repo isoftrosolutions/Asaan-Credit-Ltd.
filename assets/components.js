@@ -4,44 +4,64 @@ function injectFooter() {
 
   const year = new Date().getFullYear();
   root.innerHTML = `
-    <footer style="background:#073152;color:rgba(255,255,255,0.55);padding:56px 24px 32px;margin-top:80px;">
+    <style>
+      .asn-footer { background:#073152;color:rgba(255,255,255,0.55);padding:56px 24px 32px;margin-top:80px; }
+      .asn-footer a { transition:color 160ms ease-out; }
+      .asn-footer a:hover { color:#fff !important; }
+      .asn-footer-grid { display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:48px;margin-bottom:40px; }
+      .asn-footer h4 { color:#fff;margin:0 0 12px; }
+      .asn-footer-social { display:flex;gap:10px; }
+      .asn-footer-links { display:flex;flex-direction:column;gap:6px;font-size:13px; }
+      .asn-footer-links a { color:rgba(255,255,255,0.55);text-decoration:none; }
+      .asn-footer-bottom { border-top:1px solid rgba(255,255,255,0.08);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px; }
+      @media (max-width:768px) {
+        .asn-footer { padding:40px 20px 28px;margin-top:48px; }
+        .asn-footer-grid { grid-template-columns:1fr;gap:32px; }
+        .asn-footer-bottom { flex-direction:column;text-align:center; }
+      }
+      @media (max-width:480px) {
+        .asn-footer { padding:32px 16px 24px;margin-top:32px; }
+        .asn-footer-grid { gap:24px; }
+      }
+    </style>
+    <footer class="asn-footer">
       <div style="max-width:1200px;margin:0 auto;">
-        <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:48px;margin-bottom:40px;">
+        <div class="asn-footer-grid">
           <div>
-            <h4 style="color:#fff;margin:0 0 12px;font-size:15px;font-weight:600;letter-spacing:-0.01em;">Asaan Capital Ltd</h4>
+            <h4 style="font-size:15px;font-weight:600;letter-spacing:-0.01em;">Asaan Capital Ltd</h4>
             <p style="font-size:13px;line-height:1.7;margin:0 0 20px;color:rgba(255,255,255,0.45);">
               Nepal's marketplace connecting verified business owners with investors, buyers, and advisors.
             </p>
-            <div style="display:flex;gap:10px;">
-              <a href="https://facebook.com/asaancapital" target="_blank" rel="noopener" aria-label="Facebook" style="color:rgba(255,255,255,0.4);transition:color 160ms ease-out;">${'<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>'}</a>
-              <a href="https://instagram.com/asaancapital" target="_blank" rel="noopener" aria-label="Instagram" style="color:rgba(255,255,255,0.4);transition:color 160ms ease-out;">${'<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.72 3.72 0 01-1.38-.9 3.72 3.72 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.31-1.46.72-2.13 1.38C1.35 2.68.94 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.67.66 1.34 1.07 2.13 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.31 1.46-.72 2.13-1.38.66-.67 1.07-1.34 1.38-2.13.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.9 5.9 0 00-1.38-2.13A5.9 5.9 0 0019.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1018.16 12 6.16 6.16 0 0012 5.84z"/></svg>'}</a>
-              <a href="https://x.com/asaancapital" target="_blank" rel="noopener" aria-label="X" style="color:rgba(255,255,255,0.4);transition:color 160ms ease-out;">${'<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.41l-5.8-7.58-6.64 7.58H.46l8.6-9.83L0 1.15h7.6l5.24 6.93zM17.61 20.64h2.04L6.49 3.24H4.3z"/></svg>'}</a>
-              <a href="https://linkedin.com/company/asaancapital" target="_blank" rel="noopener" aria-label="LinkedIn" style="color:rgba(255,255,255,0.4);transition:color 160ms ease-out;">${'<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.07 2.07 0 110-4.14 2.07 2.07 0 010 4.14zM7.12 20.45H3.56V9h3.56zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>'}</a>
+            <div class="asn-footer-social">
+              <a href="https://facebook.com/asaancapital" target="_blank" rel="noopener" aria-label="Facebook" style="color:rgba(255,255,255,0.4);">${'<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>'}</a>
+              <a href="https://instagram.com/asaancapital" target="_blank" rel="noopener" aria-label="Instagram" style="color:rgba(255,255,255,0.4);">${'<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.72 3.72 0 01-1.38-.9 3.72 3.72 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.31-1.46.72-2.13 1.38C1.35 2.68.94 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.67.66 1.34 1.07 2.13 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.31 1.46-.72 2.13-1.38.66-.67 1.07-1.34 1.38-2.13.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.9 5.9 0 00-1.38-2.13A5.9 5.9 0 0019.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1018.16 12 6.16 6.16 0 0012 5.84z"/></svg>'}</a>
+              <a href="https://x.com/asaancapital" target="_blank" rel="noopener" aria-label="X" style="color:rgba(255,255,255,0.4);">${'<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.41l-5.8-7.58-6.64 7.58H.46l8.6-9.83L0 1.15h7.6l5.24 6.93zM17.61 20.64h2.04L6.49 3.24H4.3z"/></svg>'}</a>
+              <a href="https://linkedin.com/company/asaancapital" target="_blank" rel="noopener" aria-label="LinkedIn" style="color:rgba(255,255,255,0.4);">${'<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.07 2.07 0 110-4.14 2.07 2.07 0 010 4.14zM7.12 20.45H3.56V9h3.56zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>'}</a>
             </div>
           </div>
           <div>
-            <h4 style="color:#fff;margin:0 0 12px;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">Explore</h4>
-            <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;">
-              <a href="/browse/businesses" style="color:rgba(255,255,255,0.55);text-decoration:none;transition:color 160ms ease-out;">Browse Businesses</a>
-              <a href="/about" style="color:rgba(255,255,255,0.55);text-decoration:none;transition:color 160ms ease-out;">About Us</a>
-              <a href="/blog" style="color:rgba(255,255,255,0.55);text-decoration:none;transition:color 160ms ease-out;">Blog</a>
-              <a href="/support" style="color:rgba(255,255,255,0.55);text-decoration:none;transition:color 160ms ease-out;">FAQs</a>
+            <h4 style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">Explore</h4>
+            <div class="asn-footer-links">
+              <a href="/browse/businesses">Browse Businesses</a>
+              <a href="/about">About Us</a>
+              <a href="/blog">Blog</a>
+              <a href="/support">FAQs</a>
             </div>
           </div>
           <div>
-            <h4 style="color:#fff;margin:0 0 12px;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">Contact</h4>
-            <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;">
+            <h4 style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">Contact</h4>
+            <div class="asn-footer-links">
               <span>Madhyapur Thimi-9, Bhaktapur</span>
-              <a href="tel:+9779848714990" style="color:rgba(255,255,255,0.55);text-decoration:none;transition:color 160ms ease-out;">+977-9848714990</a>
-              <a href="mailto:info@asaancapital.com" style="color:rgba(255,255,255,0.55);text-decoration:none;transition:color 160ms ease-out;">info@asaancapital.com</a>
+              <a href="tel:+9779848714990">+977-9848714990</a>
+              <a href="mailto:info@asaancapital.com">info@asaancapital.com</a>
             </div>
           </div>
         </div>
-        <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <div class="asn-footer-bottom">
           <p style="margin:0;font-size:12px;color:rgba(255,255,255,0.35);">&copy; ${year} Asaan Capital Ltd. All rights reserved.</p>
           <div style="display:flex;gap:16px;font-size:12px;">
-            <a href="/legal" style="color:rgba(255,255,255,0.35);text-decoration:none;transition:color 160ms ease-out;">Privacy</a>
-            <a href="/legal" style="color:rgba(255,255,255,0.35);text-decoration:none;transition:color 160ms ease-out;">Terms</a>
+            <a href="/legal" style="color:rgba(255,255,255,0.35);text-decoration:none;">Privacy</a>
+            <a href="/legal" style="color:rgba(255,255,255,0.35);text-decoration:none;">Terms</a>
           </div>
         </div>
       </div>
