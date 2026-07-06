@@ -7,6 +7,7 @@
 const DASHBOARD_LINKS = {
   investor: [
     ['Dashboard', '/dashboard', 'home'],
+    ['KYC Verification', '/kyc', 'check'],
     ['My Connections', '/connections', 'matches'],
     ['Notifications', '/notifications', 'bell'],
     ['My Profile', '/investor/profile-edit', 'user'],
@@ -15,6 +16,7 @@ const DASHBOARD_LINKS = {
   ],
   business_owner: [
     ['Dashboard', '/dashboard', 'home'],
+    ['KYC Verification', '/kyc', 'check'],
     ['My Listing', '/business/dashboard.php', 'briefcase'],
     ['Connections', '/connections', 'matches'],
     ['Notifications', '/notifications', 'bell'],
@@ -22,6 +24,7 @@ const DASHBOARD_LINKS = {
   ],
   entrepreneur: [
     ['Dashboard', '/dashboard', 'home'],
+    ['KYC Verification', '/kyc', 'check'],
     ['My Pitch', '/entrepreneur/dashboard.php', 'chart'],
     ['Connections', '/connections', 'matches'],
     ['Notifications', '/notifications', 'bell'],
@@ -29,6 +32,7 @@ const DASHBOARD_LINKS = {
   ],
   franchisor: [
     ['Dashboard', '/dashboard', 'home'],
+    ['KYC Verification', '/kyc', 'check'],
     ['My Franchise', '/franchise/dashboard.php', 'briefcase'],
     ['Connections', '/connections', 'matches'],
     ['Notifications', '/notifications', 'bell'],
@@ -36,6 +40,7 @@ const DASHBOARD_LINKS = {
   ],
   advisor: [
     ['Dashboard', '/dashboard', 'home'],
+    ['KYC Verification', '/kyc', 'check'],
     ['My Profile', '/advisor/edit', 'user'],
     ['Connections', '/connections', 'matches'],
     ['Notifications', '/notifications', 'bell'],

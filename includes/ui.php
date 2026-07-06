@@ -102,6 +102,7 @@ if (!defined('UI_PHP_LOADED')) {
         $map = [
             'investor' => [
                 ['Dashboard', '/dashboard', 'home'],
+                ['KYC Verification', '/kyc', 'check'],
                 ['My Connections', '/connections', 'matches'],
                 ['Messages', '/messages', 'mail'],
                 ['Notifications', '/notifications', 'bell'],
@@ -111,6 +112,7 @@ if (!defined('UI_PHP_LOADED')) {
             ],
             'business_owner' => [
                 ['Dashboard', '/dashboard', 'home'],
+                ['KYC Verification', '/kyc', 'check'],
                 ['My Listing', '/business/dashboard.php', 'briefcase'],
                 ['Connections', '/connections', 'matches'],
                 ['Messages', '/messages', 'mail'],
@@ -119,6 +121,7 @@ if (!defined('UI_PHP_LOADED')) {
             ],
             'entrepreneur' => [
                 ['Dashboard', '/dashboard', 'home'],
+                ['KYC Verification', '/kyc', 'check'],
                 ['My Pitch', '/entrepreneur/dashboard.php', 'chart'],
                 ['Connections', '/connections', 'matches'],
                 ['Messages', '/messages', 'mail'],
@@ -127,6 +130,7 @@ if (!defined('UI_PHP_LOADED')) {
             ],
             'franchisor' => [
                 ['Dashboard', '/dashboard', 'home'],
+                ['KYC Verification', '/kyc', 'check'],
                 ['My Franchise', '/franchise/dashboard.php', 'briefcase'],
                 ['Connections', '/connections', 'matches'],
                 ['Messages', '/messages', 'mail'],
@@ -135,6 +139,7 @@ if (!defined('UI_PHP_LOADED')) {
             ],
             'advisor' => [
                 ['Dashboard', '/dashboard', 'home'],
+                ['KYC Verification', '/kyc', 'check'],
                 ['My Profile', '/advisor/edit', 'user'],
                 ['Connections', '/connections', 'matches'],
                 ['Messages', '/messages', 'mail'],
