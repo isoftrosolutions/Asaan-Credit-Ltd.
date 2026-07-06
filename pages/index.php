@@ -576,8 +576,8 @@ require __DIR__ . '/../includes/header.php';
   line-height:1.2;
 }
 @keyframes hpInvestorMarquee {
-  from { transform:translateX(-50%); }
-  to { transform:translateX(0); }
+  from { transform:translateX(0); }
+  to { transform:translateX(-50%); }
 }
 
 /* ── Reduced motion ── */
@@ -789,6 +789,19 @@ foreach ([$featured_biz, $recent_biz] as $list) {
     }
 }
 $ltLabels = ['full_sale'=>'Business for Sale', 'partial_sale'=>'Stake Sale', 'seeking_investment'=>'Seeking Investment', 'seeking_loan'=>'Seeking Loan', 'franchise'=>'Franchise'];
+
+$bizIds = array_column($allBiz, 'id');
+$bizImages = [];
+if (!empty($bizIds)) {
+    $placeholders = implode(',', array_fill(0, count($bizIds), '?'));
+    $imgStmt = db()->prepare("SELECT business_id, file_url FROM business_media WHERE media_type='image' AND business_id IN ($placeholders) ORDER BY sort_order ASC");
+    $imgStmt->execute($bizIds);
+    while ($row = $imgStmt->fetch()) {
+        if (!isset($bizImages[$row['business_id']])) {
+            $bizImages[$row['business_id']] = $row['file_url'];
+        }
+    }
+}
 ?>
 <?php if (!empty($allBiz)): ?>
 <section style="background:var(--color-bg);padding:64px 0;">
@@ -824,6 +837,12 @@ $ltLabels = ['full_sale'=>'Business for Sale', 'partial_sale'=>'Stake Sale', 'se
             $ap = (int)($biz['asking_price'] ?? 0);
           ?>
           <div class="fb-ref-card" onclick="location.href='<?= APP_URL ?>/business/<?= (int)$biz['id'] ?>'">
+            <?php $bizImg = $bizImages[$biz['id']] ?? ''; ?>
+            <?php if ($bizImg): ?>
+            <div style="width:100%;height:160px;border-radius:6px;overflow:hidden;margin-bottom:12px;background:var(--color-bg-soft);">
+              <img src="<?= upload_url($bizImg) ?>" alt="<?= e($biz['business_name']) ?>" style="width:100%;height:100%;object-fit:cover;display:block;">
+            </div>
+            <?php endif; ?>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
               <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:999px;background:rgba(107,29,34,0.08);color:var(--color-primary);"><?= e($lt) ?></span>
               <?php if (!empty($biz['rating'])): ?>
@@ -966,6 +985,11 @@ $pitchStages = ['idea'=>'Idea', 'prototype'=>'Prototype', 'early_traction'=>'Ear
             $stage = $pitchStages[$p['stage']] ?? '';
           ?>
           <div style="background:#fff;border-radius:8px;border:1px solid var(--dash-border);box-shadow:var(--dash-shadow);padding:20px;display:flex;flex-direction:column;cursor:pointer;transition:box-shadow .2s ease,transform .2s ease,border-color .2s ease;" onclick="location.href='<?= APP_URL ?>/pitch/<?= (int)$p['id'] ?>'" onmouseover="this.style.boxShadow='0 10px 30px rgba(0,0,0,0.08)';this.style.transform='translateY(-3px)';this.style.borderColor='var(--color-secondary)'" onmouseout="this.style.boxShadow='';this.style.transform='';this.style.borderColor=''">
+            <?php if (!empty($p['pitch_image'])): ?>
+            <div style="width:100%;height:150px;border-radius:6px;overflow:hidden;margin-bottom:12px;background:var(--color-bg-soft);">
+              <img src="<?= upload_url($p['pitch_image']) ?>" alt="<?= e($p['tagline']) ?>" style="width:100%;height:100%;object-fit:cover;display:block;">
+            </div>
+            <?php endif; ?>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
               <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:999px;background:rgba(30,72,102,0.08);color:var(--color-secondary);">Seeking Investment</span>
               <?php if (!empty($p['sector_name'])): ?>
