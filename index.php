@@ -81,6 +81,7 @@ $routes = [
     '/admin/kyc-review'             => 'admin/kyc-review.php',
     '/admin/business-verifications' => 'admin/business-verifications.php',
     '/admin/broadcast'              => 'admin/broadcast.php',
+    '/admin/backups'                => 'admin/backups.php',
 
     '/admin/sectors'                => 'admin/content/sectors.php',
     '/admin/sectors/edit'           => 'admin/content/sector-edit.php',

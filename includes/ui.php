@@ -172,6 +172,7 @@ if (!defined('UI_PHP_LOADED')) {
             ['Premium', '/admin/premium', 'star'],
             ['Premium Verify', '/admin/premium-verify', 'lock'],
             ['Home', '/', 'home'],
+            ['Backups', '/admin/backups', 'lock'],
             ['Broadcast', '/admin/broadcast', 'share'],
             ['Sectors', '/admin/sectors', 'tag'],
             ['Email Settings', '/admin/email-settings', 'settings'],
