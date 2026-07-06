@@ -310,7 +310,7 @@ $sectorOptions = db()->query("SELECT name FROM sectors WHERE is_active = 1 ORDER
 
     <form class="kyc-form" method="POST" enctype="multipart/form-data" onsubmit="return validateKYC()">
       <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
-      <input type="hidden" name="full_name" value="<?= e($user['name']) ?>">
+      <input type="hidden" name="full_name" value="<?= e($kyc['full_name'] ?? $user['name']) ?>">
 
       <!-- Step 1: Owner Identity -->
       <div class="kyc-section active" data-step="0">
