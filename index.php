@@ -78,6 +78,7 @@ $routes = [
     '/admin/contact-message-action' => 'admin/contact-message-action.php',
     '/admin/nda-requests'           => 'admin/nda-requests.php',
     '/admin/kyc-verifications'      => 'admin/kyc-verifications.php',
+    '/admin/kyc-review'             => 'admin/kyc-review.php',
     '/admin/business-verifications' => 'admin/business-verifications.php',
     '/admin/broadcast'              => 'admin/broadcast.php',
 
