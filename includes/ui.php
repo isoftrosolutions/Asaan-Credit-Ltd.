@@ -149,6 +149,7 @@ if (!defined('UI_PHP_LOADED')) {
         return [
             ['Home', '/admin', 'home'],
             ['Verification Queue', '/admin/verification', 'document'],
+            ['KYC Verifications', '/admin/kyc-verifications', 'check'],
             ['Businesses', '/admin/businesses', 'briefcase'],
             ['Business Verifications', '/admin/business-verifications', 'check'],
             ['Business Inquiries', '/admin/inquiries', 'mail'],

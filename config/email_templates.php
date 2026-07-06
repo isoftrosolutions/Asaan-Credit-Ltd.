@@ -299,6 +299,59 @@ return [
         </div>',
     ],
 
+    'kyc_approved' => [
+        'name'      => 'KYC Approved',
+        'subject'   => 'Your KYC has been verified - Asaan Capital',
+        'variables' => ['user_name', 'login_url'],
+        'body'      => '<div style="font-family:\'Inter\',\'Helvetica Neue\',sans-serif;max-width:600px;margin:20px auto;padding:40px;border:1px solid #eef2f6;border-radius:24px;color:#2a2a2a;background:#ffffff;box-shadow:0 10px 30px rgba(0,0,0,0.02);">
+            <div style="text-align:center;margin-bottom:32px;">
+                <span style="font-size:28px;font-weight:900;color:#1E4866;letter-spacing:-0.5px;">Asaan<span style="color:#98202A;">Capital</span></span>
+            </div>
+            <div style="text-align:center;margin-bottom:32px;">
+                <h2 style="color:#1E7A4D;font-size:26px;font-weight:800;margin:0;letter-spacing:-0.5px;">KYC Verified &#10003;</h2>
+                <p style="color:#5A5A5A;margin-top:8px;font-size:15px;">Your identity documents have been verified.</p>
+            </div>
+            <p style="font-size:16px;margin-bottom:24px;line-height:1.6;">Hello <strong style="color:#1E4866;">{{user_name}}</strong>,</p>
+            <p style="font-size:15px;margin-bottom:28px;line-height:1.6;color:#5A5A5A;">Your KYC verification has been approved. You now have full access to all platform features including sending interest requests, messaging, and deal rooms.</p>
+            <div style="background:#f0fdf4;padding:20px;border-radius:12px;margin-bottom:32px;border:1px solid #bbf7d0;">
+                <p style="margin:0;font-size:14px;color:#166534;line-height:1.5;">A verified badge will appear on your profile, increasing trust with other members.</p>
+            </div>
+            <div style="text-align:center;margin:32px 0;">
+                <a href="{{login_url}}" style="display:inline-block;padding:16px 36px;background:#1E7A4D;color:#ffffff;text-decoration:none;border-radius:12px;font-weight:700;font-size:15px;box-shadow:0 4px 15px rgba(30,122,77,0.2);">Go to Dashboard</a>
+            </div>
+            <div style="border-top:1px solid #ECECEC;padding-top:24px;text-align:center;">
+                <p style="margin:0;font-size:13px;color:#5A5A5A;">Asaan Capital Ltd — Kathmandu, Nepal</p>
+            </div>
+        </div>',
+    ],
+
+    'kyc_rejected' => [
+        'name'      => 'KYC Rejected',
+        'subject'   => 'KYC document needs attention - Asaan Capital',
+        'variables' => ['user_name', 'rejection_reason', 'login_url'],
+        'body'      => '<div style="font-family:\'Inter\',\'Helvetica Neue\',sans-serif;max-width:600px;margin:20px auto;padding:40px;border:1px solid #eef2f6;border-radius:24px;color:#2a2a2a;background:#ffffff;box-shadow:0 10px 30px rgba(0,0,0,0.02);">
+            <div style="text-align:center;margin-bottom:32px;">
+                <span style="font-size:28px;font-weight:900;color:#1E4866;letter-spacing:-0.5px;">Asaan<span style="color:#98202A;">Capital</span></span>
+            </div>
+            <div style="text-align:center;margin-bottom:32px;">
+                <h2 style="color:#98202A;font-size:26px;font-weight:800;margin:0;letter-spacing:-0.5px;">KYC Update</h2>
+                <p style="color:#5A5A5A;margin-top:8px;font-size:15px;">Your document requires attention.</p>
+            </div>
+            <p style="font-size:16px;margin-bottom:24px;line-height:1.6;">Hello <strong style="color:#1E4866;">{{user_name}}</strong>,</p>
+            <p style="font-size:15px;margin-bottom:28px;line-height:1.6;color:#5A5A5A;">We reviewed your KYC documents and found an issue. Please see the feedback below and resubmit.</p>
+            <div style="background:#fef2f2;padding:24px;border-radius:16px;margin-bottom:32px;border:1px solid #fecaca;">
+                <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#98202A;margin-top:0;margin-bottom:12px;">Reason</h3>
+                <p style="margin:0;font-size:15px;color:#991b1b;line-height:1.6;">{{rejection_reason}}</p>
+            </div>
+            <div style="text-align:center;margin:32px 0;">
+                <a href="{{login_url}}" style="display:inline-block;padding:16px 36px;background:#98202A;color:#ffffff;text-decoration:none;border-radius:12px;font-weight:700;font-size:15px;box-shadow:0 4px 15px rgba(152,32,42,0.2);">Re-submit KYC</a>
+            </div>
+            <div style="border-top:1px solid #ECECEC;padding-top:24px;text-align:center;">
+                <p style="margin:0;font-size:13px;color:#5A5A5A;">Asaan Capital Ltd — Kathmandu, Nepal</p>
+            </div>
+        </div>',
+    ],
+
     'new_message' => [
         'name'      => 'New Message Notification',
         'subject'   => 'New message from {{sender_name}} - Asaan Capital',

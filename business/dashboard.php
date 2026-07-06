@@ -89,6 +89,24 @@ ui_page_header(
 );
 ?>
 
+<?php
+$kycStmt = db()->prepare("SELECT status FROM kyc_verifications WHERE user_id = ? ORDER BY id DESC LIMIT 1");
+$kycStmt->execute([$userId]);
+$kycStatus = $kycStmt->fetchColumn();
+if ($kycStatus === 'rejected'): ?>
+<div class="kyc-alert error">
+  <strong>KYC rejected</strong> — Your KYC verification was rejected. <a href="<?= APP_URL ?>/kyc" style="color:inherit;font-weight:700;">Re-submit now</a> to unlock full platform access.
+</div>
+<?php elseif (!$kycStatus || $kycStatus === 'draft'): ?>
+<div class="kyc-alert warn">
+  <strong>KYC not completed</strong> — Complete your KYC verification to build trust with investors. <a href="<?= APP_URL ?>/kyc" style="color:inherit;font-weight:700;">Start KYC</a>
+</div>
+<?php elseif ($kycStatus === 'pending'): ?>
+<div class="kyc-alert info">
+  <strong>KYC under review</strong> — Your documents are being reviewed. You'll be notified once verified.
+</div>
+<?php endif; ?>
+
 <?php if (empty($businesses)): ?>
   <div class="dash-panel biz-empty-hero">
     <div class="biz-empty-copy">

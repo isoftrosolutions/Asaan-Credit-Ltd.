@@ -5288,3 +5288,9 @@ textarea {
     height: 46px !important;
   }
 }
+
+.kyc-alert { padding:14px 18px; border-radius:14px; margin-bottom:20px; font-size:14px; line-height:1.5; }
+.kyc-alert.success { background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0; }
+.kyc-alert.warn { background:#fff7ed; color:#9a3412; border:1px solid #fed7aa; }
+.kyc-alert.error { background:#fef2f2; color:#991b1b; border:1px solid #fecaca; }
+.kyc-alert.info { background:#eff6ff; color:#1e40af; border:1px solid #bfdbfe; }

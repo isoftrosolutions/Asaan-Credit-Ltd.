@@ -60,6 +60,22 @@ function send_verification_rejected_email(string $to, string $userName, string $
     return email_service()->sendVerificationRejectedEmail($to, $userName, $reason);
 }
 
+function send_kyc_approved_email(string $to, string $userName): bool {
+    $tpl = get_email_template('kyc_approved');
+    if (!$tpl) return false;
+    $subject = replace_placeholders($tpl['subject'], ['user_name' => $userName]);
+    $body = replace_placeholders($tpl['body'], ['user_name' => $userName, 'login_url' => APP_URL . '/dashboard']);
+    return send_mail($to, $subject, $body);
+}
+
+function send_kyc_rejected_email(string $to, string $userName, string $reason): bool {
+    $tpl = get_email_template('kyc_rejected');
+    if (!$tpl) return false;
+    $subject = replace_placeholders($tpl['subject'], ['user_name' => $userName]);
+    $body = replace_placeholders($tpl['body'], ['user_name' => $userName, 'rejection_reason' => $reason, 'login_url' => APP_URL . '/kyc']);
+    return send_mail($to, $subject, $body);
+}
+
 function get_email_template(string $key): ?array {
     $templates = include __DIR__ . '/email_templates.php';
     if (isset($templates[$key])) {

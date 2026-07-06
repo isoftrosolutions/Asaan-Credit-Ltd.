@@ -41,7 +41,7 @@ function redirect_back(): void {
 function upload_url(?string $path): string {
     if (!$path) return '';
     if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) return $path;
-    if (str_starts_with($path, 'business-thumbnails/') || str_starts_with($path, 'business-photos/') || str_starts_with($path, 'business-documents/') || str_starts_with($path, 'payment-receipts/')) {
+    if (str_starts_with($path, 'business-thumbnails/') || str_starts_with($path, 'business-photos/') || str_starts_with($path, 'business-documents/') || str_starts_with($path, 'payment-receipts/') || str_starts_with($path, 'kyc-documents/')) {
         return APP_URL . '/public/uploads/' . $path;
     }
     if (str_starts_with($path, '/')) {

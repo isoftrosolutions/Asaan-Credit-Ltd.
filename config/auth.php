@@ -109,3 +109,17 @@ function require_premium(): void {
         redirect('/upgrade');
     }
 }
+
+function require_kyc_verified(): void {
+    $user = current_user();
+    if (!$user) {
+        redirect('/login');
+    }
+    $stmt = db()->prepare("SELECT status FROM kyc_verifications WHERE user_id = ? ORDER BY id DESC LIMIT 1");
+    $stmt->execute([(int)$user['id']]);
+    $kyc = $stmt->fetch();
+    if (!$kyc || $kyc['status'] !== 'verified') {
+        $_SESSION['_flash_error'] = 'KYC verification is required to access this feature.';
+        redirect('/kyc');
+    }
+}
