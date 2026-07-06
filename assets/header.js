@@ -67,11 +67,10 @@ const ADMIN_LINKS = [
 
 const PUBLIC_NAV = [
   ['Home', '/', 'home'],
-  ['About Us', '/about', 'users'],
-  ['Services', '/services', 'briefcase'],
   ['Investor &amp; Entrepreneur', '/browse/businesses', 'chart'],
-  ['News & Insights', '/blog', 'document'],
+  ['Services', '/services', 'briefcase'],
   ['Careers', '/careers', 'user'],
+  ['About Us', '/about', 'users'],
   ['Contact Us', '/contact', 'message'],
 ];
 

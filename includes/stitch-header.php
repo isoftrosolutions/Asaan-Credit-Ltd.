@@ -18,8 +18,9 @@ function stitch_is_active($url) {
       <div class="stitch-nav-links">
         <a href="<?= APP_URL ?>/" class="stitch-nav-link <?= stitch_is_active('/') ? 'active' : '' ?>">Home</a>
         <a href="<?= APP_URL ?>/browse/businesses" class="stitch-nav-link <?= stitch_is_active('/browse') ? 'active' : '' ?>">Investor &amp; Entrepreneur</a>
+        <a href="<?= APP_URL ?>/services" class="stitch-nav-link <?= stitch_is_active('/services') ? 'active' : '' ?>">Services</a>
+        <a href="<?= APP_URL ?>/careers" class="stitch-nav-link <?= stitch_is_active('/careers') ? 'active' : '' ?>">Careers</a>
         <a href="<?= APP_URL ?>/about" class="stitch-nav-link <?= stitch_is_active('/about') ? 'active' : '' ?>">About Us</a>
-        <a href="<?= APP_URL ?>/blog" class="stitch-nav-link <?= stitch_is_active('/blog') ? 'active' : '' ?>">Blog</a>
         <a href="<?= APP_URL ?>/contact" class="stitch-nav-link <?= stitch_is_active('/contact') ? 'active' : '' ?>">Contact</a>
       </div>
       <div class="stitch-nav-auth">
