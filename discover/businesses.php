@@ -79,6 +79,19 @@ $stmt = db()->prepare($sql);
 $stmt->execute($params);
 $businesses = $stmt->fetchAll();
 
+$bizIds = array_column($businesses, 'id');
+$bizImages = [];
+if (!empty($bizIds)) {
+    $placeholders = implode(',', array_fill(0, count($bizIds), '?'));
+    $imgStmt = db()->prepare("SELECT business_id, file_url FROM business_media WHERE media_type='image' AND business_id IN ($placeholders) ORDER BY sort_order ASC");
+    $imgStmt->execute($bizIds);
+    while ($row = $imgStmt->fetch()) {
+        if (!isset($bizImages[$row['business_id']])) {
+            $bizImages[$row['business_id']] = $row['file_url'];
+        }
+    }
+}
+
 $user = current_user();
 $savedIds = [];
 if ($user) {
@@ -266,13 +279,21 @@ $listingTypeLabels = [
                 </div>
               </div>
               <h3 class="card-title"><?= e($b['business_name']) ?></h3>
+              <?php $bImg = $bizImages[$b['id']] ?? ''; ?>
+              <?php if ($bImg): ?>
+              <div style="width:100%;height:160px;border-radius:6px;overflow:hidden;margin-bottom:12px;background:var(--color-bg-soft);">
+                <img src="<?= upload_url($bImg) ?>" alt="<?= e($b['business_name']) ?>" style="width:100%;height:100%;object-fit:cover;display:block;">
+              </div>
+              <?php endif; ?>
               <div class="card-body">
                 <div class="card-body-left">
                   <p class="card-desc"><?= e(mb_substr($b['description'] ?? '', 0, 150)) ?><?= mb_strlen($b['description'] ?? '') > 150 ? '...' : '' ?></p>
                 </div>
+                <?php if (!$bImg): ?>
                 <div class="card-thumb-placeholder">
                   <i class="fas fa-building" style="font-size:22px;"></i>
                 </div>
+                <?php endif; ?>
               </div>
               <div class="card-location">
                 <i class="fas fa-map-marker-alt" style="font-size:15px;"></i>

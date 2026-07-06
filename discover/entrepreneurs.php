@@ -382,6 +382,11 @@ if ($queryParams) {
         <div class="browse-grid">
           <?php foreach ($pitches as $pitch): ?>
             <div class="pitch-card" onclick="location.href='<?= APP_URL ?>/pitch/<?= $pitch['id'] ?>'">
+              <?php if (!empty($pitch['pitch_image'])): ?>
+              <div style="width:100%;height:150px;border-radius:6px;overflow:hidden;margin-bottom:12px;background:var(--color-bg-soft);">
+                <img src="<?= upload_url($pitch['pitch_image']) ?>" alt="<?= e($pitch['tagline']) ?>" style="width:100%;height:100%;object-fit:cover;display:block;">
+              </div>
+              <?php endif; ?>
               <div class="pitch-header">
                 <?php
                   $pImg = pitch_img_src($pitch);
