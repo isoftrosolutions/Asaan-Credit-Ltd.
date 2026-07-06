@@ -329,8 +329,8 @@ require __DIR__ . '/../includes/layout-admin.php';
       ];
       foreach ($docs as $col => $info):
         $path = $r[$col] ?? null;
-      ?>
-      <div class="kyc-doc">
+        if ($path && !str_contains($path, '/')) $path = 'kyc-documents/' . $path;
+      ?>\n      <div class="kyc-doc">
         <?php if ($path):
           $url = upload_url($path);
           $isImage = preg_match('/\.(jpg|jpeg|png|webp|gif)$/i', $path);

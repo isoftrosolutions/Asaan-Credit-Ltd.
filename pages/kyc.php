@@ -61,32 +61,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $finProof = null;
         $bizPhoto = null;
 
+        $prefix = 'kyc-documents/';
         if (!empty($_FILES['id_front']['name'])) {
-            $idFront = handle_upload($_FILES['id_front'], $allowedMime, $maxBytes, $destDir);
+            $f = handle_upload($_FILES['id_front'], $allowedMime, $maxBytes, $destDir);
+            if ($f) $idFront = $prefix . $f;
         }
         if (!empty($_FILES['id_back']['name'])) {
-            $idBack = handle_upload($_FILES['id_back'], $allowedMime, $maxBytes, $destDir);
+            $f = handle_upload($_FILES['id_back'], $allowedMime, $maxBytes, $destDir);
+            if ($f) $idBack = $prefix . $f;
         }
         if (!empty($_FILES['registration_cert']['name'])) {
-            $regCert = handle_upload($_FILES['registration_cert'], $allowedMime, $maxBytes, $destDir);
+            $f = handle_upload($_FILES['registration_cert'], $allowedMime, $maxBytes, $destDir);
+            if ($f) $regCert = $prefix . $f;
         }
         if (!empty($_FILES['pan_cert']['name'])) {
-            $panCert = handle_upload($_FILES['pan_cert'], $allowedMime, $maxBytes, $destDir);
+            $f = handle_upload($_FILES['pan_cert'], $allowedMime, $maxBytes, $destDir);
+            if ($f) $panCert = $prefix . $f;
         }
         if (!empty($_FILES['financial_proof']['name'])) {
-            $finProof = handle_upload($_FILES['financial_proof'], $allowedMime, $maxBytes, $destDir);
+            $f = handle_upload($_FILES['financial_proof'], $allowedMime, $maxBytes, $destDir);
+            if ($f) $finProof = $prefix . $f;
         }
         if (!empty($_FILES['business_photo']['name'])) {
-            $bizPhoto = handle_upload($_FILES['business_photo'], $allowedMime, $maxBytes, $destDir);
+            $f = handle_upload($_FILES['business_photo'], $allowedMime, $maxBytes, $destDir);
+            if ($f) $bizPhoto = $prefix . $f;
         }
 
         if ($kyc) {
-            $idFront = $idFront ?: $kyc['id_front_path'];
-            $idBack = $idBack ?: $kyc['id_back_path'];
-            $regCert = $regCert ?: $kyc['registration_cert_path'];
-            $panCert = $panCert ?: $kyc['pan_cert_path'];
-            $finProof = $finProof ?: $kyc['financial_proof_path'];
-            $bizPhoto = $bizPhoto ?: $kyc['business_photo_path'];
+            $idFront = $idFront ?: (str_starts_with($kyc['id_front_path'] ?? '', 'kyc-documents/') ? $kyc['id_front_path'] : ($kyc['id_front_path'] ? 'kyc-documents/' . $kyc['id_front_path'] : null));
+            $idBack = $idBack ?: (str_starts_with($kyc['id_back_path'] ?? '', 'kyc-documents/') ? $kyc['id_back_path'] : ($kyc['id_back_path'] ? 'kyc-documents/' . $kyc['id_back_path'] : null));
+            $regCert = $regCert ?: (str_starts_with($kyc['registration_cert_path'] ?? '', 'kyc-documents/') ? $kyc['registration_cert_path'] : ($kyc['registration_cert_path'] ? 'kyc-documents/' . $kyc['registration_cert_path'] : null));
+            $panCert = $panCert ?: (str_starts_with($kyc['pan_cert_path'] ?? '', 'kyc-documents/') ? $kyc['pan_cert_path'] : ($kyc['pan_cert_path'] ? 'kyc-documents/' . $kyc['pan_cert_path'] : null));
+            $finProof = $finProof ?: (str_starts_with($kyc['financial_proof_path'] ?? '', 'kyc-documents/') ? $kyc['financial_proof_path'] : ($kyc['financial_proof_path'] ? 'kyc-documents/' . $kyc['financial_proof_path'] : null));
+            $bizPhoto = $bizPhoto ?: (str_starts_with($kyc['business_photo_path'] ?? '', 'kyc-documents/') ? $kyc['business_photo_path'] : ($kyc['business_photo_path'] ? 'kyc-documents/' . $kyc['business_photo_path'] : null));
 
             $upd = db()->prepare("UPDATE kyc_verifications SET
                 full_name=?, date_of_birth=?, father_name=?, id_document_type=?, id_document_number=?,
