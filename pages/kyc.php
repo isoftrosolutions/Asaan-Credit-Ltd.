@@ -269,6 +269,262 @@ $sectorOptions = db()->query("SELECT name FROM sectors WHERE is_active = 1 ORDER
   </div>
   <?php endif; ?>
 
+  <?php if ($isVerified || $isPending): ?>
+  <div class="kyc-details-sect">
+    <div class="kyc-details-head">
+      <h2>KYC Details</h2>
+      <span class="dash-pill <?= $isVerified ? 'published' : 'open' ?>"><?= ucfirst($kycStatus) ?></span>
+    </div>
+
+    <!-- Personal Info -->
+    <div class="kyc-section-card">
+      <div class="kyc-section-card-head">
+        <h3>Personal Information</h3>
+        <span class="badge dash-pill">ID: <?= e(str_replace('_', ' ', $kyc['id_document_type'] ?? '—')) ?></span>
+      </div>
+      <div class="kyc-section-card-body">
+        <div class="kyc-grid">
+          <div class="kyc-field">
+            <span class="label">Full Name</span>
+            <span class="value"><?= e($kyc['full_name'] ?: '—') ?></span>
+          </div>
+          <div class="kyc-field">
+            <span class="label">Date of Birth</span>
+            <span class="value"><?= $kyc['date_of_birth'] ? date('F j, Y', strtotime($kyc['date_of_birth'])) : '<span class="na">—</span>' ?></span>
+          </div>
+          <div class="kyc-field">
+            <span class="label">Father's Name</span>
+            <span class="value"><?= e($kyc['father_name'] ?: '<span class="na">—</span>') ?></span>
+          </div>
+          <div class="kyc-field">
+            <span class="label">ID Document</span>
+            <span class="value"><?= e($kyc['id_document_number'] ?: '<span class="na">—</span>') ?></span>
+          </div>
+          <div class="kyc-field full">
+            <span class="label">Permanent Address</span>
+            <span class="value"><?= e($kyc['permanent_address'] ?: '<span class="na">—</span>') ?></span>
+          </div>
+          <div class="kyc-field full">
+            <span class="label">Current Address</span>
+            <span class="value"><?= e($kyc['current_address'] ?: '<span class="na">—</span>') ?></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Section -->
+    <?php if ($isBusinessOwner): ?>
+    <div class="kyc-section-card">
+      <div class="kyc-section-card-head">
+        <h3>Business Profile</h3>
+        <span class="badge dash-pill published">Business Owner</span>
+      </div>
+      <div class="kyc-section-card-body">
+        <div class="kyc-grid">
+          <div class="kyc-field">
+            <span class="label">Business Name</span>
+            <span class="value"><?= e($kyc['business_name'] ?: '<span class="na">—</span>') ?></span>
+          </div>
+          <div class="kyc-field">
+            <span class="label">Business Type</span>
+            <span class="value"><?= e(ucfirst(str_replace('_', ' ', $kyc['business_type'] ?? '—'))) ?></span>
+          </div>
+          <div class="kyc-field">
+            <span class="label">Registration Number</span>
+            <span class="value"><?= e($kyc['registration_number'] ?: '<span class="na">—</span>') ?></span>
+          </div>
+          <div class="kyc-field">
+            <span class="label">PAN / VAT</span>
+            <span class="value"><?= e($kyc['pan_vat'] ?: '<span class="na">—</span>') ?></span>
+          </div>
+          <div class="kyc-field">
+            <span class="label">Industry</span>
+            <span class="value"><?= e($kyc['industry'] ?: '<span class="na">—</span>') ?></span>
+          </div>
+          <div class="kyc-field">
+            <span class="label">Monthly Sales</span>
+            <span class="value"><?= $kyc['monthly_sales'] ? money((int)$kyc['monthly_sales']) : '<span class="na">—</span>' ?></span>
+          </div>
+          <div class="kyc-field full">
+            <span class="label">Business Address</span>
+            <span class="value"><?= e($kyc['business_address'] ?: '<span class="na">—</span>') ?></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <?php else: ?>
+    <div class="kyc-section-card">
+      <div class="kyc-section-card-head">
+        <h3>Investment Profile</h3>
+        <span class="badge dash-pill open">Investor</span>
+      </div>
+      <div class="kyc-section-card-body">
+        <div class="kyc-grid">
+          <div class="kyc-field">
+            <span class="label">Investor Type</span>
+            <span class="value"><?= e(ucfirst(str_replace('_', ' ', $kyc['investor_type'] ?? '—'))) ?></span>
+          </div>
+          <div class="kyc-field">
+            <span class="label">Ticket Size</span>
+            <span class="value"><?= $kyc['investment_ticket_min'] ? money((int)$kyc['investment_ticket_min']) . ' — ' . money((int)$kyc['investment_ticket_max']) : '<span class="na">—</span>' ?></span>
+          </div>
+          <div class="kyc-field">
+            <span class="label">Preferred Sectors</span>
+            <span class="value"><?= e($kyc['preferred_sectors'] ?: '<span class="na">—</span>') ?></span>
+          </div>
+          <div class="kyc-field">
+            <span class="label">Capital Deployed</span>
+            <span class="value"><?= $kyc['total_capital_deployed'] ? money((int)$kyc['total_capital_deployed']) : '<span class="na">—</span>' ?></span>
+          </div>
+          <div class="kyc-field full">
+            <span class="label">Past Investments</span>
+            <span class="value"><?= e($kyc['past_investments'] ?: '<span class="na">—</span>') ?></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <?php endif; ?>
+
+    <!-- Documents -->
+    <div class="kyc-section-card">
+      <div class="kyc-section-card-head">
+        <h3>Uploaded Documents</h3>
+        <span class="badge dash-pill open"><?php
+          $docCount = 0;
+          foreach (['id_front_path','id_back_path','registration_cert_path','pan_cert_path','financial_proof_path','business_photo_path'] as $c) {
+            if (!empty($kyc[$c])) $docCount++;
+          }
+          echo $docCount; ?>/6 uploaded
+        </span>
+      </div>
+      <div class="kyc-section-card-body">
+        <div class="kyc-docs">
+          <?php
+          $userDocs = [
+            'id_front_path' => ['label' => 'ID Front', 'icon' => 'idcard'],
+            'id_back_path' => ['label' => 'ID Back', 'icon' => 'idcard'],
+            'registration_cert_path' => ['label' => 'Registration Certificate', 'icon' => 'file'],
+            'pan_cert_path' => ['label' => 'PAN / VAT Certificate', 'icon' => 'document'],
+            'financial_proof_path' => ['label' => 'Financial Proof', 'icon' => 'money'],
+            'business_photo_path' => ['label' => 'Business Photo', 'icon' => 'camera'],
+          ];
+          foreach ($userDocs as $col => $info):
+            $path = $kyc[$col] ?? null;
+            if ($path && !str_contains($path, '/')) $path = 'kyc-documents/' . $path;
+          ?>
+          <div class="kyc-doc">
+            <?php if ($path):
+              $url = upload_url($path);
+              $isImage = preg_match('/\.(jpg|jpeg|png|webp|gif)$/i', $path);
+            ?>
+            <div class="kyc-doc-img">
+              <?php if ($isImage): ?>
+              <img src="<?= e($url) ?>" alt="<?= e($info['label']) ?>" loading="lazy">
+              <?php else: ?>
+              <div style="text-align:center;">
+                <div style="font-size:40px;margin-bottom:4px;"><?php ui_icon('document'); ?></div>
+                <div style="font-size:12px;">PDF Document</div>
+              </div>
+              <?php endif; ?>
+            </div>
+            <div class="kyc-doc-foot">
+              <small><?= e($info['label']) ?></small>
+              <a href="<?= e($url) ?>" target="_blank" rel="noopener">Open &nearr;</a>
+            </div>
+            <?php else: ?>
+            <div class="kyc-doc-na"><?php ui_icon($info['icon']); ?></div>
+            <div class="kyc-doc-foot">
+              <small style="color:#9ca3af;"><?= e($info['label']) ?></small>
+              <span style="color:#d1d5db;font-size:11px;">Not uploaded</span>
+            </div>
+            <?php endif; ?>
+          </div>
+          <?php endforeach; ?>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity Log -->
+    <?php if ($kyc['submitted_at'] || $kyc['reviewed_at']): ?>
+    <div class="kyc-section-card">
+      <div class="kyc-section-card-head">
+        <h3>Activity Log</h3>
+      </div>
+      <div class="kyc-section-card-body">
+        <div class="kyc-timeline">
+          <?php if ($kyc['reviewed_at']): ?>
+          <div class="kyc-tl-item">
+            <div class="kyc-tl-icon <?= $isVerified ? 'verified' : 'rejected' ?>"><?php ui_icon($isVerified ? 'check' : 'close'); ?></div>
+            <div class="kyc-tl-body">
+              <b><?= $isVerified ? 'KYC Verified' : 'KYC Rejected' ?></b>
+              <small><?= date('F j, Y g:i a', strtotime($kyc['reviewed_at'])) ?></small>
+            </div>
+          </div>
+          <?php endif; ?>
+          <?php if ($kyc['submitted_at']): ?>
+          <div class="kyc-tl-item">
+            <div class="kyc-tl-icon submitted"><?php ui_icon('upload'); ?></div>
+            <div class="kyc-tl-body">
+              <b>KYC Submitted</b>
+              <small><?= date('F j, Y g:i a', strtotime($kyc['submitted_at'])) ?></small>
+            </div>
+          </div>
+          <?php endif; ?>
+          <div class="kyc-tl-item">
+            <div class="kyc-tl-icon created"><?php ui_icon('plus'); ?></div>
+            <div class="kyc-tl-body">
+              <b>KYC Record Created</b>
+              <small><?= date('F j, Y g:i a', strtotime($kyc['created_at'])) ?></small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <?php endif; ?>
+  </div>
+
+  <style>
+  .kyc-details-sect { margin-bottom:24px; }
+  .kyc-details-head { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+  .kyc-details-head h2 { margin:0; font-size:22px; letter-spacing:-.03em; }
+  .kyc-details-sect .kyc-section-card { background:#fff; border-radius:18px; border:1px solid var(--dash-border); box-shadow:var(--dash-shadow); margin-bottom:16px; overflow:hidden; }
+  .kyc-details-sect .kyc-section-card-head { display:flex; align-items:center; gap:12px; padding:16px 20px; border-bottom:1px solid var(--dash-border); background:var(--color-bg-soft); }
+  .kyc-details-sect .kyc-section-card-head h3 { margin:0; font-size:15px; font-weight:600; }
+  .kyc-details-sect .kyc-section-card-head .badge { margin-left:auto; }
+  .kyc-details-sect .kyc-section-card-body { padding:20px; }
+  .kyc-details-sect .kyc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .kyc-details-sect .kyc-grid .full { grid-column:1/-1; }
+  .kyc-details-sect .kyc-field { display:flex; flex-direction:column; gap:3px; }
+  .kyc-details-sect .kyc-field .label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.04em; color:var(--dash-ink-soft); }
+  .kyc-details-sect .kyc-field .value { font-size:14px; color:var(--dash-ink); word-break:break-word; }
+  .kyc-details-sect .kyc-field .value.na { color:#9ca3af; font-style:italic; }
+  .kyc-details-sect .kyc-docs { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .kyc-details-sect .kyc-doc { border:1px solid var(--dash-border); border-radius:14px; overflow:hidden; background:#fafafa; }
+  .kyc-details-sect .kyc-doc-img { width:100%; height:160px; object-fit:cover; background:#f3f4f6; display:flex; align-items:center; justify-content:center; color:#9ca3af; font-size:13px; }
+  .kyc-details-sect .kyc-doc-img img { width:100%; height:100%; object-fit:contain; }
+  .kyc-details-sect .kyc-doc-foot { padding:10px 14px; display:flex; align-items:center; justify-content:space-between; gap:8px; border-top:1px solid var(--dash-border); background:#fff; }
+  .kyc-details-sect .kyc-doc-foot small { font-size:12px; font-weight:600; }
+  .kyc-details-sect .kyc-doc-foot a { font-size:12px; font-weight:600; color:var(--color-primary); text-decoration:none; }
+  .kyc-details-sect .kyc-doc-foot a:hover { text-decoration:underline; }
+  .kyc-details-sect .kyc-doc-na { display:flex; align-items:center; justify-content:center; height:160px; background:#f9fafb; color:#d1d5db; font-size:32px; }
+  .kyc-details-sect .kyc-timeline { margin-top:12px; }
+  .kyc-details-sect .kyc-tl-item { display:flex; gap:12px; padding:12px 0; border-bottom:1px solid var(--dash-border); }
+  .kyc-details-sect .kyc-tl-item:last-child { border-bottom:0; }
+  .kyc-details-sect .kyc-tl-icon { width:32px; height:32px; border-radius:10px; display:grid; place-items:center; flex:0 0 auto; font-size:14px; }
+  .kyc-details-sect .kyc-tl-icon.created { background:#eff6ff; color:#1d4ed8; }
+  .kyc-details-sect .kyc-tl-icon.submitted { background:#eff6ff; color:#1d4ed8; }
+  .kyc-details-sect .kyc-tl-icon.verified { background:#ecfdf5; color:#047857; }
+  .kyc-details-sect .kyc-tl-icon.rejected { background:#fef2f2; color:#b91c1c; }
+  .kyc-details-sect .kyc-tl-body { flex:1; }
+  .kyc-details-sect .kyc-tl-body b { display:block; font-size:13px; }
+  .kyc-details-sect .kyc-tl-body small { color:var(--dash-ink-soft); font-size:12px; }
+  @media (max-width:880px) {
+    .kyc-details-sect .kyc-grid { grid-template-columns:1fr; }
+    .kyc-details-sect .kyc-docs { grid-template-columns:1fr; }
+  }
+  </style>
+  <?php endif; ?>
+
   <?php if (!$isVerified): ?>
   <div class="kyc-hero">
     <div class="kyc-panel">
@@ -504,42 +760,42 @@ $sectorOptions = db()->query("SELECT name FROM sectors WHERE is_active = 1 ORDER
         </div>
         <div class="kyc-upload-grid">
           <div class="kyc-upload" data-name="id_front" data-label="ID Front">
-            <span class="kyc-upload-icon">🪪</span>
+            <span class="kyc-upload-icon"><?php ui_icon('idcard'); ?></span>
             <div><b>ID front</b><br><small>Citizenship, passport, license, or voter ID front side.</small></div>
             <input class="input-file-hidden" type="file" name="id_front" accept="image/*,.pdf" <?= empty($kyc['id_front_path']) ? 'required' : '' ?>>
-            <?php if (!empty($kyc['id_front_path'])): ?><small class="kyc-upload-meta"><span class="prev-label">✓ Uploaded</span></small><?php endif; ?>
+            <?php if (!empty($kyc['id_front_path'])): ?><small class="kyc-upload-meta"><span class="prev-label"><?php ui_icon('check'); ?> Uploaded</span></small><?php endif; ?>
           </div>
           <div class="kyc-upload" data-name="id_back" data-label="ID Back">
-            <span class="kyc-upload-icon">🪪</span>
+            <span class="kyc-upload-icon"><?php ui_icon('idcard'); ?></span>
             <div><b>ID back</b><br><small>Back side of your ID document.</small></div>
             <input class="input-file-hidden" type="file" name="id_back" accept="image/*,.pdf" <?= empty($kyc['id_back_path']) ? 'required' : '' ?>>
-            <?php if (!empty($kyc['id_back_path'])): ?><small class="kyc-upload-meta"><span class="prev-label">✓ Uploaded</span></small><?php endif; ?>
+            <?php if (!empty($kyc['id_back_path'])): ?><small class="kyc-upload-meta"><span class="prev-label"><?php ui_icon('check'); ?> Uploaded</span></small><?php endif; ?>
           </div>
           <?php if ($isBusinessOwner): ?>
           <div class="kyc-upload company-field" data-name="registration_cert" data-label="Registration Cert">
-            <span class="kyc-upload-icon">📄</span>
+            <span class="kyc-upload-icon"><?php ui_icon('file'); ?></span>
             <div><b>Company registration cert</b><br><small>OCR certificate or local registration proof.</small></div>
             <input class="input-file-hidden" type="file" name="registration_cert" accept="image/*,.pdf">
-            <?php if (!empty($kyc['registration_cert_path'])): ?><small class="kyc-upload-meta"><span class="prev-label">✓ Uploaded</span></small><?php endif; ?>
+            <?php if (!empty($kyc['registration_cert_path'])): ?><small class="kyc-upload-meta"><span class="prev-label"><?php ui_icon('check'); ?> Uploaded</span></small><?php endif; ?>
           </div>
           <?php endif; ?>
           <div class="kyc-upload" data-name="pan_cert" data-label="PAN Certificate">
-            <span class="kyc-upload-icon">📋</span>
+            <span class="kyc-upload-icon"><?php ui_icon('document'); ?></span>
             <div><b>PAN / VAT certificate</b><br><small>PAN or VAT registration certificate if available.</small></div>
             <input class="input-file-hidden" type="file" name="pan_cert" accept="image/*,.pdf">
-            <?php if (!empty($kyc['pan_cert_path'])): ?><small class="kyc-upload-meta"><span class="prev-label">✓ Uploaded</span></small><?php endif; ?>
+            <?php if (!empty($kyc['pan_cert_path'])): ?><small class="kyc-upload-meta"><span class="prev-label"><?php ui_icon('check'); ?> Uploaded</span></small><?php endif; ?>
           </div>
           <div class="kyc-upload" data-name="financial_proof" data-label="Financial Proof">
-            <span class="kyc-upload-icon">💰</span>
+            <span class="kyc-upload-icon"><?php ui_icon('money'); ?></span>
             <div><b>Financial proof</b><br><small>Bank statement, sales report, invoices, or tax filing.</small></div>
             <input class="input-file-hidden" type="file" name="financial_proof" accept="image/*,.pdf">
-            <?php if (!empty($kyc['financial_proof_path'])): ?><small class="kyc-upload-meta"><span class="prev-label">✓ Uploaded</span></small><?php endif; ?>
+            <?php if (!empty($kyc['financial_proof_path'])): ?><small class="kyc-upload-meta"><span class="prev-label"><?php ui_icon('check'); ?> Uploaded</span></small><?php endif; ?>
           </div>
           <div class="kyc-upload" data-name="business_photo" data-label="Business Photo">
-            <span class="kyc-upload-icon">📸</span>
+            <span class="kyc-upload-icon"><?php ui_icon('camera'); ?></span>
             <div><b>Business proof photo</b><br><small>Shop front, office, product, or operating proof.</small></div>
             <input class="input-file-hidden" type="file" name="business_photo" accept="image/*,.pdf">
-            <?php if (!empty($kyc['business_photo_path'])): ?><small class="kyc-upload-meta"><span class="prev-label">✓ Uploaded</span></small><?php endif; ?>
+            <?php if (!empty($kyc['business_photo_path'])): ?><small class="kyc-upload-meta"><span class="prev-label"><?php ui_icon('check'); ?> Uploaded</span></small><?php endif; ?>
           </div>
         </div>
         <div class="kyc-actions">

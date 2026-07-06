@@ -320,12 +320,12 @@ require __DIR__ . '/../includes/layout-admin.php';
     <div class="kyc-docs">
       <?php
       $docs = [
-        'id_front_path' => ['label' => 'ID Front', 'icon' => '🪪'],
-        'id_back_path' => ['label' => 'ID Back', 'icon' => '🪪'],
-        'registration_cert_path' => ['label' => 'Registration Certificate', 'icon' => '📄'],
-        'pan_cert_path' => ['label' => 'PAN / VAT Certificate', 'icon' => '📋'],
-        'financial_proof_path' => ['label' => 'Financial Proof', 'icon' => '💰'],
-        'business_photo_path' => ['label' => 'Business Photo', 'icon' => '📸'],
+        'id_front_path' => ['label' => 'ID Front', 'icon' => 'idcard'],
+        'id_back_path' => ['label' => 'ID Back', 'icon' => 'idcard'],
+        'registration_cert_path' => ['label' => 'Registration Certificate', 'icon' => 'file'],
+        'pan_cert_path' => ['label' => 'PAN / VAT Certificate', 'icon' => 'document'],
+        'financial_proof_path' => ['label' => 'Financial Proof', 'icon' => 'money'],
+        'business_photo_path' => ['label' => 'Business Photo', 'icon' => 'camera'],
       ];
       foreach ($docs as $col => $info):
         $path = $r[$col] ?? null;
@@ -340,7 +340,7 @@ require __DIR__ . '/../includes/layout-admin.php';
           <img src="<?= e($url) ?>" alt="<?= e($info['label']) ?>" loading="lazy">
           <?php else: ?>
           <div style="text-align:center;">
-            <div style="font-size:40px;margin-bottom:4px;">📄</div>
+            <div style="font-size:40px;margin-bottom:4px;"><?php ui_icon('document'); ?></div>
             <div style="font-size:12px;">PDF Document</div>
           </div>
           <?php endif; ?>
@@ -350,7 +350,7 @@ require __DIR__ . '/../includes/layout-admin.php';
           <a href="<?= e($url) ?>" target="_blank" rel="noopener">Open &nearr;</a>
         </div>
         <?php else: ?>
-        <div class="kyc-doc-na"><?= $info['icon'] ?></div>
+        <div class="kyc-doc-na"><?php ui_icon($info['icon']); ?></div>
         <div class="kyc-doc-foot">
           <small style="color:#9ca3af;"><?= e($info['label']) ?></small>
           <span style="color:#d1d5db;font-size:11px;">Not uploaded</span>
@@ -402,7 +402,7 @@ require __DIR__ . '/../includes/layout-admin.php';
       <?php if ($r['reviewed_at']): ?>
       <div class="kyc-tl-item">
         <div class="kyc-tl-icon <?= $r['status'] === 'verified' ? 'verified' : 'rejected' ?>">
-          <?= $r['status'] === 'verified' ? '✓' : '✗' ?>
+          <?php ui_icon($r['status'] === 'verified' ? 'check' : 'close'); ?>
         </div>
         <div class="kyc-tl-body">
           <b><?= $r['status'] === 'verified' ? 'KYC Verified' : 'KYC Rejected' ?></b>
@@ -412,7 +412,7 @@ require __DIR__ . '/../includes/layout-admin.php';
       <?php endif; ?>
       <?php if ($r['submitted_at']): ?>
       <div class="kyc-tl-item">
-        <div class="kyc-tl-icon submitted">S</div>
+        <div class="kyc-tl-icon submitted"><?php ui_icon('upload'); ?></div>
         <div class="kyc-tl-body">
           <b>KYC Submitted</b>
           <small><?= date('F j, Y g:i a', strtotime($r['submitted_at'])) ?> by <?= e($r['user_name']) ?></small>
@@ -420,7 +420,7 @@ require __DIR__ . '/../includes/layout-admin.php';
       </div>
       <?php endif; ?>
       <div class="kyc-tl-item">
-        <div class="kyc-tl-icon created">+</div>
+        <div class="kyc-tl-icon created"><?php ui_icon('plus'); ?></div>
         <div class="kyc-tl-body">
           <b>KYC Record Created</b>
           <small><?= date('F j, Y g:i a', strtotime($r['created_at'])) ?></small>

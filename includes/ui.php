@@ -73,6 +73,12 @@ if (!defined('UI_PHP_LOADED')) {
         'sparkles'   => 'fa-sparkles',
         'bulb'       => 'fa-lightbulb',
         'mail'       => 'fa-envelope',
+        'upload'     => 'fa-upload',
+        'filter'     => 'fa-filter',
+        'camera'     => 'fa-camera',
+        'idcard'     => 'fa-id-card',
+        'file'       => 'fa-file-invoice',
+        'money'      => 'fa-money-bill-wave',
     ];
 
     /** Echo a Font Awesome icon by name. */
