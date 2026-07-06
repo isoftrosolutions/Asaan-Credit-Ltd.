@@ -42,7 +42,13 @@ try {
 if (empty($investor_partners)) {
     $investor_partners = $fallback_investor_partners;
 }
-$investor_partner_loop = array_merge($investor_partners, $investor_partners);
+$investor_partner_loop = [];
+$investor_count = count($investor_partners);
+$investor_min_tiles = 12;
+$investor_repeats = $investor_count > 0 ? (int)ceil($investor_min_tiles / $investor_count) : 2;
+for ($i = 0; $i < max($investor_repeats, 2); $i++) {
+    $investor_partner_loop = array_merge($investor_partner_loop, $investor_partners);
+}
 
 $pageTitle = APP_NAME_LONG;
 $pageDescription = 'Nepal\'s #1 marketplace for buying, selling, and investing in businesses. Connect with 44,000+ verified investors and 67,500+ business owners.';
