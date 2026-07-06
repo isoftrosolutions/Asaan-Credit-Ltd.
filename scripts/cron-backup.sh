@@ -7,4 +7,4 @@ fi
 echo $$ > "$LOCKFILE"
 trap 'rm -f "$LOCKFILE"' EXIT
 cd "$(dirname "$0")/.."
-php scripts/backup.php >> storage/backups/cron.log 2>&1
+php scripts/backup.php --single >> storage/backups/cron.log 2>&1

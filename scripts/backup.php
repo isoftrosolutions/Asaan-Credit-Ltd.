@@ -12,7 +12,7 @@
  * Returns: array{success: bool, file?: string, size?: int, error?: string}
  */
 
-function run_backup(): array
+function run_backup(bool $single = false): array
 {
     $backupDir = __DIR__ . '/../storage/backups';
     if (!is_dir($backupDir)) {
@@ -124,7 +124,8 @@ function run_backup(): array
     }
 
     // Zip everything
-    $zipFile = $backupDir . '/backup_' . $ts . '.zip';
+    $zipName = $single ? 'backup_latest.zip' : 'backup_' . $ts . '.zip';
+    $zipFile = $backupDir . '/' . $zipName;
     $zip = new ZipArchive();
     if ($zip->open($zipFile, ZipArchive::CREATE) !== true) {
         del_tree($tmpDir);
@@ -155,7 +156,7 @@ function run_backup(): array
     $size = filesize($zipFile);
     return [
         'success' => true,
-        'file' => 'backup_' . $ts . '.zip',
+        'file' => $zipName,
         'size' => $size,
         'path' => $zipFile,
     ];
@@ -177,7 +178,8 @@ function del_tree(string $dir): void
 // CLI mode
 if (PHP_SAPI === 'cli' && !defined('BOOTSTRAP_LOADED')) {
     require __DIR__ . '/../config/bootstrap.php';
-    $result = run_backup();
+    $single = in_array('--single', $argv ?? []);
+    $result = run_backup($single);
     if ($result['success']) {
         echo "Backup created: {$result['file']} (" . number_format($result['size'] / 1048576, 2) . " MB)\n";
         exit(0);
