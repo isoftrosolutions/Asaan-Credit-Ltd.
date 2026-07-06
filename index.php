@@ -43,6 +43,7 @@ $routes = [
     '/pricing'                      => 'pages/how-it-works.php',
     '/valuation'                    => 'pages/business-valuation.php',
     '/business-valuation'           => 'pages/business-valuation.php',
+    '/kyc'                          => 'pages/kyc.php',
     '/dashboard'                    => 'pages/dashboard.php',
     '/entrepreneur/pitch-create'    => 'entrepreneur/pitch-create.php',
     '/entrepreneur/pitch-edit'      => 'entrepreneur/pitch-edit.php',
